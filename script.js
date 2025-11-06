@@ -1,4 +1,6 @@
- let gameState = {};
+const [windowWidth,windowHeight] = [window.innerWidth, window.innerHeight];
+
+let gameState = {};
         let opponentNameCounter = 5; // Kick으로 새 상대 생성 시 이름용
 
         // 게임 상태 초기화 (시즌 시작)
