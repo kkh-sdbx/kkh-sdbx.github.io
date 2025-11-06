@@ -52,6 +52,9 @@
             container.innerHTML = ''; // 컨테이너 비우기
 
             gameState.opponents.forEach(opp => {
+                const dot = document.createElement('div');
+                dot.classList.add("opponent-dot");
+                
                 const card = document.createElement('div');
                 card.className = 'opponent-card';
 
