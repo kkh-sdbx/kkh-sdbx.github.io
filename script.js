@@ -55,7 +55,7 @@ let gameState = {};
 
             gameState.opponents.forEach(opp => {
                 const dot = document.createElement('div');
-                dot.classList.add("opponent-dot");
+                dot.className = "opponent-dot";
                 
                 const card = document.createElement('div');
                 card.className = 'opponent-card';

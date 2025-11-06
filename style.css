@@ -1,5 +1,5 @@
         body {
-            background-color: #EDEDE8;
+            background-color: #ecede8;
             color: #e0e0e0;
             padding: 20px;
         }
@@ -31,6 +31,7 @@
             width:80;
             height:80;
             border-radius: 50%;
+            z-index:10;
         }
         .opponent-card {
             background-color: #EDEDE8;
