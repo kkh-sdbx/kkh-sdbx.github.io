@@ -81,7 +81,8 @@ let gameState = {};
                     
                     <p style="margin-top:10px;">(상태: You <strong>${opp.myChoice}</strong> / They <strong>${opp.theirChoice}</strong>)</p>
                 `;
-                container.appendChild(card,dot);
+                container.appendChild(card);
+                container.appendChild(dot);
             });
 
             renderLeaderboard();
