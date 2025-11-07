@@ -5,31 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle Points with Tooltip Cursor</title>
     <style>
-        /* 기본 스타일 및 배경 */
-        body {
+       body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            justify-content: center;
-            align-items: center;
+            /* body는 기본 Flow를 유지하되, container의 기준점이 되도록 position: relative 설정 */
+            position: relative; 
             background-color: rgb(240, 240, 230); /* 회색빛 옅은 베이지색 */
             font-family: sans-serif;
-            position: relative; /* 툴팁이 body 기준 absolute로 위치할 수 있도록 설정 */
+            /* display: flex; justify-content: center; align-items: center; 이 부분은 제거 */
         }
 
         /* 컨테이너 (점을 배치할 기준 영역) */
         .container {
-            position: relative;
-            width: 400px;
-            height: 400px;
+            /* 이 컨테이너를 화면 전체에 고정시킵니다 */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%; /* 너비와 높이를 100%로 설정 */
+            height: 100%;
+            /* 내부 점들의 배치는 그대로 유지됩니다. */
         }
+        
+        /* 색상 테스트용 div 스타일 */
+        .color-test-area {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        /* 테스트 색상 스타일 (이전 답변의 RGB 코드 사용) */
+        .orange { color: rgb(255, 190, 130); }
+        .grey { color: rgb(170, 175, 180); }
+        .black { color: rgb(50, 55, 60); }
+        .white { color: rgb(255, 255, 255); }
+
 
         /* 원형 점 스타일 */
         .point {
             width: 40px;
             height: 40px;
-            background-color: rgb(195, 225, 245); /* 연한 틸색 */
-            border-radius: 50%;
+            background-color: rgb(195, 225, 245); /* 연한 스카이블루 */
+            border-radius: 50%; /* 초기 상태: 원형 */
             position: absolute;
             cursor: pointer;
             display: flex;
@@ -38,85 +58,39 @@
             font-weight: bold;
             color: #333;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, background-color 0.3s, border-radius 0.3s; 
+            transition: transform 0.3s ease-out, background-color 0.3s; 
         }
 
-        .point:hover {
-            transform: scale(1.1);
-            background-color: rgb(150, 195, 230); /* 호버 시 약간 진한 틸색 */
-            border-radius: 0%; 
-        }
-        .point:hover .point-text {
-            transform: rotate(-45deg); 
+        /* 점 내부 텍스트 스타일 (회전 보정용) */
+        .point-text {
+            transition: transform 0.3s ease-out;
         }
 
-        /* 점 위치 설정 */
-        .point-center {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+        /* 점 위치 설정 (이전과 동일한 반응형 translate 방식) */
+        /* 이제 이 %는 body 기준이 아닌, container 기준 100% 내에서 작동 */
+        .point-center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .point-north { top: 0; left: 50%; transform: translate(-50%, -50%); }
+        .point-south { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+        .point-east { right: 0; top: 50%; transform: translate(50%, -50%); }
+        .point-west { left: 0; top: 50%; transform: translate(-50%, -50%); }
 
-        .point-north {
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .point-south {
-            bottom: 0;
-            left: 50%;
-            transform: translate(-50%, 50%);
-        }
-
-        .point-east {
-            right: 0;
-            top: 50%;
-            transform: translate(50%, -50%);
-        }
-
-        .point-west {
-            left: 0;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* 툴팁 스타일 */
-        .tooltip {
-            display: none; /* 기본 숨김 */
-            position: fixed; /* 마우스 위치에 따라 화면 기준 고정 위치 */
-            background-color: rgb(240, 240, 230);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-            width: 250px;
-            color: #333;
-            pointer-events: none; /* 툴팁이 마우스 이벤트를 가로채지 않도록 설정 */
-            /* 초기 위치 조정 (자바스크립트에서 갱신될 예정) */
-            top: 0;
-            left: 0;
-            transform: translate(15px, -50%); /* 커서 오른쪽 15px, 수직 중앙 정렬 */
-        }
+        /* 호버 시 스타일 */
+        .point:hover { background-color: rgb(150, 195, 230); }
         .point:hover.point-center { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
         .point:hover.point-north { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
         .point:hover.point-south { transform: translate(-50%, 50%) rotate(45deg) scale(1.2); }
         .point:hover.point-east { transform: translate(50%, -50%) rotate(45deg) scale(1.2); }
         .point:hover.point-west { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
-        
-        .orange{
-            color:	rgb(255, 190, 130);
+        .point:hover .point-text { transform: rotate(-45deg) !important; }
+
+        /* 툴팁 스타일 (동일하게 유지) */
+        .tooltip {
+            display: none; position: fixed; background-color: rgb(245, 245, 245);
+            padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10; width: 250px; color: #333; pointer-events: none;
+            top: 0; left: 0; transform: translate(15px, -50%);
         }
 
-        .grey{
-            color: rgb(170, 175, 180);
-        }
-        .black{
-            color: rgb(50, 55, 60);
-        }
-        .white{
-            color: rgb(255, 255, 255);
-        }
     </style>
 </head>
 <body>
