@@ -107,8 +107,10 @@
         .selection{
             display:none;
             position:fixed;
+            background-color: rgb(15,15,15);
 
         }
+
 
     </style>
 </head>
@@ -146,6 +148,12 @@
     <div class="tooltip" id="global-tooltip">
         <strong id="tooltip-title"></strong>
         <p id="tooltip-body"></p>
+    </div>
+
+    <div class="selection" id="global-selection">
+        <button id="YBtn" data-btnType = "Y"> Y </button>
+        <button id="NBtn" data-btnType = "N"> N </button>
+        <button id="KBtn" data-btnType = "K"> Kick! </button>
     </div>
 
     <script>
@@ -189,12 +197,13 @@
             });
             
             // 마우스 이동 시 툴팁 위치 업데이트
+            /*
             point.addEventListener('mousemove', function(e) {
                 updateTooltipPosition(e);
             });
-
+            */
             point.addEventListener("click",(e)=>{
-                alert(`${point.id} clicked!`);
+                console.log(`${point.id} clicked!`);
             });
         });
 
