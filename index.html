@@ -91,10 +91,23 @@
 
         /* 툴팁 스타일 (동일하게 유지) */
         .tooltip {
-            display: none; position: fixed; background-color: rgb(245, 245, 245);
-            padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 10; width: 250px; color: #333; pointer-events: none;
-            top: 0; left: 0; transform: translate(15px, -50%);
+            display: none;
+            position: fixed;
+            background-color: rgb(245, 245, 245);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            width: 250px;
+            color: #333; pointer-events: none;
+            top: 0;
+            left: 0;
+            transform: translate(15px, -50%);
+        }
+        .selection{
+            display:none;
+            position:fixed;
+
         }
 
     </style>
@@ -111,15 +124,15 @@
     <!-- 각 point에 id 지정하고 V, 하나씩 다룰 수 있도록 함.V 호버 시 툴팁, 클릭 시 툴팁 고정과 마름모꼴 고정 후 Y/N/Kick 버튼 나오도록. !!-->
     <div class="container">
         <!-- 1번 점 (중앙) -->
-        <div id="center" class="point point-center" data-point="1">1</div>
+        <div id="center" class="point point-center" data-point="center">1</div>
         <!-- 2번 점 (북) -->
-        <div id="north" class="point point-north" data-point="2">2</div>
+        <div id="north" class="point point-north" data-point="north">2</div>
         <!-- 3번 점 (남) -->
-        <div id="south" class="point point-south" data-point="3">3</div>
+        <div id="south" class="point point-south" data-point="south">3</div>
         <!-- 4번 점 (동) -->
-        <div id="east" class="point point-east" data-point="4">4</div>
+        <div id="east" class="point point-east" data-point="east">4</div>
         <!-- 5번 점 (서) -->
-        <div id="west" class="point point-west" data-point="5">5</div>
+        <div id="west" class="point point-west" data-point="west">5</div>
     </div>
     <div display = "flex">
         <h1 class = "orange">color test</h1>
