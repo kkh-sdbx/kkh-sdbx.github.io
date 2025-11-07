@@ -178,6 +178,8 @@
         const tooltipTitle = document.getElementById('tooltip-title');
         const tooltipBody = document.getElementById('tooltip-body');
 
+        const selection = document.getElementById('global-selection');
+
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
@@ -194,6 +196,7 @@
 
             point.addEventListener('mouseleave', function() {
                 tooltip.style.display = 'none';
+
             });
             
             // 마우스 이동 시 툴팁 위치 업데이트
@@ -204,6 +207,8 @@
             */
             point.addEventListener("click",(e)=>{
                 console.log(`${point.id} clicked!`);
+                selection.style.display = 'block';
+                
             });
         });
 
