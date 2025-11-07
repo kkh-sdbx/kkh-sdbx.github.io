@@ -192,6 +192,10 @@
             point.addEventListener('mousemove', function(e) {
                 updateTooltipPosition(e);
             });
+
+            point.addEventListener("click",(e)=>{
+                alert(`${point.id} clicked!`);
+            });
         });
 
         // 툴팁 위치 업데이트 함수
