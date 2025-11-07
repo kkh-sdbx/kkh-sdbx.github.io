@@ -52,31 +52,31 @@
         .point-center {
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1.2);;
+            transform: translate(-50%, -50%);
         }
 
         .point-north {
             top: 0;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1.2);;
+            transform: translate(-50%, -50%);
         }
 
         .point-south {
             bottom: 0;
             left: 50%;
-            transform: translate(-50%, 50%) scale(1.2);;
+            transform: translate(-50%, 50%);
         }
 
         .point-east {
             right: 0;
             top: 50%;
-            transform: translate(50%, -50%) scale(1.2);;
+            transform: translate(50%, -50%);
         }
 
         .point-west {
             left: 0;
             top: 50%;
-            transform: translate(-50%, -50%) scale(1.2);;
+            transform: translate(-50%, -50%);
         }
 
         /* 툴팁 스타일 */
@@ -96,6 +96,11 @@
             left: 0;
             transform: translate(15px, -50%); /* 커서 오른쪽 15px, 수직 중앙 정렬 */
         }
+        .point:hover.point-center { transform: translate(-50%, -50%) scale(1.2); }
+        .point:hover.point-north { transform: translate(-50%, -50%) scale(1.2); }
+        .point:hover.point-south { transform: translate(-50%, 50%) scale(1.2); }
+        .point:hover.point-east { transform: translate(50%, -50%) scale(1.2); }
+        .point:hover.point-west { transform: translate(-50%, -50%) scale(1.2); }
 
     </style>
 </head>
