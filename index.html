@@ -29,7 +29,7 @@
         .point {
             width: 40px;
             height: 40px;
-            background-color: rgb(175, 238, 238); /* 연한 틸색 */
+            background-color: rgb(195, 225, 245); /* 연한 틸색 */
             border-radius: 50%;
             position: absolute;
             cursor: pointer;
@@ -44,7 +44,7 @@
 
         .point:hover {
             transform: scale(1.1);
-            background-color: rgb(140, 200, 200); /* 호버 시 약간 진한 틸색 */
+            background-color: rgb(150, 195, 230); /* 호버 시 약간 진한 틸색 */
             border-radius: 0%; 
         }
         .point:hover .point-text {
@@ -104,10 +104,27 @@
         .point:hover.point-south { transform: translate(-50%, 50%) rotate(45deg) scale(1.2); }
         .point:hover.point-east { transform: translate(50%, -50%) rotate(45deg) scale(1.2); }
         .point:hover.point-west { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        
+        .orange{
+            color:	rgb(255, 190, 130);
+        }
 
+        .grey{
+            color: rgb(170, 175, 180);
+        }
+        .black{
+            color: rgb(50, 55, 60);
+        }
+        .white{
+            color: rgb(255, 255, 255);
+        }
     </style>
 </head>
 <body>
+    <h1 class = "orange">color test</h1>
+    <h1 class = "grey">color test</h1>
+    <h1 class = "black">color test</h1>
+    <h1 class = "white">color test</h1>
 
     <div class="container">
         <!-- 1번 점 (중앙) -->
