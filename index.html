@@ -45,7 +45,10 @@
         .point:hover {
             transform: scale(1.1);
             background-color: rgb(140, 200, 200); /* 호버 시 약간 진한 틸색 */
-            border-radius: 50% 0; 
+            border-radius: 50%; 
+        }
+        .point:hover .point-text {
+            transform: rotate(-45deg); 
         }
 
         /* 점 위치 설정 */
@@ -96,11 +99,11 @@
             left: 0;
             transform: translate(15px, -50%); /* 커서 오른쪽 15px, 수직 중앙 정렬 */
         }
-        .point:hover.point-center { transform: translate(-50%, -50%) scale(1.2); }
-        .point:hover.point-north { transform: translate(-50%, -50%) scale(1.2); }
-        .point:hover.point-south { transform: translate(-50%, 50%) scale(1.2); }
-        .point:hover.point-east { transform: translate(50%, -50%) scale(1.2); }
-        .point:hover.point-west { transform: translate(-50%, -50%) scale(1.2); }
+        .point:hover.point-center { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        .point:hover.point-north { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        .point:hover.point-south { transform: translate(-50%, 50%) rotate(45deg) scale(1.2); }
+        .point:hover.point-east { transform: translate(50%, -50%) rotate(45deg) scale(1.2); }
+        .point:hover.point-west { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
 
     </style>
 </head>
