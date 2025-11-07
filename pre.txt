@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    </head>
+    <link href="style.css" rel="stylesheet"></link>
+</head>
+<body>
+
+    <h1>게임 로직 테스트</h1>
+    
+    <div class="game-header">
+        <div class="header-item">시즌 총 14 라운드</div>
+        <div class="header-item">현재 라운드: <span id="round-display">1</span></div>
+        <div class="header-item">남은 Kick 횟수: <span id="kicks-display">3</span></div>
+        <div class="header-item">내 점수: <span id="player-score-display">0</span></div>
+    </div>
+
+    <h2>5인의 상대</h2>
+    <div id="opponent-container" class="opponent-container">
+        </div>
+
+    <div class="controls">
+        <button id="showdown-btn" onclick="showDown()">ShowDown! (라운드 종료 & 점수 계산)</button>
+    </div>
+
+    <div class="bottom-section">
+        <div id="leaderboard">
+            <h2>실시간 랭킹</h2>
+            <ol id="leaderboard-list">
+                </ol>
+        </div>
+        <div class="controls">
+            <h2>시즌 관리</h2>
+            <button onclick="initGame()">시즌 리셋</button>
+        </div>
+    </div>
+
+    <script src="script.js"> </script>
+
+</body>
+</html>

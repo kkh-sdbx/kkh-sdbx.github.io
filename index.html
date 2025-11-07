@@ -3,42 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
-    </head>
-    <link href="style.css" rel="stylesheet"></link>
+    <title>Circle Points with Modal</title>
+    <style>
+        /* 기본 스타일 및 배경 */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(255, 250, 240); /* 베이지색 바탕 */
+            overflow: hidden; /* 모달 때문에 스크롤 방지 */
+            font-family: sans-serif;
+        }
+
+        /* 컨테이너 (점을 배치할 기준 영역) */
+        .container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        /* 원형 점 스타일 */
+        .point {
+            width: 40px;
+            height: 40px;
+            background-color: rgb(175, 238, 238); /* 연한 틸색 */
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .point:hover {
+            transform: scale(1.1);
+            background-color: rgb(140, 200, 200); /* 호버 시 약간 진한 틸색 */
+        }
+
+        /* 점 위치 설정 */
+        .point-center {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .point-north {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .point-south {
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 50%);
+        }
+
+        .point-east {
+            right: 0;
+            top: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .point-west {
+            left: 0;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 모달 창 스타일 */
+        .modal {
+            display: none; /* 기본 숨김 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* 배경 어둡게 */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: rgb(245, 245, 245); /* 모달 배경색 */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 400px;
+            color: #333;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #000;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>게임 로직 테스트</h1>
-    
-    <div class="game-header">
-        <div class="header-item">시즌 총 14 라운드</div>
-        <div class="header-item">현재 라운드: <span id="round-display">1</span></div>
-        <div class="header-item">남은 Kick 횟수: <span id="kicks-display">3</span></div>
-        <div class="header-item">내 점수: <span id="player-score-display">0</span></div>
+    <div class="container">
+        <!-- 1번 점 (중앙) -->
+        <div class="point point-center" data-point="1">1</div>
+        <!-- 2번 점 (북) -->
+        <div class="point point-north" data-point="2">2</div>
+        <!-- 3번 점 (남) -->
+        <div class="point point-south" data-point="3">3</div>
+        <!-- 4번 점 (동) -->
+        <div class="point point-east" data-point="4">4</div>
+        <!-- 5번 점 (서) -->
+        <div class="point point-west" data-point="5">5</div>
     </div>
 
-    <h2>5인의 상대</h2>
-    <div id="opponent-container" class="opponent-container">
-        </div>
-
-    <div class="controls">
-        <button id="showdown-btn" onclick="showDown()">ShowDown! (라운드 종료 & 점수 계산)</button>
-    </div>
-
-    <div class="bottom-section">
-        <div id="leaderboard">
-            <h2>실시간 랭킹</h2>
-            <ol id="leaderboard-list">
-                </ol>
-        </div>
-        <div class="controls">
-            <h2>시즌 관리</h2>
-            <button onclick="initGame()">시즌 리셋</button>
+    <!-- 모달 창 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-body"></p>
         </div>
     </div>
 
-    <script src="script.js"> </script>
+    <script>
+        // 데이터 정의
+        const pointData = {
+            1: { title: "1번 점 정보", body: "중앙에 위치한 첫 번째 점입니다. 중요한 데이터 포인트입니다." },
+            2: { title: "2번 점 정보", body: "북쪽에 위치하며, 시스템 상단의 정보를 나타냅니다." },
+            3: { title: "3번 점 정보", body: "남쪽에 위치하며, 시스템 하단의 정보를 나타냅니다." },
+            4: { title: "4번 점 정보", body: "동쪽에 위치하며, 오른쪽 측면의 데이터를 표시합니다." },
+            5: { title: "5번 점 정보", body: "서쪽에 위치하며, 왼쪽 측면의 데이터를 표시합니다." }
+        };
+
+        // DOM 요소 선택
+        const points = document.querySelectorAll('.point');
+        const modal = document.getElementById('myModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // 점 클릭 이벤트 리스너 추가 (마우스 올리면 표시로 변경도 가능)
+        points.forEach(point => {
+            point.addEventListener('mouseenter', function() {
+                const pointId = this.getAttribute('data-point');
+                const data = pointData[pointId];
+
+                modalTitle.textContent = data.title;
+                modalBody.textContent = data.body;
+                modal.style.display = 'flex'; // 모달 표시
+            });
+        });
+
+        // 닫기 버튼 클릭 시 모달 닫기
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // 모달 영역 밖 클릭 시 모달 닫기
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
 </html>
