@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circle Points with Tooltip Modal</title>
+    <title>Circle Points with Tooltip Cursor</title>
     <style>
         /* 기본 스타일 및 배경 */
         body {
@@ -15,6 +15,7 @@
             align-items: center;
             background-color: rgb(240, 240, 230); /* 회색빛 옅은 베이지색 */
             font-family: sans-serif;
+            position: relative; /* 툴팁이 body 기준 absolute로 위치할 수 있도록 설정 */
         }
 
         /* 컨테이너 (점을 배치할 기준 영역) */
@@ -47,7 +48,6 @@
         }
 
         /* 점 위치 설정 */
-        /* translate(-50%, -50%)를 사용하여 정확한 중앙 정렬 */
         .point-center {
             top: 50%;
             left: 50%;
@@ -78,80 +78,95 @@
             transform: translate(-50%, -50%);
         }
 
-        /* 툴팁 (마우스를 올렸을 때 나타나는 정보창) 스타일 */
+        /* 툴팁 스타일 */
         .tooltip {
             display: none; /* 기본 숨김 */
-            position: absolute;
+            position: fixed; /* 마우스 위치에 따라 화면 기준 고정 위치 */
             background-color: rgb(245, 245, 245);
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             z-index: 10;
-            width: 200px;
-            pointer-events: none; /* 툴팁 위로 마우스가 올라가도 점의 hover가 유지되도록 설정 */
+            width: 250px;
             color: #333;
-            /* 점 옆으로 위치 조정 (예시: 오른쪽 하단) */
-            transform: translate(50px, 20px);
+            pointer-events: none; /* 툴팁이 마우스 이벤트를 가로채지 않도록 설정 */
+            /* 초기 위치 조정 (자바스크립트에서 갱신될 예정) */
+            top: 0;
+            left: 0;
+            transform: translate(15px, -50%); /* 커서 오른쪽 15px, 수직 중앙 정렬 */
         }
 
-        /* 점에 호버 시 툴팁 표시 */
-        .point:hover .tooltip {
-            display: block;
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- 각 점 안에 툴팁 요소를 포함시킵니다. -->
-        
         <!-- 1번 점 (중앙) -->
-        <div class="point point-center" data-point="1">
-            1
-            <div class="tooltip" id="tooltip-1">
-                <strong>1번 점 정보</strong>
-                <p>중앙에 위치한 첫 번째 점입니다. 중요한 데이터 포인트입니다.</p>
-            </div>
-        </div>
-        
+        <div class="point point-center" data-point="1">1</div>
         <!-- 2번 점 (북) -->
-        <div class="point point-north" data-point="2">
-            2
-            <div class="tooltip" id="tooltip-2">
-                <strong>2번 점 정보</strong>
-                <p>북쪽에 위치하며, 시스템 상단의 정보를 나타냅니다.</p>
-            </div>
-        </div>
-        
+        <div class="point point-north" data-point="2">2</div>
         <!-- 3번 점 (남) -->
-        <div class="point point-south" data-point="3">
-            3
-            <div class="tooltip" id="tooltip-3">
-                <strong>3번 점 정보</strong>
-                <p>남쪽에 위치하며, 시스템 하단의 정보를 나타냅니다.</p>
-            </div>
-        </div>
-        
+        <div class="point point-south" data-point="3">3</div>
         <!-- 4번 점 (동) -->
-        <div class="point point-east" data-point="4">
-            4
-            <div class="tooltip" id="tooltip-4">
-                <strong>4번 점 정보</strong>
-                <p>동쪽에 위치하며, 오른쪽 측면의 데이터를 표시합니다.</p>
-            </div>
-        </div>
-        
+        <div class="point point-east" data-point="4">4</div>
         <!-- 5번 점 (서) -->
-        <div class="point point-west" data-point="5">
-            5
-            <div class="tooltip" id="tooltip-5">
-                <strong>5번 점 정보</strong>
-                <p>서쪽에 위치하며, 왼쪽 측면의 데이터를 표시합니다.</p>
-            </div>
-        </div>
+        <div class="point point-west" data-point="5">5</div>
     </div>
 
-    <!-- JavaScript는 더 이상 모달 제어에 필요하지 않으므로 제거했습니다. -->
+    <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
+    <div class="tooltip" id="global-tooltip">
+        <strong id="tooltip-title"></strong>
+        <p id="tooltip-body"></p>
+    </div>
+
+    <script>
+        // 데이터 정의
+        const pointData = {
+            1: { title: "1번 점 정보", body: "중앙에 위치한 첫 번째 점입니다. 중요한 데이터 포인트입니다." },
+            2: { title: "2번 점 정보", body: "북쪽에 위치하며, 시스템 상단의 정보를 나타냅니다." },
+            3: { title: "3번 점 정보", body: "남쪽에 위치하며, 시스템 하단의 정보를 나타냅니다." },
+            4: { title: "4번 점 정보", body: "동쪽에 위치하며, 오른쪽 측면의 데이터를 표시합니다." },
+            5: { title: "5번 점 정보", body: "서쪽에 위치하며, 왼쪽 측면의 데이터를 표시합니다." }
+        };
+
+        // DOM 요소 선택
+        const points = document.querySelectorAll('.point');
+        const tooltip = document.getElementById('global-tooltip');
+        const tooltipTitle = document.getElementById('tooltip-title');
+        const tooltipBody = document.getElementById('tooltip-body');
+
+        // 마우스 오버 이벤트 핸들러
+        points.forEach(point => {
+            point.addEventListener('mouseenter', function(e) {
+                const pointId = this.getAttribute('data-point');
+                const data = pointData[pointId];
+
+                tooltipTitle.textContent = data.title;
+                tooltipBody.textContent = data.body;
+                tooltip.style.display = 'block';
+                
+                // 마우스 위치에 따라 툴팁 위치 초기 설정
+                updateTooltipPosition(e);
+            });
+
+            point.addEventListener('mouseleave', function() {
+                tooltip.style.display = 'none';
+            });
+            
+            // 마우스 이동 시 툴팁 위치 업데이트
+            point.addEventListener('mousemove', function(e) {
+                updateTooltipPosition(e);
+            });
+        });
+
+        // 툴팁 위치 업데이트 함수
+        function updateTooltipPosition(e) {
+            // 마우스 커서의 현재 위치 (X, Y)
+            tooltip.style.left = e.clientX + 'px';
+            tooltip.style.top = e.clientY + 'px';
+        }
+
+    </script>
 
 </body>
 </html>
