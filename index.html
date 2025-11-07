@@ -39,50 +39,51 @@
             font-weight: bold;
             color: #333;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.3s, background-color 0.3s, border-radius 0.3s; 
         }
 
         .point:hover {
             transform: scale(1.1);
             background-color: rgb(140, 200, 200); /* 호버 시 약간 진한 틸색 */
+            border-radius: 50% 0; 
         }
 
         /* 점 위치 설정 */
         .point-center {
             top: 50%;
             left: 50%;
-            transform: translate(-10%, -10%);
+            transform: translate(-50%, -50%) scale(1.2);;
         }
 
         .point-north {
             top: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(1.2);;
         }
 
         .point-south {
             bottom: 0;
             left: 50%;
-            transform: translate(-50%, 50%);
+            transform: translate(-50%, 50%) scale(1.2);;
         }
 
         .point-east {
             right: 0;
             top: 50%;
-            transform: translate(50%, -50%);
+            transform: translate(50%, -50%) scale(1.2);;
         }
 
         .point-west {
             left: 0;
             top: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(1.2);;
         }
 
         /* 툴팁 스타일 */
         .tooltip {
             display: none; /* 기본 숨김 */
             position: fixed; /* 마우스 위치에 따라 화면 기준 고정 위치 */
-            background-color: rgb(245, 245, 245);
+            background-color: rgb(240, 240, 230);
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
