@@ -89,6 +89,22 @@
         .point:hover.point-west { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
         .point:hover .point-text { transform: rotate(-45deg) !important; }
 
+        .point:activated {
+             background-color: rgb(155, 195, 225); 
+             border-radius: 0%;
+        }
+        .point:activated.point-center { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        .point:activated.point-north { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        .point:activated.point-south { transform: translate(-50%, 50%) rotate(45deg) scale(1.2); }
+        .point:activated.point-east { transform: translate(50%, -50%) rotate(45deg) scale(1.2); }
+        .point:activated.point-west { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+        .point:activated .point-text { transform: rotate(-45deg) !important; }
+
+
+
+
+
+
         /* 툴팁 스타일 (동일하게 유지) */
         .tooltip {
             display: none;
@@ -228,8 +244,10 @@
             });
             
             point.addEventListener("click",(e)=>{
+                currentPoint.classList.toggle('activated');
                 const target = point.id ;
                 currentPoint = target;
+                point.classList.toggle('activated');
 
                 console.log("target: ",target);
                 console.log("currentPoint: ", currentPoint);
@@ -240,6 +258,8 @@
                 //selection button들의 위치 문제.
                 // 각 point별로, 우선 화면비례 위치를 잡은 다음 px기반 위치를 저장해 두고, 그걸 이용해야 한다.
                 updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
+
+
             });
         });
 
