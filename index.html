@@ -108,6 +108,10 @@
             display:none;
             position:fixed;
             background-color: rgb(15,15,15);
+            z-index: 10;
+            top: 0;
+            left: 0;
+
 
         }
 
@@ -220,6 +224,12 @@
             // 마우스 커서의 현재 위치 (X, Y)
             tooltip.style.left = e.clientX + 'px';
             tooltip.style.top = e.clientY + 'px';
+        }
+
+        function updateSelectionPosition(e) {
+            // 마우스 커서의 현재 위치 (X, Y)
+            selection.style.left = e.clientX + 'px';
+            selection.style.top = e.clientY + 'px';
         }
 
     </script>
