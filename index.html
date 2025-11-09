@@ -244,7 +244,9 @@
             });
             
             point.addEventListener("click",(e)=>{
-                currentPoint.classList.toggle('activated');
+                if( currentPoint != null){
+                    currentPoint.classList.toggle('activated')
+                };
                 const target = point.id ;
                 currentPoint = target;
                 point.classList.toggle('activated');
