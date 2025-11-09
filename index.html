@@ -169,11 +169,11 @@
         const east = document.getElementById("east");
 
         const coords = {
-            "center": { x: center.style.left, y: center.style.top },
-            "north": { x: north.style.left, y: north.style.top  },
-            "south": { x: north.style.left, y: north.style.top  },
-            "east": { x: east.style.left, y: east.style.top  },
-            "west": { x: west.style.left, y: west.style.top  }
+            "center": { x: center.getBoundingClientRect().left, y: center.getBoundingClientRect().top },
+            "north": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
+            "south": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
+            "east": { x: east.getBoundingClientRect().left, y: east.getBoundingClientRect().top  },
+            "west": { x: west.getBoundingClientRect().left, y: west.getBoundingClientRect().top  }
         };
 
 
