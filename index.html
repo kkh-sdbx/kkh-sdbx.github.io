@@ -168,6 +168,17 @@
         const west = document.getElementById("west");
         const east = document.getElementById("east");
 
+        const ALLPOINTS = {
+            "center": center,
+            "north": north,
+            "south": south,
+            "east": east,
+            "west": west
+        };
+
+        let currentPoint = ;
+
+
         const coords = {
             "center": { x: center.getBoundingClientRect().left, y: center.getBoundingClientRect().top },
             "north": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
@@ -175,6 +186,8 @@
             "east": { x: east.getBoundingClientRect().left, y: east.getBoundingClientRect().top  },
             "west": { x: west.getBoundingClientRect().left, y: west.getBoundingClientRect().top  }
         };
+
+        const currentPoint = 
 
 
         const pointData = {
@@ -212,12 +225,6 @@
 
             });
             
-            // 마우스 이동 시 툴팁 위치 업데이트
-            /*
-            point.addEventListener('mousemove', function(e) {
-                updateTooltipPosition(e);
-            });
-            */
             point.addEventListener("click",(e)=>{
                 const target = point.id ;
                 console.log(target);
@@ -228,7 +235,7 @@
                 //두 번 클릭하면 선택지 없어져야 함
                 //selection button들의 위치 문제.
                 // 각 point별로, 우선 화면비례 위치를 잡은 다음 px기반 위치를 저장해 두고, 그걸 이용해야 한다.
-                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y-50);
+                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+150);
             });
         });
 
