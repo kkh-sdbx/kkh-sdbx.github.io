@@ -248,7 +248,7 @@
                     currentPoint.classList.toggle('activated')
                 };
                 const target = point.id ;
-                currentPoint = target;
+                currentPoint = ALLPOINTS[`${target}`];
                 point.classList.toggle('activated');
 
                 console.log("target: ",target);
