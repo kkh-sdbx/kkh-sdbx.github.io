@@ -168,6 +168,15 @@
         const west = document.getElementById("west");
         const east = document.getElementById("east");
 
+        const coords = {
+            center: { x: center.style.left, y: center.style.top },
+            north: { x: north.style.left, y: north.style.top  },
+            south: { x: north.style.left, y: north.style.top  },
+            east: { x: east.style.left, y: east.style.top  },
+            west: { x: west.style.left, y: west.style.top  }
+        };
+
+
         const pointData = {
             "center": { title: "center 점 정보", body: "중앙에 위치한 첫 번째 점입니다. 중요한 데이터 포인트입니다." },
             "north": { title: "north 점 정보", body: "북쪽에 위치하며, 시스템 상단의 정보를 나타냅니다." },
@@ -210,12 +219,12 @@
             });
             */
             point.addEventListener("click",(e)=>{
-                console.log(`${point.id} clicked!`);
+                const target = point.id ;
                 selection.style.display = 'block';
                 //두 번 클릭하면 선택지 없어져야 함
                 //selection button들의 위치 문제.
                 // 각 point별로, 우선 화면비례 위치를 잡은 다음 px기반 위치를 저장해 두고, 그걸 이용해야 한다.
-                updateSelectionPosition(e);
+                updateSelectionPosition(coords[target].x, coords[target].y);
             });
         });
 
@@ -226,10 +235,12 @@
             tooltip.style.top = e.clientY + 'px';
         }
 
-        function updateSelectionPosition(e) {
+        function updateSelectionPosition(x, y) {
+
+            console.log(`x:${x}, y:${y}`);
             // 마우스 커서의 현재 위치 (X, Y)
-            selection.style.left = e.clientX + 'px';
-            selection.style.top = e.clientY + 'px';
+            selection.style.left = x + 'px';
+            selection.style.top = y + 'px';
         }
 
     </script>
