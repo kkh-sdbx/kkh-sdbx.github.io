@@ -169,11 +169,11 @@
         const east = document.getElementById("east");
 
         const coords = {
-            center: { x: center.style.left, y: center.style.top },
-            north: { x: north.style.left, y: north.style.top  },
-            south: { x: north.style.left, y: north.style.top  },
-            east: { x: east.style.left, y: east.style.top  },
-            west: { x: west.style.left, y: west.style.top  }
+            "center": { x: center.style.left, y: center.style.top },
+            "north": { x: north.style.left, y: north.style.top  },
+            "south": { x: north.style.left, y: north.style.top  },
+            "east": { x: east.style.left, y: east.style.top  },
+            "west": { x: west.style.left, y: west.style.top  }
         };
 
 
@@ -221,6 +221,9 @@
             point.addEventListener("click",(e)=>{
                 const target = point.id ;
                 console.log(target);
+                console.log(coords[`${target}`]);
+                console.log(coords[`${target}`].x);
+
                 selection.style.display = 'block';
                 //두 번 클릭하면 선택지 없어져야 함
                 //selection button들의 위치 문제.
