@@ -171,7 +171,7 @@
         const coords = {
             "center": { x: center.getBoundingClientRect().left, y: center.getBoundingClientRect().top },
             "north": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
-            "south": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
+            "south": { x: south.getBoundingClientRect().left, y: south.getBoundingClientRect().top  },
             "east": { x: east.getBoundingClientRect().left, y: east.getBoundingClientRect().top  },
             "west": { x: west.getBoundingClientRect().left, y: west.getBoundingClientRect().top  }
         };
@@ -228,7 +228,7 @@
                 //두 번 클릭하면 선택지 없어져야 함
                 //selection button들의 위치 문제.
                 // 각 point별로, 우선 화면비례 위치를 잡은 다음 px기반 위치를 저장해 두고, 그걸 이용해야 한다.
-                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y);
+                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y-50);
             });
         });
 
