@@ -154,7 +154,7 @@
         <p id="tooltip-body"></p>
     </div>
 
-    <div class="selection" id="global-selection">
+    <div class="selection" id="selectionPanel">
         <button id="YBtn" data-btnType = "Y"> Y </button>
         <button id="NBtn" data-btnType = "N"> N </button>
         <button id="KBtn" data-btnType = "K"> Kick! </button>
@@ -167,6 +167,16 @@
         const south = document.getElementById("south");
         const west = document.getElementById("west");
         const east = document.getElementById("east");
+
+        const points = document.querySelectorAll('.point');
+        const tooltip = document.getElementById('global-tooltip');
+        const tooltipTitle = document.getElementById('tooltip-title');
+        const tooltipBody = document.getElementById('tooltip-body');
+
+        const selection = document.getElementById('selectionPanel');
+        const YBtn = document.getElementById('YBtn');
+        const NBtn = document.getElementById('NBtn');
+        const KBtn = document.getElementById('KBtn');
 
         const ALLPOINTS = {
             "center": center,
@@ -196,12 +206,7 @@
         };
 
         // DOM 요소 선택
-        const points = document.querySelectorAll('.point');
-        const tooltip = document.getElementById('global-tooltip');
-        const tooltipTitle = document.getElementById('tooltip-title');
-        const tooltipBody = document.getElementById('tooltip-body');
-
-        const selection = document.getElementById('global-selection');
+        
 
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
@@ -234,7 +239,7 @@
                 //두 번 클릭하면 선택지 없어져야 함
                 //selection button들의 위치 문제.
                 // 각 point별로, 우선 화면비례 위치를 잡은 다음 px기반 위치를 저장해 두고, 그걸 이용해야 한다.
-                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+150);
+                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
             });
         });
 
@@ -253,6 +258,19 @@
             selection.style.top = y + 'px';
         }
 
+
+        YBtn.addEventListener("click",()=>{
+            console.log(`You selected Y on point ${currentPoint}`);
+            
+        });
+        NBtn.addEventListener("click",()=>{
+            console.log(`You selected N on point ${currentPoint}`);
+            
+        }); 
+        KBtn.addEventListener("click",()=>{
+            console.log(`You selected Kick on point ${currentPoint}`);
+            
+        });
     </script>
 
 </body>
