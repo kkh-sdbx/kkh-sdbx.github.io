@@ -295,7 +295,7 @@
                 let changingY = coords[`${pointId}`].y;
                 let d = point.getBoundingClientRect().width /1.1; 
 
-                updateSelectionPosition(changingX, changingY+d);
+                updateTooltipPosition(changingX+d, changingY);
             });
 
             point.addEventListener('mouseleave', function() {
