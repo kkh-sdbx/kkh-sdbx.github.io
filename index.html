@@ -271,7 +271,7 @@
             });
 
             point.addEventListener('mouseleave', function() {
-
+                //클릭된 상태, 즉 activated 한 상태에서는 마우스가 나가도 툴팁 보여야 하거든#
                 tooltip.style.display = 'none';
 
             });
@@ -286,12 +286,15 @@
                     currentPoint = null;
                     point.classList.toggle('activated');
                     console.log(point.classList);
+                    console.log(point.classList.activated);
                     selection.style.display = 'none';
                     tooltip.style.display = 'none';
                     updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
 
                     }else{
                         // 이전에 클릭했던 point가 있고, 새 point 클릭 시
+                        console.log(point.classList);
+                        console.log(point.classList.activated);
                         currentPoint.classList.toggle('activated');
                         currentPoint = point;
                         point.classList.toggle('activated');
@@ -304,6 +307,8 @@
 
                 }else{
                     // 이전에 클릭했던 point가 없고, 새 point 클릭 시
+                    console.log(point.classList);
+                    console.log(point.classList.activated);
                     point.classList.toggle('activated');
                     currentPoint = point;
                     selection.style.display = 'block';
