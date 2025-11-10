@@ -243,9 +243,11 @@
                 updateCoords();
                 let changingX = coords[`${currentPoint.id}`].x;
                 let changingY = coords[`${currentPoint.id}`].y;
+
+                let d = getBoundingClientRect().width /1.5;
                 
-                updateSelectionPosition(changingX, (1.1*changingY));
-                updateTooltipPosition((1.1*changingX), changingY);
+                updateSelectionPosition(changingX, changingY+d);
+                updateTooltipPosition(changingX+d, changingY);
             }
         })
 
