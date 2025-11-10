@@ -211,30 +211,36 @@
         const NBtn = document.getElementById('NBtn');
         const KBtn = document.getElementById('KBtn');
 
-        const ALLPOINTS = {
-            "center": center,
-            "north": north,
-            "south": south,
-            "east": east,
-            "west": west
-        };
+        const coords = {
+            "center": { "x": center.getBoundingClientRect().left, "y": center.getBoundingClientRect().top },
+            "north": { "x": north.getBoundingClientRect().left, "y": north.getBoundingClientRect().top  },
+            "south": { "x": south.getBoundingClientRect().left, "y": south.getBoundingClientRect().top  },
+            "east": { "x": east.getBoundingClientRect().left, "y": east.getBoundingClientRect().top  },
+            "west": { "x": west.getBoundingClientRect().left, "y": west.getBoundingClientRect().top  }
+            };
 
         let currentPoint = null;
 
-        function updateCoords(){
-            const coords = {
-            "center": { x: center.getBoundingClientRect().left, y: center.getBoundingClientRect().top },
-            "north": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
-            "south": { x: south.getBoundingClientRect().left, y: south.getBoundingClientRect().top  },
-            "east": { x: east.getBoundingClientRect().left, y: east.getBoundingClientRect().top  },
-            "west": { x: west.getBoundingClientRect().left, y: west.getBoundingClientRect().top  }
-            };
+         function updateCoords(){
 
-            return coords
+            coords.center.x = center.getBoundingClientRect().left; 
+            coords.center.y = center.getBoundingClientRect().top; 
+            
+            coords.north.x = north.getBoundingClientRect().left;
+            coords.north.y = north.getBoundingClientRect().top;
+
+            coords.south.x = south.getBoundingClientRect().left;
+            coords.south.y = south.getBoundingClientRect().top;
+
+            coords.east.x = east.getBoundingClientRect().left;
+            coords.east.y = east.getBoundingClientRect().top;
+
+            coords.west.x = west.getBoundingClientRect().left;
+            coords.west.y = west.getBoundingClientRect().top;
         }
         window.addEventListener('resize',()=>{
             if(currentPoint){
-
+                updateCoords();
             }
         })
 
@@ -251,6 +257,7 @@
 
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
+            const coords = updateCoords();
             point.addEventListener('mouseenter', function(e) {
                 const pointId = this.getAttribute('data-point');
                 const data = pointData[pointId];
