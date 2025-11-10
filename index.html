@@ -291,7 +291,7 @@
                 tooltip.style.display = 'block';
                 
                 // 마우스 위치에 따라 툴팁 위치 초기 설정
-                updateTooltipPosition(coords[`${target}`].x+75, coords[`${target}`].y);
+                updatePositions();
             });
 
             point.addEventListener('mouseleave', function() {
