@@ -241,9 +241,9 @@
         window.addEventListener('resize',()=>{
             if(currentPoint){
                 updateCoords();
-                let changingX = coords[`${target}`].x;
-                let changingY = coords[`${target}`].y;
-
+                let changingX = coords[`${currentPoint.id}`].x;
+                let changingY = coords[`${currentPoint.id}`].y;
+                
                 updateSelectionPosition(changingX, (1.1*changingY));
                 updateTooltipPosition((1.1*changingX), changingY);
             }
