@@ -260,7 +260,7 @@
             point.addEventListener('mouseenter', function(e) {
                 const pointId = this.getAttribute('data-point');
                 const data = pointData[pointId];
-                const target = point.id
+                const target = point.id;
 
                 tooltipTitle.textContent = data.title;
                 tooltipBody.textContent = data.body;
@@ -285,6 +285,7 @@
                     currentPoint = null;
                     point.classList.toggle('activated');
                     selection.style.display = 'none';
+                    tooltip.style.display = 'none';
                     updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
 
                     }else{
@@ -293,6 +294,7 @@
                         currentPoint = point;
                         point.classList.toggle('activated');
                         selection.style.display = 'block';
+                        tooltip.style.display = 'block';
                         updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
 
                     }
@@ -303,6 +305,7 @@
                     point.classList.toggle('activated');
                     currentPoint = point;
                     selection.style.display = 'block';
+                    tooltip.style.display = 'block';
                     updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
                 };
                 
