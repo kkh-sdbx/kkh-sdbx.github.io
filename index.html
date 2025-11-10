@@ -282,7 +282,7 @@
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
-                const pointId = this.getAttribute('data-point');
+                const pointId = point.id;
                 const data = pointData[pointId];
                 const target = point.id;
 
