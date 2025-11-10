@@ -240,7 +240,7 @@
         }
 
         function updateTooltipPosition(x,y) {
-            // 마우스 커서의 현재 위치 (X, Y)
+            
             tooltip.style.left = x + 'px';
             tooltip.style.top = y + 'px';
         }
@@ -248,7 +248,7 @@
         function updateSelectionPosition(x, y) {
 
             console.log(`x:${x}, y:${y}`);
-            // 마우스 커서의 현재 위치 (X, Y)
+            
             selection.style.left = x + 'px';
             selection.style.top = y + 'px';
         }
@@ -284,6 +284,7 @@
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
+                updateCoords();
 
                 const target = point.id;
                 const data = pointData[`${target}`];
