@@ -217,7 +217,7 @@
             "south": { "x": south.getBoundingClientRect().left, "y": south.getBoundingClientRect().top  },
             "east": { "x": east.getBoundingClientRect().left, "y": east.getBoundingClientRect().top  },
             "west": { "x": west.getBoundingClientRect().left, "y": west.getBoundingClientRect().top  }
-            };
+        };
 
         let currentPoint = null;
 
@@ -257,7 +257,6 @@
 
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
-            const coords = updateCoords();
             point.addEventListener('mouseenter', function(e) {
                 const pointId = this.getAttribute('data-point');
                 const data = pointData[pointId];
