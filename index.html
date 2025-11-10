@@ -238,16 +238,33 @@
             coords.west.x = west.getBoundingClientRect().left;
             coords.west.y = west.getBoundingClientRect().top;
         }
-        window.addEventListener('resize',()=>{
-            if(currentPoint){
+
+        function updateTooltipPosition(x,y) {
+            // 마우스 커서의 현재 위치 (X, Y)
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = y + 'px';
+        }
+
+        function updateSelectionPosition(x, y) {
+
+            console.log(`x:${x}, y:${y}`);
+            // 마우스 커서의 현재 위치 (X, Y)
+            selection.style.left = x + 'px';
+            selection.style.top = y + 'px';
+        }
+
+        function updatePositions(){
                 updateCoords();
                 let changingX = coords[`${currentPoint.id}`].x;
                 let changingY = coords[`${currentPoint.id}`].y;
-
                 let d = currentPoint.getBoundingClientRect().width /1.1; 
 
                 updateSelectionPosition(changingX, changingY+d);
                 updateTooltipPosition(changingX+d, changingY);
+        }
+        window.addEventListener('resize',()=>{
+            if(currentPoint){
+                updatePositions();
             }
         })
 
@@ -300,35 +317,32 @@
                     // 같은 point를 다시 눌렀을 때 
                     currentPoint = null;
                     point.classList.toggle('activated');
-                    console.log(point.classList);
-                    console.log(point.classList.activated);
+
                     selection.style.display = 'none';
                     tooltip.style.display = 'none';
-                    updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
+                    updatePositions();
 
                     }else{
                         // 이전에 클릭했던 point가 있고, 새 point 클릭 시
-                        console.log(point.classList);
-                        console.log(point.classList.activated);
+
                         currentPoint.classList.toggle('activated');
                         currentPoint = point;
                         point.classList.toggle('activated');
                         selection.style.display = 'block';
                         tooltip.style.display = 'block';
-                        updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
+                        updatePositions();
 
                     }
                     
 
                 }else{
                     // 이전에 클릭했던 point가 없고, 새 point 클릭 시
-                    console.log(point.classList);
-                    console.log(point.classList.activated);
+
                     point.classList.toggle('activated');
                     currentPoint = point;
                     selection.style.display = 'block';
                     tooltip.style.display = 'block';
-                    updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
+                    updatePositions();
                 };
                 
 
@@ -341,19 +355,7 @@
         });
 
         // 툴팁 위치 업데이트 함수
-        function updateTooltipPosition(x,y) {
-            // 마우스 커서의 현재 위치 (X, Y)
-            tooltip.style.left = x + 'px';
-            tooltip.style.top = y + 'px';
-        }
 
-        function updateSelectionPosition(x, y) {
-
-            console.log(`x:${x}, y:${y}`);
-            // 마우스 커서의 현재 위치 (X, Y)
-            selection.style.left = x + 'px';
-            selection.style.top = y + 'px';
-        }
 
 
         YBtn.addEventListener("click",()=>{
