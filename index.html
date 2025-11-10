@@ -271,6 +271,7 @@
             });
 
             point.addEventListener('mouseleave', function() {
+
                 tooltip.style.display = 'none';
 
             });
@@ -284,6 +285,7 @@
                     // 같은 point를 다시 눌렀을 때 
                     currentPoint = null;
                     point.classList.toggle('activated');
+                    console.log(point.classList);
                     selection.style.display = 'none';
                     tooltip.style.display = 'none';
                     updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
