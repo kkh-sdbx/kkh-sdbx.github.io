@@ -259,12 +259,16 @@
                     // 같은 point를 다시 눌렀을 때 
                     currentPoint = null;
                     point.classList.toggle('activated');
+                    selection.style.display = 'none';
+                    updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
 
                     }else{
                         // 이전에 클릭했던 point가 있고, 새 point 클릭 시
                         currentPoint.classList.toggle('activated');
                         currentPoint = point;
                         point.classList.toggle('activated');
+                        selection.style.display = 'block';
+                        updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
 
                     }
                     
@@ -273,6 +277,8 @@
                     // 이전에 클릭했던 point가 없고, 새 point 클릭 시
                     point.classList.toggle('activated');
                     currentPoint = point;
+                    selection.style.display = 'block';
+                    updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
                 };
                 
 
