@@ -241,6 +241,8 @@
         window.addEventListener('resize',()=>{
             if(currentPoint){
                 updateCoords();
+                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
+                updateTooltipPosition(coords[`${target}`].x+75, coords[`${target}`].y);
             }
         })
 
@@ -272,7 +274,15 @@
 
             point.addEventListener('mouseleave', function() {
                 //클릭된 상태, 즉 activated 한 상태에서는 마우스가 나가도 툴팁 보여야 하거든#
-                tooltip.style.display = 'none';
+                if(point.classList.constains("activated")){
+
+                    tooltip.style.display = 'block';
+                    
+                }else{
+
+                    tooltip.style.display = 'none';
+                }
+                
 
             });
             
