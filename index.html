@@ -284,6 +284,7 @@
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
+                
                 updateCoords();
 
                 const target = point.id;
@@ -297,8 +298,8 @@
                 let changingX = coords[`${target}`].x;
                 let changingY = coords[`${target}`].y;
                 
-                let xd = point.getBoundingClientRect().width /0.9; 
-                let yd = point.getBoundingClientRect().height /0.9;
+                let xd = point.getBoundingClientRect().width *1.2/0.9; 
+                let yd = point.getBoundingClientRect().height *1.2/0.9;
                 
 
                 updateTooltipPosition(changingX+xd, changingY);
@@ -307,11 +308,11 @@
             point.addEventListener('mouseleave', function() {
                 //클릭된 상태, 즉 activated 한 상태에서는 마우스가 나가도 툴팁 보여야 하거든#
                 if(point.classList.contains("activated")){
-
+                    
                     tooltip.style.display = 'block';
 
                 }else{
-
+                    
                     tooltip.style.display = 'none';
                 }
                 
