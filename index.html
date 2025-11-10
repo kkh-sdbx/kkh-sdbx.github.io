@@ -254,20 +254,25 @@
                 const target = point.id ;
 
                 if( currentPoint != null) {
-                    // 이전에 클릭했던 point가 있고, 새 point 클릭 시
-                    currentPoint.classList.toggle('activated');
-                    currentPoint = ALLPOINTS[`${target}`];
-                    point.classList.toggle('activated');
 
-                }else if( currentPoint.id === target.id){
+                    if( currentPoint === point){
                     // 같은 point를 다시 눌렀을 때 
                     currentPoint = null;
                     point.classList.toggle('activated');
 
+                    }else{
+                        // 이전에 클릭했던 point가 있고, 새 point 클릭 시
+                        currentPoint.classList.toggle('activated');
+                        currentPoint = point;
+                        point.classList.toggle('activated');
+
+                    }
+                    
 
                 }else{
+                    // 이전에 클릭했던 point가 없고, 새 point 클릭 시
                     point.classList.toggle('activated');
-                    currentPoint = ALLPOINTS[`${target}`];
+                    currentPoint = point;
                 };
                 
 
