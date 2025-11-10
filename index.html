@@ -251,15 +251,25 @@
             });
             
             point.addEventListener("click",(e)=>{
-                if( currentPoint != null) {
-                    currentPoint.classList.toggle('activated');
-                    //## 같은 point를 눌렀을 때 오류가 생길 것 같다.
-                    //
-
-                };
                 const target = point.id ;
-                currentPoint = ALLPOINTS[`${target}`];
-                point.classList.toggle('activated');
+
+                if( currentPoint != null) {
+                    // 이전에 클릭했던 point가 있고, 새 point 클릭 시
+                    currentPoint.classList.toggle('activated');
+                    currentPoint = ALLPOINTS[`${target}`];
+                    point.classList.toggle('activated');
+
+                }else if( currentPoint.id === target.id){
+                    // 같은 point를 다시 눌렀을 때 
+                    currentPoint = null;
+                    point.classList.toggle('activated');
+
+
+                }else{
+                    point.classList.toggle('activated');
+                    currentPoint = ALLPOINTS[`${target}`];
+                };
+                
 
                 console.log("target: ",target);
                 console.log("currentPoint: ", currentPoint);
