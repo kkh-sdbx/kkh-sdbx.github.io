@@ -244,8 +244,9 @@
                 let changingX = coords[`${currentPoint.id}`].x;
                 let changingY = coords[`${currentPoint.id}`].y;
 
-                let d = getBoundingClientRect().width /1.5;
-                
+                let d = currentPoint.getBoundingClientRect().width /1.5; 
+                window.innerHeight
+                window.innerWidth
                 updateSelectionPosition(changingX, changingY+d);
                 updateTooltipPosition(changingX+d, changingY);
             }
