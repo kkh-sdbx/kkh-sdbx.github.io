@@ -257,10 +257,11 @@
                 updateCoords();
                 let changingX = coords[`${currentPoint.id}`].x;
                 let changingY = coords[`${currentPoint.id}`].y;
-                let d = currentPoint.getBoundingClientRect().width /1.1; 
-
-                updateSelectionPosition(changingX, changingY+d);
-                updateTooltipPosition(changingX+d, changingY);
+                
+                let xd = currentPoint.getBoundingClientRect().width /0.9; 
+                let yd = currentPoint.getBoundingClientRect().height /0.9;
+                updateSelectionPosition(changingX, changingY+yd);
+                updateTooltipPosition(changingX+xd, changingY);
         }
         window.addEventListener('resize',()=>{
             if(currentPoint){
@@ -282,20 +283,23 @@
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
-                const pointId = point.id;
-                const data = pointData[pointId];
+
                 const target = point.id;
+                const data = pointData[pointId];
+
 
                 tooltipTitle.textContent = data.title;
                 tooltipBody.textContent = data.body;
                 tooltip.style.display = 'block';
                 
-                // 마우스 위치에 따라 툴팁 위치 초기 설정
-                let changingX = coords[`${pointId}`].x;
-                let changingY = coords[`${pointId}`].y;
-                let d = point.getBoundingClientRect().width /1.1; 
+                let changingX = coords[`${target}`].x;
+                let changingY = coords[`${target}`].y;
+                
+                let xd = point.getBoundingClientRect().width /0.9; 
+                let yd = point.getBoundingClientRect().height /0.9;
+                
 
-                updateTooltipPosition(changingX+d, changingY);
+                updateTooltipPosition(changingX+xd, changingY);
             });
 
             point.addEventListener('mouseleave', function() {
