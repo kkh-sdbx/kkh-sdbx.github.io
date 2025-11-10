@@ -285,7 +285,7 @@
             point.addEventListener('mouseenter', function(e) {
 
                 const target = point.id;
-                const data = pointData[pointId];
+                const data = pointData[`${target}`];
 
 
                 tooltipTitle.textContent = data.title;
