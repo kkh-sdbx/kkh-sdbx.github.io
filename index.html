@@ -221,14 +221,22 @@
 
         let currentPoint = null;
 
-
-        const coords = {
+        function updateCoords(){
+            const coords = {
             "center": { x: center.getBoundingClientRect().left, y: center.getBoundingClientRect().top },
             "north": { x: north.getBoundingClientRect().left, y: north.getBoundingClientRect().top  },
             "south": { x: south.getBoundingClientRect().left, y: south.getBoundingClientRect().top  },
             "east": { x: east.getBoundingClientRect().left, y: east.getBoundingClientRect().top  },
             "west": { x: west.getBoundingClientRect().left, y: west.getBoundingClientRect().top  }
-        };
+            };
+
+            return coords
+        }
+        window.addEventListener('resize',()=>{
+            if(currentPoint){
+
+            }
+        })
 
         const pointData = {
             "center": { title: "center 점 정보", body: "중앙에 위치한 첫 번째 점입니다. 중요한 데이터 포인트입니다." },
@@ -252,7 +260,7 @@
                 tooltip.style.display = 'block';
                 
                 // 마우스 위치에 따라 툴팁 위치 초기 설정
-                updateTooltipPosition(e);
+                updateTooltipPosition(coords[`${target}`].x+75, coords[`${target}`].y);
             });
 
             point.addEventListener('mouseleave', function() {
@@ -295,20 +303,16 @@
                 console.log("target: ",target);
                 console.log("currentPoint: ", currentPoint);
                 
-                //두 번 클릭하면 선택지 없어져야 함
-                //selection button들의 위치 문제.
-                // 각 point별로, 우선 화면비례 위치를 잡은 다음 px기반 위치를 저장해 두고, 그걸 이용해야 한다.
-                updateSelectionPosition(coords[`${target}`].x, coords[`${target}`].y+75);
 
 
             });
         });
 
         // 툴팁 위치 업데이트 함수
-        function updateTooltipPosition(e) {
+        function updateTooltipPosition(x,y) {
             // 마우스 커서의 현재 위치 (X, Y)
-            tooltip.style.left = e.clientX + 'px';
-            tooltip.style.top = e.clientY + 'px';
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = y + 'px';
         }
 
         function updateSelectionPosition(x, y) {
