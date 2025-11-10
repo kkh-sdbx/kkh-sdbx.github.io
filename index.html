@@ -260,6 +260,7 @@
             point.addEventListener('mouseenter', function(e) {
                 const pointId = this.getAttribute('data-point');
                 const data = pointData[pointId];
+                const target = point.id
 
                 tooltipTitle.textContent = data.title;
                 tooltipBody.textContent = data.body;
