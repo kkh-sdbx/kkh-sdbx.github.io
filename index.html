@@ -260,6 +260,7 @@
                 
                 let xd = currentPoint.getBoundingClientRect().width /0.9; 
                 let yd = currentPoint.getBoundingClientRect().height /0.9;
+
                 updateSelectionPosition(changingX, changingY+yd);
                 updateTooltipPosition(changingX+xd, changingY);
         }
@@ -328,7 +329,6 @@
 
                     selection.style.display = 'none';
                     tooltip.style.display = 'none';
-                    updatePositions();
 
                     }else{
                         // 이전에 클릭했던 point가 있고, 새 point 클릭 시
