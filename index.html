@@ -72,14 +72,6 @@
             transition: transform 0.3s ease-out;
         }
 
-        /* 점 위치 설정 (이전과 동일한 반응형 translate 방식) */
-        /* 이제 이 %는 body 기준이 아닌, container 기준 100% 내에서 작동 */
-        .point-center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        .point-north { top: 0; left: 50%; transform: translate(-50%, -50%); }
-        .point-south { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
-        .point-east { right: 0; top: 50%; transform: translate(50%, -50%); }
-        .point-west { left: 0; top: 50%; transform: translate(-50%, -50%); }
-
         /* 호버 시 스타일 */
         .point:hover {
              background-color: rgb(155, 195, 225); 
