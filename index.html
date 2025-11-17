@@ -78,11 +78,11 @@
              background-color: rgb(155, 195, 225); 
              border-radius: 0%;
         }
-        .point:hover.point-center { transform:  rotate(45deg) scale(1.2); }
-        .point:hover.point-north { transform:  rotate(45deg) scale(1.2); }
-        .point:hover.point-south { transform: rotate(45deg) scale(1.2); }
-        .point:hover.point-east { transform: rotate(45deg) scale(1.2); }
-        .point:hover.point-west { transform:  rotate(45deg) scale(1.2); }
+        .point:hover.point_1 { transform:  rotate(45deg) scale(1.2); }
+        .point:hover.point_2 { transform:  rotate(45deg) scale(1.2); }
+        .point:hover.point_3 { transform: rotate(45deg) scale(1.2); }
+        .point:hover.point_4 { transform: rotate(45deg) scale(1.2); }
+        .point:hover.point_5 { transform:  rotate(45deg) scale(1.2); }
         .point:hover .point-text { transform: rotate(-45deg) !important; }
 
         .point.activated {
@@ -96,11 +96,11 @@
 
         }
 
-        .point.activated.point-center { transform:  rotate(45deg) scale(1.2); }
-        .point.activated.point-north { transform:  rotate(45deg) scale(1.2); }
-        .point.activated.point-south { transform: rotate(45deg) scale(1.2); }
-        .point.activated.point-east { transform: rotate(45deg) scale(1.2); }
-        .point.activated.point-west { transform:  rotate(45deg) scale(1.2); }
+        .point.activated.point_1 { transform:  rotate(45deg) scale(1.2); }
+        .point.activated.point_2 { transform:  rotate(45deg) scale(1.2); }
+        .point.activated.point_3 { transform: rotate(45deg) scale(1.2); }
+        .point.activated.point_4 { transform: rotate(45deg) scale(1.2); }
+        .point.activated.point_5 { transform:  rotate(45deg) scale(1.2); }
         .point.activated .point-text { transform: rotate(-45deg) !important; }
 
 
@@ -161,16 +161,16 @@
     div 를 3x5 형태로 만들어서, 수직으로 점 다섯개 볼 수 있도록 수정,
     가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
     <div class="container">
-        <!-- 1번 점 (중앙) -->
-        <div id="center" class="point point-center" data-point="center">1</div>
-        <!-- 2번 점 (북) -->
-        <div id="north" class="point point-north" data-point="north">2</div>
-        <!-- 3번 점 (남) -->
-        <div id="south" class="point point-south" data-point="south">3</div>
-        <!-- 4번 점 (동) -->
-        <div id="east" class="point point-east" data-point="east">4</div>
-        <!-- 5번 점 (서) -->
-        <div id="west" class="point point-west" data-point="west">5</div>
+        
+        <div id="point_1" class="point point_1" data-point="point_1">1</div>
+        
+        <div id="point_2" class="point point_2" data-point="point_2">2</div>
+        
+        <div id="point_3" class="point point_3" data-point="point_3">3</div>
+        
+        <div id="point_4" class="point point_4" data-point="point_4">4</div>
+        
+        <div id="point_5" class="point point_5" data-point="point_5">5</div>
     </div>
     <div display = "flex">
         <h1 class = "orange">color test</h1>
@@ -194,11 +194,11 @@
 
     <script>
         // 데이터 정의
-        const center = document.getElementById("center");
-        const north = document.getElementById("north");
-        const south = document.getElementById("south");
-        const west = document.getElementById("west");
-        const east = document.getElementById("east");
+        const point_1 = document.getElementById("point_1");
+        const point_2 = document.getElementById("point_2");
+        const point_3 = document.getElementById("point_3");
+        const point_4 = document.getElementById("point_4");
+        const point_5 = document.getElementById("point_5");
 
         const points = document.querySelectorAll('.point');
         const tooltip = document.getElementById('global-tooltip');
@@ -211,31 +211,31 @@
         const KBtn = document.getElementById('KBtn');
 
         const coords = {
-            "center": { "x": center.getBoundingClientRect().left, "y": center.getBoundingClientRect().top },
-            "north": { "x": north.getBoundingClientRect().left, "y": north.getBoundingClientRect().top  },
-            "south": { "x": south.getBoundingClientRect().left, "y": south.getBoundingClientRect().top  },
-            "east": { "x": east.getBoundingClientRect().left, "y": east.getBoundingClientRect().top  },
-            "west": { "x": west.getBoundingClientRect().left, "y": west.getBoundingClientRect().top  }
+            "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
+            "point_2": { "x": point_2.getBoundingClientRect().left, "y": point_2.getBoundingClientRect().top  },
+            "point_3": { "x": point_3.getBoundingClientRect().left, "y": point_3.getBoundingClientRect().top  },
+            "point_4": { "x": point_4.getBoundingClientRect().left, "y": point_4.getBoundingClientRect().top  },
+            "point_5": { "x": point_5.getBoundingClientRect().left, "y": point_5.getBoundingClientRect().top  }
         };
 
         let currentPoint = null;
 
          function updateCoords(){
 
-            coords.center.x = center.getBoundingClientRect().left; 
-            coords.center.y = center.getBoundingClientRect().top; 
+            coords.point_1.x = point_1.getBoundingClientRect().left; 
+            coords.point_1.y = point_1.getBoundingClientRect().top; 
             
-            coords.north.x = north.getBoundingClientRect().left;
-            coords.north.y = north.getBoundingClientRect().top;
+            coords.point_2.x = point_2.getBoundingClientRect().left;
+            coords.point_2.y = point_2.getBoundingClientRect().top;
 
-            coords.south.x = south.getBoundingClientRect().left;
-            coords.south.y = south.getBoundingClientRect().top;
+            coords.point_3.x = point_3.getBoundingClientRect().left;
+            coords.point_3.y = point_3.getBoundingClientRect().top;
 
-            coords.east.x = east.getBoundingClientRect().left;
-            coords.east.y = east.getBoundingClientRect().top;
+            coords.point_4.x = point_4.getBoundingClientRect().left;
+            coords.point_4.y = point_4.getBoundingClientRect().top;
 
-            coords.west.x = west.getBoundingClientRect().left;
-            coords.west.y = west.getBoundingClientRect().top;
+            coords.point_5.x = point_5.getBoundingClientRect().left;
+            coords.point_5.y = point_5.getBoundingClientRect().top;
         }
 
         function updateTooltipPosition(x,y) {
@@ -270,11 +270,11 @@
         })
 
         const pointData = {
-            "center": { title: "center 점 정보", body: "중앙에 위치한 첫 번째 점입니다. 중요한 데이터 포인트입니다." },
-            "north": { title: "north 점 정보", body: "북쪽에 위치하며, 시스템 상단의 정보를 나타냅니다." },
-            "south": { title: "south 점 정보", body: "남쪽에 위치하며, 시스템 하단의 정보를 나타냅니다." },
-            "east": { title: "east 점 정보", body: "동쪽에 위치하며, 오른쪽 측면의 데이터를 표시합니다." },
-            "west": { title: "west 점 정보", body: "서쪽에 위치하며, 왼쪽 측면의 데이터를 표시합니다." }
+            "point_1": { title: "point_1 점 정보", body: "첫 번째 점입니다.." },
+            "point_2": { title: "point_2 점 정보", body: "두 번째 점입니다.." },
+            "point_3": { title: "point_3 점 정보", body: "세 번째 점입니다.." },
+            "point_4": { title: "point_4 점 정보", body: "네 번째 점입니다.." },
+            "point_5": { title: "point_5 점 정보", body: "다섯 번째 점입니다.." }
         };
 
         // DOM 요소 선택
