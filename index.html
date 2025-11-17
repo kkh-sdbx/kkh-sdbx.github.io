@@ -161,9 +161,9 @@
     div 를 3x5 형태로 만들어서, 수직으로 점 다섯개 볼 수 있도록 수정,
     가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
     <div class="container">
-        
+
         <div id="point_1" class="point point_1" data-point="point_1">1</div>
-        
+
         <div id="point_2" class="point point_2" data-point="point_2">2</div>
         
         <div id="point_3" class="point point_3" data-point="point_3">3</div>
@@ -171,6 +171,8 @@
         <div id="point_4" class="point point_4" data-point="point_4">4</div>
         
         <div id="point_5" class="point point_5" data-point="point_5">5</div>
+
+        <button id="fix">FIX</button>
     </div>
     <div display = "flex">
         <h1 class = "orange">color test</h1>
@@ -192,6 +194,8 @@
         <button id="KBtn" data-btnType = "K"> Kick! </button>
     </div>
 
+
+
     <script>
         // 데이터 정의
         const point_1 = document.getElementById("point_1");
@@ -209,6 +213,8 @@
         const YBtn = document.getElementById('YBtn');
         const NBtn = document.getElementById('NBtn');
         const KBtn = document.getElementById('KBtn');
+
+        
 
         const coords = {
             "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
