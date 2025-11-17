@@ -14,10 +14,11 @@ console.log("mock server");
  * "id":"xxxx",
  * "currentPoint": 00000,
  * "actions":{"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y" },
+ * 각 point는... 일단 비어있는지 아닌지를 확인해야 함.
  * 
  * 
  * }
- * 
+ * 매치메이킹 알고리즘이 핵심일텐데...
  */
 
 const fix = document.getElementById("fix");
