@@ -19,7 +19,37 @@ console.log("mock server");
  * 
  * }
  * 매치메이킹 알고리즘이 핵심일텐데...
+ * 
+## 내가 짜둔 코드##
+class User{
+    constructor(userNum){
+        this.name = `user${userNum}`;
+        this.kickTickets = 3;
+        this.points = new Map([["point1",null],["point2",null],["point3",null],["point4",null],["point5",null]]);
+        this.actions = new Map([["point1","Y"],["point2","Y"],["point3","Y"],["point4","Y"],["point5","Y"]]);
+    }
+    YES(pointNum){
+        this.actions.set(`point${pointNum}`,"Y");        
+    }
+    NO(pointNum){
+        this.actions.set(`point${pointNum}`,"N");
+    }
+    KICK(pointNum){
+        this.actions.set(`point${pointNum}`,"K");
+    }
+}
 
+function fillUserPool(N){
+    const pool = [];
+    for(let i=1;i<N+1;i++){
+        let newUser = new User(i);
+        pool.push(newUser);
+    }
+    return pool
+}
+
+const startingUserPool = fillUserPool(20);
+console.log(startingUserPool);
 
 */
 /*
