@@ -106,8 +106,9 @@
         .point.decided {
             background-color: rgb(100, 200, 100); /* 결정된 점은 연한 녹색 */
             cursor: default;
-            transform: none !important;
+            transform: rotate(45deg) scale(1.2);
         }
+        .point.decided .point-text { transform: rotate(-45deg) !important; }
 
 
 
