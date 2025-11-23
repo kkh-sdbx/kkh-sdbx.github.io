@@ -103,7 +103,11 @@
         .point.activated.point_5 { transform:  rotate(45deg) scale(1.2); }
         .point.activated .point-text { transform: rotate(-45deg) !important; }
 
-
+        .point.decided {
+            background-color: rgb(100, 200, 100); /* 결정된 점은 연한 녹색 */
+            cursor: default;
+            transform: none !important;
+        }
 
 
 
@@ -382,6 +386,9 @@
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `Y `);
+        currentPoint.classList.remove('activated');
+        currentPoint.classList.toggle('decided');
+        currentPoint = null;
         tooltip.style.display = 'none';
         selection.style.display = 'none';
             
