@@ -382,17 +382,21 @@
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
         storage.setItem(`point${currentPoint.id}`, `Y `);
+        tooltip.style.display = 'none';
+        selection.style.display = 'none';
             
     });
     NBtn.addEventListener("click",()=>{
         console.log(`You selected N on point ${currentPoint}`);
         storage.setItem(`point${currentPoint.id}`, `N `);
-            
+        tooltip.style.display = 'none';   
+        selection.style.display = 'none';
     }); 
     KBtn.addEventListener("click",()=>{
         console.log(`You selected Kick on point ${currentPoint}`);
         storage.setItem(`point${currentPoint.id}`, `K `);
-            
+        tooltip.style.display = 'none';
+        selection.style.display = 'none';
     });
     </script>
     <script src="./mockServer.js" defer></script>
