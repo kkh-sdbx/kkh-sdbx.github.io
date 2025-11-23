@@ -1,5 +1,34 @@
 console.log("mock server");
+const point_1 = document.getElementById("point_1");
+const point_2 = document.getElementById("point_2");
+const point_3 = document.getElementById("point_3");
+const point_4 = document.getElementById("point_4");
+const point_5 = document.getElementById("point_5");
 
+const points = document.querySelectorAll('.point');
+const tooltip = document.getElementById('global-tooltip');
+const tooltipTitle = document.getElementById('tooltip-title');
+const tooltipBody = document.getElementById('tooltip-body');
+
+const selection = document.getElementById('selectionPanel');
+const YBtn = document.getElementById('YBtn');
+const NBtn = document.getElementById('NBtn');
+const KBtn = document.getElementById('KBtn');
+
+
+
+YBtn.addEventListener("click",()=>{
+    console.log(`You selected Y on point ${currentPoint}`);
+            
+});
+NBtn.addEventListener("click",()=>{
+    console.log(`You selected N on point ${currentPoint}`);
+            
+}); 
+KBtn.addEventListener("click",()=>{
+    console.log(`You selected Kick on point ${currentPoint}`);
+            
+});
 // 서버에 뭐가 있어야 하는지를 구상해 봐,
 /**
  * tick => N시간마다 갱신.
