@@ -396,12 +396,18 @@
     NBtn.addEventListener("click",()=>{
         console.log(`You selected N on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `N `);
+        currentPoint.classList.remove('activated');
+        currentPoint.classList.toggle('decided');
+        currentPoint = null;
         tooltip.style.display = 'none';   
         selection.style.display = 'none';
     }); 
     KBtn.addEventListener("click",()=>{
         console.log(`You selected Kick on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `K `);
+        currentPoint.classList.remove('activated');
+        currentPoint.classList.toggle('decided');
+        currentPoint = null;
         tooltip.style.display = 'none';
         selection.style.display = 'none';
     });
