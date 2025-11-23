@@ -381,20 +381,20 @@
 
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
-        storage.setItem(`point${currentPoint.id}`, `Y `);
+        storage.setItem(`${currentPoint.id}`, `Y `);
         tooltip.style.display = 'none';
         selection.style.display = 'none';
             
     });
     NBtn.addEventListener("click",()=>{
         console.log(`You selected N on point ${currentPoint}`);
-        storage.setItem(`point${currentPoint.id}`, `N `);
+        storage.setItem(`${currentPoint.id}`, `N `);
         tooltip.style.display = 'none';   
         selection.style.display = 'none';
     }); 
     KBtn.addEventListener("click",()=>{
         console.log(`You selected Kick on point ${currentPoint}`);
-        storage.setItem(`point${currentPoint.id}`, `K `);
+        storage.setItem(`${currentPoint.id}`, `K `);
         tooltip.style.display = 'none';
         selection.style.display = 'none';
     });
