@@ -220,6 +220,7 @@
         const NBtn = document.getElementById('NBtn');
         const KBtn = document.getElementById('KBtn');
 
+        const storage = window.localStorage;
         
 
         const coords = {
@@ -378,7 +379,21 @@
 
 
 
-        
+    YBtn.addEventListener("click",()=>{
+        console.log(`You selected Y on point ${currentPoint}`);
+        storage.setItem(`point${currentPoint.id}`, `Y `);
+            
+    });
+    NBtn.addEventListener("click",()=>{
+        console.log(`You selected N on point ${currentPoint}`);
+        storage.setItem(`point${currentPoint.id}`, `N `);
+            
+    }); 
+    KBtn.addEventListener("click",()=>{
+        console.log(`You selected Kick on point ${currentPoint}`);
+        storage.setItem(`point${currentPoint.id}`, `K `);
+            
+    });
     </script>
     <script src="./mockServer.js" defer></script>
 

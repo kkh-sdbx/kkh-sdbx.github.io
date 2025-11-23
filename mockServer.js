@@ -17,18 +17,7 @@ const KBtn = document.getElementById('KBtn');
 
 
 
-YBtn.addEventListener("click",()=>{
-    console.log(`You selected Y on point ${currentPoint}`);
-            
-});
-NBtn.addEventListener("click",()=>{
-    console.log(`You selected N on point ${currentPoint}`);
-            
-}); 
-KBtn.addEventListener("click",()=>{
-    console.log(`You selected Kick on point ${currentPoint}`);
-            
-});
+
 // 서버에 뭐가 있어야 하는지를 구상해 봐,
 /**
  * tick => N시간마다 갱신.
