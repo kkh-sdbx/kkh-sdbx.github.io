@@ -1,4 +1,5 @@
 console.log("mock server");
+/*
 const point_1 = document.getElementById("point_1");
 const point_2 = document.getElementById("point_2");
 const point_3 = document.getElementById("point_3");
@@ -14,7 +15,7 @@ const selection = document.getElementById('selectionPanel');
 const YBtn = document.getElementById('YBtn');
 const NBtn = document.getElementById('NBtn');
 const KBtn = document.getElementById('KBtn');
-
+*/
 
 
 
