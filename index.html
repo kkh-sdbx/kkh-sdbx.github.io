@@ -41,6 +41,9 @@
             flex-direction:row;
             gap:2em;
         }
+        .pointContainer .kicked{
+
+        }
         
         /* 색상 테스트용 div 스타일 */
         .color-test-area {
@@ -447,8 +450,10 @@
         console.log(`You selected Kick on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `K `);
         currentPoint.classList.remove('activated');
+        console.dir(currentPoint);
         if(storage.getItem(`${currentPoint.id}`) != null){
             currentPoint.classList.add('decided');
+
         }
         currentPoint = null;
         tooltip.style.display = 'none';
