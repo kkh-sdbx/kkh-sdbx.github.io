@@ -480,7 +480,7 @@
 
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
-        storage.setItem(`${currentPoint.id}`, `Y `);
+        storage.setItem(`${currentPoint.id}`, `Y`);
 
         currentPoint.parentElement.classList.remove("kicked");
         currentPoint.nextElementSibling.classList.add("picked");
@@ -501,7 +501,7 @@
     });
     NBtn.addEventListener("click",()=>{
         console.log(`You selected N on point ${currentPoint}`);
-        storage.setItem(`${currentPoint.id}`, `N `);
+        storage.setItem(`${currentPoint.id}`, `N`);
 
         currentPoint.parentElement.classList.remove("kicked");
         currentPoint.nextElementSibling.classList.remove("picked");
@@ -520,7 +520,7 @@
     }); 
     KBtn.addEventListener("click",()=>{
         console.log(`You selected Kick on point ${currentPoint}`);
-        storage.setItem(`${currentPoint.id}`, `K `);
+        storage.setItem(`${currentPoint.id}`, `K`);
         currentPoint.classList.remove('activated');
         console.dir(currentPoint.parentElement);
 
