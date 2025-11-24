@@ -442,6 +442,8 @@
         storage.setItem(`${currentPoint.id}`, `Y `);
 
         currentPoint.parentElement.classList.remove("kicked");
+        currentPoint.nextElementSibling.classList.add("picked");
+        currentPoint.previousElementSibling.classList.remove("picked");
         
         currentPoint.classList.remove('activated');
         if(storage.getItem(`${currentPoint.id}`) != null){
@@ -452,8 +454,7 @@
         tooltip.style.display = 'none';
         selection.style.display = 'none';
 
-        currentPoint.nextElementSibling.classList.add("picked");
-        currentPoint.previousElementSibling.classList.remove("picked");
+        
 
             
     });
@@ -462,6 +463,9 @@
         storage.setItem(`${currentPoint.id}`, `N `);
 
         currentPoint.parentElement.classList.remove("kicked");
+        currentPoint.nextElementSibling.classList.remove("picked");
+        currentPoint.previousElementSibling.classList.add("picked");
+
         currentPoint.classList.remove('activated');
         if(storage.getItem(`${currentPoint.id}`) != null){
             currentPoint.classList.add('decided');
@@ -470,8 +474,7 @@
         tooltip.style.display = 'none';   
         selection.style.display = 'none';
 
-        currentPoint.nextElementSibling.classList.remove("picked");
-        currentPoint.previousElementSibling.classList.add("picked");
+        
 
     }); 
     KBtn.addEventListener("click",()=>{
@@ -481,6 +484,8 @@
         console.dir(currentPoint.parentElement);
 
         currentPoint.parentElement.classList.add("kicked");
+        currentPoint.nextElementSibling.classList.remove("picked");
+        currentPoint.previousElementSibling.classList.remove("picked");
 
         if(storage.getItem(`${currentPoint.id}`) != null){
             currentPoint.classList.add('decided');
@@ -490,8 +495,7 @@
         tooltip.style.display = 'none';
         selection.style.display = 'none';
 
-        currentPoint.nextElementSibling.classList.remove("picked");
-        currentPoint.previousElementSibling.classList.remove("picked");
+        
 
     });
     </script>
