@@ -212,6 +212,14 @@ console.log(`업데이트된 사용자 1의 친구 목록: ${Array.from(user1.fr
 
 const fix = document.getElementById("fix");
 // localStorage는 너무 위험한데? 그냥 콘솔만 켤 줄 알면
+const TRUTH = {
+    "point_1":"Y",
+    "point_2":"Y",
+    "point_3":"Y",
+    "point_4":"Y",
+    "point_5":"Y",
+
+}
 window.addEventListener("load",()=>{
         console.log(storage);
         for(let i=1;i<points.length+1;i++){
