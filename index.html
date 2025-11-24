@@ -299,28 +299,27 @@
                 if(storage[`point_${i}`]!=undefined){
                     console.log(`point_${i} : `,storage[`point_${i}`]);
                     //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
-                    console.log(typeOf(storage[`point_${i}`]));
-                    console.log(typeOf("Y"));
+
                     if(storage[`point_${i}`] === "Y"){
                         points[i-1].parentElement.classList.remove("kicked");
                         points[i-1].nextElementSibling.classList.add("picked");
                         points[i-1].previousElementSibling.classList.remove("picked");
                         points[i-1].classList.add('decided');
-                        console.log("check working onLoad");
+
 
                     }else if(storage[`point_${i}`] === "N"){
                         points[i-1].parentElement.classList.remove("kicked");
                         points[i-1].nextElementSibling.classList.remove("picked");
                         points[i-1].previousElementSibling.classList.add("picked");
                         points[i-1].classList.add('decided');
-                        console.log("check working onLoad");
+
 
                     }else if(storage[`point_${i}`] === "K"){
                         points[i-1].parentElement.classList.add("kicked");
                         points[i-1].nextElementSibling.classList.remove("picked");
                         points[i-1].previousElementSibling.classList.remove("picked");
                         points[i-1].classList.add('decided');
-                        console.log("check working onLoad");
+
 
                     }else{
                         console.log(storage[`point_${i}`]);
