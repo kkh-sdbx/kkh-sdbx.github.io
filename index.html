@@ -450,7 +450,7 @@
         console.log(`You selected Kick on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `K `);
         currentPoint.classList.remove('activated');
-        console.dir(currentPoint);
+        console.dir(currentPoint.parentElement);
         if(storage.getItem(`${currentPoint.id}`) != null){
             currentPoint.classList.add('decided');
 
