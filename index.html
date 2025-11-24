@@ -423,7 +423,10 @@
         storage.setItem(`${currentPoint.id}`, `Y `);
         
         currentPoint.classList.remove('activated');
-        currentPoint.classList.toggle('decided'); // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
+        if(storage.getItem(`${currentPoint.id}`) != null){
+            currentPoint.classList.add('decided');
+        }
+         // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
         currentPoint = null;
         tooltip.style.display = 'none';
         selection.style.display = 'none';
@@ -433,7 +436,9 @@
         console.log(`You selected N on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `N `);
         currentPoint.classList.remove('activated');
-        currentPoint.classList.toggle('decided');
+        if(storage.getItem(`${currentPoint.id}`) != null){
+            currentPoint.classList.add('decided');
+        }
         currentPoint = null;
         tooltip.style.display = 'none';   
         selection.style.display = 'none';
@@ -442,7 +447,9 @@
         console.log(`You selected Kick on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `K `);
         currentPoint.classList.remove('activated');
-        currentPoint.classList.toggle('decided');
+        if(storage.getItem(`${currentPoint.id}`) != null){
+            currentPoint.classList.add('decided');
+        }
         currentPoint = null;
         tooltip.style.display = 'none';
         selection.style.display = 'none';
