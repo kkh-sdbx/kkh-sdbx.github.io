@@ -78,11 +78,8 @@
              background-color: rgb(155, 195, 225); 
              border-radius: 0%;
         }
-        .point:hover.point_1 { transform:  rotate(45deg) scale(1.2); }
-        .point:hover.point_2 { transform:  rotate(45deg) scale(1.2); }
-        .point:hover.point_3 { transform: rotate(45deg) scale(1.2); }
-        .point:hover.point_4 { transform: rotate(45deg) scale(1.2); }
-        .point:hover.point_5 { transform:  rotate(45deg) scale(1.2); }
+        .point:hover{ transform:  rotate(45deg) scale(1.2); }
+
         .point:hover .point-text { transform: rotate(-45deg) !important; }
 
         .point.activated {
@@ -96,11 +93,8 @@
 
         }
 
-        .point.activated.point_1 { transform:  rotate(45deg) scale(1.2); }
-        .point.activated.point_2 { transform:  rotate(45deg) scale(1.2); }
-        .point.activated.point_3 { transform: rotate(45deg) scale(1.2); }
-        .point.activated.point_4 { transform: rotate(45deg) scale(1.2); }
-        .point.activated.point_5 { transform:  rotate(45deg) scale(1.2); }
+        .point.activated { transform:  rotate(45deg) scale(1.2); }
+
         .point.activated .point-text { transform: rotate(-45deg) !important; }
 
         .point.decided {
@@ -173,23 +167,23 @@
     
     <div class="container">
 
-        <div id="point_1" class="point point_1" data-point="point_1">
+        <div id="point_1" class="point " data-point="point_1">
             <span class = "point-text">1</span>
         </div>
 
-        <div id="point_2" class="point point_2" data-point="point_2">
+        <div id="point_2" class="point " data-point="point_2">
             <span class = "point-text">2</span>
         </div>
         
-        <div id="point_3" class="point point_3" data-point="point_3">
+        <div id="point_3" class="point " data-point="point_3">
             <span class = "point-text">3</span>
         </div>
         
-        <div id="point_4" class="point point_4" data-point="point_4">
+        <div id="point_4" class="point " data-point="point_4">
             <span class = "point-text">4</span>
         </div>
         
-        <div id="point_5" class="point point_5" data-point="point_5">
+        <div id="point_5" class="point " data-point="point_5">
             <span class = "point-text">5</span>
         </div>
 
@@ -392,12 +386,22 @@
 
         // 툴팁 위치 업데이트 함수
 
+    window.addEventListener("load",()=>{
+        console.log(storage);
+        for(let i=1;i<points.length+1;i++){
+            if(storage[`point_${i}`]!=undefined){
+                console.log(storage[`point_${i}`]);
+                //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
+            }
 
+        }
+    
+    })
 
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `Y `);
-        console.log(storage);
+        
         currentPoint.classList.remove('activated');
         currentPoint.classList.toggle('decided'); // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
         currentPoint = null;
