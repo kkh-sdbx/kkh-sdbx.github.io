@@ -213,18 +213,19 @@ console.log(`업데이트된 사용자 1의 친구 목록: ${Array.from(user1.fr
 const fix = document.getElementById("fix");
 // localStorage는 너무 위험한데? 그냥 콘솔만 켤 줄 알면
 const TRUTH = {
-    "point_1":"Y",
-    "point_2":"Y",
-    "point_3":"Y",
-    "point_4":"Y",
-    "point_5":"Y",
+    "point_1":null,
+    "point_2":null,
+    "point_3":null,
+    "point_4":null,
+    "point_5":null
 
 }
 window.addEventListener("load",()=>{
         console.log(storage);
+        
         for(let i=1;i<points.length+1;i++){
             if(storage[`point_${i}`]!=undefined){
-                console.log(storage[`point_${i}`]);
+                console.log(`point_${i} : `,storage[`point_${i}`]);
                 //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
             }
 
