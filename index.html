@@ -489,6 +489,10 @@
         currentPoint = null;
         tooltip.style.display = 'none';
         selection.style.display = 'none';
+
+        currentPoint.nextElementSibling.classList.remove("picked");
+        currentPoint.previousElementSibling.classList.remove("picked");
+
     });
     </script>
     <script src="./mockServer.js" defer></script>
