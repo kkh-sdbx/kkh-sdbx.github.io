@@ -41,7 +41,8 @@
             flex-direction:row;
             gap:2em;
         }
-        .pointContainer .kicked{
+        .pointContainer .kicked{   
+            background-color: red;
 
         }
         
@@ -424,6 +425,8 @@
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `Y `);
+
+        currentPoint.parentElement.classList.remove("kicked");
         
         currentPoint.classList.remove('activated');
         if(storage.getItem(`${currentPoint.id}`) != null){
@@ -438,6 +441,8 @@
     NBtn.addEventListener("click",()=>{
         console.log(`You selected N on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `N `);
+
+        currentPoint.parentElement.classList.remove("kicked");
         currentPoint.classList.remove('activated');
         if(storage.getItem(`${currentPoint.id}`) != null){
             currentPoint.classList.add('decided');
@@ -451,6 +456,9 @@
         storage.setItem(`${currentPoint.id}`, `K `);
         currentPoint.classList.remove('activated');
         console.dir(currentPoint.parentElement);
+
+        currentPoint.parentElement.classList.add("kicked");
+
         if(storage.getItem(`${currentPoint.id}`) != null){
             currentPoint.classList.add('decided');
 
