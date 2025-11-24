@@ -109,6 +109,9 @@
         }
         .point.decided .point-text { transform: rotate(-45deg) !important; }
 
+        .NY{
+            display:none;
+        }
 
 
 
@@ -173,43 +176,43 @@
     <div class="container">
 
         <div class = "pointContainer">
-            <div>N</div>
+            <div class = "NY">N</div>
             <div id="point_1" class="point" data-point="point_1">
                 <span class = "point-text">1</span>
             </div>
-            <div>Y</div>
+            <div class = "NY">Y</div>
 
         </div>
         <div class = "pointContainer">
-            <div>N</div>
+            <div class = "NY">N</div>
             <div id="point_2" class="point" data-point="point_2">
                 <span class = "point-text">2</span>
             </div>
-            <div>Y</div>
+            <div class = "NY">Y</div>
 
         </div>
         <div class = "pointContainer">
-            <div>N</div>
+            <div class = "NY">N</div>
             <div id="point_3" class="point" data-point="point_3">
                 <span class = "point-text">3</span>
             </div>
-            <div>Y</div>
+            <div class = "NY">Y</div>
 
         </div>
         <div class = "pointContainer">
-            <div>N</div>
+            <div class = "NY">N</div>
             <div id="point_4" class="point" data-point="point_4">
                 <span class = "point-text">4</span>
             </div>
-            <div>Y</div>
+            <div class = "NY">Y</div>
 
         </div>
         <div class = "pointContainer">
-            <div>N</div>
+            <div class = "NY">N</div>
             <div id="point_5" class="point" data-point="point_5">
                 <span class = "point-text">5</span>
             </div>
-            <div>Y</div>
+            <div class = "NY">Y</div>
 
         </div>
 
@@ -413,17 +416,7 @@
 
         // 툴팁 위치 업데이트 함수
 
-    window.addEventListener("load",()=>{
-        console.log(storage);
-        for(let i=1;i<points.length+1;i++){
-            if(storage[`point_${i}`]!=undefined){
-                console.log(storage[`point_${i}`]);
-                //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
-            }
-
-        }
     
-    })
 
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
