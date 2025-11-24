@@ -397,8 +397,9 @@
     YBtn.addEventListener("click",()=>{
         console.log(`You selected Y on point ${currentPoint}`);
         storage.setItem(`${currentPoint.id}`, `Y `);
+        console.log(storage);
         currentPoint.classList.remove('activated');
-        currentPoint.classList.toggle('decided');
+        currentPoint.classList.toggle('decided'); // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
         currentPoint = null;
         tooltip.style.display = 'none';
         selection.style.display = 'none';
