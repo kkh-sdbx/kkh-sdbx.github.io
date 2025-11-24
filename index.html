@@ -305,18 +305,21 @@
                         points[i-1].nextElementSibling.classList.add("picked");
                         points[i-1].previousElementSibling.classList.remove("picked");
                         points[i-1].classList.add('decided');
+                        console.log("check working onLoad");
 
                     }else if(storage[`point_${i}`] === "N"){
                         points[i-1].parentElement.classList.remove("kicked");
                         points[i-1].nextElementSibling.classList.remove("picked");
                         points[i-1].previousElementSibling.classList.add("picked");
                         points[i-1].classList.add('decided');
+                        console.log("check working onLoad");
 
                     }else if(storage[`point_${i}`] === "K"){
                         points[i-1].parentElement.classList.add("kicked");
                         points[i-1].nextElementSibling.classList.remove("picked");
                         points[i-1].previousElementSibling.classList.remove("picked");
                         points[i-1].classList.add('decided');
+                        console.log("check working onLoad");
 
                     }
                 }
