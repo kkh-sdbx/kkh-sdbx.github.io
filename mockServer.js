@@ -1,5 +1,5 @@
 console.log("mock server");
-const storage = window.localStorage;
+
 const fixBtn = document.getElementById('fix');
 console.log(fixBtn);      
 document.addEventListener('DOMContentLoaded', (event) => {
