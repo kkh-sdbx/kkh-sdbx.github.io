@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    if(emptyPoints.length>1){
+    if(emptyPoints.length>0){
         let empty =  "";
         for (const mt of emptyPoints){
             empty = empty + `, ${mt}`;
