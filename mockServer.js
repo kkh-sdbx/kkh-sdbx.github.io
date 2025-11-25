@@ -1,8 +1,8 @@
 console.log("mock server");
-
+const storage = window.localStorage;
 const fixBtn = document.getElementById('fix');
 console.log(fixBtn);      
- 
+
 fixBtn.addEventListener("click",()=>{
     console.log("current Storage: ",storage);
     const checker = ["point_1","point_2","point_3","point_4","point_5"];
