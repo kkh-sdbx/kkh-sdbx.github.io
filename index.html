@@ -293,11 +293,11 @@
 
 
         window.addEventListener("load",()=>{
-            console.log(storage);
+
 
             for(let i=1;i<points.length+1;i++){
                 if(storage[`point_${i}`]!=undefined){
-                    console.log(`point_${i} : `,storage[`point_${i}`]);
+                    
                     //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
 
                     if(storage[`point_${i}`] === "Y"){
@@ -357,7 +357,6 @@
 
         function updateSelectionPosition(x, y) {
 
-            console.log(`x:${x}, y:${y}`);
             
             selection.style.left = x + 'px';
             selection.style.top = y + 'px';
@@ -465,8 +464,7 @@
                 };
                 
 
-                console.log("target: ",target);
-                console.log("currentPoint: ", currentPoint);
+
                 
 
 
@@ -478,7 +476,7 @@
     
 
     YBtn.addEventListener("click",()=>{
-        console.log(`You selected Y on point ${currentPoint}`);
+
         storage.setItem(`${currentPoint.id}`, `Y`);
 
         currentPoint.parentElement.classList.remove("kicked");
@@ -499,7 +497,7 @@
             
     });
     NBtn.addEventListener("click",()=>{
-        console.log(`You selected N on point ${currentPoint}`);
+
         storage.setItem(`${currentPoint.id}`, `N`);
 
         currentPoint.parentElement.classList.remove("kicked");
@@ -518,10 +516,10 @@
 
     }); 
     KBtn.addEventListener("click",()=>{
-        console.log(`You selected Kick on point ${currentPoint}`);
+
         storage.setItem(`${currentPoint.id}`, `K`);
         currentPoint.classList.remove('activated');
-        console.dir(currentPoint.parentElement);
+
 
         currentPoint.parentElement.classList.add("kicked");
         currentPoint.nextElementSibling.classList.remove("picked");
