@@ -13,7 +13,9 @@
             position: relative; 
             background-color: rgb(240, 240, 230); /* 회색빛 옅은 베이지색 */
             font-family: sans-serif;
-            /* display: flex; justify-content: center; align-items: center; 이 부분은 제거 */
+            /* display: flex;  */
+            justify-content: center; 
+            align-items: center;
         }
 
         /* 컨테이너 (점을 배치할 기준 영역) */
@@ -35,6 +37,13 @@
             max-width: 400px; /* 점 사이의 최대 거리 제한 (예시 값) */
             max-height: 400px;
             margin: auto;
+        }
+        .fixBtnContainer{
+            position: absolute;
+            display:flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
         }
         .pointContainer{
             width: 50%; 
@@ -170,13 +179,6 @@
 
         }
 
-        .fixBtnContainer{
-            position: absolute;
-            display:flex;
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center;
-        }
 
     </style>
 </head>
