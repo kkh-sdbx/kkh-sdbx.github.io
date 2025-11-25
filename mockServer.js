@@ -1,4 +1,50 @@
 console.log("mock server");
+
+const fixBtn = document.getElementById('fix');
+        
+fixBtn.addEventListener("click",()=>{
+    console.log("current Storage: ",storage);
+    const checker = ["point_1","point_2","point_3","point_4","point_5"];
+    const emptyPoints = [];
+    
+    for(const point of checker){
+        if(storage[point] === undefined){
+            emptyPoints.push(point);
+        }
+    }
+
+    if(emptyPoints.length>1){
+        const empty =  "";
+        for (const mt of emptyPoints){
+            empty = empty + `, ${mt}`;
+        }
+        console.log(`There are empty Points: ${empty}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`)
+    }else{
+        console.log("You cannot change your response after fixing. Wanna Proceed? ");
+    }
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 const point_1 = document.getElementById("point_1");
 const point_2 = document.getElementById("point_2");
