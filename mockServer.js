@@ -2,7 +2,10 @@ console.log("mock server");
 
 const fixBtn = document.getElementById('fix');
 console.log(fixBtn);      
+
 document.addEventListener('DOMContentLoaded', (event) => {
+    const fixModal = document.getElementById("fixModal");
+
     fixBtn.addEventListener("click",()=>{
     console.log("current Storage: ",storage);
     const checker = ["point_1","point_2","point_3","point_4","point_5"];
@@ -19,9 +22,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         for (const mt of emptyPoints){
             empty = empty + `, ${mt}`;
         }
-        console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`)
+        fixModal.style.display = block;
+
+
+        console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
     }else{
+        
         console.log("You cannot change your response after fixing. Wanna Proceed? ");
+        fixModal.style.display = block;
     }
 
 

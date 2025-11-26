@@ -190,12 +190,22 @@
             background-color: rgba(0,0,0,0.5);
             z-index:10;
         }
-        .modal-body{
+        .modalBody{
             background-color: white;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 50%;
+
+        }
+        .modalBtnContainer{
+            display:flex;
+            flex-direction: row;
+
+        }
+        .modalBtnContainer .button{
+            border-radius: 10%;
+
 
         }
 
@@ -290,8 +300,8 @@
         <button id="KBtn" data-btnType = "K"> Kick! </button>
     </div>
 
-    <div class = "modal">
-        <div class = "modal-body">
+    <div id = "fixModal" class = "modal">
+        <div class = "modalBody">
             <h2> Modal Title</h2>
             <h4> Modal Content</h4>
             <div class = "modalBtnContainer">
