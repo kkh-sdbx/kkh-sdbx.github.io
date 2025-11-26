@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         for (const mt of emptyPoints){
             empty = empty + `, ${mt}`;
         }
-        console.log(`There are empty Points: ${empty}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`)
+        console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`)
     }else{
         console.log("You cannot change your response after fixing. Wanna Proceed? ");
     }
