@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }else{
         
         console.log("You cannot change your response after fixing. Wanna Proceed? ");
-        fixModal.style.display = block;
+        fixModal.style.display = "block";
     }
 
 
