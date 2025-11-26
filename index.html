@@ -539,7 +539,7 @@
         currentPoint.previousElementSibling.classList.remove("picked");
         
         currentPoint.classList.remove('activated');
-        if(storage.getItem(`${currentPoint.id}`) != null){
+        if(storage.getItem(`${currentPoint.id}`) != undefined){
             currentPoint.classList.add('decided');
         }
          // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
@@ -560,7 +560,7 @@
         currentPoint.previousElementSibling.classList.add("picked");
 
         currentPoint.classList.remove('activated');
-        if(storage.getItem(`${currentPoint.id}`) != null){
+        if(storage.getItem(`${currentPoint.id}`) != undefined){
             currentPoint.classList.add('decided');
         }
         currentPoint = null;
@@ -580,7 +580,7 @@
         currentPoint.nextElementSibling.classList.remove("picked");
         currentPoint.previousElementSibling.classList.remove("picked");
 
-        if(storage.getItem(`${currentPoint.id}`) != null){
+        if(storage.getItem(`${currentPoint.id}`) != undefined){
             currentPoint.classList.add('decided');
 
         }
@@ -627,10 +627,14 @@
         const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
         for(let i=1;i<6;i++){
 
-            if(storage[`point_${i}`] != undefined){
+            if(storage.getItem(`point_${i}`) != undefined){
                 continue
             }else{
-                storage[`point_${i}`] = "Y";
+                storage.setItem(`point_${i}`) = "Y";
+                points[i-1].parentElement.classList.remove("kicked");
+                points[i-1].nextElementSibling.classList.add("picked");
+                points[i-1].previousElementSibling.classList.remove("picked");
+
             }
 
         }
