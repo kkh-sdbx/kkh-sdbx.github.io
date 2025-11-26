@@ -630,7 +630,7 @@
             if(storage.getItem(`point_${i}`) != undefined){
                 continue
             }else{
-                storage.setItem(`point_${i}`) = "Y";
+                storage.setItem(`point_${i}`,"Y");
                 points[i-1].parentElement.classList.remove("kicked");
                 points[i-1].nextElementSibling.classList.add("picked");
                 points[i-1].previousElementSibling.classList.remove("picked");
