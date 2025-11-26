@@ -625,11 +625,15 @@
     proceedBtn.addEventListener("click",()=>{
         console.log("proceed current Storage: ",storage); 
         const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
-        result.point_1 = storage.point_1;
-        result.point_2 = storage.point_2;
-        result.point_3 = storage.point_3;
-        result.point_4 = storage.point_4;
-        result.point_5 = storage.point_5;
+        for(let i=1;i<6;i++){
+
+            if(storage[`point_${i}`] != undefined){
+                continue
+            }else{
+                storage[`point_${i}`] = result[`point_${i}`];
+            }
+
+        }
 
         fixModal.style.display = "none";
         console.log("result sendint to mock Server : ", result);
