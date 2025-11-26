@@ -623,19 +623,21 @@
 
     }
     proceedBtn.addEventListener("click",()=>{
-        console.log("proceed current Storage: ",storage); //storage를 mockServer에서 다룰 수 있다는게 ㅈㄴ 에러임.
+        console.log("proceed current Storage: ",storage); 
+        const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
+        result.point_1 = storage.point_1;
+        result.point_2 = storage.point_2;
+        result.point_3 = storage.point_3;
+        result.point_4 = storage.point_4;
+        result.point_5 = storage.point_5;
 
-        if(emptyPoints.length > 0){
-
-        }else{
-
-        }
         fixModal.style.display = "none";
+        console.log("result sendint to mock Server : ", result);
 
     });
 
     discardBtn.addEventListener("click",()=>{
-        console.log("discard current Storage: ",storage); //storage를 mockServer에서 다룰 수 있다는게 ㅈㄴ 에러임.
+        console.log("discard current Storage: ",storage); 
 
         fixModal.style.display = "none";
     });
