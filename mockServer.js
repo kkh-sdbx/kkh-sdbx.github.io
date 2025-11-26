@@ -1,56 +1,13 @@
 console.log("mock server");
 
-const fixBtn = document.getElementById('fix');
-console.log(fixBtn);      
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    const fixModal = document.getElementById("fixModal");
-    const proceedBtn = document.getElementById("proceedBtn");
-    const discardBtn = document.getElementById("discardBtn");
-
-    fixBtn.addEventListener("click",()=>{
-    const checker = ["point_1","point_2","point_3","point_4","point_5"];
-    const emptyPoints = [];
-    
-    for(const point of checker){
-        if(storage[point] === undefined){
-            emptyPoints.push(point);
-        }
-    }
-
-    if(emptyPoints.length>0){
-        let empty =  "";
-        for (const mt of emptyPoints){
-            empty = empty + `, ${mt}`;
-        }
-        fixModal.style.display = "block";
 
 
-        console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
-    }else{
-        
-        console.log("You cannot change your response after fixing. Wanna Proceed? ");
-        fixModal.style.display = "block";
-    }
-
-
-
-
-
-    });
-
-    proceedBtn.addEventListener("click",()=>{
-        console.log("proceed current Storage: ",storage);
-        fixModal.style.display = "none";
-    });
-
-    discardBtn.addEventListener("click",()=>{
-        console.log("discard current Storage: ",storage);
-        fixModal.style.display = "none";
-    });
-
-
-
+// # Proceed, Discard 시의 행동과
+// ## 
+// ### 
+// #### 
+// ##### Modal 텍스트 등 레이아웃 => 이건 나중에!
+// 
 })
 
 

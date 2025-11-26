@@ -591,6 +591,55 @@
         
 
     });
+    
+
+    fixBtn.addEventListener("click",()=>{
+        const checker = ["point_1","point_2","point_3","point_4","point_5"];
+        
+        for(const point of checker){
+            if(storage[point] === undefined){
+                emptyPoints.push(point);
+            }
+        }
+
+        if(emptyPoints.length>0){
+            let empty =  "";
+            for (const mt of emptyPoints){
+                empty = empty + `, ${mt}`;
+            }
+            fixModal.style.display = "block";
+
+
+            console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
+        }else{
+            
+            console.log("You cannot change your response after fixing. Wanna Proceed? ");
+            fixModal.style.display = "block";
+        }
+    });
+
+
+    function sendActionToServer(result){
+
+    }
+    proceedBtn.addEventListener("click",()=>{
+        console.log("proceed current Storage: ",storage); //storage를 mockServer에서 다룰 수 있다는게 ㅈㄴ 에러임.
+
+        if(emptyPoints.length > 0){
+
+        }else{
+
+        }
+        fixModal.style.display = "none";
+
+    });
+
+    discardBtn.addEventListener("click",()=>{
+        console.log("discard current Storage: ",storage); //storage를 mockServer에서 다룰 수 있다는게 ㅈㄴ 에러임.
+
+        fixModal.style.display = "none";
+    });
+
     </script>
     <script src="./mockServer.js" defer></script>
 </body>
