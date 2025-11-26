@@ -630,13 +630,13 @@
             if(storage[`point_${i}`] != undefined){
                 continue
             }else{
-                storage[`point_${i}`] = result[`point_${i}`];
+                storage[`point_${i}`] = "Y";
             }
 
         }
 
         fixModal.style.display = "none";
-        console.log("result sendint to mock Server : ", result);
+        console.log("storage Data for mock Server : ", storage);
 
     });
 
