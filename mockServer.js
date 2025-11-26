@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         for (const mt of emptyPoints){
             empty = empty + `, ${mt}`;
         }
-        fixModal.style.display = block;
+        fixModal.style.display = "block";
 
 
         console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
