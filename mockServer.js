@@ -8,7 +8,7 @@ console.log("mock server");
 // #### 
 // ##### Modal 텍스트 등 레이아웃 => 이건 나중에!
 // 
-})
+
 
 
 
