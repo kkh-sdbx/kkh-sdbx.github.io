@@ -5,9 +5,10 @@ console.log(fixBtn);
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const fixModal = document.getElementById("fixModal");
+    const proceedBtn = document.getElementById("proceedBtn");
+    const discardBtn = document.getElementById("discardBtn");
 
     fixBtn.addEventListener("click",()=>{
-    console.log("current Storage: ",storage);
     const checker = ["point_1","point_2","point_3","point_4","point_5"];
     const emptyPoints = [];
     
@@ -37,6 +38,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     });
+
+    proceedBtn.addEventListener("click",()=>{
+        console.log("proceed current Storage: ",storage);
+        fixModal.style.display = "none";
+    });
+
+    discardBtn.addEventListener("click",()=>{
+        console.log("discard current Storage: ",storage);
+        fixModal.style.display = "none";
+    });
+
 
 
 })
