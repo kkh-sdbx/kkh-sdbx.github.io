@@ -644,7 +644,7 @@
         }
         storage.setItem("status","fixed");
         fixModal.style.display = "none";
-        proceedBtn.dispatchEvent("actionFixed");
+        proceedBtn.dispatchEvent(sendInfoToServer);
         console.log("storage Data for mock Server : ", storage);
 
     });
