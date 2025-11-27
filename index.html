@@ -58,7 +58,7 @@
             background-color: red;
 
         }
-        
+       
         /* 색상 테스트용 div 스타일 */
         .color-test-area {
             display: flex;
@@ -316,13 +316,10 @@
 
     <script>
         // 데이터 정의
-        const point_1 = document.getElementById("point_1");
-        const point_2 = document.getElementById("point_2");
-        const point_3 = document.getElementById("point_3");
-        const point_4 = document.getElementById("point_4");
-        const point_5 = document.getElementById("point_5");
+
         const fixBtn = document.getElementById("fix");
         const points = document.querySelectorAll('.point');
+        const[point_1, point_2, point_3, point_4, point_5] = points;
         const tooltip = document.getElementById('global-tooltip');
         const tooltipTitle = document.getElementById('tooltip-title');
         const tooltipBody = document.getElementById('tooltip-body');
