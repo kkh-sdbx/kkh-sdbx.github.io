@@ -125,19 +125,6 @@ const users = new Map();
 
 /**
  * 사용자 클래스 정의
- */
-class User {
-    /**
-     * @param {number} id 사용자 고유 ID
-     * @param {Set<number>} friends 친구 ID 목록 (최대 5명)
-     * @param {Map<number, 'like' | 'hate'>} interactions 친구와의 상호작용 기록
-     */
-    constructor(id) {
-        this.id = id;
-        this.friends = new Set();
-        this.interactions = new Map();
-    }
-}
 
 /**
  * 더미 사용자 데이터 생성 및 초기화
