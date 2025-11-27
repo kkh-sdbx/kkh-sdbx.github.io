@@ -214,7 +214,7 @@
     </style>
 </head>
 <body>
-    <div display = "flex">
+    <div id = "dummy" display = "flex" >
         <h1 class = "orange">color test</h1>
         <h1 class = "grey">color test</h1>
         <h1 class = "black">color test</h1>
@@ -330,8 +330,13 @@
         const KBtn = document.getElementById('KBtn');
 
         const storage = window.localStorage;
+        //임의의 유저네임을 집어넣음
+        storage.setItem("clientX","KH");
+        storage.setItem("status","not yet"); // not yet 또는 fixed
         
-        
+        const sendInfoToServer = new CustomEvent("actionFixed",{
+            bubbles: true, // Allows the event to bubble up the DOM
+            cancelable: false});
 
         const coords = {
             "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
@@ -616,18 +621,19 @@
     });
 
 
-    function sendActionToServer(result){
-
-    }
     proceedBtn.addEventListener("click",()=>{
         console.log("proceed current Storage: ",storage); 
         const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
         for(let i=1;i<6;i++){
 
             if(storage.getItem(`point_${i}`) != undefined){
+                
+
                 continue
             }else{
+                
                 storage.setItem(`point_${i}`,"Y");
+
                 points[i-1].parentElement.classList.remove("kicked");
                 points[i-1].nextElementSibling.classList.add("picked");
                 points[i-1].previousElementSibling.classList.remove("picked");
@@ -636,8 +642,9 @@
             }
 
         }
-
+        storage.setItem("status","fixed");
         fixModal.style.display = "none";
+        proceedBtn.dispatchEvent("actionFixed");
         console.log("storage Data for mock Server : ", storage);
 
     });
