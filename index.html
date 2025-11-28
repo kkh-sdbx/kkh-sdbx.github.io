@@ -287,6 +287,7 @@
         <h1 class = "black">color test</h1>
         <h1 class = "white">color test</h1>
         <button id = "setDummyActions">setDummyActions </button>
+        <button id = "startMatchMaking">startMatchMaking </button>
 
     </div>
 
@@ -332,7 +333,8 @@
 
         const storage = window.localStorage;
         //임의의 유저네임을 집어넣음
-        storage.setItem("clientX","KH");
+        storage.setItem("name","KH");
+        storage.setItem("id","KH_ID");
         storage.setItem("status","not yet"); // not yet 또는 fixed
         
         const sendInfoToServer = new CustomEvent("actionFixed",{

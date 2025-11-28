@@ -3,21 +3,35 @@ console.log(storage);
 
 const ALLUSERS = new Map();
 const setDummyActions = document.getElementById("setDummyActions");
+const startMatchMaking = document.getElementById("startMatchMaking");
+
 setDummyActions.addEventListener("click",()=>{
-    ALLUSERS.forEach(( userInfo, userName)=>{
-        setRandomActions(userInfo);
+    ALLUSERS.forEach(( userInfo, userName )=>{
+        if(userInfo.userType === "dummy"){
+            setRandomActions(userInfo);
+        }
+        
     });
     console.log("actions Set:", ALLUSERS);
-    //dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
-})
+    // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
+    // Kick의 갯수가 정해져 있다면서? 그건 어떻게 체크할거임? 클라이언트 변조 가능성이 있잖아.
+
+});
+
+startMatchMaking.addEventListener("click",()=>{
+    //1. 일단은, 모두 Y인 곳에서
+
+});
+
 
 
 class User{
-    constructor(userNum){
+    constructor(userNum, type){
         this.name = `user${userNum}`;
         this.kickTickets = 3;
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1","Y"],["point_2","Y"],["point_3","Y"],["point_4","Y"],["point_5","Y"]]);
+        this.userType = type;
     }
     YES(pointNum){
         this.actions.set(`point_${pointNum}`,"Y");        
@@ -38,7 +52,7 @@ document.addEventListener("actionFixed",(e)=>{
     console.log(e);
     const activePoints = 5;
     let userNo= ALLUSERS.size;
-    let newbie = new User(userNo);
+    let newbie = new User(userNo, "player");
     newbie.setId(e.detail.clientX);
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
         newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
@@ -49,7 +63,7 @@ document.addEventListener("actionFixed",(e)=>{
 
 function pushDummyUsers(dummies){
     for(let i=1;i<dummies+1;i++){
-        let dummy = new User(i); // 1,3,5,7,9...가 되는데 왜지?
+        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
         let dummyId = `dummy${i}`;
         dummy.setId(dummyId);
         ALLUSERS.set(`dummy${i}`, dummy);    
@@ -62,7 +76,6 @@ function setRandomActions(dummyUser){
     const actionPool = ["YES","NO","KICK"];
     let todo = actionPool[Math.floor(Math.random()*3)];
     for(let i=1; i<6; i++){
-        console.log("dummyUser:",dummyUser,"todo: ",todo);
         dummyUser[todo](i);
         todo = actionPool[Math.floor(Math.random()*3)];
     }    
