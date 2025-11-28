@@ -35,6 +35,16 @@ document.addEventListener("actionFixed",(e)=>{
     console.log(ALLUSERS);
 });
 
+function pushDummyUsers(dummies){
+    for(let i=1;i<dummies+1;i++){
+        let dummy = new User(ALLUSERS.size + i);
+        let dummyId = `dummy${i}`;
+        dummy.setId(dummyId);
+        ALLUSERS.set(`dummy${i}`, dummy);    
+    }
+}
+pushDummyUsers(20);
+
 
 function getUserInfo(){
 
