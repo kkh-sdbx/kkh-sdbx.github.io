@@ -625,7 +625,10 @@
     proceedBtn.addEventListener("click",()=>{
         console.log("proceed current Storage: ",storage); 
         const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
-        for(let i=1;i<6;i++){
+        if(storage.getItem("status") === "fixed"){
+            console.log("You already had your chance !")
+        }else{
+            for(let i=1;i<6;i++){
 
             if(storage.getItem(`point_${i}`) != undefined){
                 
@@ -647,6 +650,9 @@
         fixModal.style.display = "none";
         proceedBtn.dispatchEvent(sendInfoToServer);
         console.log("storage Data for mock Server : ", storage);
+
+        }
+        
 
     });
 
