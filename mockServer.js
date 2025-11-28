@@ -26,12 +26,9 @@ class User{
 
 }
 
-const dummy = document.getElementById("dummy");
-
-dummy.addEventListener("actionFixed",(e)=>{
-    console.log(dummy);
+document.addEventListener("actionFixed",(e)=>{
     console.log(e);
-})
+});
 function getUserInfo(){
 
 }
