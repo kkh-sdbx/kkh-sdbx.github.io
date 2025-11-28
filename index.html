@@ -625,7 +625,6 @@
 
 
     proceedBtn.addEventListener("click",()=>{
-        console.log("proceed current Storage: ",storage); 
         const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
         if(storage.getItem("status") === "fixed"){
             console.log("You already had your chance !");
@@ -653,7 +652,6 @@
         storage.setItem("status","fixed");
         fixModal.style.display = "none";
         proceedBtn.dispatchEvent(sendInfoToServer);
-        console.log("storage Data for mock Server : ", storage);
 
         }
         
@@ -661,8 +659,6 @@
     });
 
     discardBtn.addEventListener("click",()=>{
-        console.log("discard current Storage: ",storage); 
-
         fixModal.style.display = "none";
     });
 
