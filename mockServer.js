@@ -31,7 +31,7 @@ document.addEventListener("actionFixed",(e)=>{
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo);
     newbie.setId(e.detail.clientX);
-    ALLUSERS.set(users,newbie);
+    ALLUSERS.set(userNo, newbie);
     console.log(ALLUSERS);
 });
 
@@ -136,7 +136,7 @@ console.log(startingUserPool);
  */
 
 // 사용자 데이터를 저장할 전역 저장소 (데이터베이스 역할)
-const users = new Map();
+
 
 /**
  * 사용자 클래스 정의
