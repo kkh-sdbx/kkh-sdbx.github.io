@@ -28,9 +28,13 @@ class User{
 
 document.addEventListener("actionFixed",(e)=>{
     console.log(e);
+    const activePoints = 5;
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo);
     newbie.setId(e.detail.clientX);
+    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
+        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
+    }
     ALLUSERS.set(userNo, newbie);
     console.log(ALLUSERS);
 });
