@@ -2,6 +2,13 @@ console.log("mock server");
 console.log(storage);
 
 const ALLUSERS = new Map();
+const setDummyActions = document.getElementById("setDummyActions");
+setDummyActions.addEventListener("click",()=>{
+    ALLUSERS.forEach((userName, userInfo)=>{
+        setRandomActions(userInfo);
+    });
+    console.log("actions Set:", ALLUSERS);
+})
 
 
 class User{
@@ -12,13 +19,13 @@ class User{
         this.actions = new Map([["point_1","Y"],["point_2","Y"],["point_3","Y"],["point_4","Y"],["point_5","Y"]]);
     }
     YES(pointNum){
-        this.actions.set(`point${pointNum}`,"Y");        
+        this.actions.set(`point_${pointNum}`,"Y");        
     }
     NO(pointNum){
-        this.actions.set(`point${pointNum}`,"N");
+        this.actions.set(`point_${pointNum}`,"N");
     }
     KICK(pointNum){
-        this.actions.set(`point${pointNum}`,"K");
+        this.actions.set(`point_${pointNum}`,"K");
     }
     setId(userId){
         this.id = userId;
@@ -48,6 +55,19 @@ function pushDummyUsers(dummies){
     }
 }
 pushDummyUsers(20);
+
+function setRandomActions(dummyUser){
+    // User.YES NO KICK 3개의 메소드가 있다.
+    const actionPool = ["YES","NO","KICK"];
+
+    for(let i=0; i<6; i++){
+        let todo = actionPool[Math.floor(Math.random()*3)];
+        dummyUser[todo];
+    }    
+
+}
+
+
 
 
 
