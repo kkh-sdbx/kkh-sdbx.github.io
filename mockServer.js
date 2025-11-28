@@ -28,6 +28,7 @@ class User{
 
 document.addEventListener("actionFixed",(e)=>{
     console.log(e);
+    let newName = `user${e.}`;
 });
 function getUserInfo(){
 
