@@ -4,7 +4,7 @@ console.log(storage);
 const ALLUSERS = new Map();
 const setDummyActions = document.getElementById("setDummyActions");
 setDummyActions.addEventListener("click",()=>{
-    ALLUSERS.forEach((userName, userInfo)=>{
+    ALLUSERS.forEach(( userInfo, userName)=>{
         setRandomActions(userInfo);
     });
     console.log("actions Set:", ALLUSERS);
@@ -61,7 +61,7 @@ function setRandomActions(dummyUser){
     // User.YES NO KICK 3개의 메소드가 있다.
     const actionPool = ["YES","NO","KICK"];
     let todo = actionPool[Math.floor(Math.random()*3)];
-    for(let i=0; i<6; i++){
+    for(let i=1; i<6; i++){
         dummyUser[todo](i);
         todo = actionPool[Math.floor(Math.random()*3)];
     }    
