@@ -8,8 +8,8 @@ class User{
     constructor(userNum){
         this.name = `user${userNum}`;
         this.kickTickets = 3;
-        this.points = new Map([["point1",null],["point2",null],["point3",null],["point4",null],["point5",null]]);
-        this.actions = new Map([["point1","Y"],["point2","Y"],["point3","Y"],["point4","Y"],["point5","Y"]]);
+        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+        this.actions = new Map([["point_1","Y"],["point_2","Y"],["point_3","Y"],["point_4","Y"],["point_5","Y"]]);
     }
     YES(pointNum){
         this.actions.set(`point${pointNum}`,"Y");        
