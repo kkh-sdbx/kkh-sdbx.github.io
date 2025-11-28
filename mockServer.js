@@ -62,6 +62,7 @@ function setRandomActions(dummyUser){
     const actionPool = ["YES","NO","KICK"];
     let todo = actionPool[Math.floor(Math.random()*3)];
     for(let i=1; i<6; i++){
+        console.log("dummyUser:",dummyUser,"todo: ",todo);
         dummyUser[todo](i);
         todo = actionPool[Math.floor(Math.random()*3)];
     }    
