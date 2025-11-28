@@ -41,7 +41,7 @@ document.addEventListener("actionFixed",(e)=>{
 
 function pushDummyUsers(dummies){
     for(let i=1;i<dummies+1;i++){
-        let dummy = new User(ALLUSERS.size + i);
+        let dummy = new User(i); // 1,3,5,7,9...가 되는데 왜지?
         let dummyId = `dummy${i}`;
         dummy.setId(dummyId);
         ALLUSERS.set(`dummy${i}`, dummy);    
