@@ -8,6 +8,7 @@ setDummyActions.addEventListener("click",()=>{
         setRandomActions(userInfo);
     });
     console.log("actions Set:", ALLUSERS);
+    //dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
 })
 
 
@@ -59,10 +60,10 @@ pushDummyUsers(20);
 function setRandomActions(dummyUser){
     // User.YES NO KICK 3개의 메소드가 있다.
     const actionPool = ["YES","NO","KICK"];
-
+    let todo = actionPool[Math.floor(Math.random()*3)];
     for(let i=0; i<6; i++){
-        let todo = actionPool[Math.floor(Math.random()*3)];
-        dummyUser[todo];
+        dummyUser[todo](i);
+        todo = actionPool[Math.floor(Math.random()*3)];
     }    
 
 }
