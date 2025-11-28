@@ -30,10 +30,12 @@ document.addEventListener("actionFixed",(e)=>{
     console.log(e);
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo);
-    newbie.setId(e.target.detail.clientX);
+    newbie.setId(e.detail.clientX);
     ALLUSERS.set(users,newbie);
     console.log(ALLUSERS);
 });
+
+
 function getUserInfo(){
 
 }
