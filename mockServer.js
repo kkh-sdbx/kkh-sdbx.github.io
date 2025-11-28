@@ -1,7 +1,7 @@
 console.log("mock server");
 console.log(storage);
 
-const ALLUSERS = {};
+const ALLUSERS = new Map();
 
 
 class User{
@@ -20,7 +20,7 @@ class User{
     KICK(pointNum){
         this.actions.set(`point${pointNum}`,"K");
     }
-    setID(userId){
+    setId(userId){
         this.id = userId;
     }
 
@@ -28,7 +28,11 @@ class User{
 
 document.addEventListener("actionFixed",(e)=>{
     console.log(e);
-    let newName = `user${e.}`;
+    let userNo= ALLUSERS.size;
+    let newbie = new User(userNo);
+    newbie.setId(e.target.detail.clientX);
+    ALLUSERS.set(users,newbie);
+    console.log(ALLUSERS);
 });
 function getUserInfo(){
 
