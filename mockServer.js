@@ -61,13 +61,24 @@ function matchMaking(userPool){
     // 2. array.forEach(=> i=0부터 array[i][j]와  array[i+1][j], array[i+2][j]..로 빈 칸을 찾아나가고, 슬롯 하나씩 이어 나감)
     console.log("Phase2 starts - matchMakingPool: ", matchMakingPool);
 
-    // 2-1. 랜덤 셔플
-    let currentIndex = matchOrder.length;
+    // 2-1. 랜덤 셔플 - 한 번 제대로 이해할 필요가 있다! 한 단계씩 연필로 써 보든가 하자.
+    let currentIndex = matchOrder.length -1;
     let randomIndex;
+    for( let i= currentIndex; i>0; i--){
+        randomIndex = Math.floor(Math.random()*(i+1));
+
+        [matchOrder[i],matchOrder[randomIndex]]=[matchOrder[randomIndex],matchOrder[i]];
+    }
+    console.log("matchOrder : ", matchOrder);
+
+    // 3. matchMakingPool, matchOrder가 됐으니, matchMakingPool[matchOrder[0]] && matchMakingPool[matchOrder[1]]
     
+    for(let s=0; s<matchOrder.length;s++){
+        let aIndex = matchOrder[s];
+        let bIndex = matchOrder[s+1];
 
 
-    // 3. 
+    }
 
 
     // 일단 빈 칸들 확인
