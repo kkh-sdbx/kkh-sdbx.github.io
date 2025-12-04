@@ -20,10 +20,17 @@ setDummyActions.addEventListener("click",()=>{
 
 startMatchMaking.addEventListener("click",()=>{
     //1. 일단은, 모두 Y인 곳에서
+    matchMaking(ALLUSERS);
 
 });
 
 
+function matchMaking(userPool){
+    console.log("matchMaking started, Pool is ALL USERS :  ",userPool);
+
+
+
+}
 
 class User{
     constructor(userNum, type){
@@ -49,6 +56,8 @@ class User{
 }
 
 document.addEventListener("actionFixed",(e)=>{
+
+    // add New User(client)
     console.log(e);
     const activePoints = 5;
     let userNo= ALLUSERS.size;
@@ -59,6 +68,9 @@ document.addEventListener("actionFixed",(e)=>{
     }
     ALLUSERS.set(userNo, newbie);
     console.log(ALLUSERS);
+
+    //matchMaking
+    matchMaking(ALLUSERS);
 });
 
 function pushDummyUsers(dummies){
@@ -87,9 +99,6 @@ function setRandomActions(dummyUser){
 
 
 
-function getUserInfo(){
-
-}
 
 // # Proceed, Discard 시의 행동과
 // ## 
