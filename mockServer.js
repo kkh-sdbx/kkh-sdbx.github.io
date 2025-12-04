@@ -26,7 +26,39 @@ startMatchMaking.addEventListener("click",()=>{
 
 
 function matchMaking(userPool){
-    console.log("matchMaking started, Pool is ALL USERS :  ",userPool);
+    console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
+    const matchMakingPool = [];
+
+    // 1. playerId - emptySlots 형태의 object 구조로 array 배열
+
+    for(const userInfo of userPool){
+        // user === ["dummy1", User]
+        let result = {"name":userInfo[0],"emptySlots":[]}; // "dummy1"
+        let currentPointStatus = userInfo[1].points //Map 형태로 저장된 point_1 ~ point_5
+        for(const point of currentPointStatus){
+            if (point[1]){
+                continue
+            }else{
+                result.emptySlots.push(point[0]);
+
+            }
+
+        }
+        console.log(result);  
+        matchMakingPool.push(result);
+
+    }
+
+
+    // 2. array.forEach(=> i=0부터 array[i][j]와  array[i+1][j], array[i+2][j]..로 빈 칸을 찾아나가고, 슬롯 하나씩 이어 나감)
+    console.log("Phase2 starts - matchMakingPool: ", matchMakingPool);
+
+
+    // 3. 
+
+
+    // 일단 빈 칸들 확인
+
 
 
 
