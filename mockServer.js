@@ -74,8 +74,45 @@ function matchMaking(userPool){
     // 3. matchMakingPool, matchOrder가 됐으니, matchMakingPool[matchOrder[0]] && matchMakingPool[matchOrder[1]]
     
     for(let s=0; s<matchOrder.length;s++){
-        let aIndex = matchOrder[s];
-        let bIndex = matchOrder[s+1];
+        let startIndex = matchOrder[s];
+        // matchMakingPool[startIndex] === {name: 'dummy1', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
+        let startUser = matchMakingPool[startIndex]
+        let startEmptySlots = startUser.emptySlots; // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
+        //# startUser의 length가 0인 경우 체크 필요.
+
+        let endPoints = [];
+
+        for(let t=1; t < startEmptySlots.length+1;t++){
+            let nextUser = matchMakingPool[matchOrder[s+t]]; // {name: 'dummy2', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
+            let nextSlots = nextUser.emptySlots // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
+
+            if(nextSlots.length > 0){
+                let toFill = nextSlots[Math.floor(Math.random()*nextSlots.length)]; // 'point_3'
+
+
+
+
+
+            }else{
+                continue
+            }
+            
+            endPoints.push()
+        }
+        // #남은 emptyPoint를 다 밀어넣어도 startEmptySlots.length보다 작은 경우 예외처리.
+        
+
+
+        // 이 두 array를 섞을 필요가 있는가? => 엄밀히 말하면 그렇지.
+        // 그런데 그건 너무 복잡해질 것 같은데.
+
+        // 어? 포인트 하나에는 유저 하나잖아.
+        // startIndex의 빈칸 개수만큼 start+1,start+2...start+empty 를 하고 각 빈칸에 startEmptySlots의 빈칸을 하나씩 밀어넣어야 해.
+
+        // 
+        
+        
+
 
 
     }
