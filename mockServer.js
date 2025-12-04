@@ -84,11 +84,18 @@ function matchMaking(userPool){
 
         for(let t=1; t < startEmptySlots.length+1;t++){
             let nextUser = matchMakingPool[matchOrder[s+t]]; // {name: 'dummy2', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
+            //#### 이때 name이 아니라 고유값, ID여야 한다. 이거 되게 헷갈리네.
             let nextSlots = nextUser.emptySlots // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
 
             if(nextSlots.length > 0){
                 let toFill = nextSlots[Math.floor(Math.random()*nextSlots.length)]; // 'point_3'
+                // #length로 핸들링을 할 거면, slice를 쳐서 하나를 제거하고 
+                // 원본 User의 데이터를 수정해줘야 한다.
 
+                let nextUserData = ALLUSERS.get(nextUser.name).points; //new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+
+                nextUserData.set();
+                // ALLUSERS.get(nextUser.name).points.set("point_5","nextUserName"); 이런 식으로 수정 하는게 맞다. 지금은 머리아프니 나중에 코드 짜넣자.
 
 
 
@@ -174,7 +181,7 @@ function pushDummyUsers(dummies){
         ALLUSERS.set(`dummy${i}`, dummy);    
     }
 }
-pushDummyUsers(20);
+pushDummyUsers(21);
 
 function setRandomActions(dummyUser){
     // User.YES NO KICK 3개의 메소드가 있다.
