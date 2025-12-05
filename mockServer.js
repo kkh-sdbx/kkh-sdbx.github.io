@@ -90,10 +90,6 @@ function matchMaking(userPool){
                 start.emptySlots.shift();
                 end.emptySlots.pop()
 
-                
-                
-                console.log("start:",userPool.get(start.name).points);
-                console.log("end:",userPool.get(end.name).points);
 
             }
 
@@ -102,15 +98,19 @@ function matchMaking(userPool){
 
         }else{ // 중단조건, startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면
             console.log(`not enough slots! m:${m} `);
+
+            // 매치메이킹 알고리즘 완료. 마지막 ALLUSERS.size - m 개의 빈칸은 매칭이 불가한 부분 확인 피룡.
             break
         }
 
     }
     console.log(userPool);
 
-    // ## 수정권고사항 : shift(첫 요소 제거), pop(마지막 요소 제거) 를 이용해 시간복잡도 줄이기.
+    
 
 }
+
+// a
 
 class User{
     constructor(userNum, type){
