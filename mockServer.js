@@ -71,7 +71,8 @@ function matchMaking(userPool){
         let start = matchMakingPool[m];
         let startEmptySlots = start.emptySlots.filter(slot =>{return slot != null} );
         console.log("startEmptySlots: ",startEmptySlots);
-
+        console.log(`matchMakingPool.length: ${matchMakingPool.length}, (matchMakingPool.length - m - 1):${(matchMakingPool.length - m - 1)}`);
+        
         if(startEmptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
             // '채워진' 칸을 emptySlots에서 표시하고, 
 
