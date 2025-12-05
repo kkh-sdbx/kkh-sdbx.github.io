@@ -75,8 +75,10 @@ function matchMaking(userPool){
     
     for(let s=0; s<matchOrder.length;s++){
         let startIndex = matchOrder[s];
+        console.log("startIndex : ", startIndex);
         // matchMakingPool[startIndex] === {name: 'dummy1', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
         let startUser = matchMakingPool[startIndex]
+        console.log("startUser : ", startUser);
         let startEmptySlots = startUser.emptySlots; // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
         //# startUser의 length가 0인 경우 체크 필요.
 
@@ -85,6 +87,7 @@ function matchMaking(userPool){
         for(let t=1; t < startEmptySlots.length+1;t++){
             let nextUser = matchMakingPool[matchOrder[s+t]]; // {name: 'dummy2', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
             //#### 이때 name이 아니라 고유값, ID여야 한다. 이거 되게 헷갈리네.
+            console.log("nextUser: ",nextUser);
             let nextSlots = nextUser.emptySlots // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
 
             if(nextSlots.length > 0){
