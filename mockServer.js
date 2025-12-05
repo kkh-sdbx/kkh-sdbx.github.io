@@ -72,7 +72,7 @@ function matchMaking(userPool){
         let startEmptySlots = start.emptySlots.filter(slot =>{return slot != null} );
         console.log("startEmptySlots: ",startEmptySlots);
         console.log(`matchMakingPool.length: ${matchMakingPool.length}, (matchMakingPool.length - m - 1):${(matchMakingPool.length - m - 1)}`);
-        
+
         if(startEmptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
             // '채워진' 칸을 emptySlots에서 표시하고, 
 
@@ -91,6 +91,8 @@ function matchMaking(userPool){
                 }
 
                 console.log(`startPoint: ${startEmptySlots[m]}, endPoint: ${end.emptySlots[endIndex]}`);
+                //startPoint === null이지 않은 최초의 element => array.find() 메소드를 쓰면 된다. (or findIndex())
+
             }
 
             // 3-2.ALLUSERS 데이터를 수정해 줘야 한다.
