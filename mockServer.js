@@ -97,17 +97,15 @@ function matchMaking(userPool){
 
                 //매치메이킹 데이터에서 null로 수정
                 matchMakingPool[m].emptySlots[startIndex] = null; 
-                userPool.get(start.name).point.set(startPoint, end.name);
-                
+
                 // ALLUSERS start point 수정 => end.name
+                userPool.get(start.name).points.set(startPoint, end.name);
+
                 // ALLUSERS end point 수정 => start.name
-
-
-                // 3-2-3. matchMaking 수정
-
-
-                console.log(`startPoint: ${startEmptySlots[m]}, endPoint: ${}`);
-                //startPoint === null이지 않은 최초의 element => array.find() 메소드를 쓰면 된다. (or findIndex())
+                userPool.get(end.name).points.set(endPoint, start.name);
+                
+                console.log("start:",userPool.get(start.name).points);
+                console.log("end:",userPool.get(end.name).points);
 
             }
 
