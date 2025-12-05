@@ -50,6 +50,7 @@ function matchMaking(userPool){
 
     }
 
+    //2. random array Shuffle.
  
     let currentIndex = matchMakingPool.length -1;
     let randomIndex;
@@ -58,18 +59,13 @@ function matchMaking(userPool){
         console.log(`i:${i}, randomIndex:${randomIndex}`);
         [ matchMakingPool[i], matchMakingPool[randomIndex] ] = [ matchMakingPool[randomIndex], matchMakingPool[i] ];
     }
-    console.log("matchMakingPool : ", matchMakingPool);
+    console.log("Phase 2 completed - matchMakingPool : ", matchMakingPool);
     
 
+    // ##3. matchMakingPool, matchOrder가 됐으니, matchMakingPool[matchOrder[0]] && matchMakingPool[matchOrder[1]]
 
-
-
-    // 2. array.forEach(=> i=0부터 array[i][j]와  array[i+1][j], array[i+2][j]..로 빈 칸을 찾아나가고, 슬롯 하나씩 이어 나감)
-    console.log("Phase2 starts - matchMakingPool: ", matchMakingPool);
-
-
-
-    // 3. matchMakingPool, matchOrder가 됐으니, matchMakingPool[matchOrder[0]] && matchMakingPool[matchOrder[1]]
+    // 중단 조건 === startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면. 비둘기집 원리. 3칸 남았을 때 유저가 4명이면 무조건 가능. 3명이면 불가능할 경우 있음.
+    // matchMaking Pool에는 빈칸들만 들고 오기 때문에, 유효한 접근이라 판단함.
     
     for(let s=0; s<matchOrder.length;s++){
         let startIndex = matchOrder[s];
