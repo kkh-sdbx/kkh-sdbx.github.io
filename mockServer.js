@@ -118,11 +118,7 @@ function matchMaking(userPool){
         }
 
     }
-
-
-    // 일단 빈 칸들 확인
-
-
+    console.log(userPool);
 
 
 }
