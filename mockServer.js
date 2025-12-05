@@ -51,12 +51,12 @@ function matchMaking(userPool){
     }
 
  
-    let currentIndex = matchMakingPool.size -1;
+    let currentIndex = matchMakingPool.length -1;
     let randomIndex;
     for( let i= currentIndex; i>0; i--){
         randomIndex = Math.floor(Math.random()*(i+1));
 
-        [matchMakingPool[i],matchMakingPool[randomIndex]]=[matchMakingPool[randomIndex],matchMakingPool[i]];
+        [ matchMakingPool[i], matchMakingPool[randomIndex] ] = [ matchMakingPool[randomIndex], matchMakingPool[i] ];
     }
     console.log("matchMakingPool : ", matchMakingPool);
     
