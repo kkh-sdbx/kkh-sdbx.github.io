@@ -72,8 +72,8 @@ function matchMaking(userPool){
         let startEmptySlots = start.emptySlots.filter(slot =>{return slot != null} );
         console.log("startEmptySlots: ",startEmptySlots);
 
-        if(startEmptySlots.length > (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
-            // '채워진' 칸을 emptySlots에서 표시하고, ALLUSERS 데이터를 수정해 줘야 한다.
+        if(startEmptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
+            // '채워진' 칸을 emptySlots에서 표시하고, 
 
             // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
             for(let n=1; n <startEmptySlots.length+1 ; n++){
@@ -92,6 +92,7 @@ function matchMaking(userPool){
                 console.log(`startPoint: ${startEmptySlots[m]}, endPoint: ${end.emptySlots[endIndex]}`);
             }
 
+            // 3-2.ALLUSERS 데이터를 수정해 줘야 한다.
 
 
         }else{ // 중단조건, startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면
