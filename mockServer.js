@@ -68,13 +68,11 @@ function matchMaking(userPool){
     // {15} 16 17 18 19 20 length ===20, index = m = 14  length-m = 6.
     
     for (let m = 0; m < matchMakingPool.length; m++){
-        let start = matchMakingPool[m];
-        let startEmptySlots = start.emptySlots.filter(slot =>{return slot != null} );
-        console.log("startEmptySlots: ",startEmptySlots);
-        console.log(`matchMakingPool.length: ${matchMakingPool.length}, (matchMakingPool.length - m - 1):${(matchMakingPool.length - m - 1)}`);
+
+        let start = matchMakingPool[m]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
+        let startIndex = start.emptySlots.findIndex(pt =>{return pt != null} ); // 0
 
         if(startEmptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
-            // '채워진' 칸을 emptySlots에서 표시하고, 
 
             // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
             for(let n=1; n <startEmptySlots.length+1 ; n++){
@@ -89,8 +87,26 @@ function matchMaking(userPool){
                         endIndex -= 1;
                     }
                 }
+                let startPoint = start[startIndex]; //"point_1"
+                let endPoint = end.emptySlots[endIndex]; //"point_5"
 
-                console.log(`startPoint: ${startEmptySlots[m]}, endPoint: ${end.emptySlots[endIndex]}`);
+
+                // 3-2. matchMakingPool과 ALLUSERS 데이터 수정.
+
+                // 3-2-1. ALLUSERS 수정
+
+                //매치메이킹 데이터에서 null로 수정
+                matchMakingPool[m].emptySlots[startIndex] = null; 
+                userPool.get(start.name).point.set(startPoint, end.name);
+                
+                // ALLUSERS start point 수정 => end.name
+                // ALLUSERS end point 수정 => start.name
+
+
+                // 3-2-3. matchMaking 수정
+
+
+                console.log(`startPoint: ${startEmptySlots[m]}, endPoint: ${}`);
                 //startPoint === null이지 않은 최초의 element => array.find() 메소드를 쓰면 된다. (or findIndex())
 
             }
