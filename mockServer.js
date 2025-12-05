@@ -69,7 +69,7 @@ function matchMaking(userPool){
     
     for (let m = 0; m < matchMakingPool.length; m++){
         let start = matchMakingPool[m];
-        let startEmptySlots = start.emptySlots.filter(slot => {return slot != null});
+        let startEmptySlots = start.emptySlots.filter(slot =>{return slot != null} );
         console.log("startEmptySlots: ",startEmptySlots);
 
         if(startEmptySlots.length > (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
