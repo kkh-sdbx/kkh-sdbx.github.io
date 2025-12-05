@@ -55,7 +55,7 @@ function matchMaking(userPool){
     let randomIndex;
     for( let i= currentIndex; i>0; i--){
         randomIndex = Math.floor(Math.random()*(i+1));
-
+        console.log(`i:${i}, randomIndex:${randomIndex}`);
         [ matchMakingPool[i], matchMakingPool[randomIndex] ] = [ matchMakingPool[randomIndex], matchMakingPool[i] ];
     }
     console.log("matchMakingPool : ", matchMakingPool);
