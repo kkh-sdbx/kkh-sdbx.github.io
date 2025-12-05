@@ -64,60 +64,40 @@ function matchMaking(userPool){
 
     // ##3. matchMakingPool, matchOrder가 됐으니, matchMakingPool[matchOrder[0]] && matchMakingPool[matchOrder[1]]
 
-    // 중단 조건 === startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면. 비둘기집 원리. 3칸 남았을 때 유저가 4명이면 무조건 가능. 3명이면 불가능할 경우 있음.
     // matchMaking Pool에는 빈칸들만 들고 오기 때문에, 유효한 접근이라 판단함.
+    // {15} 16 17 18 19 20 length ===20, index = m = 14  length-m = 6.
     
-    for(let s=0; s<matchOrder.length;s++){
-        let startIndex = matchOrder[s];
-        console.log("startIndex : ", startIndex);
-        // matchMakingPool[startIndex] === {name: 'dummy1', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
-        let startUser = matchMakingPool[startIndex]
-        console.log("startUser : ", startUser);
-        let startEmptySlots = startUser.emptySlots; // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
-        //# startUser의 length가 0인 경우 체크 필요.
+    for (let m = 0; m < matchMakingPool.length; m++){
+        let start = matchMakingPool[m];
+        let startEmptySlots = start.emptySlots.filter(slot => return slot != null);
+        console.log("startEmptySlots: ",startEmptySlots);
 
-        let endPoints = [];
+        if(startEmptySlots.length > (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
+            // '채워진' 칸을 emptySlots에서 표시하고, ALLUSERS 데이터를 수정해 줘야 한다.
 
-        for(let t=1; t < startEmptySlots.length+1;t++){
-            let nextUser = matchMakingPool[matchOrder[s+t]]; // {name: 'dummy2', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']};
-            //#### 이때 name이 아니라 고유값, ID여야 한다. 이거 되게 헷갈리네.
-            console.log("nextUser: ",nextUser);
-            let nextSlots = nextUser.emptySlots // ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']
+            // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
+            for(let n=1; n <startEmptySlots.length+1 ; n++){
+                let end = matchMakingPool[m+n]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
 
-            if(nextSlots.length > 0){
-                let toFill = nextSlots[Math.floor(Math.random()*nextSlots.length)]; // 'point_3'
-                // #length로 핸들링을 할 거면, slice를 쳐서 하나를 제거하고 
-                // 원본 User의 데이터를 수정해줘야 한다.
+                //3-1-1. 마지막 포인트 찾기.
+                let endIndex = end.emptySlots.length - 1;
+                while(true){
+                    if(end.emptySlots[endIndex] != null){
+                        break
+                    }else{
+                        endIndex -= 1;
+                    }
+                }
 
-                let nextUserData = ALLUSERS.get(nextUser.name).points; //new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
-
-                nextUserData.set();
-                // ALLUSERS.get(nextUser.name).points.set("point_5","nextUserName"); 이런 식으로 수정 하는게 맞다. 지금은 머리아프니 나중에 코드 짜넣자.
-
-
-
-
-            }else{
-                continue
+                console.log(`startPoint: ${startEmptySlots[m]}, endPoint: ${end.emptySlots[endIndex]}`);
             }
-            
-            endPoints.push()
+
+
+
+        }else{ // 중단조건, startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면
+            console.log(`not enough slots! m:${m} `);
+            break
         }
-        // #남은 emptyPoint를 다 밀어넣어도 startEmptySlots.length보다 작은 경우 예외처리.
-        
-
-
-        // 이 두 array를 섞을 필요가 있는가? => 엄밀히 말하면 그렇지.
-        // 그런데 그건 너무 복잡해질 것 같은데.
-
-        // 어? 포인트 하나에는 유저 하나잖아.
-        // startIndex의 빈칸 개수만큼 start+1,start+2...start+empty 를 하고 각 빈칸에 startEmptySlots의 빈칸을 하나씩 밀어넣어야 해.
-
-        // 
-        
-        
-
-
 
     }
 
