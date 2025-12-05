@@ -72,10 +72,10 @@ function matchMaking(userPool){
         let start = matchMakingPool[m]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
         let startIndex = start.emptySlots.findIndex(pt =>{return pt != null} ); // 0
 
-        if(startEmptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
+        if(start.emptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
 
             // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
-            for(let n=1; n <startEmptySlots.length+1 ; n++){
+            for(let n=1; n <start.emptySlots.length+1 ; n++){
                 let end = matchMakingPool[m+n]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
 
                 //3-1-1. 마지막 포인트 찾기.
@@ -87,7 +87,7 @@ function matchMaking(userPool){
                         endIndex -= 1;
                     }
                 }
-                let startPoint = start[startIndex]; //"point_1"
+                let startPoint = start.emptySlots[startIndex]; //"point_1"
                 let endPoint = end.emptySlots[endIndex]; //"point_5"
 
 
