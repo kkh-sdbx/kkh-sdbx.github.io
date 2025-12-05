@@ -70,11 +70,12 @@ function matchMaking(userPool){
     for (let m = 0; m < matchMakingPool.length; m++){
 
         let start = matchMakingPool[m]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
-
+        const matchingTimes = start.emptySlots.length;
         if(start.emptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
 
             // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
-            for(let n=1; n <start.emptySlots.length+1 ; n++){
+            for(let n=1; n <matchingTimes+1 ; n++){
+                start = matchMakingPool[m]
                 let end = matchMakingPool[m+n]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
 
                 let startPoint = start.emptySlots[0]; //"point_1"
