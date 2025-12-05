@@ -34,8 +34,8 @@ function matchMaking(userPool){
 
     for(const userInfo of userPool){
         // user === ["dummy1", User]
-        let result = {"name":userInfo[0],"emptySlots":[]}; // "dummy1"
-        let currentPointStatus = userInfo[1].points //Map 형태로 저장된 point_1 ~ point_5
+        let result = {"name":userInfo[0],"emptySlots":[], "ref":userInfo[1].points}; // "dummy1"
+        let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
         for(const point of currentPointStatus){
             if (point[1]){
                 continue
@@ -70,7 +70,6 @@ function matchMaking(userPool){
     for (let m = 0; m < matchMakingPool.length; m++){
 
         let start = matchMakingPool[m]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
-        let startIndex = start.emptySlots.findIndex(pt =>{return pt != null} ); // 0
 
         if(start.emptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
 
@@ -78,31 +77,19 @@ function matchMaking(userPool){
             for(let n=1; n <start.emptySlots.length+1 ; n++){
                 let end = matchMakingPool[m+n]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
 
-                //3-1-1. 마지막 포인트 찾기.
-                let endIndex = end.emptySlots.length - 1;
-                while(true){
-                    if(end.emptySlots[endIndex] != null){
-                        break
-                    }else{
-                        endIndex -= 1;
-                    }
-                }
-                let startPoint = start.emptySlots[startIndex]; //"point_1"
-                let endPoint = end.emptySlots[endIndex]; //"point_5"
-
-
-                // 3-2. matchMakingPool과 ALLUSERS 데이터 수정.
-
-                // 3-2-1. ALLUSERS 수정
-
-                //매치메이킹 데이터에서 null로 수정
-                matchMakingPool[m].emptySlots[startIndex] = null; 
+                let startPoint = start.emptySlots[0]; //"point_1"
+                let endPoint = end.emptySlots[end.emptySlots.length-1]; //"point_5"
 
                 // ALLUSERS start point 수정 => end.name
-                userPool.get(start.name).points.set(startPoint, end.name);
+                start.ref.set(startPoint, end.name);
 
                 // ALLUSERS end point 수정 => start.name
-                userPool.get(end.name).points.set(endPoint, start.name);
+                end.ref.set(endPoint, start.name);
+
+                start.emptySlots.shift();
+                end.emptySlots.pop()
+
+                
                 
                 console.log("start:",userPool.get(start.name).points);
                 console.log("end:",userPool.get(end.name).points);
@@ -120,6 +107,7 @@ function matchMaking(userPool){
     }
     console.log(userPool);
 
+    // ## 수정권고사항 : shift(첫 요소 제거), pop(마지막 요소 제거) 를 이용해 시간복잡도 줄이기.
 
 }
 
