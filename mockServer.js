@@ -28,7 +28,7 @@ startMatchMaking.addEventListener("click",()=>{
 function matchMaking(userPool){
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
-    const matchOrder = [];
+    const leftUsers = [];
 
     // 1. playerId - emptySlots 형태의 object 구조로 array 배열.
 
@@ -62,8 +62,6 @@ function matchMaking(userPool){
     console.log("Phase 2 completed - matchMakingPool : ", matchMakingPool);
     
 
-    // ##3. matchMakingPool, matchOrder가 됐으니, matchMakingPool[matchOrder[0]] && matchMakingPool[matchOrder[1]]
-
     // matchMaking Pool에는 빈칸들만 들고 오기 때문에, 유효한 접근이라 판단함.
     // {15} 16 17 18 19 20 length ===20, index = m = 14  length-m = 6.
     
@@ -90,7 +88,6 @@ function matchMaking(userPool){
                 start.emptySlots.shift();
                 end.emptySlots.pop()
 
-
             }
 
             // 3-2.ALLUSERS 데이터를 수정해 줘야 한다.
@@ -100,12 +97,12 @@ function matchMaking(userPool){
             console.log(`not enough slots! m:${m} `);
 
             // 매치메이킹 알고리즘 완료. 마지막 ALLUSERS.size - m 개의 빈칸은 매칭이 불가한 부분 확인 피룡.
-            break
+            leftUsers.push(matchMakingPool[m])
         }
 
     }
     console.log(userPool);
-
+    
     
 
 }
