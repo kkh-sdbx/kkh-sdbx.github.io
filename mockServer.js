@@ -97,11 +97,12 @@ function matchMaking(userPool){
             console.log(`not enough slots! m:${m} `);
 
             // 매치메이킹 알고리즘 완료. 마지막 ALLUSERS.size - m 개의 빈칸은 매칭이 불가한 부분 확인 피룡.
-            leftUsers.push(matchMakingPool[m])
+            leftUsers.push(matchMakingPool[m]);
         }
 
     }
     console.log(userPool);
+    console.log(leftUsers);
     
     
 
