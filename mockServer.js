@@ -96,19 +96,28 @@ function matchMaking(userPool){
         }else{ // 중단조건, startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면
             console.log(`not enough slots! m:${m} `);
 
-            // 매치메이킹 알고리즘 완료. 마지막 ALLUSERS.size - m 개의 빈칸은 매칭이 불가한 부분 확인 피룡.
+            // 매치메이킹 알고리즘 완료. 마지막 ALLUSERS.size - m 개의 빈칸은 매칭이 불가한 부분 확인함.
             leftUsers.push(matchMakingPool[m]);
         }
 
     }
     console.log(userPool);
     console.log(leftUsers);
-    
-    
+    // Q. leftUsers의 빈칸을 메울 수 있는,  Bot의 개수 구하기?
+    // A1. 일단 => 채울 수 있는 칸은 전부 채운다.
+    // A 2-1. 남은 플레이어 수 만큼 봇을 만들면 가능은 하다. => 그런데, 봇을 꾸준히 만들어낼 예정인가?
+    // > 무한히 봇을 만들 수는 없어(왜?) =>
+    // !!!! 연결이 안 된 포인트가 있을 수도 있잖아. !!!!
+
+    // ### 클래식 모드는 봇을 만들어 준다. ###
+    // ### 친구들끼리 하는 소셜 모드나 싱글플레이는, '빈 칸'이 생긴다. ###> 킥의 리스크가 커질 수 있다.
+
+    // 남과의 비교를 안 할 수는 없다.
+    // 상방 비교, 하방 비교, 한다.
+    // A 2-1.
 
 }
 
-// a
 
 class User{
     constructor(userNum, type){
