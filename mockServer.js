@@ -102,7 +102,7 @@ function matchMaking(userPool){
 
     }
     console.log(userPool);
-    console.log(leftUsers);
+    console.log("leftUsers:",leftUsers);
     // Q. leftUsers의 빈칸을 메울 수 있는,  Bot의 개수 구하기?
     // A1. 일단 => 채울 수 있는 칸은 전부 채운다.
     // A 2-1. 남은 플레이어 수 만큼 봇을 만들면 가능은 하다. => 그런데, 봇을 꾸준히 만들어낼 예정인가?
