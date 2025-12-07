@@ -123,7 +123,7 @@ function matchMaking(userPool){
 }
 
 function fillLeftOvers(leftOver){ //leftOver === array of Map
-    console.log(leftOver, typeOf(leftOver));
+    console.log(leftOver, typeof(leftOver));
 
     // 1.  일단 남은 칸을 전부 채운다.
     // 1-1. [0]의 빈 칸을 채우고,   
