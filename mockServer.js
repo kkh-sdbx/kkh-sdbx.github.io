@@ -29,6 +29,7 @@ startMatchMaking.addEventListener("click",()=>{
 function matchMaking(userPool){
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
+    const leftUsers = [];
 
     // 1. playerId - emptySlots 형태의 object 구조로 array 배열.
 
@@ -102,7 +103,7 @@ function matchMaking(userPool){
 
     }
     console.log(userPool);
-    console.log("leftUsers:",leftUsers);
+    console.log(leftUsers);
     // Q. leftUsers의 빈칸을 메울 수 있는,  Bot의 개수 구하기?
     // A1. 일단 => 채울 수 있는 칸은 전부 채운다.
     // A 2-1. 남은 플레이어 수 만큼 봇을 만들면 가능은 하다. => 그런데, 봇을 꾸준히 만들어낼 예정인가?
@@ -115,6 +116,22 @@ function matchMaking(userPool){
     // 남과의 비교를 안 할 수는 없다.
     // 상방 비교, 하방 비교, 한다.
     // A 2-1.
+
+    fillLeftOvers(leftUsers);
+
+
+}
+
+function fillLeftOvers(leftOver){ //leftOver === array of Map
+    console.log(leftOver, typeOf(leftOver));
+
+    // 1.  일단 남은 칸을 전부 채운다.
+    // 1-1. [0]의 빈 칸을 채우고,   
+    
+    
+    // 1-2. [legnth -2]까지 채워는 본다.
+    // 
+    // 필요한 봇은 최대 1개.
 
 }
 
