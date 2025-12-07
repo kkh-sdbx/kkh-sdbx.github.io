@@ -124,10 +124,11 @@ function matchMaking(userPool){
 
 function fillLeftOvers(leftOver){ //leftOver === array of Map
     console.log(leftOver, typeof(leftOver));
-
+    
     // 1.  일단 남은 칸을 전부 채운다.
     // 1-1. [0]의 빈 칸을 채우고,   
-    
+    // 1-1-1.  이 함수가 발동되는 조건이, matchMakingPool의 m번째 원소의 남은 빈칸보다 남은 원소의 수가 적을 때임.
+    //### m번째(leftOver[0])의 빈 칸을 채우고, leftOver[leftOver.length-1]까지 일단 순회는 한다.    
     
     // 1-2. [legnth -2]까지 채워는 본다.
     // 
