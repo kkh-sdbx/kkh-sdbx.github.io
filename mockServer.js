@@ -136,6 +136,7 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
     // 하단에 로직을 작성해 뒀으니 사용하면 된다.
 
 /**
+  * // 메모장에 작성한 fillLeftOvers함수의 로직. 추후 수정 및 테스트 필요
  * for(let i=0;i<leftUsers.length-1;i++){
     console.log(leftUsers[i]);
     for(let j=1;j<leftUsers.length-i;j++){
