@@ -133,6 +133,32 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
     // 1-2. [legnth -2]까지 채워는 본다.
     // 
     // 필요한 봇은 최대 1개.
+    // 하단에 로직을 작성해 뒀으니 사용하면 된다.
+
+/**
+ * for(let i=0;i<leftUsers.length-1;i++){
+    console.log(leftUsers[i]);
+    for(let j=1;j<leftUsers.length-i;j++){
+        console.log(i+j);
+        let nextLastPoint = leftUsers[i+j].emptySlots[leftUsers[i+j].emptySlots.length-1]; //"point5";
+        if(nextLastPoint){
+            leftUsers[i].ref.set(leftUsers[i].emptySlots[0], leftUsers[i+j].name);
+            leftUsers[i+j].ref.set(nextLastPoint, leftUsers[i].name);
+            console.log(leftUsers[i].emptySlots[0], leftUsers[i+j].name, nextLastPoint, leftUsers[i].name)
+            leftUsers[i].emptySlots.shift();
+            leftUsers[i+j].emptySlots.pop();
+        }
+            
+    }
+    
+}
+console.log(leftUsers);
+
+
+ */
+
+// 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
+// 최소한의 봇만 생각해도 8명임.
 
 }
 
