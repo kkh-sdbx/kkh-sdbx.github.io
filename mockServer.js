@@ -29,7 +29,7 @@ startMatchMaking.addEventListener("click",()=>{
 function matchMaking(userPool){
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
-    const leftUsers = [];
+    //const leftUsers = [];
 
     // 1. playerId - emptySlots 형태의 object 구조로 array 배열.
 
