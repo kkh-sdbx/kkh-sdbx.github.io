@@ -123,7 +123,7 @@ function matchMaking(userPool){
 
     fillLeftOvers(leftUsers);
     userPool.forEach((userInfo, userName)=>{
-        userInfo.setReverseMap(userInfo.points);
+        userInfo.setReverseMap(userInfo.points); //# 친구가 없는 빈 칸(null)일 경우에 제대로 작동하지 않는다.
     })
 
 
