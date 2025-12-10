@@ -272,13 +272,15 @@ function NYK_showDown(userPool){
         for(let i=1; i<6;i++){
             let currentFriend = userInfo.points.get(`point_${i}`);
             let currentAction = userInfo.actions.get(`point_${i}`);
-            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction); // "dummy17", "Y"
             
             //'현재 유저'의 이름이 짝지어진 '친구 유저'의 points중 어디에 있는지 찾아야 하는데...
-            // reverse Map을 만들어 찾아야 한단다. 일단 정지.
-            //let friendsAction = userPool.get(currentFriend).actions.get;
+            // reverse Map을 만들어 찾아야 한단다. 일단 정지. => 만들었다!
+            let friendsPoint = userPool.get(currentFriend).reversPoints.get(userName); // "point_4"
+            let friendsAction = userPool.get(currentFriend).actions.get(friendsPoint).type; // "Y"
 
-            let actionCombined ;
+            let actionCombined = currentAction + friendsAction;
+
+            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction,"friendsPoint: ",friendsPoint,"friendsAction: ",friendsAction,"actionCombined: ",actionCombined);
             // 1.일단, 현재 선택된 유저의 point와 연결된 유저(friend)의 포인트를 찾아서 isVisited = true로 바꿔 놓아야 함.
             // 
         
