@@ -166,11 +166,15 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
         
         friendless.emptySlots.forEach((point)=>{
             let newBot = new Bot(botNumber);
-            userPool.set(`Bot${botNumber}`,newBot);
+            
             botNumber += 1;
 
             //# 여기서부터는 유저와 봇의 빈 칸을 서로 채워주는 로직.
-            
+            friendless.ref.set(point, newBot.name);
+            newBot.points.set("point1",friendless.name);
+
+            // Bot을 userPool (== ALLUSERS)에 세팅
+            userPool.set(`Bot${botNumber}`,newBot);
         })
 
 
@@ -178,6 +182,7 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
     });
     // 1. leftOver[0]부터, 빈 칸 1개당 봇을 1개씩 매칭.
     // 2. 봇을 일단... 놔둔다. 봇끼리 매칭? 
+    console.log(userPool);
 
 }
 
