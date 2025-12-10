@@ -210,6 +210,7 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
         this.id = userId;
     }
     setReverseMap(pointsMap){
+        this.reversePoints.clear();
         pointsMap.forEach((userName, point)=>{
             this.reversePoints.set(userName, point);
         })
