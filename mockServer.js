@@ -10,7 +10,9 @@ setDummyActions.addEventListener("click",()=>{
     ALLUSERS.forEach(( userInfo, userName )=>{
         if(userInfo.userType === "dummy"){
             setRandomActions(userInfo);
+            
         }
+        NYK_showDown(ALLUSERS);
         
     });
     console.log("actions Set:", ALLUSERS);
@@ -241,7 +243,18 @@ function setRandomActions(dummyUser){
 
 }
 
+function NYK_showDown(userPool){
+    console.log("userPool : ", userPool);
+    
 
+
+
+
+
+
+
+    
+}
 
 
 
