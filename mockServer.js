@@ -12,13 +12,13 @@ setDummyActions.addEventListener("click",()=>{
             setRandomActions(userInfo);
             
         }
-        NYK_showDown(ALLUSERS);
+        
         
     });
     console.log("actions Set:", ALLUSERS);
     // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
     // Kick의 갯수가 정해져 있다면서? 그건 어떻게 체크할거임? 클라이언트 변조 가능성이 있잖아.
-
+    NYK_showDown(ALLUSERS);
 });
 
 startMatchMaking.addEventListener("click",()=>{
@@ -244,8 +244,14 @@ function setRandomActions(dummyUser){
 }
 
 function NYK_showDown(userPool){
-    console.log("userPool : ", userPool);
-    
+    // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
+    console.log("NYK_showDown userPool : ", userPool);
+    userPool.forEach((userInfo, userName)=>{
+        console.log("userName: ",userName,"userInfo: ",userInfo);
+
+        // User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
+
+    })
 
 
 
@@ -253,7 +259,7 @@ function NYK_showDown(userPool){
 
 
 
-    
+
 }
 
 
