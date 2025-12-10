@@ -133,6 +133,30 @@ function matchMaking(userPool){
 
 function fillLeftOvers(leftOver){ //leftOver === array of Map
     console.log(leftOver, typeof(leftOver));
+
+
+    for(let i=0;i<leftOver.length-1;i++){
+
+    console.log(leftOver[i]);
+
+        for(let j=1;j<leftOver.length-i;j++){
+            console.log(i+j);
+
+            let nextLastPoint = leftOver[i+j].emptySlots[leftOver[i+j].emptySlots.length-1]; //"point5";
+
+            if(nextLastPoint){
+                leftOver[i].ref.set(leftOver[i].emptySlots[0], leftOver[i+j].name);
+                leftOver[i+j].ref.set(nextLastPoint, leftOver[i].name);
+                console.log(leftOver[i].emptySlots[0], leftOver[i+j].name, nextLastPoint, leftOver[i].name)
+                leftOver[i].emptySlots.shift();
+                leftOver[i+j].emptySlots.pop();
+            }
+            
+        }
+    
+    }
+    console.log(leftOver);
+}
     
     // 1.  일단 남은 칸을 전부 채운다.
     // 1-1. [0]의 빈 칸을 채우고,   
@@ -146,23 +170,7 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
 
 /**
   * // 메모장에 작성한 fillLeftOvers함수의 로직. 추후 수정 및 테스트 필요
- * for(let i=0;i<leftUsers.length-1;i++){
-    console.log(leftUsers[i]);
-    for(let j=1;j<leftUsers.length-i;j++){
-        console.log(i+j);
-        let nextLastPoint = leftUsers[i+j].emptySlots[leftUsers[i+j].emptySlots.length-1]; //"point5";
-        if(nextLastPoint){
-            leftUsers[i].ref.set(leftUsers[i].emptySlots[0], leftUsers[i+j].name);
-            leftUsers[i+j].ref.set(nextLastPoint, leftUsers[i].name);
-            console.log(leftUsers[i].emptySlots[0], leftUsers[i+j].name, nextLastPoint, leftUsers[i].name)
-            leftUsers[i].emptySlots.shift();
-            leftUsers[i+j].emptySlots.pop();
-        }
-            
-    }
-    
-}
-console.log(leftUsers);
+ * 
 
 
  */
@@ -185,7 +193,7 @@ else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들�
  * 
  */
 
-}
+
 
 
 class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
@@ -211,7 +219,9 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
     }
     setReverseMap(pointsMap){
         this.reversePoints.clear();
-        pointsMap.forEach((userName, point)=>{
+        pointsMap.forEach((userName, point)=>{ 
+            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
+            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
             this.reversePoints.set(userName, point);
         })
 
