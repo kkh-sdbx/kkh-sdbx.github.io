@@ -120,6 +120,9 @@ function matchMaking(userPool){
     // A 2-1.
 
     fillLeftOvers(leftUsers);
+    userPool.forEach((userInfo, userName)=>{
+        userInfo.setReverseMap(userInfo.points);
+    })
 
 
 }
@@ -188,6 +191,7 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.userType = type;
+        this.reversPoints = new Map();
     }
     YES(pointNum){
         this.actions.get(`point_${pointNum}`).type="Y";        
@@ -200,6 +204,12 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
     }
     setId(userId){
         this.id = userId;
+    }
+    setReverseMap(pointsMap){
+        pointsMap.forEach((userName, point)=>{
+            this.reversPoints.set(userName, point);
+        })
+
     }
 
 }
@@ -255,18 +265,24 @@ function NYK_showDown(userPool){
         "NK":[0,0],
         "KY":[0,0],
         "KN":[0,0],
-        "KK":[-8,-8],
+        "KK":[-8,-8]
     }
     userPool.forEach((userInfo, userName)=>{
         console.log("userName: ",userName,"userInfo: ",userInfo);
         for(let i=1; i<6;i++){
             let currentFriend = userInfo.points.get(`point_${i}`);
             let currentAction = userInfo.actions.get(`point_${i}`);
-            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction);
+            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction); // "dummy17", "Y"
+            
+            //'현재 유저'의 이름이 짝지어진 '친구 유저'의 points중 어디에 있는지 찾아야 하는데...
+            // reverse Map을 만들어 찾아야 한단다. 일단 정지.
+            //let friendsAction = userPool.get(currentFriend).actions.get;
+
+            let actionCombined ;
+            // 1.일단, 현재 선택된 유저의 point와 연결된 유저(friend)의 포인트를 찾아서 isVisited = true로 바꿔 놓아야 함.
+            // 
+        
         }
-
-        // User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
-
 
 
     });
