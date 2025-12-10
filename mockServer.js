@@ -188,7 +188,7 @@ else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들�
 
 class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
     constructor(userNum, type){
-        this.name = `user${userNum}`;
+        type === "dummy"? this.name = `dummy${userNum}`: this.name = `user${userNum}`;
         this.kickTickets = 3;
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
