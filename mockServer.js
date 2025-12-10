@@ -24,6 +24,8 @@ setDummyActions.addEventListener("click",()=>{
 startMatchMaking.addEventListener("click",()=>{
     //1. 일단은, 모두 Y인 곳에서
     matchMaking(ALLUSERS);
+    // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
+    // ### 왜 이러지?
 
 });
 
@@ -191,7 +193,7 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.userType = type;
-        this.reversPoints = new Map();
+        this.reversePoints = new Map();
     }
     YES(pointNum){
         this.actions.get(`point_${pointNum}`).type="Y";        
@@ -207,7 +209,7 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
     }
     setReverseMap(pointsMap){
         pointsMap.forEach((userName, point)=>{
-            this.reversPoints.set(userName, point);
+            this.reversePoints.set(userName, point);
         })
 
     }
@@ -275,7 +277,7 @@ function NYK_showDown(userPool){
             
             //'현재 유저'의 이름이 짝지어진 '친구 유저'의 points중 어디에 있는지 찾아야 하는데...
             // reverse Map을 만들어 찾아야 한단다. 일단 정지. => 만들었다!
-            let friendsPoint = userPool.get(currentFriend).reversPoints.get(userName); // "point_4"
+            let friendsPoint = userPool.get(currentFriend).reversePoints.get(userName); // "point_4"
             let friendsAction = userPool.get(currentFriend).actions.get(friendsPoint).type; // "Y"
 
 
