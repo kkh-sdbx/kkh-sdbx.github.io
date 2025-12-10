@@ -181,22 +181,22 @@ else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들�
 }
 
 
-class User{
+class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
     constructor(userNum, type){
         this.name = `user${userNum}`;
         this.kickTickets = 3;
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
-        this.actions = new Map([["point_1","Y"],["point_2","Y"],["point_3","Y"],["point_4","Y"],["point_5","Y"]]);
+        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.userType = type;
     }
     YES(pointNum){
-        this.actions.set(`point_${pointNum}`,"Y");        
+        this.actions.get(`point_${pointNum}`).type="Y";        
     }
     NO(pointNum){
-        this.actions.set(`point_${pointNum}`,"N");
+        this.actions.get(`point_${pointNum}`).type="N";
     }
     KICK(pointNum){
-        this.actions.set(`point_${pointNum}`,"K");
+        this.actions.get(`point_${pointNum}`).type="K";
     }
     setId(userId){
         this.id = userId;
@@ -246,12 +246,30 @@ function setRandomActions(dummyUser){
 function NYK_showDown(userPool){
     // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
     console.log("NYK_showDown userPool : ", userPool);
+    const resultTable = {
+        "YY":[4,4],
+        "YN":[8,-4],
+        "YK":[0,0],
+        "NY":[-4,8],
+        "NN":[-6,-6],
+        "NK":[0,0],
+        "KY":[0,0],
+        "KN":[0,0],
+        "KK":[-8,-8],
+    }
     userPool.forEach((userInfo, userName)=>{
         console.log("userName: ",userName,"userInfo: ",userInfo);
+        for(let i=1; i<6;i++){
+            let currentFriend = userInfo.points.get(`point_${i}`);
+            let currentAction = userInfo.actions.get(`point_${i}`);
+            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction);
+        }
 
         // User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
 
-    })
+
+
+    });
 
 
 
