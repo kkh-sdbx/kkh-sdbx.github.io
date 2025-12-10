@@ -122,6 +122,8 @@ function matchMaking(userPool){
     // A 2-1.
 
     fillLeftOvers(leftUsers);
+    // ###  Bot 추가 필요 !!!
+    addBots(userPool, leftUsers); // userPool에 봇을 추가해야 되니까 userPool도 받는다.
     userPool.forEach((userInfo, userName)=>{
         const friendList= userInfo.points;
 
@@ -151,29 +153,33 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
                 leftOver[i].emptySlots.shift();
                 leftOver[i+j].emptySlots.pop();
             }
-            
+
         }
-    
+
     }
     console.log(leftOver);
 }
     
-    // 1.  일단 남은 칸을 전부 채운다.
-    // 1-1. [0]의 빈 칸을 채우고,   
-    // 1-1-1.  이 함수가 발동되는 조건이, matchMakingPool의 m번째 원소의 남은 빈칸보다 남은 원소의 수가 적을 때임.
-    //### m번째(leftOver[0])의 빈 칸을 채우고, leftOver[leftOver.length-1]까지 일단 순회는 한다.    
-    
-    // 1-2. [legnth -2]까지 채워는 본다.
-    // 
-    // 필요한 봇은 최대 1개.
-    // 하단에 로직을 작성해 뒀으니 사용하면 된다.
+function addBots(userPool, leftOver){ //leftOver === array of Map
+    leftOver.forEach((friendless) =>{
+        let botNumber = 1;
+        
+        friendless.emptySlots.forEach((point)=>{
+            let newBot = new Bot(botNumber);
+            userPool.set(`Bot${botNumber}`,newBot);
+            botNumber += 1;
 
-/**
-  * // 메모장에 작성한 fillLeftOvers함수의 로직. 추후 수정 및 테스트 필요
- * 
+            //# 여기서부터는 유저와 봇의 빈 칸을 서로 채워주는 로직.
+            
+        })
 
 
- */
+
+    });
+    // 1. leftOver[0]부터, 빈 칸 1개당 봇을 1개씩 매칭.
+    // 2. 봇을 일단... 놔둔다. 봇끼리 매칭? 
+
+}
 
 // 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
 // 최소한의 봇만 생각해도 8명임.
@@ -227,6 +233,25 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
 
     }
 
+}
+
+class Bot{
+    constructor(number){
+        this.name = `bot${number}`;
+        this.userType = "bot";
+        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
+        this.reversePoints = new Map();
+    }
+    setReverseMap(pointsMap){
+        this.reversePoints.clear();
+        pointsMap.forEach((userName, point)=>{ 
+            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
+            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
+            this.reversePoints.set(userName, point);
+        })
+
+    }
 }
 
 document.addEventListener("actionFixed",(e)=>{
