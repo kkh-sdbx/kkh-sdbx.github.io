@@ -302,7 +302,72 @@ function setRandomActions(dummyUser){
 
 function NYK_showDown(userPool){
     // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
-    console.log("NYK_showDown userPool : ", userPool);
+console.log("=== NYK_showDown 정산 시작 ===");
+    
+    const resultTable = {
+        "YY": [4, 4],   "YN": [8, -4],  "YK": [0, 0],
+        "NY": [-4, 8],  "NN": [-6, -6], "NK": [0, 0],
+        "KY": [0, 0],   "KN": [0, 0],   "KK": [-8, -8]
+    };
+
+    // 모든 포인트의 정산 상태 초기화
+    userPool.forEach(user => {
+        user.actions.forEach(action => action.isVisited = false);
+        user.score = 0; // 점수 필드 초기화
+    });
+
+    userPool.forEach((userInfo, userName) => {
+        for (let i = 1; i <= 5; i++) {
+            const pointKey = `point_${i}`;
+            const actionInfo = userInfo.actions.get(pointKey);
+
+            // 이미 상대방에 의해 정산된 포인트라면 건너뜀
+            if (actionInfo.isVisited) continue;
+
+            const opponentName = userInfo.points.get(pointKey);
+            const opponentInfo = userPool.get(opponentName);
+
+            if (!opponentInfo) {
+                console.warn(`${userName}의 ${pointKey} 상대가 없습니다.`);
+                continue;
+            }
+
+            // 상대방의 입장에서 나(userName)를 찾음 (reversePoints 활용)
+            const opponentPointKey = opponentInfo.reversePoints.get(userName);
+            const opponentActionInfo = opponentInfo.actions.get(opponentPointKey);
+
+            // 두 유저의 액션 조합
+            const myAction = actionInfo.type;
+            const opponentAction = opponentActionInfo.type;
+            const actionPair = myAction + opponentAction;
+
+            // 점수 계산
+            const [myGain, opponentGain] = resultTable[actionPair];
+            userInfo.score += myGain;
+            opponentInfo.score += opponentGain;
+
+            // 정산 완료 표시 (중복 방지)
+            actionInfo.isVisited = true;
+            opponentActionInfo.isVisited = true;
+
+            console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
+        }
+    });
+
+    console.log("=== 정산 완료 결과 ===");
+    userPool.forEach(u => console.log(`${u.name}: ${u.score}점`));
+
+
+
+
+
+
+
+
+}
+
+/**
+ *     console.log("NYK_showDown userPool : ", userPool);
     const resultTable = {
         "YY":[4,4],
         "YN":[8,-4],
@@ -337,17 +402,7 @@ function NYK_showDown(userPool){
 
 
     });
-
-
-
-
-
-
-
-
-}
-
-
+ */
 
 
 
