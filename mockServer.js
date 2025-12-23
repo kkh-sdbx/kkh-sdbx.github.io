@@ -6,6 +6,42 @@ const setDummyActions = document.getElementById("setDummyActions");
 const startMatchMaking = document.getElementById("startMatchMaking");
 const leftUsers = [];
 
+
+// I. 더미 유저를 일단 넣어준다.
+
+function pushDummyUsers(dummies){
+    for(let i=1;i<dummies+1;i++){
+        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
+        let dummyId = `dummy${i}`;
+        dummy.setId(dummyId);
+        ALLUSERS.set(`dummy${i}`, dummy);    
+    }
+}
+pushDummyUsers(21);
+
+// II. fix 버튼을 누르면 플레이어 추가.
+
+document.addEventListener("actionFixed",(e)=>{
+
+    // add New User(client)
+    console.log(e);
+    const activePoints = 5;
+    let userNo= ALLUSERS.size;
+    let newbie = new User(userNo, "player");
+    newbie.setId(e.detail.clientX);
+    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
+        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
+    }
+    ALLUSERS.set(userNo, newbie);
+    console.log(ALLUSERS);
+
+    //matchMaking
+    matchMaking(ALLUSERS);
+});
+
+
+// III. 
+
 setDummyActions.addEventListener("click",()=>{
     ALLUSERS.forEach(( userInfo, userName )=>{
         if(userInfo.userType === "dummy"){
@@ -261,33 +297,9 @@ class Bot{
     }
 }
 
-document.addEventListener("actionFixed",(e)=>{
 
-    // add New User(client)
-    console.log(e);
-    const activePoints = 5;
-    let userNo= ALLUSERS.size;
-    let newbie = new User(userNo, "player");
-    newbie.setId(e.detail.clientX);
-    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
-    }
-    ALLUSERS.set(userNo, newbie);
-    console.log(ALLUSERS);
 
-    //matchMaking
-    matchMaking(ALLUSERS);
-});
 
-function pushDummyUsers(dummies){
-    for(let i=1;i<dummies+1;i++){
-        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
-        let dummyId = `dummy${i}`;
-        dummy.setId(dummyId);
-        ALLUSERS.set(`dummy${i}`, dummy);    
-    }
-}
-pushDummyUsers(21);
 
 function setRandomActions(dummyUser){
     // User.YES NO KICK 3개의 메소드가 있다.
