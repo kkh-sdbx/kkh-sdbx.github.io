@@ -6,7 +6,132 @@ const setDummyActions = document.getElementById("setDummyActions");
 const startMatchMaking = document.getElementById("startMatchMaking");
 const leftUsers = [];
 
-// Z. 기타 함수들.
+// Z. 기타 함수들. 및 클래스 선언
+
+class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
+    constructor(userNum, type){
+        type === "dummy"? this.name = `dummy${userNum}`: this.name = `user${userNum}`;
+        this.kickTickets = 3;
+        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
+        this.userType = type;
+        this.reversePoints = new Map();
+    }
+    YES(pointNum){
+        this.actions.get(`point_${pointNum}`).type="Y";        
+    }
+    NO(pointNum){
+        this.actions.get(`point_${pointNum}`).type="N";
+    }
+    KICK(pointNum){
+        this.actions.get(`point_${pointNum}`).type="K";
+    }
+    setId(userId){
+        this.id = userId;
+    }
+    setReverseMap(pointsMap){
+        this.reversePoints.clear();
+        pointsMap.forEach((userName, point)=>{ 
+            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
+            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
+            this.reversePoints.set(userName, point);
+        })
+
+    }
+
+}
+
+class Bot{
+    constructor(number){
+        this.name = `bot${number}`;
+        this.userType = "bot";
+        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
+        this.reversePoints = new Map();
+    }
+    setReverseMap(pointsMap){
+        this.reversePoints.clear();
+        pointsMap.forEach((userName, point)=>{ 
+            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
+            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
+            this.reversePoints.set(userName, point);
+        })
+
+    }
+}
+
+function setRandomActions(dummyUser){
+    // User.YES NO KICK 3개의 메소드가 있다.
+    const actionPool = ["YES","NO","KICK"];
+    let todo = actionPool[Math.floor(Math.random()*3)];
+    for(let i=1; i<6; i++){
+        dummyUser[todo](i);
+        todo = actionPool[Math.floor(Math.random()*3)];
+    }    
+
+}
+
+function NYK_showDown(userPool){
+    // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
+console.log("=== NYK_showDown 정산 시작 ===");
+    
+    const resultTable = {
+        "YY": [4, 4],   "YN": [8, -4],  "YK": [0, 0],
+        "NY": [-4, 8],  "NN": [-6, -6], "NK": [0, 0],
+        "KY": [0, 0],   "KN": [0, 0],   "KK": [-8, -8]
+    };
+
+    // 모든 포인트의 정산 상태 초기화
+    userPool.forEach(user => {
+        user.actions.forEach(action => action.isVisited = false);
+        user.score = 0; // 점수 필드 초기화
+    });
+
+    userPool.forEach((userInfo, userName) => {
+        for (let i = 1; i <= 5; i++) {
+            const pointKey = `point_${i}`;
+            const actionInfo = userInfo.actions.get(pointKey);
+
+            // 이미 상대방에 의해 정산된 포인트라면 건너뜀
+            if (actionInfo.isVisited) continue;
+
+            const opponentName = userInfo.points.get(pointKey);
+            const opponentInfo = userPool.get(opponentName);
+
+            if (!opponentInfo) {
+                console.warn(`${userName}의 ${pointKey} 상대가 없습니다.`);
+                continue;
+            }
+
+            // 상대방의 입장에서 나(userName)를 찾음 (reversePoints 활용)
+            const opponentPointKey = opponentInfo.reversePoints.get(userName);
+            const opponentActionInfo = opponentInfo.actions.get(opponentPointKey);
+
+            // 두 유저의 액션 조합
+            const myAction = actionInfo.type;
+            const opponentAction = opponentActionInfo.type;
+            const actionPair = myAction + opponentAction;
+
+            // 점수 계산
+            const [myGain, opponentGain] = resultTable[actionPair];
+            userInfo.score += myGain;
+            opponentInfo.score += opponentGain;
+
+            // 정산 완료 표시 (중복 방지)
+            actionInfo.isVisited = true;
+            opponentActionInfo.isVisited = true;
+
+            console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
+        }
+    });
+
+    console.log("=== 정산 완료 결과 ===");
+    userPool.forEach(u => console.log(`${u.name}: ${u.score}점`));
+
+
+
+}
+
 function matchMaking(userPool){
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
@@ -250,138 +375,12 @@ else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들�
 
 
 
-class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
-    constructor(userNum, type){
-        type === "dummy"? this.name = `dummy${userNum}`: this.name = `user${userNum}`;
-        this.kickTickets = 3;
-        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
-        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
-        this.userType = type;
-        this.reversePoints = new Map();
-    }
-    YES(pointNum){
-        this.actions.get(`point_${pointNum}`).type="Y";        
-    }
-    NO(pointNum){
-        this.actions.get(`point_${pointNum}`).type="N";
-    }
-    KICK(pointNum){
-        this.actions.get(`point_${pointNum}`).type="K";
-    }
-    setId(userId){
-        this.id = userId;
-    }
-    setReverseMap(pointsMap){
-        this.reversePoints.clear();
-        pointsMap.forEach((userName, point)=>{ 
-            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
-            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
-            this.reversePoints.set(userName, point);
-        })
-
-    }
-
-}
-
-class Bot{
-    constructor(number){
-        this.name = `bot${number}`;
-        this.userType = "bot";
-        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
-        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
-        this.reversePoints = new Map();
-    }
-    setReverseMap(pointsMap){
-        this.reversePoints.clear();
-        pointsMap.forEach((userName, point)=>{ 
-            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
-            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
-            this.reversePoints.set(userName, point);
-        })
-
-    }
-}
-
-
-
-
-
-function setRandomActions(dummyUser){
-    // User.YES NO KICK 3개의 메소드가 있다.
-    const actionPool = ["YES","NO","KICK"];
-    let todo = actionPool[Math.floor(Math.random()*3)];
-    for(let i=1; i<6; i++){
-        dummyUser[todo](i);
-        todo = actionPool[Math.floor(Math.random()*3)];
-    }    
-
-}
-
-function NYK_showDown(userPool){
-    // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
-console.log("=== NYK_showDown 정산 시작 ===");
-    
-    const resultTable = {
-        "YY": [4, 4],   "YN": [8, -4],  "YK": [0, 0],
-        "NY": [-4, 8],  "NN": [-6, -6], "NK": [0, 0],
-        "KY": [0, 0],   "KN": [0, 0],   "KK": [-8, -8]
-    };
-
-    // 모든 포인트의 정산 상태 초기화
-    userPool.forEach(user => {
-        user.actions.forEach(action => action.isVisited = false);
-        user.score = 0; // 점수 필드 초기화
-    });
-
-    userPool.forEach((userInfo, userName) => {
-        for (let i = 1; i <= 5; i++) {
-            const pointKey = `point_${i}`;
-            const actionInfo = userInfo.actions.get(pointKey);
-
-            // 이미 상대방에 의해 정산된 포인트라면 건너뜀
-            if (actionInfo.isVisited) continue;
-
-            const opponentName = userInfo.points.get(pointKey);
-            const opponentInfo = userPool.get(opponentName);
-
-            if (!opponentInfo) {
-                console.warn(`${userName}의 ${pointKey} 상대가 없습니다.`);
-                continue;
-            }
-
-            // 상대방의 입장에서 나(userName)를 찾음 (reversePoints 활용)
-            const opponentPointKey = opponentInfo.reversePoints.get(userName);
-            const opponentActionInfo = opponentInfo.actions.get(opponentPointKey);
-
-            // 두 유저의 액션 조합
-            const myAction = actionInfo.type;
-            const opponentAction = opponentActionInfo.type;
-            const actionPair = myAction + opponentAction;
-
-            // 점수 계산
-            const [myGain, opponentGain] = resultTable[actionPair];
-            userInfo.score += myGain;
-            opponentInfo.score += opponentGain;
-
-            // 정산 완료 표시 (중복 방지)
-            actionInfo.isVisited = true;
-            opponentActionInfo.isVisited = true;
-
-            console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
-        }
-    });
-
-    console.log("=== 정산 완료 결과 ===");
-    userPool.forEach(u => console.log(`${u.name}: ${u.score}점`));
 
 
 
 
 
 
-
-
-}
 
 /**
  *     console.log("NYK_showDown userPool : ", userPool);
