@@ -6,66 +6,7 @@ const setDummyActions = document.getElementById("setDummyActions");
 const startMatchMaking = document.getElementById("startMatchMaking");
 const leftUsers = [];
 
-
-// I. 더미 유저를 일단 넣어준다.
-
-function pushDummyUsers(dummies){
-    for(let i=1;i<dummies+1;i++){
-        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
-        let dummyId = `dummy${i}`;
-        dummy.setId(dummyId);
-        ALLUSERS.set(`dummy${i}`, dummy);    
-    }
-}
-pushDummyUsers(21);
-
-// II. fix 버튼을 누르면 플레이어 추가.
-
-document.addEventListener("actionFixed",(e)=>{
-
-    // add New User(client)
-    console.log(e);
-    const activePoints = 5;
-    let userNo= ALLUSERS.size;
-    let newbie = new User(userNo, "player");
-    newbie.setId(e.detail.clientX);
-    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
-    }
-    ALLUSERS.set(userNo, newbie);
-    console.log(ALLUSERS);
-
-    //matchMaking
-    matchMaking(ALLUSERS);
-});
-
-
-// III. 
-
-setDummyActions.addEventListener("click",()=>{
-    ALLUSERS.forEach(( userInfo, userName )=>{
-        if(userInfo.userType === "dummy"){
-            setRandomActions(userInfo);
-            
-        }
-        
-        
-    });
-    console.log("actions Set:", ALLUSERS);
-    // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
-    // Kick의 갯수가 정해져 있다면서? 그건 어떻게 체크할거임? 클라이언트 변조 가능성이 있잖아.
-    NYK_showDown(ALLUSERS);
-});
-
-startMatchMaking.addEventListener("click",()=>{
-    //1. 일단은, 모두 Y인 곳에서
-    matchMaking(ALLUSERS);
-    // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
-    // ### 왜 이러지?
-
-});
-
-
+// Z. 기타 함수들.
 function matchMaking(userPool){
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
@@ -223,6 +164,70 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
     console.log(userPool);
 
 }
+
+// I. 더미 유저를 일단 넣어준다.
+
+function pushDummyUsers(dummies){
+    for(let i=1;i<dummies+1;i++){
+        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
+        let dummyId = `dummy${i}`;
+        dummy.setId(dummyId);
+        ALLUSERS.set(`dummy${i}`, dummy);    
+    }
+}
+pushDummyUsers(21);
+
+// II. fix 버튼을 누르면 플레이어 추가.
+
+document.addEventListener("actionFixed",(e)=>{
+
+    // add New User(client)
+    console.log(e);
+    const activePoints = 5;
+    let userNo= ALLUSERS.size;
+    let newbie = new User(userNo, "player");
+    newbie.setId(e.detail.clientX);
+    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
+        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
+    }
+    ALLUSERS.set(userNo, newbie);
+    console.log(ALLUSERS);
+
+    //II-1. matchMaking을 일단 한 번 한다. 왜? 여기서 가정하는 것은 '시즌 첫 매칭', 모두가 Y인 시점. => 그럼 여기서 하면 안되지....? 일단 Go.
+    matchMaking(ALLUSERS);
+});
+
+
+// III. 모든 유저들이 한 '세션' 동안 액션을 선택했다고 가정한다.
+
+setDummyActions.addEventListener("click",()=>{
+    ALLUSERS.forEach(( userInfo, userName )=>{
+        if(userInfo.userType === "dummy"){
+            setRandomActions(userInfo);
+            
+        }
+        
+        
+    });
+    console.log("actions Set:", ALLUSERS);
+    // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
+    // Kick의 갯수가 정해져 있다면서? 그건 어떻게 체크할거임? 클라이언트 변조 가능성이 있잖아.
+    NYK_showDown(ALLUSERS);
+});
+
+
+// IV. 한 세션인 끝나고, 다시 한 번 매치메이킹.
+
+startMatchMaking.addEventListener("click",()=>{
+    //1. 일단은, 모두 Y인 곳에서
+    matchMaking(ALLUSERS);
+    // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
+    // ### 왜 이러지?
+
+});
+
+
+
 
 // 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
 // 최소한의 봇만 생각해도 8명임.
