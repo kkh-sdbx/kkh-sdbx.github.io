@@ -152,7 +152,7 @@ function matchMaking(userPool){
             }
 
         }
-        console.log(result);  
+        //console.log(result);  
         matchMakingPool.push(result);
 
     }
@@ -163,7 +163,7 @@ function matchMaking(userPool){
     let randomIndex;
     for( let i= currentIndex; i>0; i--){
         randomIndex = Math.floor(Math.random()*(i+1));
-        console.log(`i:${i}, randomIndex:${randomIndex}`);
+        //console.log(`i:${i}, randomIndex:${randomIndex}`);
         [ matchMakingPool[i], matchMakingPool[randomIndex] ] = [ matchMakingPool[randomIndex], matchMakingPool[i] ];
     }
     console.log("Phase 2 completed - matchMakingPool : ", matchMakingPool);
@@ -236,15 +236,15 @@ function matchMaking(userPool){
 }
 
 function fillLeftOvers(leftOver){ //leftOver === array of Map
-    console.log(leftOver, typeof(leftOver));
+    // console.log(leftOver, typeof(leftOver));
 
 
     for(let i=0;i<leftOver.length-1;i++){
 
-    console.log(leftOver[i]);
+    // console.log(leftOver[i]);
 
         for(let j=1;j<leftOver.length-i;j++){
-            console.log(i+j);
+            // console.log(i+j);
 
             let nextLastPoint = leftOver[i+j].emptySlots[leftOver[i+j].emptySlots.length-1]; //"point5";
 
@@ -265,7 +265,7 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
 function addBots(userPool, leftOver){ //leftOver === array of Map
     let botNumber = 1;
     leftOver.forEach((friendless) =>{
-        console.log(friendless);
+        //console.log(friendless);
         
         friendless.emptySlots.forEach((point)=>{
             let newBot = new Bot(botNumber);
@@ -286,7 +286,7 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
     });
     // 1. leftOver[0]부터, 빈 칸 1개당 봇을 1개씩 매칭.
     // 2. 봇을 일단... 놔둔다. 봇끼리 매칭? 
-    console.log(userPool);
+    // console.log(userPool);
 
 }
 
@@ -307,7 +307,7 @@ pushDummyUsers(21);
 document.addEventListener("actionFixed",(e)=>{
 
     // add New User(client)
-    console.log(e);
+    // console.log(e);
     const activePoints = 5;
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo, "player");
@@ -316,7 +316,7 @@ document.addEventListener("actionFixed",(e)=>{
         newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
     }
     ALLUSERS.set(userNo, newbie);
-    console.log(ALLUSERS);
+    // console.log(ALLUSERS);
 
     //II-1. matchMaking을 일단 한 번 한다. 왜? 여기서 가정하는 것은 '시즌 첫 매칭', 모두가 Y인 시점. => 그럼 여기서 하면 안되지....? 일단 Go.
     matchMaking(ALLUSERS);
