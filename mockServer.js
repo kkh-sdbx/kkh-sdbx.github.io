@@ -41,10 +41,11 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
 
 }
 
-class Bot{
+class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 심통이는 N만, 외톨이는 K만, 똑똑이는 섞어서, 한다.
     constructor(number){
         this.name = `bot${number}`;
         this.userType = "bot";
+        this.botType = " smiley || angry || loner || smarty";
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.reversePoints = new Map();
@@ -348,6 +349,7 @@ startMatchMaking.addEventListener("click",()=>{
     matchMaking(ALLUSERS);
     // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
     // ### 왜 이러지?
+    // 
 
 });
 
