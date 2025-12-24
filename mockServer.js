@@ -330,10 +330,9 @@ setDummyActions.addEventListener("click",()=>{
     ALLUSERS.forEach(( userInfo, userName )=>{
         if(userInfo.userType === "dummy"){
             setRandomActions(userInfo);
-            
+
         }
-        
-        
+
     });
     console.log("actions Set:", ALLUSERS);
     // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
@@ -345,7 +344,7 @@ setDummyActions.addEventListener("click",()=>{
 // IV. 한 세션인 끝나고, 다시 한 번 매치메이킹.
 
 startMatchMaking.addEventListener("click",()=>{
-    //1. 일단은, 모두 Y인 곳에서
+    // 1. 일단은, 모두 Y인 곳에서
     matchMaking(ALLUSERS);
     // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
     // ### 왜 이러지?
