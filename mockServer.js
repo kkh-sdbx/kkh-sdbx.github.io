@@ -353,6 +353,7 @@ setDummyActions.addEventListener("click",()=>{
 
 // IV. 플레이어와 Dummy 들의 action이 모두 설정된 상황, showDown() 진행
 finishRound.addEventListener("click",()={
+    console.log("currnet round finished - showDown starts!");
     NYK_showDown(ALLUSERS);
 });
 
@@ -360,6 +361,7 @@ finishRound.addEventListener("click",()={
 // V. 한 세션이 끝나고, 다시 한 번 매치메이킹.
 
 startMatchMaking.addEventListener("click",()=>{
+    console.log("new round starts - matchMaking starts again!");
     // 1. 일단은, 모두 Y인 곳에서
     matchMaking(ALLUSERS);
     // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
