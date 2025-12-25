@@ -2,8 +2,12 @@ console.log("mock server");
 console.log(storage);
 
 const ALLUSERS = new Map();
+const pushDummyUsersBtn = document.getElementById("pushDummyUsersBtn");
+const initialMatchMakiing = document.getElementById("initialMatchMakiing");
 const setDummyActions = document.getElementById("setDummyActions");
+const finishRound = document.getElementById("finishRound");
 const startMatchMaking = document.getElementById("startMatchMaking");
+
 const leftUsers = [];
 
 // Z. 기타 함수들. 및 클래스 선언
@@ -58,6 +62,14 @@ class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 
             this.reversePoints.set(userName, point);
         })
 
+    }
+}
+function pushDummyUsers(dummies){
+    for(let i=1;i<dummies+1;i++){
+        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
+        let dummyId = `dummy${i}`;
+        dummy.setId(dummyId);
+        ALLUSERS.set(`dummy${i}`, dummy);    
     }
 }
 
@@ -293,15 +305,16 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
 
 // I. 더미 유저를 일단 넣어준다.
 
-function pushDummyUsers(dummies){
-    for(let i=1;i<dummies+1;i++){
-        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
-        let dummyId = `dummy${i}`;
-        dummy.setId(dummyId);
-        ALLUSERS.set(`dummy${i}`, dummy);    
-    }
-}
-pushDummyUsers(21);
+pushDummyUsers.addEventListener("click",()=>{
+    console.log("21 Dummy Users pushed:");
+    pushDummyUsers(21);
+});
+
+initialMatchMakiing.addEventListener("click",()=>{
+    console.log("initial MatchMaking: season started!!");
+    matchMaking(ALLUSERS);
+});
+
 
 // II. fix 버튼을 누르면 플레이어 추가.
 
@@ -319,8 +332,6 @@ document.addEventListener("actionFixed",(e)=>{
     ALLUSERS.set(userNo, newbie);
     // console.log(ALLUSERS);
 
-    //II-1. matchMaking을 일단 한 번 한다. 왜? 여기서 가정하는 것은 '시즌 첫 매칭', 모두가 Y인 시점. => 그럼 여기서 하면 안되지....? 일단 Go.
-    matchMaking(ALLUSERS);
 });
 
 
@@ -337,11 +348,16 @@ setDummyActions.addEventListener("click",()=>{
     console.log("actions Set:", ALLUSERS);
     // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
     // Kick의 갯수가 정해져 있다면서? 그건 어떻게 체크할거임? 클라이언트 변조 가능성이 있잖아.
+});
+
+
+// IV. 플레이어와 Dummy 들의 action이 모두 설정된 상황, showDown() 진행
+finishRound.addEventListener("click",()={
     NYK_showDown(ALLUSERS);
 });
 
 
-// IV. 한 세션인 끝나고, 다시 한 번 매치메이킹.
+// V. 한 세션이 끝나고, 다시 한 번 매치메이킹.
 
 startMatchMaking.addEventListener("click",()=>{
     // 1. 일단은, 모두 Y인 곳에서
