@@ -305,7 +305,7 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
 
 // I. 더미 유저를 일단 넣어준다.
 
-pushDummyUsers.addEventListener("click",()=>{
+pushDummyUsersBtn.addEventListener("click",()=>{
     console.log("21 Dummy Users pushed:");
     pushDummyUsers(21);
 });
