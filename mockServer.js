@@ -8,7 +8,7 @@ const setDummyActions = document.getElementById("setDummyActions");
 const finishRound = document.getElementById("finishRound");
 const startMatchMaking = document.getElementById("startMatchMaking");
 
-const leftUsers = [];
+let leftUsers = [];
 
 // Z. 기타 함수들. 및 클래스 선언
 
@@ -148,7 +148,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
 function matchMaking(userPool){
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
-    //const leftUsers = [];
+    leftUsers = [];
 
     // 1. playerId - emptySlots 형태의 object 구조로 array 배열.
 
