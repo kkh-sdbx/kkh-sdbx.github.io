@@ -145,7 +145,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
 
 }
 
-function matchMaking(userPool){
+function matchMaking(userPool){ 
     console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
     const matchMakingPool = [];
     leftUsers = [];
@@ -153,19 +153,22 @@ function matchMaking(userPool){
     // 1. playerId - emptySlots 형태의 object 구조로 array 배열.
 
     for(const userInfo of userPool){
-        // user === ["dummy1", User]
-        let result = {"name":userInfo[0],"emptySlots":[], "ref":userInfo[1].points}; // "dummy1"
-        let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
-        for(const point of currentPointStatus){
-            if (point[1]){
-                continue
-            }else{
-                result.emptySlots.push(point[0]);
 
+        // userInfo === ["dummy1", User]
+        let result = {"name":userInfo[0],"emptySlots":[], "ref":userInfo[1].points}; 
+
+        let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
+
+        for(const point of currentPointStatus){
+
+            if (point[1]){ // != null인 경우에는 빈칸이 아닌 것으로 인식하고 넘어감.
+                continue
+
+            }else{ // falsy한 경우는 null 밖에 없으니 사실상 ===null 인  case.
+                result.emptySlots.push(point[0]); // "point3"을 push.
             }
 
         }
-        //console.log(result);  
         matchMakingPool.push(result);
 
     }
@@ -189,6 +192,7 @@ function matchMaking(userPool){
 
         let start = matchMakingPool[m]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
         const matchingTimes = start.emptySlots.length;
+
         if(start.emptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
 
             // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
@@ -196,6 +200,7 @@ function matchMaking(userPool){
                 start = matchMakingPool[m]
                 let end = matchMakingPool[m+n]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
 
+                //start 의 가장 작은 포인트와 end의 가장 큰 포인트를 연결. 랜덤성 요소 부여.
                 let startPoint = start.emptySlots[0]; //"point_1"
                 let endPoint = end.emptySlots[end.emptySlots.length-1]; //"point_5"
 
@@ -209,8 +214,6 @@ function matchMaking(userPool){
                 end.emptySlots.pop()
 
             }
-
-            // 3-2.ALLUSERS 데이터를 수정해 줘야 한다.
 
 
         }else{ // 중단조건, startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면
@@ -232,47 +235,40 @@ function matchMaking(userPool){
     // ### 클래식 모드는 봇을 만들어 준다. ###
     // ### 친구들끼리 하는 소셜 모드나 싱글플레이는, '빈 칸'이 생긴다. ###> 킥의 리스크가 커질 수 있다.
 
-    // 남과의 비교를 안 할 수는 없다.
-    // 상방 비교, 하방 비교, 한다.
-    // A 2-1.
 
-    fillLeftOvers(leftUsers);
-    // ###  Bot 추가 필요 !!!
-    addBots(userPool, leftUsers); // userPool에 봇을 추가해야 되니까 userPool도 받는다.
-    userPool.forEach((userInfo, userName)=>{
-        const friendList= userInfo.points;
+    // ## fillLeftOvers, addBots는 matchMaking 함수 바깥으로 빼야 한다.
+    return leftUsers
 
-        userInfo.setReverseMap(friendList); //# 친구가 없는 빈 칸(null)일 경우에 제대로 작동하지 않는다.
-    })
 
 
 }
 
 function fillLeftOvers(leftOver){ //leftOver === array of Map
     // console.log(leftOver, typeof(leftOver));
+    const fillUp = leftOver;
 
-
-    for(let i=0;i<leftOver.length-1;i++){
+    for(let i=0;i<fillUp.length-1;i++){
 
     // console.log(leftOver[i]);
 
-        for(let j=1;j<leftOver.length-i;j++){
+        for(let j=1;j<fillUp.length-i;j++){
             // console.log(i+j);
 
-            let nextLastPoint = leftOver[i+j].emptySlots[leftOver[i+j].emptySlots.length-1]; //"point5";
+            let nextLastPoint = fillUp[i+j].emptySlots[fillUp[i+j].emptySlots.length-1]; //"point5";
 
             if(nextLastPoint){
-                leftOver[i].ref.set(leftOver[i].emptySlots[0], leftOver[i+j].name);
-                leftOver[i+j].ref.set(nextLastPoint, leftOver[i].name);
-                console.log(leftOver[i].emptySlots[0], leftOver[i+j].name, nextLastPoint, leftOver[i].name)
-                leftOver[i].emptySlots.shift();
-                leftOver[i+j].emptySlots.pop();
+                fillUp[i].ref.set(fillUp[i].emptySlots[0], fillUp[i+j].name);
+                fillUp[i+j].ref.set(nextLastPoint, fillUp[i].name);
+                console.log(fillUp[i].emptySlots[0], fillUp[i+j].name, nextLastPoint, fillUp[i].name)
+                fillUp[i].emptySlots.shift();
+                fillUp[i+j].emptySlots.pop();
             }
 
         }
 
     }
-    console.log(leftOver);
+    console.log(fillUp);
+    return fillUp
 }
     
 function addBots(userPool, leftOver){ //leftOver === array of Map
@@ -362,10 +358,21 @@ finishRound.addEventListener("click",()=>{
 
 startMatchMaking.addEventListener("click",()=>{
     console.log("new round starts - matchMaking starts again!");
+
     // 1. 일단은, 모두 Y인 곳에서
-    matchMaking(ALLUSERS);
-    // ## FIX에서 매치메이킹 함수를 부르고, startMatchMaking btn을 눌러서 한 번 더 실행하면 leftUser array 수가 늘어난다.
-    // ### 왜 이러지?
+    const MM_Result = matchMaking(ALLUSERS);
+
+    // 2. 빈 칸 채우기
+    const botsNeeded = fillLeftOvers(MM_Result);
+
+    // 3. Bot 추가 
+    addBots(ALLUSERS, botsNeeded); // userPool에 봇을 추가해야 되니까 userPool도 받는다.
+
+    ALLUSERS.forEach((userInfo, userName)=>{
+        const friendList= userInfo.points;
+
+        userInfo.setReverseMap(friendList); //# 친구가 없는 빈 칸(null)일 경우에 제대로 작동하지 않는다.
+    })
     // 
 
 });
