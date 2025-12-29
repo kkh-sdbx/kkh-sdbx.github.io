@@ -2,7 +2,7 @@ console.log("mock server");
 console.log(storage);
 
 const ALLUSERS = new Map();
-const pushDummyUsersBtn = document.getElementById("pushDummyUsersBtn");
+const startSeason = document.getElementById("startSeason");
 const initialMatchMakiing = document.getElementById("initialMatchMakiing");
 const setDummyActions = document.getElementById("setDummyActions");
 const finishRound = document.getElementById("finishRound");
@@ -329,22 +329,24 @@ C.
 
 
 */ 
-window.addEventListener("load",()=>{
-    console.log(" On Load/ season starts");
+
+// 1. 시즌 시작을 
+startSeason.addEventListener("click",()=>{
+    
+    console.log(" Season starts phase 1 - user log updated");
     //1. 유저의 행동을 모두 Y로 고정.
     const userStorage = window.localStorage;
     const activePoints = 5;
     let newbie = new User(userStorage.id, "player");
     newbie.setId(userStorage.id);
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        newbie.actions.set(`point_${i}`,"Y");
+        newbie.YES(i);
     }
     ALLUSERS.set(userStorage.id, newbie);
 
 
     //2. 더미유저 21개를 넣고 행동을 모두 Y로 고정
-
-    console.log(" On Load/ season starts -21 Dummy Users pushed:");
+    console.log(" Season starts phase 2 - 21 Dummy Users pushed");
     pushDummyUsers(21);
     ALLUSERS.forEach(( userInfo, userName )=>{
         if(userInfo.userType === "dummy"){
@@ -363,13 +365,6 @@ window.addEventListener("load",()=>{
     const initialLeftOvers = fillLeftOvers(initial);
     const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
 
-})
-
-// I. 더미 유저를 일단 넣어준다.
-
-pushDummyUsersBtn.addEventListener("click",()=>{
-    console.log("21 Dummy Users pushed:");
-    pushDummyUsers(21);
 });
 
 initialMatchMakiing.addEventListener("click",()=>{
