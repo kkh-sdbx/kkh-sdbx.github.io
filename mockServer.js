@@ -308,11 +308,12 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
     newbie.setId(e.detail.clientX);
 
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
+        newbie.actions.set(`point_${i}`,"Y");
     }
     ALLUSERS.set(userNo, newbie);
 
-    matchMaking(ALLUSERS); // 여기에 fillLeftOvers, addBots 추가해야 함.
+    let initial = matchMaking(ALLUSERS); // 여기에 fillLeftOvers, addBots 추가해야 함.
+    return initial
 
 }
 
@@ -325,7 +326,13 @@ C.
 
 
 */ 
+window.addEventListener("load",()=>{
 
+    const initial = seasonStarts();
+    const initialLeftOvers = fillLeftOvers(initial);
+    const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
+
+})
 
 // I. 더미 유저를 일단 넣어준다.
 
