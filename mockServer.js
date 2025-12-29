@@ -301,38 +301,6 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
 }
 
 function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
-    console.log("Season Starts - Initial MatchMaking called");
-
-    const storage = window.localStorage
-    const activePoints = 5;
-    let userNo= ALLUSERS.size;
-    let newbie = new User(userNo, "player");
-
-    newbie.setId(storage.clientX);
-
-    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        newbie.actions.set(`point_${i}`,"Y");
-    }
-    ALLUSERS.set(userNo, newbie);
-
-    let initial = matchMaking(ALLUSERS); // 여기에 fillLeftOvers, addBots 추가해야 함.
-    return initial
-
-}
-
-
-/*
-#0# '일반 모드'의 흐름
-A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
-B. Client Side에서 행동 정하고 Fix + Dummy들 setRandomActions 
-C. 
-
-
-*/ 
-
-// 1. 시즌 시작을 
-startSeason.addEventListener("click",()=>{
-    
     console.log(" Season starts phase 1 - user log updated");
     //1. 유저의 행동을 모두 Y로 고정.
     const userStorage = window.localStorage;
@@ -357,6 +325,26 @@ startSeason.addEventListener("click",()=>{
         }
 
     });
+
+    let initial = matchMaking(ALLUSERS); // 여기에 fillLeftOvers, addBots 추가해야 함.
+    return initial
+
+}
+
+
+/*
+#0# '일반 모드'의 흐름
+A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
+B. Client Side에서 행동 정하고 Fix + Dummy들 setRandomActions 
+C. 
+
+
+*/ 
+
+// 1. 시즌 시작을 
+startSeason.addEventListener("click",()=>{
+    
+
     console.log("actions Set:", ALLUSERS);
 
     //3. 매치메이킹 시작.
