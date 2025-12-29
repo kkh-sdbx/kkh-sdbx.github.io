@@ -327,7 +327,7 @@ C.
 
 */ 
 window.addEventListener("load",()=>{
-
+    console.log("season Started!");
     const initial = seasonStarts();
     const initialLeftOvers = fillLeftOvers(initial);
     const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
