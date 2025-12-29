@@ -38,7 +38,10 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
         pointsMap.forEach((userName, point)=>{ 
             // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
             // 그럼... bot을 추가하는 로직을 짜야 하는거네.
-            this.reversePoints.set(userName, point);
+            if(userName){
+                this.reversePoints.set(userName, point);
+            }
+            
         })
 
     }
@@ -59,7 +62,10 @@ class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 
         pointsMap.forEach((userName, point)=>{ 
             // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
             // 그럼... bot을 추가하는 로직을 짜야 하는거네.
-            this.reversePoints.set(userName, point);
+            if(userName){
+                this.reversePoints.set(userName, point);
+            }
+            
         })
 
     }
@@ -341,17 +347,17 @@ C.
 
 */ 
 
-// 1. 시즌 시작을 
+// 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
-    
 
     console.log("actions Set:", ALLUSERS);
-
-    //3. 매치메이킹 시작.
 
     const initial = seasonStarts();
     const initialLeftOvers = fillLeftOvers(initial);
     const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
+    ALLUSERS.forEach((userInfo,userName)=>{
+        userInfo.setReverseMap(userInfo.points)
+    })
 
 });
 
