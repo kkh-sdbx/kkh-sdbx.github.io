@@ -69,7 +69,8 @@ function pushDummyUsers(dummies){
         let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
         let dummyId = `dummy${i}`;
         dummy.setId(dummyId);
-        ALLUSERS.set(`dummy${i}`, dummy);    
+        ALLUSERS.set(`dummy${i}`, dummy);   
+
     }
 }
 
@@ -306,7 +307,7 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
     const activePoints = 5;
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo, "player");
-    
+
     newbie.setId(storage.clientX);
 
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
@@ -329,7 +330,35 @@ C.
 
 */ 
 window.addEventListener("load",()=>{
-    console.log("season Started!");
+    console.log(" On Load/ season starts");
+    //1. 유저의 행동을 모두 Y로 고정.
+    const userStorage = window.localStorage;
+    const activePoints = 5;
+    let newbie = new User(userStorage.id, "player");
+    newbie.setId(userStorage.id);
+    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
+        newbie.actions.set(`point_${i}`,"Y");
+    }
+    ALLUSERS.set(userStorage.id, newbie);
+
+
+    //2. 더미유저 21개를 넣고 행동을 모두 Y로 고정
+
+    console.log(" On Load/ season starts -21 Dummy Users pushed:");
+    pushDummyUsers(21);
+    ALLUSERS.forEach(( userInfo, userName )=>{
+        if(userInfo.userType === "dummy"){
+            for(let i=1;i<6;i++){
+                userInfo.YES(i);
+            }
+
+        }
+
+    });
+    console.log("actions Set:", ALLUSERS);
+
+    //3. 매치메이킹 시작.
+
     const initial = seasonStarts();
     const initialLeftOvers = fillLeftOvers(initial);
     const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
@@ -358,11 +387,11 @@ document.addEventListener("actionFixed",(e)=>{
     const activePoints = 5;
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo, "player");
-    newbie.setId(e.detail.clientX);
+    newbie.setId(e.detail.id);
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
         newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
     }
-    ALLUSERS.set(userNo, newbie);
+    ALLUSERS.set(e.detail.id, newbie);
     // console.log(ALLUSERS);
 
 });
