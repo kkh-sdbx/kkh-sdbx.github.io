@@ -302,10 +302,12 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
 function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
     console.log("Season Starts - Initial MatchMaking called");
 
+    const storage = window.localStorage
     const activePoints = 5;
     let userNo= ALLUSERS.size;
     let newbie = new User(userNo, "player");
-    newbie.setId(e.detail.clientX);
+    
+    newbie.setId(storage.clientX);
 
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
         newbie.actions.set(`point_${i}`,"Y");
