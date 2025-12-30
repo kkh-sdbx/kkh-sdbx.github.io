@@ -326,6 +326,8 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
     }
 
     ALLUSERS.set(userStorage.id, newbie);
+    document.dispatchEvent(updateActionsFromStorage);
+    
     console.log("seasonStarts 1 - userAction set all Y: ", userStorage);
 
     // > 스토리지에도 저장하고, 이벤트를 하나 뿌려주지 뭐. 일단 mock이니까.
