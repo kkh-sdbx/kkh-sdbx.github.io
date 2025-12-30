@@ -282,6 +282,7 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
     
 function addBots(userPool, leftOver){ //leftOver === array of Map
     console.log("addBots started, bots are matched to : ", leftOver);
+    let botsAdded = [];
 
     let botNumber = 1;
     leftOver.forEach((friendless) =>{
@@ -290,8 +291,6 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
         friendless.emptySlots.forEach((point)=>{
             let newBot = new Bot(botNumber);
             
-            
-
             //# 여기서부터는 유저와 봇의 빈 칸을 서로 채워주는 로직.
             friendless.ref.set(point, newBot.name);
             newBot.points.set("point_1",friendless.name);
@@ -299,14 +298,15 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
             // Bot을 userPool (== ALLUSERS)에 세팅
             userPool.set(newBot.name, newBot);
             botNumber += 1;
+
+            // botsAdded에 봇을 넣어서, 봇끼리 매치메이킹을 한 번 더 해야 함.
+            // 나중에 매치메이킹을 할 수 있게 레퍼런스 타입으로 push해서 return
+            botsAdded.push(userPool.get(newBot.name));
         });
 
-
-
     });
-    // 1. leftOver[0]부터, 빈 칸 1개당 봇을 1개씩 매칭.
-    // 2. 봇을 일단... 놔둔다. 봇끼리 매칭? 
-    // console.log(userPool);
+
+    return botsAdded
 
 }
 
@@ -351,7 +351,10 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 
 }
 
+function matchBots(listOfBots){
+    console.log(listOfBots);
 
+}
 /*
 #0# '일반 모드'의 흐름
 A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
@@ -369,6 +372,7 @@ startSeason.addEventListener("click",()=>{
     const initial = seasonStarts();
     const initialLeftOvers = fillLeftOvers(initial);
     const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
+    const initialBotMatch = matchBots(initialBotsAdded);
     ALLUSERS.forEach((userInfo,userName)=>{
         userInfo.setReverseMap(userInfo.points)
     });
