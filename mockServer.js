@@ -371,7 +371,7 @@ startSeason.addEventListener("click",()=>{
     const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
     ALLUSERS.forEach((userInfo,userName)=>{
         userInfo.setReverseMap(userInfo.points)
-    })
+    });
 
 });
 
