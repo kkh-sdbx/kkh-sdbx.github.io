@@ -392,7 +392,7 @@ document.addEventListener("actionFixed",(e)=>{
     const actionList = {"Y":"YES","N":"NO","K":"KICK"};
 
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        clientPlayer[e.detail[`point_${i}`]];
+        clientPlayer[actionList[e.detail[`point_${i}`]]](i);
     }
 
     ALLUSERS.set(userStorage.id, clientPlayer);
