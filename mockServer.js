@@ -381,21 +381,22 @@ initialMatchMakiing.addEventListener("click",()=>{
 });
 
 
-// II. fix 버튼을 누르면 플레이어 추가.
+// II. fix 버튼을 누르면 플레이어 정보 업데이트.
 
 document.addEventListener("actionFixed",(e)=>{
 
-    // add New User(client)
-    // console.log(e);
+    const userStorage = window.localStorage;
     const activePoints = 5;
-    let userNo= ALLUSERS.size;
-    let newbie = new User(userNo, "player");
-    newbie.setId(e.detail.id);
+
+    let clientPlayer = ALLUSERS.get(e.detail.id);
+    const actionList = {"Y":"YES","N":"NO","K":"KICK"};
+
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
-        newbie.actions.set(`point_${i}`,e.detail[`point_${i}`]);
+        clientPlayer[e.detail[`point_${i}`]];
     }
-    ALLUSERS.set(e.detail.id, newbie);
-    // console.log(ALLUSERS);
+
+    ALLUSERS.set(userStorage.id, newbie);
+    console.log("player actions updated: ", clientPlayer);
 
 });
 
