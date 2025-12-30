@@ -395,7 +395,7 @@ document.addEventListener("actionFixed",(e)=>{
         clientPlayer[e.detail[`point_${i}`]];
     }
 
-    ALLUSERS.set(userStorage.id, newbie);
+    ALLUSERS.set(userStorage.id, clientPlayer);
     console.log("player actions updated: ", clientPlayer);
 
 });
