@@ -153,7 +153,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
 }
 
 function matchMaking(userPool){ 
-    console.log("Phase1 starts - matchMaking started, Pool is:  ", userPool);
+    
     const matchMakingPool = [];
     leftUsers = [];
 
@@ -179,6 +179,7 @@ function matchMaking(userPool){
         matchMakingPool.push(result);
 
     }
+    console.log(" starts - matchMaking started, Pool is:  ", userPool);
 
     //2. random array Shuffle.
  
@@ -231,8 +232,8 @@ function matchMaking(userPool){
         }
 
     }
-    console.log(userPool);
-    console.log(leftUsers);
+    console.log("matchmaking finished: ",matchMakingPool);
+    console.log("retrun leftUsers for fillLeftOvers(): ",leftUsers);
     // Q. leftUsers의 빈칸을 메울 수 있는,  Bot의 개수 구하기?
     // A1. 일단 => 채울 수 있는 칸은 전부 채운다.
     // A 2-1. 남은 플레이어 수 만큼 봇을 만들면 가능은 하다. => 그런데, 봇을 꾸준히 만들어낼 예정인가?
@@ -253,6 +254,7 @@ function matchMaking(userPool){
 function fillLeftOvers(leftOver){ //leftOver === array of Map
     // console.log(leftOver, typeof(leftOver));
     const fillUp = leftOver;
+    console.log("fillLeftOver function starts, leftOver pool is: ", leftOver);
 
     for(let i=0;i<fillUp.length-1;i++){
 
@@ -274,11 +276,13 @@ function fillLeftOvers(leftOver){ //leftOver === array of Map
         }
 
     }
-    console.log(fillUp);
+    console.log("leftOver function finished, return fillUp for addBots:",fillUp);
     return fillUp
 }
     
 function addBots(userPool, leftOver){ //leftOver === array of Map
+    console.log("addBots started, bots are matched to : ", leftOver);
+
     let botNumber = 1;
     leftOver.forEach((friendless) =>{
         //console.log(friendless);
@@ -307,17 +311,24 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
 }
 
 function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
-    console.log(" Season starts phase 1 - user log updated");
-    //1. 유저의 행동을 모두 Y로 고정.
+
+    console.log(" functions seasonStarts called");
+
+    //1. 유저의 행동을 모두 Y로 고정. => 이게 필요한가? 그냥 매칭된 '바닐라' 상태로 두는 게 안 낫나? > 고민 필요.
     const userStorage = window.localStorage;
     const activePoints = 5;
     let newbie = new User(userStorage.id, "player");
     newbie.setId(userStorage.id);
+
     for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
         newbie.YES(i);
+        userStorage.setItem(`point_${i}`,"Y");
     }
-    ALLUSERS.set(userStorage.id, newbie);
 
+    ALLUSERS.set(userStorage.id, newbie);
+    console.log("seasonStarts 1 - userAction set all Y: ", userStorage);
+
+    // > 스토리지에도 저장하고, 
 
     //2. 더미유저 21개를 넣고 행동을 모두 Y로 고정
     console.log(" Season starts phase 2 - 21 Dummy Users pushed");
