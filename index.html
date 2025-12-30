@@ -541,14 +541,19 @@
                 
 
             });
-            point.addEventListener("storageUpdated",()=>{
-                if(storage[point.id]){
-                    point.classList.add(storage[point.id]);
-                    point.classList.add("decided");
-                }
-            })
-        });
 
+    });
+
+    document.addEventListener("storageUpdated",(e)=>{
+        console.log("storageUpdated event listened!");
+        for(let i=1;i<6;i++){
+            if(e.detail[`point_${i}`]){
+                points[i-1].classList.add(storage[`point_${i}`]);
+                points[i-1].classList.add("decided");
+            }
+        }
+
+    });
     
 
     
