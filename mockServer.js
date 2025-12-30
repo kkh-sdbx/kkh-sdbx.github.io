@@ -314,7 +314,7 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 
     console.log(" functions seasonStarts called");
 
-    //1. 유저의 행동을 모두 Y로 고정. => 이게 필요한가? 그냥 매칭된 '바닐라' 상태로 두는 게 안 낫나? > 고민 필요.
+    //1. 유저의 행동을 모두 Y로 고정.
     const userStorage = window.localStorage;
     const activePoints = 5;
     let newbie = new User(userStorage.id, "player");
@@ -328,7 +328,7 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
     ALLUSERS.set(userStorage.id, newbie);
     console.log("seasonStarts 1 - userAction set all Y: ", userStorage);
 
-    // > 스토리지에도 저장하고, 
+    // > 스토리지에도 저장하고, 이벤트를 하나 뿌려주지 뭐. 일단 mock이니까.
 
     //2. 더미유저 21개를 넣고 행동을 모두 Y로 고정
     console.log(" Season starts phase 2 - 21 Dummy Users pushed");

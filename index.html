@@ -351,6 +351,12 @@
             detail:storage
             }
         );
+
+        const updateActionsFromStorage = new CustomeEvent("storageUpdated",{
+            bubbles:true,
+            cancelable: false,
+            detail:storage
+        });
             //자바스크립트에서 이벤트가 발생했을 때 리스너가 해당 이벤트를 감지하려면, 이벤트가 발생하기 전에 addEventListener를 통해 리스너가 등록되어 있어야 합니다.
         const coords = {
             "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
@@ -534,11 +540,13 @@
                 };
                 
 
-
-                
-
-
             });
+            point.addEventListener("storageUpdated",()=>{
+                if(storage[point.id]){
+                    point.classList.add(storage[point.id]);
+                    point.classList.add("decided");
+                }
+            })
         });
 
     
