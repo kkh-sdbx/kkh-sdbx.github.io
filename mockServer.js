@@ -375,11 +375,6 @@ startSeason.addEventListener("click",()=>{
 
 });
 
-initialMatchMakiing.addEventListener("click",()=>{
-    console.log("initial MatchMaking: season started!!");
-    matchMaking(ALLUSERS);
-});
-
 
 // II. fix 버튼을 누르면 플레이어 정보 업데이트.
 
