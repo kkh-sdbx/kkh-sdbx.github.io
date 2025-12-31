@@ -353,6 +353,33 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 
 function matchBots(listOfBots){
     console.log(listOfBots);
+    const fillUp = listOfBots;
+    console.log("matchBots function starts, fillUp pool is: ", listOfBots);
+
+    for(let i=0;i<fillUp.length-1;i++){
+
+    // console.log(leftOver[i]);
+    // ## 여기서부터 작성하면 된다. fillLeftOvers를 그대로 따왔으니 위의 console.log보고 변수명만 확인하면 됨.
+    // ## Bot 클래스에 '빈 칸이 있어도 됨' 속성을 추가하기보다는 그냥 매칭을 안 하는 정도로 구현함. -> Gemini 코드 리뷰 필요
+        for(let j=1;j<fillUp.length-i;j++){
+            // console.log(i+j);
+
+            let nextLastPoint = fillUp[i+j].emptySlots[fillUp[i+j].emptySlots.length-1]; //"point5";
+
+            if(nextLastPoint){
+                fillUp[i].ref.set(fillUp[i].emptySlots[0], fillUp[i+j].name);
+                fillUp[i+j].ref.set(nextLastPoint, fillUp[i].name);
+                console.log(fillUp[i].emptySlots[0], fillUp[i+j].name, nextLastPoint, fillUp[i].name)
+                fillUp[i].emptySlots.shift();
+                fillUp[i+j].emptySlots.pop();
+            }
+
+        }
+
+    }
+    console.log("leftOver function finished, return fillUp for addBots:",fillUp);
+    return fillUp
+}
 
 }
 /*
@@ -523,6 +550,7 @@ else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들�
 // #### 
 // ##### Modal 텍스트 등 레이아웃 => 이건 나중에!
 // 
+
 
 
 
