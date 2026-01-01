@@ -317,7 +317,7 @@ function matchBots(listOfBots){
     for(const botInfo of listOfBots){
 
         // userInfo === ["dummy1", User]
-        let result = {"name":botInfo[0],"emptySlots":[], "ref":botInfo[1].points}; 
+        let result = {"name":botInfo.name,"emptySlots":[], "ref":botInfo.points}; 
 
         let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
 
