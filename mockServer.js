@@ -345,7 +345,7 @@ function matchBots(listOfBots){
             // console.log(i+j);
 
             let nextLastPoint = null;
-            i+j>5 ? nextLastPoint = null: nextLastPoint = leftBots[i+j].emptySlots[leftBots[i+j].emptySlots.length-1]; //"point5";
+            leftBots.length>i+j ?  nextLastPoint = leftBots[i+j].emptySlots[leftBots[i+j].emptySlots.length-1]:nextLastPoint = null; //"point5";
             
             if(nextLastPoint){
                 leftBots[i].ref.set(leftBots[i].emptySlots[0], leftBots[i+j].name);
