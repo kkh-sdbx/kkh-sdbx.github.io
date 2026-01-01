@@ -381,7 +381,7 @@ function matchBots(listOfBots){
     return fillUp
 }
 
-}
+
 /*
 #0# '일반 모드'의 흐름
 A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
