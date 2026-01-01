@@ -310,6 +310,57 @@ function addBots(userPool, leftOver){ //leftOver === array of Map
 
 }
 
+function matchBots(listOfBots){
+    console.log(listOfBots);
+    leftBots = [];
+
+    for(const botInfo of listOfBots){
+
+        // userInfo === ["dummy1", User]
+        let result = {"name":botInfo[0],"emptySlots":[], "ref":botInfo[1].points}; 
+
+        let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
+
+        for(const point of currentPointStatus){
+
+            if (point[1]){ // != null인 경우에는 빈칸이 아닌 것으로 인식하고 넘어감.
+                continue
+
+            }else{ // falsy한 경우는 null 밖에 없으니 사실상 ===null 인  case.
+                result.emptySlots.push(point[0]); // "point3"을 push.
+            }
+
+        }
+        leftBots.push(result);
+
+    }
+    console.log(" starts leftBot matchMaking, Pool is:  ", leftBots);
+
+    for(let i=0;i<leftBots.length-1;i++){
+
+    // console.log(leftOver[i]);
+    // ## 여기서부터 작성하면 된다. fillLeftOvers를 그대로 따왔으니 위의 console.log보고 변수명만 확인하면 됨.
+    // ## Bot 클래스에 '빈 칸이 있어도 됨' 속성을 추가하기보다는 그냥 매칭을 안 하는 정도로 구현함. -> Gemini 코드 리뷰 필요
+        for(let j=1;j<leftBots.length-i;j++){
+            // console.log(i+j);
+
+            let nextLastPoint = leftBots[i+j].emptySlots[leftBots[i+j].emptySlots.length-1]; //"point5";
+
+            if(nextLastPoint){
+                leftBots[i].ref.set(leftBots[i].emptySlots[0], leftBots[i+j].name);
+                leftBots[i+j].ref.set(nextLastPoint, leftBots[i].name);
+                console.log(leftBots[i].emptySlots[0], leftBots[i+j].name, nextLastPoint, leftBots[i].name)
+                leftBots[i].emptySlots.shift();
+                leftBots[i+j].emptySlots.pop();
+            }
+
+        }
+
+    }
+    console.log("leftOver function finished, return leftBots for addBots:",leftBots);
+    return leftBots
+}
+
 function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
 
     console.log(" functions seasonStarts called");
@@ -351,35 +402,6 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 
 }
 
-function matchBots(listOfBots){
-    console.log(listOfBots);
-    const fillUp = listOfBots;
-    console.log("matchBots function starts, fillUp pool is: ", listOfBots);
-
-    for(let i=0;i<fillUp.length-1;i++){
-
-    // console.log(leftOver[i]);
-    // ## 여기서부터 작성하면 된다. fillLeftOvers를 그대로 따왔으니 위의 console.log보고 변수명만 확인하면 됨.
-    // ## Bot 클래스에 '빈 칸이 있어도 됨' 속성을 추가하기보다는 그냥 매칭을 안 하는 정도로 구현함. -> Gemini 코드 리뷰 필요
-        for(let j=1;j<fillUp.length-i;j++){
-            // console.log(i+j);
-
-            let nextLastPoint = fillUp[i+j].emptySlots[fillUp[i+j].emptySlots.length-1]; //"point5";
-
-            if(nextLastPoint){
-                fillUp[i].ref.set(fillUp[i].emptySlots[0], fillUp[i+j].name);
-                fillUp[i+j].ref.set(nextLastPoint, fillUp[i].name);
-                console.log(fillUp[i].emptySlots[0], fillUp[i+j].name, nextLastPoint, fillUp[i].name)
-                fillUp[i].emptySlots.shift();
-                fillUp[i+j].emptySlots.pop();
-            }
-
-        }
-
-    }
-    console.log("leftOver function finished, return fillUp for addBots:",fillUp);
-    return fillUp
-}
 
 
 /*
