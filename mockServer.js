@@ -343,12 +343,12 @@ function matchBots(listOfBots){
     // ## Bot 클래스에 '빈 칸이 있어도 됨' 속성을 추가하기보다는 그냥 매칭을 안 하는 정도로 구현함. -> Gemini 코드 리뷰 필요
         for(let j=1;j<leftBots.length-i;j++){
             // console.log(i+j);
-            if(leftBots[i].emptySlots.length ===0){
+            if(leftBots[i].emptySlots.length ===0 || leftBots[i+j].emptySlots.length ===0){
                 break;
             }
 
             let nextLastPoint = null;
-            leftBots.length>=i+j ? nextLastPoint = null: nextLastPoint = leftBots[i+j].emptySlots[leftBots[i+j].emptySlots.length-1]; //"point5";
+            leftBots.length>=i+j ? nextLastPoint = leftBots[i+j].emptySlots[leftBots[i+j].emptySlots.length-1]:nextLastPoint = null; //"point5";
             
             if(nextLastPoint){
                 leftBots[i].ref.set(leftBots[i].emptySlots[0], leftBots[i+j].name);
