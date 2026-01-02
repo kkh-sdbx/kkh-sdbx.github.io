@@ -20,6 +20,8 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.userType = type;
         this.reversePoints = new Map();
+        this.ynkratio = 0; // 지금까지 이 유저가 선택한 Y/(N+K)의 비율.
+        this.history = []; // 매칭 된 상대와의 지난 5번의 행동 기록.
     }
     YES(pointNum){
         this.actions.get(`point_${pointNum}`).type="Y";        
