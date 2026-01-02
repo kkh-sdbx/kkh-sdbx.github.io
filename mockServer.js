@@ -61,6 +61,22 @@ class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓
 
 }
 
+/**
+ * 1. ynkratio 구하는 로직 확인
+현재 로직은 수학적으로 정확합니다. 다만, totalY, totalN, totalK가 언제 업데이트되는지가 중요합니다.
+문제점: 현재 setYNKR() 함수 내에 총합을 업데이트하는 로직이 없습니다.
+해결: totalY, totalN, totalK는 배치가 완료되어 결과가 확정될 때 한꺼번에 더해져야 합니다.
+제언: setYNKR을 호출하기 전, 이번 라운드에서 확정된 액션을 total 변수들에 합산하는 프로세스를 배치 엔진에 넣으세요.
+ * 
+ * ② kickTickets 관리 로직
+KICK(pointNum) 메서드 실행 시 티켓 잔여량을 체크하는 로직이 필요합니다.
+
+④ points와 actions의 구조화
+현재 point_1부터 point_5까지 고정되어 있는데, 이는 한 유저가 동시에 맺을 수 있는 '관계의 수'를 제한하는 효과를 줍니다.
+제언: 1인 개발자로서 확장성을 고려한다면, Map 키값을 고정하기보다 pointId를 동적으로 생성하여 관리하는 것이 추후 '친구 추가'나 '매칭 확장'에 유리합니다.
+
+ */
+
 class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 심통이는 N만, 외톨이는 K만, 똑똑이는 섞어서, 한다.
     constructor(number){
         this.name = `bot${number}`;
