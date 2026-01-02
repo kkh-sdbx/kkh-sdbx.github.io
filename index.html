@@ -68,10 +68,12 @@
         }
 
         /* 테스트 색상 스타일 (이전 답변의 RGB 코드 사용) */
-        .orange { color: rgb(255, 190, 130); }
-        .grey { color: rgb(170, 175, 180); }
-        .black { color: rgb(50, 55, 60); }
-        .white { color: rgb(255, 255, 255); }
+        .orange { color: rgb(255, 145, 40); }
+        .blue {color: rgb(50, 120, 245);}
+        .cyan { color: rgb(0, 190, 190); }
+        .black { color: rgb(20, 20, 19); }
+        .white { color: rgb(240, 240, 240); }
+        .red {color:rgb(235, 65, 65); }
 
 
         /* 원형 점 스타일 */
@@ -178,6 +180,7 @@
             top: 0;
             left: 0;
             transform: translate(15px, -50%);
+
         }
         .selection{
             display:none;
@@ -186,7 +189,6 @@
             z-index: 10;
             top: 0;
             left: 0;
-
 
         }
         .selection button{
@@ -320,10 +322,13 @@
 
     
     <div id = "testBtns" >
+
         <h1 class = "orange">color test</h1>
-        <h1 class = "grey">color test</h1>
-        <h1 class = "black">color test</h1>
+        <h1 class = "blue">color test</h1>
+        <h1 class = "cyan">color test</h1>
         <h1 class = "white">color test</h1>
+        \<h1 class = "red">color test</h1>
+
         <button id = "startSeason">startSeason </button>
         <button id="fix">FIX</button>
         <button id = "setDummyActions">setDummyActions </button>
