@@ -87,18 +87,19 @@
             font-weight: bold;
             color: #333;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-out, background-color 0.3s; 
+            transition: transform 0.3s ease-out, background-color 0.3s,  border-radius 0.3s;
+             transform: rotate(0deg) scale(1); 
         }
 
         /* 점 내부 텍스트 스타일 (회전 보정용) */
         .point-text {
             transition: transform 0.3s ease-out;
+            transform: rotate(0deg);
         }
 
         /* 호버 시 스타일 */
         .point:hover {
              background-color: rgb(5, 46, 233); 
-             border-radius: 0%;
         }
         .point:hover{ transform:  rotate(45deg) scale(1.2); }
 
