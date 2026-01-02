@@ -11,7 +11,7 @@
             height: 100vh;
             /* body는 기본 Flow를 유지하되, container의 기준점이 되도록 position: relative 설정 */
             position: relative; 
-            background-color: rgb(240, 240, 230); /* 회색빛 옅은 베이지색 */
+            background-color: rgb(20, 20, 19); /* 검은색 */
             font-family: sans-serif;
             /* display: flex;  */
             justify-content: center; 
@@ -78,7 +78,7 @@
         .point {
             width: 40px;
             height: 40px;
-            background-color: rgb(195, 225, 245); /* 연한 스카이블루 */
+            background-color: rgb(155, 195, 225); /* 파란색 */
             border-radius: 50%; /* 초기 상태: 원형 */
             cursor: pointer;
             display: flex;
@@ -97,7 +97,7 @@
 
         /* 호버 시 스타일 */
         .point:hover {
-             background-color: rgb(155, 195, 225); 
+             background-color: rgb(5, 46, 233); 
              border-radius: 0%;
         }
         .point:hover{ transform:  rotate(45deg) scale(1.2); }
@@ -105,12 +105,12 @@
         .point:hover .point-text { transform: rotate(-45deg) !important; }
 
         .point.activated {
-             background-color: rgb(155, 195, 225); 
+             background-color: rgb(5, 46, 233);
              border-radius: 0%;
         }
         .point.activated,
         .point:hover.activated{
-             background-color: rgb(155, 195, 225); 
+             background-color: rgb(5, 46, 233); 
              border-radius: 0%;
 
         }
@@ -120,7 +120,7 @@
         .point.activated .point-text { transform: rotate(-45deg) !important; }
 
         .point.decided {
-            background-color: rgb(100, 200, 100); /* 결정된 점은 연한 녹색 */
+            background-color: rgb(255, 255, 255); /* 결정된 점은 흰색 */
             cursor: default;
             transform: rotate(45deg) scale(1.2);
         }
@@ -139,7 +139,7 @@
         }
         .saidYes.picked{
             visibility:visible;
-            color: rgb(155, 195, 225);
+            color: rgb(5, 197, 117);
         }
 
         .showDownResult{
@@ -153,7 +153,7 @@
 
         }
         .showDownResult.tie{
-            
+
         }
 
         /* 툴팁 스타일 (동일하게 유지) */
