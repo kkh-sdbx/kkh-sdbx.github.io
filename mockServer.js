@@ -58,8 +58,10 @@ class User extends Prisoner {
         super(id,type);
 
     }
+    setId(userId){
+        this.id = userId;
+    }
 }
-
 class Bot extends Prisoner{
     constructor(id,type,persona){
         super(id,type);
