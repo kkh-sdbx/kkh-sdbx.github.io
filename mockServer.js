@@ -11,8 +11,65 @@ const startMatchMaking = document.getElementById("startMatchMaking");
 let leftUsers = [];
 
 // Z. 기타 함수들. 및 클래스 선언
+class Prisoner{
+    constructor(id, type){
+        type === "dummy"? this.name = `dummy${id}`: this.name = `user${id}`;
+        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
+        this.prisonerType = type;
+        this.totalY = 0;
+        this.totalN = 0;
+        this.totalK = 0;
+        this.ynkratio = 0; // 지금까지 이 유저가 선택한 Y/(Y+N+K)의 비율.
+        this.history = []; // 매칭 된 상대와의 지난 5번의 행동 기록.
+    }
+    YES(pointNum){
+        this.actions.get(`point_${pointNum}`).type="Y";        
+    }
+    NO(pointNum){
+        this.actions.get(`point_${pointNum}`).type="N";
+    }
+    KICK(pointNum){
+        this.actions.get(`point_${pointNum}`).type="K";
+    }
+    setReverseMap(pointsMap){
+        this.reversePoints.clear();
+        pointsMap.forEach((userName, point)=>{ 
+            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
+            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
+            if(userName){
+                this.reversePoints.set(userName, point);
+            }
+            
+        })
+    }
+    setYNKR(){
+        if((this.totalY+this.totalN+this.totalK) != 0){
+            this.ynkratio = this.totalY/(this.totalY+this.totalN+this.totalK);
+        }else{
+            this.ynkratio = 0;
+        }
+        
+    }
+}
 
-class User{ // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
+class User extends Prisoner {
+    constructor(id, type){
+        super(id,type);
+
+    }
+}
+
+class Bot extends Prisoner{
+    constructor(id,type,persona){
+        super(id,type);
+        this.persona = persona; //this.persona = " smiley || angry || loner || smarty";
+
+    }
+
+}
+/*
+class User extends Prisoner { // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
     constructor(userNum, type){
         type === "dummy"? this.name = `dummy${userNum}`: this.name = `user${userNum}`;
         this.kickTickets = 3;
@@ -75,7 +132,7 @@ KICK(pointNum) 메서드 실행 시 티켓 잔여량을 체크하는 로직이 �
 현재 point_1부터 point_5까지 고정되어 있는데, 이는 한 유저가 동시에 맺을 수 있는 '관계의 수'를 제한하는 효과를 줍니다.
 제언: 1인 개발자로서 확장성을 고려한다면, Map 키값을 고정하기보다 pointId를 동적으로 생성하여 관리하는 것이 추후 '친구 추가'나 '매칭 확장'에 유리합니다.
 
- */
+
 
 class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 심통이는 N만, 외톨이는 K만, 똑똑이는 섞어서, 한다.
     constructor(number){
@@ -99,6 +156,7 @@ class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 
 
     }
 }
+*/
 function pushDummyUsers(dummies){
     for(let i=1;i<dummies+1;i++){
         let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
