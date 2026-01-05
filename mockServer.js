@@ -562,7 +562,15 @@ setDummyActions.addEventListener("click",()=>{
 // IV. 플레이어와 Dummy 들의 action이 모두 설정된 상황, showDown() 진행
 finishRound.addEventListener("click",()=>{
     console.log("currnet round finished - showDown starts!");
+    const userStorage = window.localStorage;
     NYK_showDown(ALLUSERS);
+    for (let i=1;i<6;i++){
+        userStorage.removeItem(`point_${i}`);
+
+    } 
+    userStorage.setItem("status","not yet");
+    document.dispatchEvent(updateActionsFromStorage);
+
 });
 
 
