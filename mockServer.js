@@ -25,13 +25,16 @@ class Prisoner{
         this.history = []; // 매칭 된 상대와의 지난 5번의 행동 기록.
     }
     YES(pointNum){
-        this.actions.get(`point_${pointNum}`).type="Y";        
+        this.actions.get(`point_${pointNum}`).type="Y";  
+        // #history에 업데이트하는 로직이 필요. => history 의 길이 체크하고 최근 '내게 했던 행동'을 넣는다.      
     }
     NO(pointNum){
         this.actions.get(`point_${pointNum}`).type="N";
+        // #history에 업데이트하는 로직이 필요. => history 의 길이 체크하고 최근 '내게 했던 행동'을 넣는다.
     }
     KICK(pointNum){
         this.actions.get(`point_${pointNum}`).type="K";
+        // #history에 업데이트하는 로직이 필요. => history 의 길이 체크하고 최근 '내게 했던 행동'을 넣는다. Kick도 필요한가?
     }
     setReverseMap(pointsMap){
         this.reversePoints.clear();
@@ -52,6 +55,9 @@ class Prisoner{
         }
         
     }
+    clearHistory(log){
+        this.history = [];
+    }
 }
 
 class User extends Prisoner {
@@ -62,6 +68,8 @@ class User extends Prisoner {
     setId(userId){
         this.id = userId; //id가 두 번 들어가지. setId()는 추후 ULID 위한 함수니까 일단 놔두자 
     }
+
+
 }
 class Bot extends Prisoner{
     constructor(id,type,persona){

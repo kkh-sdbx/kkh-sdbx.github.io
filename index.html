@@ -344,8 +344,8 @@
 
     <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
     <div class="tooltip" id="global-tooltip">
-        <strong id="tooltip-title"></strong>
-        <p id="tooltip-body"></p>
+        <strong id="opntName"></strong>
+        <p id="opntYNKratio"></p>
     </div>
 
     <div class="selection" id="selectionPanel">
@@ -374,8 +374,8 @@
         const points = document.querySelectorAll('.point');
         const[point_1, point_2, point_3, point_4, point_5] = points;
         const tooltip = document.getElementById('global-tooltip');
-        const tooltipTitle = document.getElementById('tooltip-title');
-        const tooltipBody = document.getElementById('tooltip-body');
+        const opntName = document.getElementById('opntName');
+        const opntYNKratio = document.getElementById('opntYNKratio');
         const emptyPoints = [];
         const selection = document.getElementById('selectionPanel');
         const YBtn = document.getElementById('YBtn');
@@ -504,14 +504,18 @@
         })
 
         const pointData = {
-            "point_1": { title: "point_1 점 정보", body: "첫 번째 점입니다.." },
-            "point_2": { title: "point_2 점 정보", body: "두 번째 점입니다.." },
-            "point_3": { title: "point_3 점 정보", body: "세 번째 점입니다.." },
-            "point_4": { title: "point_4 점 정보", body: "네 번째 점입니다.." },
-            "point_5": { title: "point_5 점 정보", body: "다섯 번째 점입니다.." }
+            "point_1": { "name": "point_1 점 정보", "body": "첫 번째 점입니다..", "history":[] },
+            "point_2": { "name": "point_2 점 정보", "body": "두 번째 점입니다..", "history":[] },
+            "point_3": { "name": "point_3 점 정보", "body": "세 번째 점입니다..", "history":[] },
+            "point_4": { "name": "point_4 점 정보", "body": "네 번째 점입니다..", "history":[] },
+            "point_5": { "name": "point_5 점 정보", "body": "다섯 번째 점입니다..", "history":[] }
         };
 
-        // DOM 요소 선택
+        /** 각 point에 매칭된 상대의 정보를 제공.*/
+        function updatePointData(){
+            // 표시할 정보 : userName, YNKratio, history
+            // history를 알려면, '나와 매칭된 기록'을 알아야 함.
+        }
         
 
         // 마우스 오버 이벤트 핸들러
@@ -524,8 +528,8 @@
                 const data = pointData[`${target}`];
 
 
-                tooltipTitle.textContent = data.title;
-                tooltipBody.textContent = data.body;
+                opntName.textContent = data.name;
+                opntYNKratio.textContent = data.body;
                 tooltip.style.display = 'block';
                 
                 let changingX = coords[`${target}`].x;
@@ -552,7 +556,7 @@
             });
             
             point.addEventListener("click",(e)=>{
-                const target = point.id ;
+                const target = point.name ;
 
                 if( currentPoint != null) {
 
