@@ -103,26 +103,26 @@
        
 
         .point.decided {
-            background-color: rgb(255, 255, 255); /* 결정된 점은 흰색 */
+            background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
             cursor: default;
             transform: rotate(45deg) scale(1.2);
         }
         .point.decided .point-text { transform: rotate(-45deg) !important; }
-        
+
         .point:hover {
-             background-color: rgb(5, 46, 233); 
+             background-color: rgb(50, 120, 245); 
         }
         .point:hover{ transform:  rotate(45deg) scale(1.2); }
 
         .point:hover .point-text { transform: rotate(-45deg) !important; }
 
         .point.activated {
-             background-color: rgb(5, 46, 233)!important;
+             background-color: rgb(50, 120, 245)!important;
              border-radius: 0%;
         }
         .point.activated,
         .point:hover.activated{
-             background-color: rgb(5, 46, 233)!important; 
+             background-color: rgb(50, 120, 245)!important; 
              border-radius: 0%;
 
         }
@@ -146,11 +146,11 @@
 
         .saidNo.picked{
             visibility:visible;
-            color:rgb(255, 190, 130);
+            color:rgb(255, 145, 40);
         }
         .saidYes.picked{
             visibility:visible;
-            color: rgb(5, 197, 117);
+            color: rgb(0, 190, 190);
         }
 
         .showDownResult{
@@ -171,7 +171,7 @@
         .tooltip {
             display: none;
             position: fixed;
-            background-color: rgb(245, 245, 245);
+            background-color: rgb(240, 240, 240);
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -186,7 +186,7 @@
         .selection{
             display:none;
             position:fixed;
-            background-color: rgb(15,15,15);
+            background-color: rgb(20,20,19);
             z-index: 10;
             top: 0;
             left: 0;
@@ -216,7 +216,7 @@
         }
         .modalBody{
             position:absolute;
-            background-color: white;
+            background-color:rgb(240, 240, 240);
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
