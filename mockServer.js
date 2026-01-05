@@ -17,6 +17,7 @@ class Prisoner{
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.prisonerType = type;
+        this.reversePoints = new Map();
         this.totalY = 0;
         this.totalN = 0;
         this.totalK = 0;
@@ -59,7 +60,7 @@ class User extends Prisoner {
 
     }
     setId(userId){
-        this.id = userId;
+        this.id = userId; //id가 두 번 들어가지. setId()는 추후 ULID 위한 함수니까 일단 놔두자 
     }
 }
 class Bot extends Prisoner{
