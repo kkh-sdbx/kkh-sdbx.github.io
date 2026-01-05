@@ -55,7 +55,7 @@
 
         }
         .pointContainer.kicked{   
-            background-color: red;
+            background-color: rgb(235, 65, 65);
 
         }
        
@@ -74,6 +74,11 @@
         .black { color: rgb(20, 20, 19); }
         .white { color: rgb(240, 240, 240); }
         .red {color:rgb(235, 65, 65); }
+        .green  { color: rgb(40, 180, 100); }  /* 신뢰감 있고 선명한 초록 */
+        .lime   { color: rgb(160, 210, 50); }  /* 눈이 아프지 않으면서 생동감 있는 연두 */
+        .purple { color: rgb(145, 85, 230); }  /* 너무 어둡지 않고 세련된 보라 */
+        .gray   { color: rgb(130, 135, 145); } /* 푸른 기가 살짝 섞인 세련된 회색 */
+        .yellow { color: rgb(255, 205, 10); }  /* 주황색과 대비되는 명확한 노랑 */
 
 
         /* 원형 점 스타일 */
@@ -248,11 +253,16 @@
 </head>
 <body>
     <div id = "dummy" display = "flex" >
+        <h1 class ="green" >color test</h1>
+        <h1 class ="lime" >color test</h1>
+        <h1 class ="purple" >color test</h1>
+        <h1 class ="gray" >color test</h1>
+        <h1 class ="yellow" >color test</h1>
         <h1 class = "orange">color test</h1>
-        <h1 class = "grey">color test</h1>
-        <h1 class = "black">color test</h1>
+        <h1 class = "blue">color test</h1>
+        <h1 class = "cyan">color test</h1>
         <h1 class = "white">color test</h1>
-
+        <h1 class = "red">color test</h1>
     </div>
     
     <!-- 각 point에 id 지정하고 V, 하나씩 다룰 수 있도록 함.V 호버 시 툴팁, 클릭 시 툴팁 고정과 마름모꼴 고정 후 Y/N/Kick 버튼 나오도록. !!-->
@@ -323,12 +333,6 @@
 
     
     <div id = "testBtns" >
-
-        <h1 class = "orange">color test</h1>
-        <h1 class = "blue">color test</h1>
-        <h1 class = "cyan">color test</h1>
-        <h1 class = "white">color test</h1>
-        \<h1 class = "red">color test</h1>
 
         <button id = "startSeason">startSeason </button>
         <button id="fix">FIX</button>
