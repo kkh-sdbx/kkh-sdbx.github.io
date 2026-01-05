@@ -390,8 +390,8 @@
 
     <div class="selection" id="selectionPanel">
         <button id="NBtn" data-btnType = "N"> N </button>
-        <button id="YBtn" data-btnType = "Y"> Y </button>        
         <button id="KBtn" data-btnType = "K"> Kick! </button>
+        <button id="YBtn" data-btnType = "Y"> Y </button>        
     </div>
 
     <div id = "fixModal" class = "modal">
@@ -534,7 +534,7 @@
                 let xd = currentPoint.getBoundingClientRect().width /0.9; 
                 let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-                updateSelectionPosition(changingX, changingY+yd);
+                updateSelectionPosition(changingX -54, changingY+yd);
                 updateTooltipPosition(changingX+xd, changingY);
         }
         window.addEventListener('resize',()=>{
