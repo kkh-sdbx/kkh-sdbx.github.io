@@ -197,8 +197,8 @@
             left: 0;
             width:108px;
             height:24px;
-            gap: 10px;         /* 버튼 사이 간격 */
-            padding: 10px;     /* 안쪽 여백 */
+            gap: 6px;         /* 버튼 사이 간격 */
+            padding: 4px;     /* 안쪽 여백 */
             box-sizing: border-box;
 
         }
@@ -206,13 +206,14 @@
             flex: 1;
             background-color: rgb(240, 240, 230);
             border-radius: 4px;
-            border-color: rgb(240, 240, 230);
-
+            border-color: grey;
+            font-size: 12px; /* 글자가 잘리지 않게 크기 조절 */
+            cursor: pointer;
+            display: flex;   /* 버튼 안의 글자 중앙 정렬 */
+            align-items: center;
+            justify-content: center;
         }
-        .selection button{
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
-        }
 
         .modal{
             position:absolute;
