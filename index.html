@@ -195,15 +195,21 @@
             z-index: 10;
             top: 0;
             left: 0;
+            width:108px;
+            height:24px;
+            gap: 10px;         /* 버튼 사이 간격 */
+            padding: 10px;     /* 안쪽 여백 */
+            box-sizing: border-box;
 
         }
         .selection button{
+            flex: 1;
             background-color: rgb(240, 240, 230);
-            border-radius: 10%;
+            border-radius: 4px;
             border-color: rgb(240, 240, 230);
 
         }
-        .selection button:hover{
+        .selection button{
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
         }
@@ -265,6 +271,10 @@
 
         .pastAction .no{
             color:rgb(255, 145, 40);
+        }
+
+        .actionBtn{
+
         }
 
     </style>
@@ -378,8 +388,8 @@
     </div>
 
     <div class="selection" id="selectionPanel">
-        <button id="YBtn" data-btnType = "Y"> Y </button>
         <button id="NBtn" data-btnType = "N"> N </button>
+        <button id="YBtn" data-btnType = "Y"> Y </button>        
         <button id="KBtn" data-btnType = "K"> Kick! </button>
     </div>
 
@@ -603,7 +613,7 @@
                         currentPoint.classList.toggle('activated');
                         currentPoint = point;
                         point.classList.toggle('activated');
-                        selection.style.display = 'block';
+                        selection.style.display = 'flex';
                         tooltip.style.display = 'block';
                         updatePositions();
 
@@ -615,7 +625,7 @@
 
                     point.classList.toggle('activated');
                     currentPoint = point;
-                    selection.style.display = 'block';
+                    selection.style.display = 'flex';
                     tooltip.style.display = 'block';
                     updatePositions();
                 };
