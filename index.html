@@ -196,8 +196,8 @@
             z-index: 10;
             top: 0;
             left: 0;
-            width:192px;
-            height:48px;
+            width:160px;
+            height:40px;
             gap: 6px;         /* 버튼 사이 간격 */
             padding: 4px;     /* 안쪽 여백 */
             box-sizing: border-box;
@@ -535,7 +535,7 @@
                 let xd = currentPoint.getBoundingClientRect().width /0.9; 
                 let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-                updateSelectionPosition(changingX -27, changingY+yd);
+                updateSelectionPosition(changingX -36, changingY+yd);
                 updateTooltipPosition(changingX+xd, changingY);
         }
         window.addEventListener('resize',()=>{
