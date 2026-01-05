@@ -249,6 +249,24 @@
             color:white;
         }
 
+        #history{
+            display:flex;
+            flex-direction: row;
+
+        }
+        .pastAction{
+            font-weight: bold;
+            color: rgb(145, 85, 230);
+        }
+
+        .pastAction .yes{
+            color:rgb(0, 190, 190);
+        }
+
+        .pastAction .no{
+            color:rgb(255, 145, 40);
+        }
+
     </style>
 </head>
 <body>
@@ -346,6 +364,14 @@
     <div class="tooltip" id="global-tooltip">
         <strong id="opntName"></strong>
         <p id="opntYNKratio"></p>
+        <div id = "history">
+            <p class = "pastAction">X</p>
+            <p class = "pastAction">X</p>
+            <p class = "pastAction">X</p>
+            <p class = "pastAction">X</p>
+            <p class = "pastAction">X</p>
+
+        </div>
     </div>
 
     <div class="selection" id="selectionPanel">
@@ -504,11 +530,11 @@
         })
 
         const pointData = {
-            "point_1": { "name": "point_1 점 정보", "body": "첫 번째 점입니다..", "history":[] },
-            "point_2": { "name": "point_2 점 정보", "body": "두 번째 점입니다..", "history":[] },
-            "point_3": { "name": "point_3 점 정보", "body": "세 번째 점입니다..", "history":[] },
-            "point_4": { "name": "point_4 점 정보", "body": "네 번째 점입니다..", "history":[] },
-            "point_5": { "name": "point_5 점 정보", "body": "다섯 번째 점입니다..", "history":[] }
+            "point_1": { "name": "point_1 점 정보", "YNKratio": "첫 번째 점입니다..", "history":[] },
+            "point_2": { "name": "point_2 점 정보", "YNKratio": "두 번째 점입니다..", "history":[] },
+            "point_3": { "name": "point_3 점 정보", "YNKratio": "세 번째 점입니다..", "history":[] },
+            "point_4": { "name": "point_4 점 정보", "YNKratio": "네 번째 점입니다..", "history":[] },
+            "point_5": { "name": "point_5 점 정보", "YNKratio": "다섯 번째 점입니다..", "history":[] }
         };
 
         /** 각 point에 매칭된 상대의 정보를 제공.*/
@@ -529,7 +555,7 @@
 
 
                 opntName.textContent = data.name;
-                opntYNKratio.textContent = data.body;
+                opntYNKratio.textContent = data.YNKratio;
                 tooltip.style.display = 'block';
                 
                 let changingX = coords[`${target}`].x;
