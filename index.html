@@ -46,10 +46,11 @@
             align-items: center;
         }
         .pointContainer{
+            height: 70%;
             width: 50%; 
             display:flex;
             flex-direction:row;
-            gap:2em;
+            gap:3em;
             justify-content: center; 
             align-items: center;
 
@@ -534,7 +535,7 @@
                 let xd = currentPoint.getBoundingClientRect().width /0.9; 
                 let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-                updateSelectionPosition(changingX -54, changingY+yd);
+                updateSelectionPosition(changingX -27, changingY+yd);
                 updateTooltipPosition(changingX+xd, changingY);
         }
         window.addEventListener('resize',()=>{
