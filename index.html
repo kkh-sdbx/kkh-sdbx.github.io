@@ -588,30 +588,40 @@
     });
 
     document.addEventListener("storageUpdated",(e)=>{
-        console.log("storageUpdated event listened!",e);
+        console.log("storageUpdated event listened!", e);
+
         for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
-            if(e.detail[`point_${i}`] === "Y"){
-                points[i-1].parentElement.classList.remove("kicked");
-                points[i-1].classList.add(storage[`point_${i}`]);
-                points[i-1].classList.add("decided");
-                points[i-1].previousElementSibling.classList.remove("picked");
-                points[i-1].nextElementSibling.classList.add("picked");
+            if(e.detail[`point_${i}`]){ // storage에 point별 action이 추가된 경우 업데이트
+                if(e.detail[`point_${i}`] === "Y"){
+                    points[i-1].parentElement.classList.remove("kicked");
+                    points[i-1].classList.add(e.detail[`point_${i}`]);
+                    points[i-1].classList.add("decided");
+                    points[i-1].previousElementSibling.classList.remove("picked");
+                    points[i-1].nextElementSibling.classList.add("picked");
                 
-            }else if(e.detail[`point_${i}`] === "N"){
-                points[i-1].parentElement.classList.remove("kicked");
-                points[i-1].classList.add(storage[`point_${i}`]);
-                points[i-1].classList.add("decided");
-                points[i-1].previousElementSibling.classList.add("picked");
-                points[i-1].nextElementSibling.classList.remove("picked");
+                }else if(e.detail[`point_${i}`] === "N"){
+                    points[i-1].parentElement.classList.remove("kicked");
+                    points[i-1].classList.add(e.detail[`point_${i}`]);
+                    points[i-1].classList.add("decided");
+                    points[i-1].previousElementSibling.classList.add("picked");
+                    points[i-1].nextElementSibling.classList.remove("picked");
 
-            }else if(e.detail[`point_${i}`] === "K"){
-                points[i-1].parentElement.classList.add("kicked");
-                points[i-1].classList.add(storage[`point_${i}`]);
-                points[i-1].classList.add("decided");
+                }else if(e.detail[`point_${i}`] === "K"){
+                    points[i-1].parentElement.classList.add("kicked");
+                    points[i-1].classList.add(e.detail[`point_${i}`]);
+                    points[i-1].classList.add("decided");
+                    points[i-1].previousElementSibling.classList.remove("picked");
+                    points[i-1].nextElementSibling.classList.remove("picked");
+
+                }
+
+            }else{ // showDown이후 storage에 point별 action이 삭제된 경우 업데이트
+                points[i-1].parentElement.classList.remove("kicked");
+                points[i-1].classList.remove("decided");
                 points[i-1].previousElementSibling.classList.remove("picked");
                 points[i-1].nextElementSibling.classList.remove("picked");
-
             }
+            
         }
 
     });
