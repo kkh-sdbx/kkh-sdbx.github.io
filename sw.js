@@ -1,4 +1,5 @@
-console.log("service worker works!!");
+console.log("service worker works!!"); // 이게 안 되네...
+// !! Capacitor를 사용한다면 서비스 워커는 필요 없을수도 있다 !!
 
 const CACHE_NAME = 'appintos-v1';
 const ASSETS_TO_CACHE = [

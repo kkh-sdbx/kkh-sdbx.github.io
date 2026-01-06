@@ -287,13 +287,19 @@
 </head>
 <body>
     <div id = "loadingPage" >
-
+        <button id = "loadingToMainBtn"></button>
+        <h1 class = "lime">This is LoadingPage</h1>
     </div>
     <div id = "mainPage">
-        <button id = "enterGlobalModeBtn"></button>
+        <button id = "mainToGlobalBtn"></button>
+        <h1 class = "lime">This is MainPage</h1>
+    </div>
+    <div id = "localMode">
+        <button id = "localToMainBtn"></button>
+        <h1 class = "lime">This is Local Mode</h1>
     </div>
     <div id = "globalMode">
-        <button id = "backToMainPage"></button>
+        <button id = "globalToMain"></button>
         <div id = "dummy" display = "flex" >
             <h1 class ="green" >color test</h1>
             <h1 class ="lime" >color test</h1>
@@ -430,16 +436,31 @@
         });
         }
         
-        // 데이터 정의
+        // 페이지 이동 함수
+
+        function moveToPage(pageName){
+
+            const loadingPage = document.getElementById("loadingPage");
+            
+            const mainPage = document.getElementById("mainPage");
+            const globalMode = document.getElementById("globalMode");
+            const localMode = document.getElementById("localMode");
+            
+            const targetPages = {"MAIN":mainPage, "GLOBAL":globalMode, "LOADING":loadingPage,"LOCAL":localMode}
+        }
         
-        const globalMode = document.getElementById("globalMode");
-        const enterGlobalModeBtn = document.getElementById("enterGlobalModeBtn");
-        enterGlobalModeBtn.addEventListener("click",()=>{
+        
+        
+        const loadingToMainBtn = document.getElementById("loadingToMainBtn");
+        const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
+        const globalToMainBtn = document.getElementById("globalToMainBtn");
+
+        loadingToMainBtn.addEventListener("click",()=>{
             globalMode.style.display = "block";
             enterGlobalModeBtn.style.display = "none";
         });
         
-        const mainPage = document.getElementById("mainPage");
+        
         const backToMainPage = document.getElementById("backToMainPage");
         backToMainPage.addEventListener("click",()=>{
             mainPage.style.display = "block";
@@ -447,7 +468,7 @@
         });
         
 
-
+        // 데이터 정의
         const fixBtn = document.getElementById("fix");
         const points = document.querySelectorAll('.point');
         const[point_1, point_2, point_3, point_4, point_5] = points;
