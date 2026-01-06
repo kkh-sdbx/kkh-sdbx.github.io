@@ -12,11 +12,11 @@ let leftUsers = [];
 
 // Z. 기타 함수들. 및 클래스 선언
 class Prisoner{
-    constructor(id, type){
-        type === "dummy"? this.name = `dummy${id}`: this.name = `user${id}`;
+    constructor(name,prisonerType){
+        this.name = name;
+        this.type = prisonerType;
         this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
-        this.prisonerType = type;
         this.reversePoints = new Map();
         this.totalY = 0;
         this.totalN = 0;
@@ -55,27 +55,30 @@ class Prisoner{
         }
         
     }
-    clearHistory(log){
+    clearHistory(){
         this.history = [];
     }
 }
 
 class User extends Prisoner {
-    constructor(id, type){
-        super(id,type);
-
+    constructor(name,prisonerType){
+        super(name,prisonerType);
+        
     }
     setId(userId){
         this.id = userId; //id가 두 번 들어가지. setId()는 추후 ULID 위한 함수니까 일단 놔두자 
     }
 
-
 }
-class Bot extends Prisoner{
-    constructor(id,type,persona){
-        super(id,type);
-        this.persona = persona; //this.persona = " smiley || angry || loner || smarty";
 
+class Bot extends Prisoner{
+    constructor(name,prisonerType, persona){
+        super(name,prisonerType);
+        this.persona = persona; //this.persona = " smiley || angry || loner || smarty"
+
+    }
+    setBotActions(persona){
+        
     }
 
 }
