@@ -78,7 +78,16 @@ class Bot extends Prisoner{
 
     }
     setBotActions(persona){
-        
+        /**
+         * 일단 봇의 종류는 4가지.
+         * smiley : 무조건 Y
+         * angry : 무조건 N
+         * loner : 무조건 K
+         * smarty : tit-for-tat
+         * 
+         * 
+         */
+
     }
 
 }
