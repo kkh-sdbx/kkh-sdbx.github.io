@@ -194,15 +194,21 @@ function NYK_showDown(userPool){
 console.log("=== NYK_showDown 정산 시작 ===");
     
     const resultTable = {
-        "YY": [4, 4],   "YN": [-8, 8],  "YK": [2, 0],
-        "NY": [8, -8],  "NN": [-6, -6], "NK": [-2, 0],
-        "KY": [0, 2],   "KN": [0, -2],   "KK": [-12, -12]
+        "YY": {"breakUp":false, "score":[4, 4]},   
+        "YN": {"breakUp":false, "score":[-8, 8]},  
+        "YK": {"breakUp":true, "score":[2, 0]},
+        "NY": {"breakUp":false, "score":[8, -8]},  
+        "NN": {"breakUp":false, "score":[-6, -6]}, 
+        "NK": {"breakUp":true, "score":[-2, 0]},
+        "KY": {"breakUp":true, "score":[0, 2]},   
+        "KN": {"breakUp":true, "score":[0, -2]},   
+        "KK": {"breakUp":false, "score":[-12, -12]}
     };
 
     // 모든 포인트의 정산 상태 초기화
     userPool.forEach(user => {
         user.actions.forEach(action => action.isVisited = false);
-        user.score = 0; // 점수 필드 초기화
+       // user.score = 0; // 점수 필드 초기화...는 할 필요가 없지!
     });
 
     userPool.forEach((userInfo, userName) => {
@@ -228,7 +234,14 @@ console.log("=== NYK_showDown 정산 시작 ===");
             // 두 유저의 액션 조합
             const myAction = actionInfo.type;
             const opponentAction = opponentActionInfo.type;
-            const actionPair = myAction + opponentAction;
+            const actionPair = myAction + opponentAction; // "KK"
+
+            //Kick 계산.
+            if(resultTable[actionPair].breakUp){
+                 // # 점수계산 및 ynkration Update,여기는 둘이 헤어지는 경우. 매칭을 해제하는 로직 작성 + history 초기화
+            }else{
+                //# 점수계산 및 ynkration Update,여기는 둘이 붙어있는 경우.
+            }
 
             // 점수 계산
             const [myGain, opponentGain] = resultTable[actionPair];
