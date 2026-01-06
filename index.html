@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle Points with Tooltip Cursor</title>
+    <link rel="manifest" href="/manifest.json">
     <style>
        body {
             margin: 0;
@@ -420,6 +421,15 @@
 
 
     <script>
+        // 서비스 워커 불러오기
+        if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker 등록 성공:', reg.scope))
+            .catch(err => console.error('Service Worker 등록 실패:', err));
+        });
+        }
+        
         // 데이터 정의
         
         const globalMode = document.getElementById("globalMode");
