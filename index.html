@@ -440,13 +440,35 @@
 
         function moveToPage(pageName){
 
-            const loadingPage = document.getElementById("loadingPage");
+            const LOADING = document.getElementById("loadingPage");
             
-            const mainPage = document.getElementById("mainPage");
-            const globalMode = document.getElementById("globalMode");
-            const localMode = document.getElementById("localMode");
+            const MAIN = document.getElementById("mainPage");
+            const GLOBAL = document.getElementById("globalMode");
+            const LOCAL = document.getElementById("localMode");
             
-            const targetPages = {"MAIN":mainPage, "GLOBAL":globalMode, "LOADING":loadingPage,"LOCAL":localMode}
+            const allPages = [MAIN,GLOBAL,LOADING,LOCAL];
+            allPages.forEach(page => {page.style.display = "none";})
+
+
+            /*
+            function showPage(pageId) {
+    // 모든 페이지 요소를 가져와서 숨김 (forEach 사용)
+    const allPages = document.querySelectorAll('.page');
+    allPages.forEach(page => {
+        page.style.display = 'none';
+    });
+
+    // 선택한 페이지만 보여줌
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.style.display = 'block'; // 또는 'flex'
+    } else {
+        console.error("해당 ID의 페이지가 없습니다:", pageId);
+    }
+}
+    이 방식이 낫긴 하겠다. class를 쓸 수가 있네.
+            */
+
         }
         
         
