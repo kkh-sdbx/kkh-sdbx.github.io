@@ -292,6 +292,7 @@
         <button id = "enterGlobalModeBtn"></button>
     </div>
     <div id = "globalMode">
+        <button id = "backToMainPage"></button>
         <div id = "dummy" display = "flex" >
             <h1 class ="green" >color test</h1>
             <h1 class ="lime" >color test</h1>
@@ -425,7 +426,18 @@
         const enterGlobalModeBtn = document.getElementById("enterGlobalModeBtn");
         enterGlobalModeBtn.addEventListener("click",()=>{
             globalMode.style.display = "block";
-        })
+            enterGlobalModeBtn.style.display = "none";
+        });
+        
+        const mainPage = document.getElementById("mainPage");
+        const backToMainPage = document.getElementById("backToMainPage");
+        backToMainPage.addEventListener("click",()=>{
+            mainPage.style.display = "block";
+            backToMainPage.style.display = "none";
+        });
+        
+
+
         const fixBtn = document.getElementById("fix");
         const points = document.querySelectorAll('.point');
         const[point_1, point_2, point_3, point_4, point_5] = points;
