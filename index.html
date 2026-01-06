@@ -17,6 +17,9 @@
             justify-content: center; 
             align-items: center;
         }
+        #globalMode{
+            display:none;
+        }
 
         /* 컨테이너 (점을 배치할 기준 영역) */
         .container {
@@ -282,136 +285,147 @@
     </style>
 </head>
 <body>
-    <div class = ></div>
-    <div id = "dummy" display = "flex" >
-        <h1 class ="green" >color test</h1>
-        <h1 class ="lime" >color test</h1>
-        <h1 class ="purple" >color test</h1>
-        <h1 class ="gray" >color test</h1>
-        <h1 class ="yellow" >color test</h1>
-        <h1 class = "orange">color test</h1>
-        <h1 class = "blue">color test</h1>
-        <h1 class = "cyan">color test</h1>
-        <h1 class = "white">color test</h1>
-        <h1 class = "red">color test</h1>
-    </div>
-    
-    <!-- 각 point에 id 지정하고 V, 하나씩 다룰 수 있도록 함.V 호버 시 툴팁, 클릭 시 툴팁 고정과 마름모꼴 고정 후 Y/N/Kick 버튼 나오도록. !!-->
-
-    <p class = "memoText"> div 를 3x5 형태로 만들어서, 수직으로 점 다섯개 볼 수 있도록 수정,
-    가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
-
-    앱인토스: 600x600px 크기의 일반 및 다크모드 앱 로고가 필요함.
-    앱 소개 문구: 어설프게 착하면 살아남지 못한다!  Naive Kindness will not Survive</p>
-
-
-    
-    <div class="container">
-
-        <div class = "pointContainer">
-            <div class = "balancer"></div>
-            <div class = "saidNo">N</div>
-            <div id="point_1" class="point" data-point="point_1">
-                <span class = "point-text">1</span>
-            </div>
-            <div class = "saidYes">Y</div>
-            <div class = "showDownResult">0</div>
-
-        </div>
-        <div class = "pointContainer">
-            <div class = "balancer"></div>
-            <div class = "saidNo">N</div>
-            <div id="point_2" class="point" data-point="point_2">
-                <span class = "point-text">2</span>
-            </div>
-            <div class = "saidYes">Y</div>
-            <div class = "showDownResult">0</div>
-
-        </div>
-        <div class = "pointContainer">
-            <div class = "balancer"></div>
-            <div class = "saidNo">N</div>
-            <div id="point_3" class="point" data-point="point_3">
-                <span class = "point-text">3</span>
-            </div>
-            <div class = "saidYes">Y</div>
-            <div class = "showDownResult">0</div>
-
-        </div>
-        <div class = "pointContainer">
-            <div class = "balancer"></div>
-            <div class = "saidNo">N</div>
-            <div id="point_4" class="point" data-point="point_4">
-                <span class = "point-text">4</span>
-            </div>
-            <div class = "saidYes">Y</div>
-            <div class = "showDownResult">0</div>
-
-        </div>
-        <div class = "pointContainer">
-            <div class = "balancer"></div>
-            <div class = "saidNo">N</div>
-            <div id="point_5" class="point" data-point="point_5">
-                <span class = "point-text">5</span>
-            </div>
-            <div class = "saidYes">Y</div>
-            <div class = "showDownResult">0</div>
-
-        </div>
-
+    <div id = "loadingPage" >
 
     </div>
-
-    
-    <div id = "testBtns" >
-
-        <button id = "startSeason">startSeason </button>
-        <button id="fix">FIX</button>
-        <button id = "setDummyActions">setDummyActions </button>
-        <button id = "finishRound">finishRound </button>
-        <button id = "startMatchMaking">startMatchMaking </button>
-
+    <div id = "mainPage">
+        <button id = "enterGlobalModeBtn"></button>
     </div>
+    <div id = "globalMode">
+        <div id = "dummy" display = "flex" >
+            <h1 class ="green" >color test</h1>
+            <h1 class ="lime" >color test</h1>
+            <h1 class ="purple" >color test</h1>
+            <h1 class ="gray" >color test</h1>
+            <h1 class ="yellow" >color test</h1>
+            <h1 class = "orange">color test</h1>
+            <h1 class = "blue">color test</h1>
+            <h1 class = "cyan">color test</h1>
+            <h1 class = "white">color test</h1>
+            <h1 class = "red">color test</h1>
+        </div>
+        
+        <!-- 각 point에 id 지정하고 V, 하나씩 다룰 수 있도록 함.V 호버 시 툴팁, 클릭 시 툴팁 고정과 마름모꼴 고정 후 Y/N/Kick 버튼 나오도록. !!-->
 
-    <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
-    <div class="tooltip" id="global-tooltip">
-        <strong id="opntName"></strong>
-        <div id="opntYNKratio"></div>
-        <strong>30%</strong>
-        <strong>Y 30</strong>
-        <strong>Total 100</strong>
-        <div id = "history">
-            <p class = "pastAction">X</p>
-            <p class = "pastAction">X</p>
-            <p class = "pastAction">X</p>
-            <p class = "pastAction">X</p>
-            <p class = "pastAction">X</p>
+        <p class = "memoText"> div 를 3x5 형태로 만들어서, 수직으로 점 다섯개 볼 수 있도록 수정,
+        가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
+
+        앱인토스: 600x600px 크기의 일반 및 다크모드 앱 로고가 필요함.
+        앱 소개 문구: 어설프게 착하면 살아남지 못한다!  Naive Kindness will not Survive</p>
+
+
+        
+        <div class="container">
+
+            <div class = "pointContainer">
+                <div class = "balancer"></div>
+                <div class = "saidNo">N</div>
+                <div id="point_1" class="point" data-point="point_1">
+                    <span class = "point-text">1</span>
+                </div>
+                <div class = "saidYes">Y</div>
+                <div class = "showDownResult">0</div>
+
+            </div>
+            <div class = "pointContainer">
+                <div class = "balancer"></div>
+                <div class = "saidNo">N</div>
+                <div id="point_2" class="point" data-point="point_2">
+                    <span class = "point-text">2</span>
+                </div>
+                <div class = "saidYes">Y</div>
+                <div class = "showDownResult">0</div>
+
+            </div>
+            <div class = "pointContainer">
+                <div class = "balancer"></div>
+                <div class = "saidNo">N</div>
+                <div id="point_3" class="point" data-point="point_3">
+                    <span class = "point-text">3</span>
+                </div>
+                <div class = "saidYes">Y</div>
+                <div class = "showDownResult">0</div>
+
+            </div>
+            <div class = "pointContainer">
+                <div class = "balancer"></div>
+                <div class = "saidNo">N</div>
+                <div id="point_4" class="point" data-point="point_4">
+                    <span class = "point-text">4</span>
+                </div>
+                <div class = "saidYes">Y</div>
+                <div class = "showDownResult">0</div>
+
+            </div>
+            <div class = "pointContainer">
+                <div class = "balancer"></div>
+                <div class = "saidNo">N</div>
+                <div id="point_5" class="point" data-point="point_5">
+                    <span class = "point-text">5</span>
+                </div>
+                <div class = "saidYes">Y</div>
+                <div class = "showDownResult">0</div>
+
+            </div>
+
 
         </div>
-    </div>
 
-    <div class="selection" id="selectionPanel">
-        <button id="NBtn" data-btnType = "N"> N </button>
-        <button id="KBtn" data-btnType = "K"> Kick! </button>
-        <button id="YBtn" data-btnType = "Y"> Y </button>        
-    </div>
+        
+        <div id = "testBtns" >
 
-    <div id = "fixModal" class = "modal">
-        <div class = "modalBody">
-            <h2> Modal Title</h2>
-            <h4> Modal Content</h4>
-            <div class = "modalBtnContainer">
-                <button id = "proceedBtn">Proceed</button>
-                <button id = "discardBtn">Discard</button>
+            <button id = "startSeason">startSeason </button>
+            <button id="fix">FIX</button>
+            <button id = "setDummyActions">setDummyActions </button>
+            <button id = "finishRound">finishRound </button>
+            <button id = "startMatchMaking">startMatchMaking </button>
+
+        </div>
+
+        <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
+        <div class="tooltip" id="global-tooltip">
+            <strong id="opntName"></strong>
+            <div id="opntYNKratio"></div>
+            <strong>30%</strong>
+            <strong>Y 30</strong>
+            <strong>Total 100</strong>
+            <div id = "history">
+                <p class = "pastAction">X</p>
+                <p class = "pastAction">X</p>
+                <p class = "pastAction">X</p>
+                <p class = "pastAction">X</p>
+                <p class = "pastAction">X</p>
+
+            </div>
+        </div>
+
+        <div class="selection" id="selectionPanel">
+            <button id="NBtn" data-btnType = "N"> N </button>
+            <button id="KBtn" data-btnType = "K"> Kick! </button>
+            <button id="YBtn" data-btnType = "Y"> Y </button>        
+        </div>
+
+        <div id = "fixModal" class = "modal">
+            <div class = "modalBody">
+                <h2> Modal Title</h2>
+                <h4> Modal Content</h4>
+                <div class = "modalBtnContainer">
+                    <button id = "proceedBtn">Proceed</button>
+                    <button id = "discardBtn">Discard</button>
+                </div>
             </div>
         </div>
     </div>
-
 
 
     <script>
         // 데이터 정의
-
+        
+        const globalMode = document.getElementById("globalMode");
+        const enterGlobalModeBtn = document.getElementById("enterGlobalModeBtn");
+        enterGlobalModeBtn.addEventListener("click",()=>{
+            globalMode.style.display = "block";
+        })
         const fixBtn = document.getElementById("fix");
         const points = document.querySelectorAll('.point');
         const[point_1, point_2, point_3, point_4, point_5] = points;
