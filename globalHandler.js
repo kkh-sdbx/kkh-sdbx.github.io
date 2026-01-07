@@ -22,7 +22,7 @@ const coords = {
 let currentPoint = null;
 
 
-const global = {
+const GLOBAL = {
     setUserStorage(){
         storage.clear();
         storage.setItem("name","KH");
@@ -109,6 +109,6 @@ const global = {
 
 
 
-export default global
+export default GLOBAL
 
 

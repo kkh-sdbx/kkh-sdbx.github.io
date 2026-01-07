@@ -430,8 +430,8 @@
     </div>
     <script type ="module" >
         // 모듈들 import
-        import { pageRouter } from "./pageRouter.js";
-        import { globalHandler } from "./globalHandler.js"
+        import { PAGEROUTER } from "./pageRouter.js";
+        import { GLOBAL } from "./globalHandler.js"
 
         // 서비스 워커 불러오기
         if ('serviceWorker' in navigator) {
@@ -455,21 +455,21 @@
         const globalToMainBtn = document.getElementById("globalToMainBtn");
 
         loadingToMainBtn.addEventListener("click",()=>{
-            pageRouter.moveToPage("MAIN");
+            PAGEROUTER.moveToPage("MAIN");
         });
 
         mainToGlobalBtn.addEventListener("click",()=>{
-            pageRouter.moveToPage("GLOBAL");
+            PAGEROUTER.moveToPage("GLOBAL");
         });
 
         globalToMainBtn.addEventListener("click",()=>{
-            pageRouter.moveToPage("MAIN");
+            PAGEROUTER.moveToPage("MAIN");
         });
         
         
         const backToMainPage = document.getElementById("backToMainPage");
         backToMainPage.addEventListener("click",()=>{
-            pageRouter.moveToPage("MAIN");
+            PAGEROUTER.moveToPage("MAIN");
         });
         
 
@@ -478,8 +478,8 @@
         
         //임의의 유저네임을 집어넣음
         window.addEventListener("load",()=>{
-            globalHandler.global.setUserStorage();
-            pageRouter.moveToPage("LOADING");
+            GLOBAL.setUserStorage();
+            PAGEROUTER.moveToPage("LOADING");
 
         })
          // not yet 또는 fixed
@@ -504,7 +504,7 @@
 
         window.addEventListener("load",()=>{
 
-            globalHandler.global.updateActions();
+            GLOBAL.updateActions();
         });
 
         window.addEventListener('resize',()=>{

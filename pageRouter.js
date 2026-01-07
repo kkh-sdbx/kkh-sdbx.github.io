@@ -1,5 +1,5 @@
 let PAGES = null;
-const moveToPage = {
+const PAGEROUTER = {
     moveToPage(pageName){
         if(!PAGES){
                     PAGES = {
@@ -22,4 +22,4 @@ const moveToPage = {
 
 }
 
-export default moveToPage
+export default PAGEROUTER
