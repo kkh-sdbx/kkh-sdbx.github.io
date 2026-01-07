@@ -509,30 +509,15 @@
 
         window.addEventListener('resize',()=>{
             if(currentPoint){
-                updatePositions();
+                GLOBAL.updatePositions();
             }
         })
-
-        const pointData = {
-            "point_1": { "name": "point_1 점 opntName", "YNKratio": "30%", "history":[] },
-            "point_2": { "name": "point_2 점 opntName", "YNKratio": "30%", "history":[] },
-            "point_3": { "name": "point_3 점 opntName", "YNKratio": "30%", "history":[] },
-            "point_4": { "name": "point_4 점 opntName", "YNKratio": "30%", "history":[] },
-            "point_5": { "name": "point_5 점 opntName", "YNKratio": "30%", "history":[] }
-        };
-
-        /** 각 point에 매칭된 상대의 정보를 제공.*/
-        function updatePointData(){
-            // 표시할 정보 : userName, YNKratio, history
-            // history를 알려면, '나와 매칭된 기록'을 알아야 함.
-        }
-        
 
         // 마우스 오버 이벤트 핸들러
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
                 
-                updateCoords();
+                GLOBAL.updateCoords();
 
                 const target = point.id;
                 const data = pointData[`${target}`];
@@ -548,7 +533,7 @@
                 let xd = point.getBoundingClientRect().width *1.2/0.9; 
                 let yd = point.getBoundingClientRect().height *1.2/0.9;
                 
-                updateTooltipPosition(changingX+xd, changingY);
+                GLOBAL.updateTooltipPosition(changingX+xd, changingY);
             });
 
             point.addEventListener('mouseleave', function() {
@@ -586,7 +571,7 @@
                         point.classList.toggle('activated');
                         selection.style.display = 'flex';
                         tooltip.style.display = 'block';
-                        updatePositions();
+                        GLOBAL.updatePositions();
 
                     }
                     
@@ -598,7 +583,7 @@
                     currentPoint = point;
                     selection.style.display = 'flex';
                     tooltip.style.display = 'block';
-                    updatePositions();
+                    GLOBAL.updatePositions();
                 };
                 
 

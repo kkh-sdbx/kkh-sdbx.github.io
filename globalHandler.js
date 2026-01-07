@@ -21,6 +21,14 @@ const coords = {
 
 let currentPoint = null;
 
+ const pointData = {
+            "point_1": { "name": "point_1 점 opntName", "YNKratio": "30%", "history":[] },
+            "point_2": { "name": "point_2 점 opntName", "YNKratio": "30%", "history":[] },
+            "point_3": { "name": "point_3 점 opntName", "YNKratio": "30%", "history":[] },
+            "point_4": { "name": "point_4 점 opntName", "YNKratio": "30%", "history":[] },
+            "point_5": { "name": "point_5 점 opntName", "YNKratio": "30%", "history":[] }
+};
+
 
 const GLOBAL = {
     setUserStorage(){
@@ -66,6 +74,7 @@ const GLOBAL = {
             }
     
     },
+    
     updateCoords(){
         coords.point_1.x = point_1.getBoundingClientRect().left; 
         coords.point_1.y = point_1.getBoundingClientRect().top; 
@@ -82,15 +91,18 @@ const GLOBAL = {
         coords.point_5.x = point_5.getBoundingClientRect().left;
         coords.point_5.y = point_5.getBoundingClientRect().top;
     },
+    
     updateTooltipPosition(x,y) {
 
         tooltip.style.left = x + 'px';
         tooltip.style.top = y + 'px';
     },
+    
     updateSelectionPosition(x, y) {
         selection.style.left = x + 'px';
         selection.style.top = y + 'px';
     },
+    
     updatePositions(){
         global.updateCoords();
         let changingX = coords[`${currentPoint.id}`].x;
@@ -101,7 +113,14 @@ const GLOBAL = {
 
         global.updateSelectionPosition(changingX -36, changingY+yd);
         global.updateTooltipPosition(changingX+xd, changingY);
-    }
+    },
+    
+    updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
+            // 표시할 정보 : userName, YNKratio, history
+            // history를 알려면, '나와 매칭된 기록'을 알아야 함.
+    },
+    
+
 
 
 
