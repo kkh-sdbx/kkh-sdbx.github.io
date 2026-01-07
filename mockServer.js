@@ -1,5 +1,5 @@
 console.log("mock server");
-console.log(storage);
+//console.log(storage);
 
 const ALLUSERS = new Map();
 const startSeason = document.getElementById("startSeason");
