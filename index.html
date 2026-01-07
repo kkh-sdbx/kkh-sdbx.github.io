@@ -510,6 +510,12 @@
 
         // 마우스 오버 이벤트 핸들러
         GLOBAL.setPointsInteractive();
+
+        //NYK 버튼 이벤트리스너 붙이기
+        GLOBAL.setSelectionInteractive();
+        
+        //모달창 proceed,discard 이벤트리스너 붙이기
+        GLOBAL.setModalInteractive();
         
 
     document.addEventListener("storageUpdated",(e)=>{
@@ -554,8 +560,7 @@
 
     
 
-    GLOBAL.setSelectionInteractive();
-    GLOBAL.setModalInteractive()
+    
     
     fixBtn.addEventListener("click",()=>{
         const checker = ["point_1","point_2","point_3","point_4","point_5"];
