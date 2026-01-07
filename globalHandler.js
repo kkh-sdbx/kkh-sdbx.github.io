@@ -118,7 +118,195 @@ const GLOBAL = {
     updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
             // 표시할 정보 : userName, YNKratio, history
             // history를 알려면, '나와 매칭된 기록'을 알아야 함.
-    }
+    },
+
+    setPointsInteractive(){
+        //마우스 오버 이벤트 핸들러
+        points.forEach(point => {
+            point.addEventListener('mouseenter', function(e) {
+                
+                GLOBAL.updateCoords();
+
+                const target = point.id;
+                const data = pointData[`${target}`];
+
+
+                opntName.textContent = data.name;
+                opntYNKratio.textContent = data.YNKratio;
+                tooltip.style.display = 'block';
+                
+                let changingX = coords[`${target}`].x;
+                let changingY = coords[`${target}`].y;
+                
+                let xd = point.getBoundingClientRect().width *1.2/0.9; 
+                let yd = point.getBoundingClientRect().height *1.2/0.9;
+                
+                GLOBAL.updateTooltipPosition(changingX+xd, changingY);
+            });
+
+            point.addEventListener('mouseleave', function() {
+                //클릭된 상태, 즉 activated 한 상태에서는 마우스가 나가도 툴팁 보여야 하거든#
+                if(point.classList.contains("activated")){
+                    
+                    tooltip.style.display = 'block';
+
+                }else{
+                    
+                    tooltip.style.display = 'none';
+                }
+                
+
+            });
+            
+            point.addEventListener("click",(e)=>{
+                const target = point.name ;
+
+                if( currentPoint != null) {
+
+                    if( currentPoint === point){
+                    // 같은 point를 다시 눌렀을 때 
+                    currentPoint = null;
+                    point.classList.toggle('activated');
+
+                    selection.style.display = 'none';
+                    tooltip.style.display = 'none';
+
+                    }else{
+                        // 이전에 클릭했던 point가 있고, 새 point 클릭 시
+
+                        currentPoint.classList.toggle('activated');
+                        currentPoint = point;
+                        point.classList.toggle('activated');
+                        selection.style.display = 'flex';
+                        tooltip.style.display = 'block';
+                        GLOBAL.updatePositions();
+
+                    }
+                    
+
+                }else{
+                    // 이전에 클릭했던 point가 없고, 새 point 클릭 시
+
+                    point.classList.toggle('activated');
+                    currentPoint = point;
+                    selection.style.display = 'flex';
+                    tooltip.style.display = 'block';
+                    GLOBAL.updatePositions();
+                };
+                
+
+            });
+
+    });
+
+    },
+
+    setSelectionInteractive(){
+        YBtn.addEventListener("click",()=>{
+
+        storage.setItem(`${currentPoint.id}`, `Y`);
+
+        currentPoint.parentElement.classList.remove("kicked");
+        currentPoint.nextElementSibling.classList.add("picked");
+        currentPoint.previousElementSibling.classList.remove("picked");
+        
+        currentPoint.classList.remove('activated');
+        if(storage.getItem(`${currentPoint.id}`) != undefined){
+            currentPoint.classList.add('decided');
+        }
+         // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
+        currentPoint = null;
+        tooltip.style.display = 'none';
+        selection.style.display = 'none';
+
+        
+
+            
+        });
+        NBtn.addEventListener("click",()=>{
+
+            storage.setItem(`${currentPoint.id}`, `N`);
+
+            currentPoint.parentElement.classList.remove("kicked");
+            currentPoint.nextElementSibling.classList.remove("picked");
+            currentPoint.previousElementSibling.classList.add("picked");
+
+            currentPoint.classList.remove('activated');
+            if(storage.getItem(`${currentPoint.id}`) != undefined){
+                currentPoint.classList.add('decided');
+            }
+            currentPoint = null;
+            tooltip.style.display = 'none';   
+            selection.style.display = 'none';
+
+            
+
+        }); 
+        KBtn.addEventListener("click",()=>{
+
+            storage.setItem(`${currentPoint.id}`, `K`);
+            currentPoint.classList.remove('activated');
+
+
+            currentPoint.parentElement.classList.add("kicked");
+            currentPoint.nextElementSibling.classList.remove("picked");
+            currentPoint.previousElementSibling.classList.remove("picked");
+
+            if(storage.getItem(`${currentPoint.id}`) != undefined){
+                currentPoint.classList.add('decided');
+
+            }
+            currentPoint = null;
+            tooltip.style.display = 'none';
+            selection.style.display = 'none';
+
+            
+
+        });
+
+
+    },
+
+    setModalInteractive(){
+        proceedBtn.addEventListener("click",()=>{
+            const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
+            if(storage.getItem("status") === "fixed"){
+                console.log("You already had your chance !");
+                fixModal.style.display = "none";
+
+            }else{
+                for(let i=1;i<6;i++){
+
+                if(storage.getItem(`point_${i}`) != undefined){
+                    
+
+                    continue
+                }else{
+                    
+                    storage.setItem(`point_${i}`,"Y");
+
+                    points[i-1].parentElement.classList.remove("kicked");
+                    points[i-1].nextElementSibling.classList.add("picked");
+                    points[i-1].previousElementSibling.classList.remove("picked");
+                    points[i-1].classList.add("decided");
+
+                }
+
+            }
+            storage.setItem("status","fixed");
+            fixModal.style.display = "none";
+            proceedBtn.dispatchEvent(sendInfoToServer);
+
+            }
+            
+
+    });
+
+    discardBtn.addEventListener("click",()=>{
+            fixModal.style.display = "none";
+        });
+
+    },
     
 
 
