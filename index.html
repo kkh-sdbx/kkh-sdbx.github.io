@@ -18,7 +18,7 @@
             justify-content: center; 
             align-items: center;
         }
-        #globalMode{
+        .page{
             display:none;
         }
 
@@ -286,19 +286,19 @@
     </style>
 </head>
 <body>
-    <div id = "loadingPage" >
+    <div id = "loadingPage"  class = "page">
         <button id = "loadingToMainBtn"></button>
         <h1 class = "lime">This is LoadingPage</h1>
     </div>
-    <div id = "mainPage">
+    <div id = "mainPage" class = "page">
         <button id = "mainToGlobalBtn"></button>
         <h1 class = "lime">This is MainPage</h1>
     </div>
-    <div id = "localMode">
+    <div id = "localMode" class = "page">
         <button id = "localToMainBtn"></button>
         <h1 class = "lime">This is Local Mode</h1>
     </div>
-    <div id = "globalMode">
+    <div id = "globalMode" class = "page">
         <button id = "globalToMain"></button>
         <div id = "dummy" display = "flex" >
             <h1 class ="green" >color test</h1>
@@ -437,17 +437,27 @@
         }
         
         // 페이지 이동 함수
-
         function moveToPage(pageName){
+            const allPages = document.querySelectorAll(".page");
+            allPages.forEach((page)=>{
+                page.style.display = "none";
+            })
 
-            const LOADING = document.getElementById("loadingPage");
-            
+            const LOADING = document.getElementById("loadingPage");      
             const MAIN = document.getElementById("mainPage");
             const GLOBAL = document.getElementById("globalMode");
             const LOCAL = document.getElementById("localMode");
-            
-            const allPages = [MAIN,GLOBAL,LOADING,LOCAL];
-            allPages.forEach(page => {page.style.display = "none";})
+
+            const targetPage = {
+                "LOADING":LOADING,
+                "MAIN":MAIN,
+                "GLOBAL":GLOBAL,
+                "LOCAL":LOCAL
+            }
+
+            targetPage[pageName].style.display = "block";
+
+
 
 
             /*
@@ -510,6 +520,7 @@
             storage.setItem("name","KH");
             storage.setItem("id","KH_ID");
             storage.setItem("status","not yet");
+            moveToPage("LOADING");
 
         })
          // not yet 또는 fixed
