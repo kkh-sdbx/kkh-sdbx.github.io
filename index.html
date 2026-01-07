@@ -428,9 +428,11 @@
             </div>
         </div>
     </div>
+    <script type ="module" >
+        // 모듈들 import
+        import { pageRouter } from "./pageRouter.js";
+        import { globalHandler } from "./globalHandler.js"
 
-
-    <script>
         // 서비스 워커 불러오기
         if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -440,84 +442,44 @@
             });
         }
 
-
-        
-        // 페이지 이동 함수 - IIFE이용.ㄴ
-        /*
+       /*
         기억할 것:
         1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
         2. 값이 유효하지 않을 수 있다는 점 항상 확인.
         */
-               
 
-        const moveToPage = (()=>{
-            let PAGES = null;
-
-            return function(pageName){
-                if(!PAGES){
-                    PAGES = {
-                        "ALL":document.querySelectorAll(".page"),
-                        "LOADING": document.getElementById("loadingPage"),    
-                        "MAIN": document.getElementById("mainPage"),
-                        "GLOBAL": document.getElementById("globalMode"),
-                        "LOCAL": document.getElementById("localMode")
-                    }
-
-                }
-
-                PAGES.ALL.forEach((page)=>{
-                    page.classList.remove("current");
-                })
-
-                PAGES[pageName]? PAGES[pageName].classList.add("current") : console.warn(`wrong page name: ${pageName}`);
-
-            }
-        })();       
         
+        // 페이지 이동 함수 - 모듈 이용
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
         const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
         const globalToMainBtn = document.getElementById("globalToMainBtn");
 
         loadingToMainBtn.addEventListener("click",()=>{
-            moveToPage("MAIN");
+            pageRouter.moveToPage("MAIN");
         });
 
         mainToGlobalBtn.addEventListener("click",()=>{
-            moveToPage("GLOBAL");
+            pageRouter.moveToPage("GLOBAL");
         });
 
         globalToMainBtn.addEventListener("click",()=>{
-            moveToPage("MAIN");
+            pageRouter.moveToPage("MAIN");
         });
         
         
         const backToMainPage = document.getElementById("backToMainPage");
         backToMainPage.addEventListener("click",()=>{
-            moveToPage("MAIN");
+            pageRouter.moveToPage("MAIN");
         });
         
 
-        // 데이터 정의
-        const fixBtn = document.getElementById("fix");
-        const points = document.querySelectorAll('.point');
-        const[point_1, point_2, point_3, point_4, point_5] = points;
-        const tooltip = document.getElementById('global-tooltip');
-        const opntName = document.getElementById('opntName');
-        const opntYNKratio = document.getElementById('opntYNKratio');
-        const emptyPoints = [];
-        const selection = document.getElementById('selectionPanel');
-        const YBtn = document.getElementById('YBtn');
-        const NBtn = document.getElementById('NBtn');
-        const KBtn = document.getElementById('KBtn');
+        
 
-        const storage = window.localStorage;
+        
         //임의의 유저네임을 집어넣음
         window.addEventListener("load",()=>{
-            storage.clear();
-            storage.setItem("name","KH");
-            storage.setItem("id","KH_ID");
-            storage.setItem("status","not yet");
-            moveToPage("LOADING");
+            globalHandler.global.setUserStorage();
+            pageRouter.moveToPage("LOADING");
 
         })
          // not yet 또는 fixed
@@ -534,98 +496,17 @@
             cancelable: false,
             detail:storage
         });
-            //자바스크립트에서 이벤트가 발생했을 때 리스너가 해당 이벤트를 감지하려면, 이벤트가 발생하기 전에 addEventListener를 통해 리스너가 등록되어 있어야 합니다.
-        const coords = {
-            "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
-            "point_2": { "x": point_2.getBoundingClientRect().left, "y": point_2.getBoundingClientRect().top  },
-            "point_3": { "x": point_3.getBoundingClientRect().left, "y": point_3.getBoundingClientRect().top  },
-            "point_4": { "x": point_4.getBoundingClientRect().left, "y": point_4.getBoundingClientRect().top  },
-            "point_5": { "x": point_5.getBoundingClientRect().left, "y": point_5.getBoundingClientRect().top  }
-        };
 
-        let currentPoint = null;
+
+        //자바스크립트에서 이벤트가 발생했을 때 리스너가 해당 이벤트를 감지하려면, 이벤트가 발생하기 전에 addEventListener를 통해 리스너가 등록되어 있어야 합니다.
+        
 
 
         window.addEventListener("load",()=>{
 
-            for(let i=1;i<points.length+1;i++){
-                if(storage[`point_${i}`]!=undefined){
-                    
-                    //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
-
-                    if(storage[`point_${i}`] === "Y"){
-                        points[i-1].parentElement.classList.remove("kicked");
-                        points[i-1].nextElementSibling.classList.add("picked");
-                        points[i-1].previousElementSibling.classList.remove("picked");
-                        points[i-1].classList.add('decided');
-
-
-                    }else if(storage[`point_${i}`] === "N"){
-                        points[i-1].parentElement.classList.remove("kicked");
-                        points[i-1].nextElementSibling.classList.remove("picked");
-                        points[i-1].previousElementSibling.classList.add("picked");
-                        points[i-1].classList.add('decided');
-
-
-                    }else if(storage[`point_${i}`] === "K"){
-                        points[i-1].parentElement.classList.add("kicked");
-                        points[i-1].nextElementSibling.classList.remove("picked");
-                        points[i-1].previousElementSibling.classList.remove("picked");
-                        points[i-1].classList.add('decided');
-
-
-                    }else{
-                        console.log(storage[`point_${i}`]);
-                    }
-                }
-
-
-            }
-    
+            globalHandler.global.updateActions();
         });
 
-         function updateCoords(){
-
-            coords.point_1.x = point_1.getBoundingClientRect().left; 
-            coords.point_1.y = point_1.getBoundingClientRect().top; 
-            
-            coords.point_2.x = point_2.getBoundingClientRect().left;
-            coords.point_2.y = point_2.getBoundingClientRect().top;
-
-            coords.point_3.x = point_3.getBoundingClientRect().left;
-            coords.point_3.y = point_3.getBoundingClientRect().top;
-
-            coords.point_4.x = point_4.getBoundingClientRect().left;
-            coords.point_4.y = point_4.getBoundingClientRect().top;
-
-            coords.point_5.x = point_5.getBoundingClientRect().left;
-            coords.point_5.y = point_5.getBoundingClientRect().top;
-        }
-
-        function updateTooltipPosition(x,y) {
-            
-            tooltip.style.left = x + 'px';
-            tooltip.style.top = y + 'px';
-        }
-
-        function updateSelectionPosition(x, y) {
-
-            
-            selection.style.left = x + 'px';
-            selection.style.top = y + 'px';
-        }
-
-        function updatePositions(){
-                updateCoords();
-                let changingX = coords[`${currentPoint.id}`].x;
-                let changingY = coords[`${currentPoint.id}`].y;
-                
-                let xd = currentPoint.getBoundingClientRect().width /0.9; 
-                let yd = currentPoint.getBoundingClientRect().height /0.9;
-
-                updateSelectionPosition(changingX -36, changingY+yd);
-                updateTooltipPosition(changingX+xd, changingY);
-        }
         window.addEventListener('resize',()=>{
             if(currentPoint){
                 updatePositions();
