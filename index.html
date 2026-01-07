@@ -440,6 +440,16 @@
             });
         }
 
+
+        
+        // 페이지 이동 함수 - IIFE이용.ㄴ
+        /*
+        기억할 것:
+        1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
+        2. 값이 유효하지 않을 수 있다는 점 항상 확인.
+        */
+               
+
         const moveToPage = (()=>{
             let PAGES = null;
 
@@ -462,17 +472,7 @@
                 PAGES[pageName]? PAGES[pageName].classList.add("current") : console.warn(`wrong page name: ${pageName}`);
 
             }
-        })();
-
-
-        // 페이지 이동 함수
-        /*
-        기억할 것:
-        1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
-        2. 값이 유효하지 않을 수 있다는 점 항상 확인.
-        */
-               
-        
+        })();       
         
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
         const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
