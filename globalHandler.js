@@ -12,11 +12,11 @@ const NBtn = document.getElementById('NBtn');
 const KBtn = document.getElementById('KBtn');   
 const storage = window.localStorage;
 const coords = {
-            "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
-            "point_2": { "x": point_2.getBoundingClientRect().left, "y": point_2.getBoundingClientRect().top  },
-            "point_3": { "x": point_3.getBoundingClientRect().left, "y": point_3.getBoundingClientRect().top  },
-            "point_4": { "x": point_4.getBoundingClientRect().left, "y": point_4.getBoundingClientRect().top  },
-            "point_5": { "x": point_5.getBoundingClientRect().left, "y": point_5.getBoundingClientRect().top  }
+    "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
+    "point_2": { "x": point_2.getBoundingClientRect().left, "y": point_2.getBoundingClientRect().top  },
+    "point_3": { "x": point_3.getBoundingClientRect().left, "y": point_3.getBoundingClientRect().top  },
+    "point_4": { "x": point_4.getBoundingClientRect().left, "y": point_4.getBoundingClientRect().top  },
+    "point_5": { "x": point_5.getBoundingClientRect().left, "y": point_5.getBoundingClientRect().top  }
 };
 
 let currentPoint = null;
@@ -118,7 +118,7 @@ const GLOBAL = {
     updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
             // 표시할 정보 : userName, YNKratio, history
             // history를 알려면, '나와 매칭된 기록'을 알아야 함.
-    },
+    }
     
 
 
