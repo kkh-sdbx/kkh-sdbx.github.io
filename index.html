@@ -479,15 +479,21 @@
         const globalToMainBtn = document.getElementById("globalToMainBtn");
 
         loadingToMainBtn.addEventListener("click",()=>{
-            globalMode.style.display = "block";
-            enterGlobalModeBtn.style.display = "none";
+            moveToPage("MAIN");
+        });
+
+        mainToGlobalBtn.addEventListener("click",()=>{
+            moveToPage("GLOBAL");
+        });
+
+        globalToMainBtn.addEventListener("click",()=>{
+            moveToPage("MAIN");
         });
         
         
         const backToMainPage = document.getElementById("backToMainPage");
         backToMainPage.addEventListener("click",()=>{
-            mainPage.style.display = "block";
-            backToMainPage.style.display = "none";
+            moveToPage("MAIN");
         });
         
 
