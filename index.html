@@ -22,6 +22,10 @@
             display:none;
         }
 
+        .page .current{
+            display:block;
+        }
+
         /* 컨테이너 (점을 배치할 기준 영역) */
         .container {
             /* 이 컨테이너를 화면 전체에 고정시킵니다 */
@@ -433,54 +437,41 @@
             navigator.serviceWorker.register('/sw.js')
             .then(reg => console.log('Service Worker 등록 성공:', reg.scope))
             .catch(err => console.error('Service Worker 등록 실패:', err));
-        });
+            });
         }
-        
-        // 페이지 이동 함수
-        function moveToPage(pageName){
-            const allPages = document.querySelectorAll(".page");
-            allPages.forEach((page)=>{
-                page.style.display = "none";
-            })
 
-            const LOADING = document.getElementById("loadingPage");      
-            const MAIN = document.getElementById("mainPage");
-            const GLOBAL = document.getElementById("globalMode");
-            const LOCAL = document.getElementById("localMode");
+        const moveToPage = (()=>{
+            let PAGES = null;
 
-            const targetPage = {
-                "LOADING":LOADING,
-                "MAIN":MAIN,
-                "GLOBAL":GLOBAL,
-                "LOCAL":LOCAL
+            return function(pageName){
+                if(!PAGES){
+                    PAGES = {
+                        "ALL":document.querySelectorAll(".page"),
+                        "LOADING": document.getElementById("loadingPage"),    
+                        "MAIN": document.getElementById("mainPage"),
+                        "GLOBAL": document.getElementById("globalMode"),
+                        "LOCAL": document.getElementById("localMode")
+                    }
+
+                }
+
+                PAGES.ALL.forEach((page)=>{
+                    page.classList.remove("current");
+                })
+
+                PAGES[pageName]? PAGES[pageName].classList.add("current") : console.warn(`wrong page name: ${pageName}`);
+
             }
-
-            targetPage[pageName].style.display = "block";
-
+        })();
 
 
-
-            /*
-            function showPage(pageId) {
-    // 모든 페이지 요소를 가져와서 숨김 (forEach 사용)
-    const allPages = document.querySelectorAll('.page');
-    allPages.forEach(page => {
-        page.style.display = 'none';
-    });
-
-    // 선택한 페이지만 보여줌
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.style.display = 'block'; // 또는 'flex'
-    } else {
-        console.error("해당 ID의 페이지가 없습니다:", pageId);
-    }
-}
-    이 방식이 낫긴 하겠다. class를 쓸 수가 있네.
-            */
-
-        }
-        
+        // 페이지 이동 함수
+        /*
+        기억할 것:
+        1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
+        2. 값이 유효하지 않을 수 있다는 점 항상 확인.
+        */
+               
         
         
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
