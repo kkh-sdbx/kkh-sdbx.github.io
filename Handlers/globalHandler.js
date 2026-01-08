@@ -25,7 +25,7 @@ const createGLOBAL = ()=>{
             // 데이터 정의
             fixBtn = document.getElementById("G_fix");
             points = document.querySelectorAll('.G_point');
-            [point_1, point_2, point_3, point_4, point_5] = points;
+            let [point_1, point_2, point_3, point_4, point_5] = points;
             tooltip = document.getElementById('G_tooltip');
             opntName = document.getElementById('G_opntName');
             opntYNKratio = document.getElementById('G_opntYNKratio');
@@ -140,17 +140,16 @@ const createGLOBAL = ()=>{
         },
 
         
-        
         updatePositions(){
-            GLOBAL.updateCoords();
+            updateCoords();
             let changingX = coords[`${currentPoint.id}`].x;
             let changingY = coords[`${currentPoint.id}`].y;
                     
             let xd = currentPoint.getBoundingClientRect().width /0.9; 
             let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-            GLOBAL.updateSelectionPosition(changingX -36, changingY+yd);
-            GLOBAL.updateTooltipPosition(changingX+xd, changingY);
+            updateSelectionPosition(changingX -36, changingY+yd);
+            updateTooltipPosition(changingX+xd, changingY);
         },
         
         updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
@@ -160,7 +159,7 @@ const createGLOBAL = ()=>{
         
         updatePositions_Resize(){
             if(currentPoint){
-                GLOBAL.updatePositions();
+                updatePositions();
             }
 
         },
@@ -170,7 +169,7 @@ const createGLOBAL = ()=>{
             points.forEach(point => {
                 point.addEventListener('mouseenter', function(e) {
                     
-                    GLOBAL.updateCoords();
+                    updateCoords();
 
                     const target = point.id;
                     const data = pointData[`${target}`];
@@ -186,7 +185,7 @@ const createGLOBAL = ()=>{
                     let xd = point.getBoundingClientRect().width *1.2/0.9; 
                     let yd = point.getBoundingClientRect().height *1.2/0.9;
                     
-                    GLOBAL.updateTooltipPosition(changingX+xd, changingY);
+                    updateTooltipPosition(changingX+xd, changingY);
                 });
 
                 point.addEventListener('mouseleave', function() {
@@ -224,7 +223,7 @@ const createGLOBAL = ()=>{
                             point.classList.toggle('activated');
                             selection.style.display = 'flex';
                             tooltip.style.display = 'block';
-                            GLOBAL.updatePositions();
+                            updatePositions();
 
                         }
                         
@@ -236,7 +235,7 @@ const createGLOBAL = ()=>{
                         currentPoint = point;
                         selection.style.display = 'flex';
                         tooltip.style.display = 'block';
-                        GLOBAL.updatePositions();
+                        updatePositions();
                     };
                     
 
