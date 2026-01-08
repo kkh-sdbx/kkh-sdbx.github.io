@@ -32,7 +32,7 @@ import  PAGEROUTER  from "./Tools/pageRouter.js";
 const loadingChecker = new CustomEvent("loadingFinished",{
     bubbles: true, // Allows the event to bubble up the DOM
     cancelable: false,
-    detail:storage
+    detail:true
     }
 );
 
