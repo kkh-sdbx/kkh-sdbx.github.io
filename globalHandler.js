@@ -115,6 +115,8 @@ const GLOBAL = {
         selection.style.left = x + 'px';
         selection.style.top = y + 'px';
     },
+
+    
     
     updatePositions(){
         global.updateCoords();
@@ -131,6 +133,13 @@ const GLOBAL = {
     updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
             // 표시할 정보 : userName, YNKratio, history
             // history를 알려면, '나와 매칭된 기록'을 알아야 함.
+    },
+    
+    updatePositions_Resize(){
+        if(currentPoint){
+            GLOBAL.updatePositions();
+        }
+
     },
 
     setPointsInteractive(){

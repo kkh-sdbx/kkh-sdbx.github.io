@@ -1,7 +1,16 @@
 import  PAGEROUTER  from "./pageRouter.js";
 import  GLOBAL  from "./globalHandler.js";
 
-//로딩 스크린 핸들러
+// 로딩 페이지 핸들러 - 인터넷 연결 확인, 애니메이션, pageRouter 들어왔는지 확인.
+
+
+// 메인 페이지 핸들러 - 로컬 모드 큐 시작, 글로벌모드 알림 등
+
+// 상점 핸들러 - CSS 코드 확인
+
+// 글로벌 모드 핸들러 - 시작부터 끝까지.
+
+// 로컬 모드  - 화면 구성 필요.
 
 //
 
@@ -72,9 +81,7 @@ window.addEventListener("load",()=>{
 });
 
 window.addEventListener('resize',()=>{
-    if(currentPoint){
-        GLOBAL.updatePositions();
-    }
+    GLOBAL.updatePositions_Resize();
 })
 
 // 마우스 오버 이벤트 핸들러
