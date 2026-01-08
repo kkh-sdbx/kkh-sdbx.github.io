@@ -1,14 +1,28 @@
 import  PAGEROUTER  from "./pageRouter.js";
 import  GLOBAL  from "./globalHandler.js";
 
+//로딩 스크린 핸들러
+
+//
+
+
+
+
+
+
+
+
+
+
+
 // 서비스 워커 불러오기
 if ('serviceWorker' in navigator) {
-window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-    .then(reg => console.log('Service Worker 등록 성공:', reg.scope))
-    .catch(err => console.error('Service Worker 등록 실패:', err));
-    });
-}
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service Worker 등록 성공:', reg.scope))
+        .catch(err => console.error('Service Worker 등록 실패:', err));
+        });
+};
 
 /*
 기억할 것:
