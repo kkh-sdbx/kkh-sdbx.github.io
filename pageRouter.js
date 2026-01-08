@@ -1,24 +1,41 @@
 let PAGES = null;
+const ALLPAGES = document.querySelectorAll(".page"); 
+let current ;
+
+
+
+
 const PAGEROUTER = {
+    currentPage(){
+        return current
+    },
     moveToPage(pageName){
         if(!PAGES){
-                    PAGES = {
-                        "ALL":document.querySelectorAll(".page"),
-                        "LOADING": document.getElementById("loadingPage"),    
-                        "MAIN": document.getElementById("mainPage"),
-                        "GLOBAL": document.getElementById("globalMode"),
-                        "LOCAL": document.getElementById("localMode")
-                    }
-
-                }
-
-                PAGES.ALL.forEach((page)=>{
-                    page.classList.remove("current");
-                })
-
-                PAGES[pageName]? PAGES[pageName].classList.add("current") : console.warn(`wrong page name: ${pageName}`);
-
+            PAGES = {
+                "LOADING": document.getElementById("loadingPage"),    
+                "MAIN": document.getElementById("mainPage"),
+                "GLOBAL": document.getElementById("globalMode"),
+                "LOCAL": document.getElementById("localMode")
             }
+
+        }
+
+        ALLPAGES.forEach((page)=>{
+            page.classList.remove("current");
+        });
+
+        if(PAGES[pageName]){
+            PAGES[target].classList.add("current")
+                current = target;
+
+        }else{
+            console.warn(`wrong page name: ${pageName}`);
+
+        }
+
+
+
+    }
 
 }
 

@@ -1,6 +1,15 @@
 import  PAGEROUTER  from "./pageRouter.js";
 import  GLOBAL  from "./globalHandler.js";
 
+let currentPage;
+
+/*
+기억할 것:
+1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
+2. 값이 유효하지 않을 수 있다는 점 항상 확인.
+*/
+
+
 // 로딩 페이지 핸들러 - 인터넷 연결 확인, 애니메이션, pageRouter 들어왔는지 확인.
 
 // 메인 페이지 핸들러 - 로컬 모드 큐 시작, 글로벌모드 알림 등
@@ -32,14 +41,9 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js')
         .then(reg => console.log('Service Worker 등록 성공:', reg.scope))
         .catch(err => console.error('Service Worker 등록 실패:', err));
-        });
+    });
 };
 
-/*
-기억할 것:
-1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
-2. 값이 유효하지 않을 수 있다는 점 항상 확인.
-*/
 
         
 // 페이지 이동 함수 - 모듈 이용
