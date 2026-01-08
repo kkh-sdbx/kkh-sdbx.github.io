@@ -12,6 +12,10 @@ const createLOCAL = ()=>{
     let YBtn  = null;
     let NBtn = null;
     let KBtn = null;
+    let proceedBtn = null;
+    let discardBtn = null;
+    let fixModal = null;
+
     let storage = null;
     let coords = null;
     let currentPoint = null;
@@ -33,7 +37,12 @@ const createLOCAL = ()=>{
             selection = document.getElementById('L_selectionPanel');
             YBtn = document.getElementById('L_YBtn');
             NBtn = document.getElementById('L_NBtn');
-            KBtn = document.getElementById('L_KBtn');   
+            KBtn = document.getElementById('L_KBtn');
+            
+            proceedBtn = document.getElementById('L_proceedBtn');
+            discardBtn = document.getElementById('L_discardBtn');
+            fixModal = document.getElementById('L_fixModal');
+
             storage = window.Storage;
             localToMainBtn = document.getElementById('localToMainBtn'); 
 
