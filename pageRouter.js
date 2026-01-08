@@ -4,7 +4,7 @@ let current = null;
 
 const PAGEROUTER = {
     currentPage(){
-        return current
+        return current;
     },
     moveToPage(pageName){
         // "ALL" 예약어 호출 방지
@@ -15,12 +15,12 @@ const PAGEROUTER = {
 
         if(!PAGES){
             PAGES = {
-                "ALLPAGES" :document.querySelectorAll(".page"),
+                "ALLPAGES" : document.querySelectorAll(".page"),
                 "LOADING": document.getElementById("loadingPage"),    
                 "MAIN": document.getElementById("mainPage"),
                 "GLOBAL": document.getElementById("globalMode"),
                 "LOCAL": document.getElementById("localMode")
-            }
+            };
 
         }
 
@@ -41,6 +41,6 @@ const PAGEROUTER = {
 
     }
 
-}
+};
 
 export default PAGEROUTER
