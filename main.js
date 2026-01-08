@@ -36,8 +36,6 @@ const loadingChecker = new CustomEvent("loadingFinished",{
     }
 );
 
-const 
-
 
 // Test 환경 ... Setting
         //임의의 유저네임을 집어넣음
