@@ -37,6 +37,9 @@ import  PAGEROUTER  from "./Tools/pageRouter.js";
         
 window.addEventListener("DOMContentLoaded",()=>{
 
+    // 변수 할당.
+    GLOBAL.init();
+
     // 로딩 페이지 셋업.
     LOADINGPAGE.setRouter();
 
