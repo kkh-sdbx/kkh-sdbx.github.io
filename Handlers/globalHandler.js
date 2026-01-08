@@ -25,10 +25,8 @@ const createGLOBAL = ()=>{
     let sendInfoToServer = null;
     let updateActionsFromStorage = null;
     let globalToMainBtn = null;
-    
-      
-    return{
-        init(){
+
+    const init = ()=>{
             // 데이터 정의
             fixBtn = document.getElementById("G_fix");
             points = document.querySelectorAll('.G_point');
@@ -82,16 +80,16 @@ const createGLOBAL = ()=>{
             globalToMainBtn.addEventListener("click",()=>{
                 PAGEROUTER.moveToPage("MAIN");
             })
-        },
+    };
 
-        setUserStorage(){
+    const setUserStorage = ()=>{
             storage.clear();
             storage.setItem("name","KH");
             storage.setItem("id","KH_ID");
             storage.setItem("status","not yet");
-        },
+    };
 
-        updateActions(){
+    const updateActions = ()=>{
             for(let i=1;i<points.length+1;i++){
                     if(storage[`point_${i}`]!=undefined){
                         
@@ -126,9 +124,9 @@ const createGLOBAL = ()=>{
 
                 }
         
-        },
-        
-        updateCoords(){
+    };
+
+    const updateCoords = ()=>{
             coords.point_1.x = point_1.getBoundingClientRect().left; 
             coords.point_1.y = point_1.getBoundingClientRect().top; 
                 
@@ -143,44 +141,44 @@ const createGLOBAL = ()=>{
 
             coords.point_5.x = point_5.getBoundingClientRect().left;
             coords.point_5.y = point_5.getBoundingClientRect().top;
-        },
-        
-        updateTooltipPosition(x,y) {
+    };
+
+    const updateTooltipPosition = (x,y) => {
             tooltip.style.left = x + 'px';
             tooltip.style.top = y + 'px';
-        },
-        
-        updateSelectionPosition(x, y) {
+    };
+
+    const updateSelectionPosition = ()=>{
             selection.style.left = x + 'px';
             selection.style.top = y + 'px';
-        },
+    };
 
-        
-        updatePositions(){
-            updateCoords();
-            let changingX = coords[`${currentPoint.id}`].x;
-            let changingY = coords[`${currentPoint.id}`].y;
-                    
-            let xd = currentPoint.getBoundingClientRect().width /0.9; 
-            let yd = currentPoint.getBoundingClientRect().height /0.9;
+    const updatePositions = ()=>{
+        updateCoords();
+        let changingX = coords[`${currentPoint.id}`].x;
+        let changingY = coords[`${currentPoint.id}`].y;
+                
+        let xd = currentPoint.getBoundingClientRect().width /0.9; 
+        let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-            updateSelectionPosition(changingX -36, changingY+yd);
-            updateTooltipPosition(changingX+xd, changingY);
-        },
-        
-        updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
-                // 표시할 정보 : userName, YNKratio, history
-                // history를 알려면, '나와 매칭된 기록'을 알아야 함.
-        },
-        
-        updatePositions_Resize(){
-            if(currentPoint){
-                updatePositions();
-            }
+        updateSelectionPosition(changingX -36, changingY+yd);
+        updateTooltipPosition(changingX+xd, changingY);
+    };
 
-        },
+    const updatePointData = ()=>{/** 각 point에 매칭된 상대의 정보를 제공.*/
+        // 표시할 정보 : userName, YNKratio, history
+        // history를 알려면, '나와 매칭된 기록'을 알아야 함.
 
-        setPointsInteractive(){
+    };
+
+    const updatePositions_Resize = ()=>{
+        if(currentPoint){
+            updatePositions();
+        }
+
+    };
+
+    const setPointsInteractive = ()=>{
             //마우스 오버 이벤트 핸들러
             points.forEach(point => {
                 point.addEventListener('mouseenter', function(e) {
@@ -259,9 +257,9 @@ const createGLOBAL = ()=>{
 
             });
 
-        },
+        };
 
-        setSelectionInteractive(){
+        const setSelectionInteractive = ()=>{
             YBtn.addEventListener("click",()=>{
 
             storage.setItem(`${currentPoint.id}`, `Y`);
@@ -325,9 +323,9 @@ const createGLOBAL = ()=>{
             });
 
 
-        },
+        };
 
-        setModalInteractive(){
+        const setModalInteractive = ()=>{
             proceedBtn.addEventListener("click",()=>{
                 const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
                 if(storage.getItem("status") === "fixed"){
@@ -366,9 +364,8 @@ const createGLOBAL = ()=>{
                 fixModal.style.display = "none";
             });
 
-        },
-
-        fixActions(){
+        };
+        const fixActions = ()=>{
             fixBtn.addEventListener("click",()=>{
                 const checker = ["point_1","point_2","point_3","point_4","point_5"];
             
@@ -395,8 +392,9 @@ const createGLOBAL = ()=>{
 
             });
             
-        },
-        storageUpdate(e){
+        };
+
+        const storageUpdate = (e)=>{
             for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
                 if(e.detail[`point_${i}`]){ // storage에 point별 action이 추가된 경우 업데이트
                     if(e.detail[`point_${i}`] === "Y"){
@@ -427,10 +425,42 @@ const createGLOBAL = ()=>{
                     points[i-1].classList.remove("decided");
                     points[i-1].previousElementSibling.classList.remove("picked");
                     points[i-1].nextElementSibling.classList.remove("picked");
-                }
+                };
                 
-            }
-        }
+            };
+        };
+
+
+      
+    return{
+        init,
+
+        setUserStorage,
+
+        updateActions,
+        
+        updateCoords,
+        
+        updateTooltipPosition,
+        
+        updateSelectionPosition
+
+        updatePositions,
+        
+        updatePointData
+        
+        updatePositions_Resize,
+
+        setPointsInteractive,
+
+        setSelectionInteractive,
+
+        setModalInteractive,
+
+        fixActions,
+
+        storageUpdate
+        
     }
 
 }
