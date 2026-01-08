@@ -3,7 +3,6 @@ import  GLOBAL  from "./globalHandler.js";
 
 // 로딩 페이지 핸들러 - 인터넷 연결 확인, 애니메이션, pageRouter 들어왔는지 확인.
 
-
 // 메인 페이지 핸들러 - 로컬 모드 큐 시작, 글로벌모드 알림 등
 
 // 상점 핸들러 - CSS 코드 확인
@@ -12,7 +11,10 @@ import  GLOBAL  from "./globalHandler.js";
 
 // 로컬 모드  - 화면 구성 필요.
 
-//
+// 커넥션핸들러 - 인터넷 관련? 있으면 좋긴 할듯. global에서 dispatchEvent로 관리하고 있기는 하다 지금은. 표시를 해 두자.
+
+// mockServer - 로직은 짜 둬야 함.
+
 
 
 
