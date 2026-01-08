@@ -32,7 +32,7 @@ import  PAGEROUTER  from "./Tools/pageRouter.js";
 const loadingChecker = new CustomEvent("loadingFinished",{
     bubbles: true, // Allows the event to bubble up the DOM
     cancelable: false,
-    detail:true
+    detail:true // 추후에 수정 필요
     }
 );
 
@@ -87,7 +87,7 @@ window.addEventListener("loadingFinished",(e)=>{
 
     //글로벌 모드 액션 고정
     GLOBAL.fixActions();
-})
+});
 
 
 

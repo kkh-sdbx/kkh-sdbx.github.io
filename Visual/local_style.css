@@ -1,4 +1,4 @@
-.G_container {
+.L_container {
 /* 이 컨테이너를 화면 전체에 고정시킵니다 */
     position: absolute;
     display:flex;
@@ -17,14 +17,14 @@
     max-height: 500px;
     margin: auto;
 }
-.G_fixBtnContainer{
+.L_fixBtnContainer{
     position: absolute;
     display:flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
 }
-.G_pointContainer{
+.L_pointContainer{
     width: 50%; 
     display:flex;
     flex-direction:row;
@@ -33,7 +33,7 @@
     align-items: center;
 
 }
-.G_pointContainer.kicked{   
+.L_pointContainer.kicked{   
     background-color: rgb(235, 65, 65);
 
 }
@@ -61,7 +61,7 @@
 
 
 /* 원형 점 스타일 */
-.G_point {
+.L_point {
     width: 40px;
     height: 40px;
     background-color: rgb(80, 200, 255); /* 파란색 rgb(70, 190, 245)또는  rgb(185, 220, 240)도 확인할 것!!*/
@@ -78,7 +78,7 @@
 }
 
 /* 점 내부 텍스트 스타일 (회전 보정용) */
-.G_point-text {
+.L_point-text {
     font-weight: bold;
     transition: transform 0.3s ease-out;
     transform: rotate(0deg);
@@ -87,26 +87,26 @@
 /* 호버 시 스타일 */
 
 
-.G_point.decided {
+.L_point.decided {
     background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
     cursor: default;
     transform: rotate(45deg) scale(1.2);
 }
-.G_point.decided .point-text { transform: rotate(-45deg) !important; }
+.L_point.decided .point-text { transform: rotate(-45deg) !important; }
 
-.G_point:hover {
+.L_point:hover {
         background-color: rgb(50, 120, 245); 
 }
-.G_point:hover{ transform:  rotate(45deg) scale(1.2); }
+.L_point:hover{ transform:  rotate(45deg) scale(1.2); }
 
-.G_point:hover .point-text { transform: rotate(-45deg) !important; }
+.L_point:hover .point-text { transform: rotate(-45deg) !important; }
 
-.G_point.activated {
+.L_point.activated {
         background-color: rgb(50, 120, 245)!important;
         border-radius: 0%;
 }
-.G_point.activated,
-.G_point:hover.activated{
+.L_point.activated,
+.L_point:hover.activated{
         background-color: rgb(50, 120, 245)!important; 
         border-radius: 0%;
 
@@ -119,41 +119,41 @@
 
 */
 
-.G_point.activated { transform:  rotate(45deg) scale(1.2); }
+.L_point.activated { transform:  rotate(45deg) scale(1.2); }
 
-.G_point.activated .point-text { transform: rotate(-45deg) !important; }
-.G_saidNo{
+.L_point.activated .point-text { transform: rotate(-45deg) !important; }
+.L_saidNo{
     visibility:hidden;
 }
-.G_saidYes{
+.L_saidYes{
     visibility:hidden;
 }
 
-.G_saidNo.picked{
+.L_saidNo.picked{
     visibility:visible;
     color:rgb(255, 145, 40);
 }
-.G_saidYes.picked{
+.L_saidYes.picked{
     visibility:visible;
     color: rgb(0, 190, 190);
 }
 
-.G_showDownResult{
+.L_showDownResult{
     visibility: hidden;
 }            
 
-.G_showDownResult.plus{
+.L_showDownResult.plus{
 
 }
-.G_showDownResult.minus{
+.L_showDownResult.minus{
 
 }
-.G_showDownResult.tie{
+.L_showDownResult.tie{
 
 }
 
 /* 툴팁 스타일 (동일하게 유지) */
-.G_tooltip {
+.L_tooltip {
     display: none;
     position: fixed;
     background-color: rgb(240, 240, 240);
@@ -168,7 +168,7 @@
     transform: translate(15px, -50%);
 
 }
-.G_selection{
+.L_selection{
     display:none;
     position:fixed;
     background-color: rgb(20,20,19);
@@ -182,7 +182,7 @@
     box-sizing: border-box;
 
 }
-.G_selection button{
+.L_selection button{
     flex: 1;
     background-color: rgb(240, 240, 230);
     border-radius: 4px;
@@ -195,7 +195,7 @@
 }
 
 
-.G_modal{
+.L_modal{
     position:absolute;
     display:none;
     justify-content: center;
@@ -206,7 +206,7 @@
     background-color: rgba(0,0,0,0.5);
     z-index:10;
 }
-.G_modalBody{
+.L_modalBody{
     position:absolute;
     background-color:rgb(240, 240, 240);
     padding: 20px;
@@ -215,24 +215,24 @@
     width: 50%;
 
 }
-.G_modalBtnContainer{
+.L_modalBtnContainer{
     display:flex;
     flex-direction: row;
 
 }
-.G_modalBtnContainer .button{
+.L_modalBtnContainer .button{
     border-radius: 10%;
 
 
 }
-.G_testBtns{
+#L_testBtns{
     background-color: rgb(20, 20, 19); 
     display:flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.G_memoText{
+.L_memoText{
     color:white;
 }
 
@@ -241,15 +241,15 @@
     flex-direction: row;
 
 }
-.G_pastAction{
+.L_pastAction{
     font-weight: bold;
     color: rgb(145, 85, 230);
 }
 
-.G_pastAction .yes{
+.L_pastAction .yes{
     color:rgb(0, 190, 190);
 }
 
-.G_pastAction .no{
+.L_pastAction .no{
     color:rgb(255, 145, 40);
 }
