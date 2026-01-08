@@ -47,9 +47,11 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 
     // 글로벌 모드  셋업.
+    GLOBAL.setUserStorage();
+    GLOBAL.updateActions();
 
 
-    // 로컬 모드   셋업.
+    // 로컬 모드  셋업.
 
 
     // 커넥션핸들러  셋업.
@@ -57,8 +59,7 @@ window.addEventListener("DOMContentLoaded",()=>{
     // mockServer  셋업.
 
 
-    GLOBAL.setUserStorage();
-    GLOBAL.updateActions();
+    
     PAGEROUTER.moveToPage("LOADING");
 
 });

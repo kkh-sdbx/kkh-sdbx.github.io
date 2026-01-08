@@ -19,6 +19,6 @@ const MAINPAGE = {
 
 }
 
-export MAINPAGE
+export default MAINPAGE
 
 
