@@ -322,31 +322,33 @@ const GLOBAL = {
     },
 
     fixActions(){
-        const checker = ["point_1","point_2","point_3","point_4","point_5"];
+        fixBtn.addEventListener("click",()=>{
+            const checker = ["point_1","point_2","point_3","point_4","point_5"];
         
-        for(const point of checker){
-            if(storage[point] === undefined){
-                emptyPoints.push(point);
+            for(const point of checker){
+                if(storage[point] === undefined){
+                    emptyPoints.push(point);
+                }
             }
-        }
 
-        if(emptyPoints.length>0){
-            let empty =  "";
-            for (const mt of emptyPoints){
-                empty = empty + `, ${mt}`;
+            if(emptyPoints.length>0){
+                let empty =  "";
+                for (const mt of emptyPoints){
+                    empty = empty + `, ${mt}`;
+                }
+                fixModal.style.display = "block";
+
+
+                console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
+            }else{
+                
+                console.log("You cannot change your response after fixing. Wanna Proceed? ");
+                fixModal.style.display = "block";
             }
-            fixModal.style.display = "block";
 
-
-            console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
-        }else{
-            
-            console.log("You cannot change your response after fixing. Wanna Proceed? ");
-            fixModal.style.display = "block";
-        }
-
+        });
+        
     },
-
     storageUpdate(e){
         for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
             if(e.detail[`point_${i}`]){ // storage에 point별 action이 추가된 경우 업데이트
