@@ -1,5 +1,5 @@
-import  PAGEROUTER  from "./pageRouter.js"
-import  GLOBAL  from "./globalHandler.js"
+import  PAGEROUTER  from "./pageRouter.js";
+import  GLOBAL  from "./globalHandler.js";
 
 // 서비스 워커 불러오기
 if ('serviceWorker' in navigator) {
@@ -10,14 +10,14 @@ window.addEventListener('load', () => {
     });
 }
 
-       /*
-        기억할 것:
-        1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
-        2. 값이 유효하지 않을 수 있다는 점 항상 확인.
-        */
+/*
+기억할 것:
+1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
+2. 값이 유효하지 않을 수 있다는 점 항상 확인.
+*/
 
         
-        // 페이지 이동 함수 - 모듈 이용
+// 페이지 이동 함수 - 모듈 이용
 const loadingToMainBtn = document.getElementById("loadingToMainBtn");
 const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
 const globalToMainBtn = document.getElementById("globalToMainBtn");
