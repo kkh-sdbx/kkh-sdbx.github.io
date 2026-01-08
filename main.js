@@ -29,15 +29,18 @@ import  PAGEROUTER  from "./Tools/pageRouter.js";
 
 // mockServer - 로직은 짜 둬야 함.
 
-
+const loadingChecker = new CustomEvent("loadingFinished",{
+    bubbles: true, // Allows the event to bubble up the DOM
+    cancelable: false,
+    detail:storage
+    }
+)
 
 
 // Test 환경 ... Setting
         //임의의 유저네임을 집어넣음
         
 window.addEventListener("DOMContentLoaded",()=>{
-
-    
 
     // 변수 할당.
     GLOBAL.init();
@@ -50,12 +53,6 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     // 상점 페이지  셋업.
 
-
-    // 글로벌 모드  셋업.
-    GLOBAL.setUserStorage();
-    GLOBAL.updateActions();
-
-
     // 로컬 모드  셋업.
 
 
@@ -66,8 +63,16 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     
     PAGEROUTER.moveToPage("LOADING");
+    window.dispatchEvent("loadingChecker");
 
-    //아래는 글로벌 모드 세팅
+});
+
+window.addEventListener("loadingFinished",(e)=>{
+
+    console.log("loadingFinished Event listened - global Mode setting");
+     //아래는 글로벌 모드 세팅
+    GLOBAL.setUserStorage();
+    GLOBAL.updateActions();
 
     // 마우스 오버 이벤트 핸들러
     GLOBAL.setPointsInteractive();
@@ -80,8 +85,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     //글로벌 모드 액션 고정
     GLOBAL.fixActions();
-
-});
+})
 
 
 
