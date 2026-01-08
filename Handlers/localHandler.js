@@ -67,7 +67,7 @@ const create = ()=>{
                 detail:storage
             });
         },
-
+        // 스토리지도 mocking 할 때 제대로, G/L 나누기.
         setUserStorage(){
             storage.clear();
             storage.setItem("name","KH");
