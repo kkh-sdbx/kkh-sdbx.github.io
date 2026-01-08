@@ -14,6 +14,10 @@ const createGLOBAL = ()=>{
     let YBtn  = null;
     let NBtn = null;
     let KBtn = null;
+    let proceedBtn = null;
+    let discardBtn = null;
+    let fixModal = null;
+
     let storage = null;
     let coords = null;
     let currentPoint = null;
@@ -37,6 +41,10 @@ const createGLOBAL = ()=>{
             YBtn = document.getElementById('G_YBtn');
             NBtn = document.getElementById('G_NBtn');
             KBtn = document.getElementById('G_KBtn');   
+
+            proceedBtn = document.getElementById('G_proceedBtn');
+            discardBtn = document.getElementById('G_discardBtn');
+            fixModal = document.getElementById('G_fixModal');
             storage = window.localStorage;
             globalToMainBtn = document.getElementById('globalToMainBtn');
 
