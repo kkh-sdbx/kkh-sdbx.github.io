@@ -1,3 +1,5 @@
+import PAGEROUTER from "../Tools/pageRouter.js";
+
 const MAINPAGE = {
     setRouter(){
         const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
