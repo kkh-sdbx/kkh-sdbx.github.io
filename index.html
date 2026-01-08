@@ -463,7 +463,12 @@
             </div>
         </div>
     </div>
-    <script type ="module" >
+    <script type ="module" src="./pageRouter.js"defer></script>
+    <script type ="module" src="./globalHandler.js"defer></script>
+    <script type ="module" src="./loadingPageHandler.js" defer></script>
+    <script type ="module" src="./mainPageHandler.js" defer></script>
+    <script src="./mockServer.js" defer></script>
+    <script type=""module">
         // 모듈들 import
         import  PAGEROUTER  from "./pageRouter.js";
         import  GLOBAL  from "./globalHandler.js"
@@ -546,12 +551,6 @@
         GLOBAL.storageUpdate(e);
 
     });
-    
-
-    
-
-    
-    
 
     GLOBAL.fixActions();
 
@@ -560,8 +559,6 @@
     
 
     </script>
-    <script src="./mockServer.js" defer></script>
-    <script src="./loadingPageHandler.js" defer></script>
-    <script src="./mainPageHandler.js" defer></script>
+
 </body>
 </html>
