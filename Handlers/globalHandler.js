@@ -1,24 +1,25 @@
 
 //Closure 패턴으로 정리. 
+let fixBtn = null;
+let points = null;
+let tooltip = null;
+let opntName  = null;
+let opntYNKratio = null;
+let emptyPoints = null;
+let selection = null;
+let YBtn  = null;
+let NBtn = null;
+let KBtn = null;
+let storage = null;
+let coords = null;
+let currentPoint = null;
+let pointData = null;
+let sendInfoToServer = null;
+let updateActionsFromStorage = null;
 
 
 const createGLOBAL = ()=>{
-    let fixBtn = null;
-    let points = null;
-    let tooltip = null;
-    let opntName  = null;
-    let opntYNKratio = null;
-    let emptyPoints = null;
-    let selection = null;
-    let YBtn  = null;
-    let NBtn = null;
-    let KBtn = null;
-    let storage = null;
-    let coords = null;
-    let currentPoint = null;
-    let pointData = null;
-    let sendInfoToServer = null;
-    let updateActionsFromStorage = null;
+    
       
     return{
         init(){
