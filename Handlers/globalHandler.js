@@ -3,7 +3,7 @@
 
 
 const createGLOBAL = ()=>{
-    let fixBtn
+    let fixBtn = null;
     let points = null;
     let tooltip = null;
     let opntName  = null;
