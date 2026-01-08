@@ -11,6 +11,7 @@ const YBtn = document.getElementById('G_YBtn');
 const NBtn = document.getElementById('G_NBtn');
 const KBtn = document.getElementById('G_KBtn');   
 const storage = window.localStorage;
+
 const coords = {
     "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
     "point_2": { "x": point_2.getBoundingClientRect().left, "y": point_2.getBoundingClientRect().top  },
