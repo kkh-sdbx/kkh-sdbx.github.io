@@ -37,6 +37,8 @@ import  PAGEROUTER  from "./Tools/pageRouter.js";
         
 window.addEventListener("DOMContentLoaded",()=>{
 
+    
+
     // 변수 할당.
     GLOBAL.init();
 
@@ -64,6 +66,20 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     
     PAGEROUTER.moveToPage("LOADING");
+
+    //아래는 글로벌 모드 세팅
+
+    // 마우스 오버 이벤트 핸들러
+    GLOBAL.setPointsInteractive();
+
+    //NYK 버튼 이벤트리스너 붙이기
+    GLOBAL.setSelectionInteractive();
+            
+    //모달창 proceed,discard 이벤트리스너 붙이기
+    GLOBAL.setModalInteractive();
+
+    //글로벌 모드 액션 고정
+    GLOBAL.fixActions();
 
 });
 
@@ -118,14 +134,7 @@ window.addEventListener('resize',()=>{
     GLOBAL.updatePositions_Resize();
 })
 
-// 마우스 오버 이벤트 핸들러
-GLOBAL.setPointsInteractive();
 
-//NYK 버튼 이벤트리스너 붙이기
-GLOBAL.setSelectionInteractive();
-        
-//모달창 proceed,discard 이벤트리스너 붙이기
-GLOBAL.setModalInteractive();
         
 
 document.addEventListener("storageUpdated",(e)=>{
@@ -135,7 +144,7 @@ document.addEventListener("storageUpdated",(e)=>{
 
 });
 
-GLOBAL.fixActions();
+
 
 
 
