@@ -338,18 +338,11 @@
         <button id = "mainToLocalBtn">mainToLocal</button>
         <h1 class = "lime">MainPage</h1>
     </div>
-
-    <div id = "localMode" class = "page">
-        <button id = "localToMainBtn">"localToMain</button>
-        <h1 class = "lime">Local Mode</h1>
-
-
-
-
-
-    </div>
     
     <div id = "globalMode" class = "page">
+        <button id = "localToMainBtn">"localToMain</button>
+        <h1 class = "lime">Local Mode</h1>
+        <button id = "globalToMainBtn"></button>
         <button id = "globalToMainBtn"></button>
         <div id = "dummy" display = "flex" >
             <h1 class ="green" >Global Mode</h1>
@@ -374,56 +367,56 @@
 
 
         
-        <div class="container">
+        <div class="G_container">
 
-            <div class = "pointContainer">
-                <div class = "balancer"></div>
-                <div class = "saidNo">N</div>
-                <div id="point_1" class="point" data-point="point_1">
-                    <span class = "point-text">1</span>
+            <div class = "G_pointContainer">
+                <div class = "G_balancer"></div>
+                <div class = "G_saidNo">N</div>
+                <div id="G_point_1" class="G_point" data-point="G_point_1">
+                    <span class = "G_point-text">1</span>
                 </div>
-                <div class = "saidYes">Y</div>
-                <div class = "showDownResult">0</div>
-
-            </div>
-            <div class = "pointContainer">
-                <div class = "balancer"></div>
-                <div class = "saidNo">N</div>
-                <div id="point_2" class="point" data-point="point_2">
-                    <span class = "point-text">2</span>
-                </div>
-                <div class = "saidYes">Y</div>
-                <div class = "showDownResult">0</div>
+                <div class = "G_saidYes">Y</div>
+                <div class = "G_showDownResult">0</div>
 
             </div>
-            <div class = "pointContainer">
-                <div class = "balancer"></div>
-                <div class = "saidNo">N</div>
-                <div id="point_3" class="point" data-point="point_3">
-                    <span class = "point-text">3</span>
+            <div class = "G_pointContainer">
+                <div class = "G_balancer"></div>
+                <div class = "G_saidNo">N</div>
+                <div id="G_point_2" class="G_point" data-point="G_point_2">
+                    <span class = "G_point-text">2</span>
                 </div>
-                <div class = "saidYes">Y</div>
-                <div class = "showDownResult">0</div>
+                <div class = "G_saidYes">Y</div>
+                <div class = "G_showDownResult">0</div>
 
             </div>
-            <div class = "pointContainer">
-                <div class = "balancer"></div>
-                <div class = "saidNo">N</div>
-                <div id="point_4" class="point" data-point="point_4">
-                    <span class = "point-text">4</span>
+            <div class = "G_pointContainer">
+                <div class = "G_balancer"></div>
+                <div class = "G_saidNo">N</div>
+                <div id="G_point_3" class="G_point" data-point="G_point_3">
+                    <span class = "G_point-text">3</span>
                 </div>
-                <div class = "saidYes">Y</div>
-                <div class = "showDownResult">0</div>
+                <div class = "G_saidYes">Y</div>
+                <div class = "G_showDownResult">0</div>
 
             </div>
-            <div class = "pointContainer">
-                <div class = "balancer"></div>
-                <div class = "saidNo">N</div>
-                <div id="point_5" class="point" data-point="point_5">
-                    <span class = "point-text">5</span>
+            <div class = "G_pointContainer">
+                <div class = "G_balancer"></div>
+                <div class = "G_saidNo">N</div>
+                <div id="G_point_4" class="G_point" data-point="G_point_4">
+                    <span class = "G_point-text">4</span>
                 </div>
-                <div class = "saidYes">Y</div>
-                <div class = "showDownResult">0</div>
+                <div class = "G_saidYes">Y</div>
+                <div class = "G_showDownResult">0</div>
+
+            </div>
+            <div class = "G_pointContainer">
+                <div class = "G_balancer"></div>
+                <div class = "G_saidNo">N</div>
+                <div id="G_point_5" class="G_point" data-point="G_point_5">
+                    <span class = "G_point-text">5</span>
+                </div>
+                <div class = "G_saidYes">Y</div>
+                <div class = "G_showDownResult">0</div>
 
             </div>
 
@@ -431,51 +424,181 @@
         </div>
 
         
-        <div id = "testBtns" >
+        <div id = "G_testBtns" >
 
-            <button id = "startSeason">startSeason </button>
-            <button id="fix">FIX</button>
-            <button id = "setDummyActions">setDummyActions </button>
-            <button id = "finishRound">finishRound </button>
-            <button id = "startMatchMaking">startMatchMaking </button>
+            <button id = "G_startSeason">startSeason </button>
+            <button id="G_fix">FIX</button>
+            <button id = "G_setDummyActions">setDummyActions </button>
+            <button id = "G_finishRound">finishRound </button>
+            <button id = "G_startMatchMaking">startMatchMaking </button>
 
         </div>
 
         <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
-        <div class="tooltip" id="global-tooltip">
-            <strong id="opntName"></strong>
-            <div id="opntYNKratio"></div>
+        <div class="G_tooltip" id="G_global-tooltip">
+            <strong id="G_opntName"></strong>
+            <div id="G_opntYNKratio"></div>
             <strong>30%</strong>
             <strong>Y 30</strong>
             <strong>Total 100</strong>
-            <div id = "history">
-                <p class = "pastAction">X</p>
-                <p class = "pastAction">X</p>
-                <p class = "pastAction">X</p>
-                <p class = "pastAction">X</p>
-                <p class = "pastAction">X</p>
+            <div id = "G_history">
+                <p class = "G_pastAction">X</p>
+                <p class = "G_pastAction">X</p>
+                <p class = "G_pastAction">X</p>
+                <p class = "G_pastAction">X</p>
+                <p class = "G_pastAction">X</p>
 
             </div>
         </div>
 
-        <div class="selection" id="selectionPanel">
-            <button id="NBtn" data-btnType = "N"> N </button>
-            <button id="KBtn" data-btnType = "K"> Kick! </button>
-            <button id="YBtn" data-btnType = "Y"> Y </button>        
+        <div class="G_selection" id="G_selectionPanel">
+            <button id="G_NBtn" data-btnType = "N"> N </button>
+            <button id="G_KBtn" data-btnType = "K"> Kick! </button>
+            <button id="G_YBtn" data-btnType = "Y"> Y </button>        
         </div>
 
-        <div id = "fixModal" class = "modal">
-            <div class = "modalBody">
+        <div id = "G_fixModal" class = "G_modal">
+            <div class = "G_modalBody">
                 <h2> Modal Title</h2>
                 <h4> Modal Content</h4>
-                <div class = "modalBtnContainer">
-                    <button id = "proceedBtn">Proceed</button>
-                    <button id = "discardBtn">Discard</button>
+                <div class = "G_modalBtnContainer">
+                    <button id = "G_proceedBtn">Proceed</button>
+                    <button id = "G_discardBtn">Discard</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id = "localMode" class = "page">
+        <button id = "localToMainBtn">"localToMain</button>
+        <h1 class = "lime">Local Mode</h1>
+        <button id = "globalToMainBtn"></button>
+        <button id = "globalToMainBtn"></button>
+        <div id = "dummy" display = "flex" >
+            <h1 class ="green" >Global Mode</h1>
+            <h1 class ="lime" >color test</h1>
+            <h1 class ="purple" >color test</h1>
+            <h1 class ="gray" >color test</h1>
+            <h1 class ="yellow" >color test</h1>
+            <h1 class = "orange">color test</h1>
+            <h1 class = "blue">color test</h1>
+            <h1 class = "cyan">color test</h1>
+            <h1 class = "white">color test</h1>
+            <h1 class = "red">color test</h1>
+        </div>
+        
+        <!-- 각 point에 id 지정하고 V, 하나씩 다룰 수 있도록 함.V 호버 시 툴팁, 클릭 시 툴팁 고정과 마름모꼴 고정 후 Y/N/Kick 버튼 나오도록. !!-->
+
+        <p class = "memoText"> div 를 3x5 형태로 만들어서, 수직으로 점 다섯개 볼 수 있도록 수정,
+        가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
+
+        앱인토스: 600x600px 크기의 일반 및 다크모드 앱 로고가 필요함.
+        앱 소개 문구: 어설프게 착하면 살아남지 못한다!  Naive Kindness will not Survive</p>
+
+
+        
+        <div class="L_container">
+
+            <div class = "L_pointContainer">
+                <div class = "L_balancer"></div>
+                <div class = "L_saidNo">N</div>
+                <div id="L_point_1" class="L_point" data-point="L_point_1">
+                    <span class = "L_point-text">1</span>
+                </div>
+                <div class = "L_saidYes">Y</div>
+                <div class = "L_showDownResult">0</div>
+
+            </div>
+            <div class = "L_pointContainer">
+                <div class = "L_balancer"></div>
+                <div class = "L_saidNo">N</div>
+                <div id="L_point_2" class="L_point" data-point="L_point_2">
+                    <span class = "L_point-text">2</span>
+                </div>
+                <div class = "L_saidYes">Y</div>
+                <div class = "L_showDownResult">0</div>
+
+            </div>
+            <div class = "L_pointContainer">
+                <div class = "L_balancer"></div>
+                <div class = "L_saidNo">N</div>
+                <div id="L_point_3" class="L_point" data-point="L_point_3">
+                    <span class = "L_point-text">3</span>
+                </div>
+                <div class = "L_saidYes">Y</div>
+                <div class = "L_showDownResult">0</div>
+
+            </div>
+            <div class = "L_pointContainer">
+                <div class = "L_balancer"></div>
+                <div class = "L_saidNo">N</div>
+                <div id="L_point_4" class="L_point" data-point="L_point_4">
+                    <span class = "L_point-text">4</span>
+                </div>
+                <div class = "L_saidYes">Y</div>
+                <div class = "L_showDownResult">0</div>
+
+            </div>
+            <div class = "L_pointContainer">
+                <div class = "L_balancer"></div>
+                <div class = "L_saidNo">N</div>
+                <div id="L_point_5" class="L_point" data-point="L_point_5">
+                    <span class = "L_point-text">5</span>
+                </div>
+                <div class = "L_saidYes">Y</div>
+                <div class = "L_showDownResult">0</div>
+
+            </div>
+
+
+        </div>
+
+        
+        <div id = "L_testBtns" >
+
+            <button id = "L_startSeason">startSeason </button>
+            <button id="L_fix">FIX</button>
+            <button id = "L_setDummyActions">setDummyActions </button>
+            <button id = "L_finishRound">finishRound </button>
+            <button id = "L_startMatchMaking">startMatchMaking </button>
+
+        </div>
+
+        <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
+        <div class="L_tooltip" id="L_global-tooltip">
+            <strong id="L_opntName"></strong>
+            <div id="L_opntYNKratio"></div>
+            <strong>30%</strong>
+            <strong>Y 30</strong>
+            <strong>Total 100</strong>
+            <div id = "L_history">
+                <p class = "L_pastAction">X</p>
+                <p class = "L_pastAction">X</p>
+                <p class = "L_pastAction">X</p>
+                <p class = "L_pastAction">X</p>
+                <p class = "L_pastAction">X</p>
+
+            </div>
+        </div>
+
+        <div class="L_selection" id="L_selectionPanel">
+            <button id="L_NBtn" data-btnType = "N"> N </button>
+            <button id="L_KBtn" data-btnType = "K"> Kick! </button>
+            <button id="L_YBtn" data-btnType = "Y"> Y </button>        
+        </div>
+
+        <div id = "L_fixModal" class = "L_modal">
+            <div class = "L_modalBody">
+                <h2> Modal Title</h2>
+                <h4> Modal Content</h4>
+                <div class = "L_modalBtnContainer">
+                    <button id = "L_proceedBtn">Proceed</button>
+                    <button id = "L_discardBtn">Discard</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <script type="module" src = "./main.js"></script>
 
 </body>
