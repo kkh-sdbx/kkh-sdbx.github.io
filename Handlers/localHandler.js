@@ -1,15 +1,15 @@
 // 데이터 정의
-const fixBtn = document.getElementById("G_fix");
-const points = document.querySelectorAll('.G_point');
+const fixBtn = document.getElementById("L_fix");
+const points = document.querySelectorAll('.L_point');
 const[point_1, point_2, point_3, point_4, point_5] = points;
-const tooltip = document.getElementById('G_tooltip');
-const opntName = document.getElementById('G_opntName');
-const opntYNKratio = document.getElementById('G_opntYNKratio');
+const tooltip = document.getElementById('L_tooltip');
+const opntName = document.getElementById('L_opntName');
+const opntYNKratio = document.getElementById('L_opntYNKratio');
 const emptyPoints = [];
-const selection = document.getElementById('G_selectionPanel');
-const YBtn = document.getElementById('G_YBtn');
-const NBtn = document.getElementById('G_NBtn');
-const KBtn = document.getElementById('G_KBtn');   
+const selection = document.getElementById('L_selectionPanel');
+const YBtn = document.getElementById('L_YBtn');
+const NBtn = document.getElementById('L_NBtn');
+const KBtn = document.getElementById('L_KBtn');   
 const storage = window.localStorage;
 const coords = {
     "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
@@ -43,7 +43,7 @@ const updateActionsFromStorage = new CustomEvent("storageUpdated",{
 });
 
 
-const GLOBAL = {
+const LOCAL = {
     setUserStorage(){
         storage.clear();
         storage.setItem("name","KH");
@@ -119,15 +119,15 @@ const GLOBAL = {
     
     
     updatePositions(){
-        GLOBAL.updateCoords();
+        LOCAL.updateCoords();
         let changingX = coords[`${currentPoint.id}`].x;
         let changingY = coords[`${currentPoint.id}`].y;
                 
         let xd = currentPoint.getBoundingClientRect().width /0.9; 
         let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-        GLOBAL.updateSelectionPosition(changingX -36, changingY+yd);
-        GLOBAL.updateTooltipPosition(changingX+xd, changingY);
+        LOCAL.updateSelectionPosition(changingX -36, changingY+yd);
+        LOCAL.updateTooltipPosition(changingX+xd, changingY);
     },
     
     updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
@@ -137,7 +137,7 @@ const GLOBAL = {
     
     updatePositions_Resize(){
         if(currentPoint){
-            GLOBAL.updatePositions();
+            LOCAL.updatePositions();
         }
 
     },
@@ -147,7 +147,7 @@ const GLOBAL = {
         points.forEach(point => {
             point.addEventListener('mouseenter', function(e) {
                 
-                GLOBAL.updateCoords();
+                LOCALLOCAL.updateCoords();
 
                 const target = point.id;
                 const data = pointData[`${target}`];
@@ -163,7 +163,7 @@ const GLOBAL = {
                 let xd = point.getBoundingClientRect().width *1.2/0.9; 
                 let yd = point.getBoundingClientRect().height *1.2/0.9;
                 
-                GLOBAL.updateTooltipPosition(changingX+xd, changingY);
+                LOCALLOCAL.updateTooltipPosition(changingX+xd, changingY);
             });
 
             point.addEventListener('mouseleave', function() {
@@ -201,7 +201,7 @@ const GLOBAL = {
                         point.classList.toggle('activated');
                         selection.style.display = 'flex';
                         tooltip.style.display = 'block';
-                        GLOBAL.updatePositions();
+                        LOCALLOCAL.updatePositions();
 
                     }
                     
@@ -213,7 +213,7 @@ const GLOBAL = {
                     currentPoint = point;
                     selection.style.display = 'flex';
                     tooltip.style.display = 'block';
-                    GLOBAL.updatePositions();
+                    LOCAL.updatePositions();
                 };
                 
 
@@ -402,6 +402,6 @@ const GLOBAL = {
 
 
 
-export default GLOBAL
+export default LOCAL
 
 
