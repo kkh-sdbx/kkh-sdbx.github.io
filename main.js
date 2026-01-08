@@ -48,21 +48,18 @@ if ('serviceWorker' in navigator) {
         
 // 페이지 이동 함수 - 모듈 이용
 const loadingToMainBtn = document.getElementById("loadingToMainBtn");
-const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
 const globalToMainBtn = document.getElementById("globalToMainBtn");
 
-loadingToMainBtn.addEventListener("click",()=>{
-    PAGEROUTER.moveToPage("MAIN");
-});
 
-mainToGlobalBtn.addEventListener("click",()=>{
-    PAGEROUTER.moveToPage("GLOBAL");
-});
+
 
 globalToMainBtn.addEventListener("click",()=>{
     PAGEROUTER.moveToPage("MAIN");
 });
-        
+
+loadingToMainBtn.addEventListener("click",()=>{
+    PAGEROUTER.moveToPage("MAIN");
+});
         /*
         const backToMainPage = document.getElementById("backToMainPage");
         backToMainPage.addEventListener("click",()=>{
