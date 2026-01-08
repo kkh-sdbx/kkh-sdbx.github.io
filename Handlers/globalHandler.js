@@ -1,6 +1,6 @@
 
 //Closure 패턴으로 정리. 
-
+import PAGEROUTER from "../Tools/pageRouter.js";
 
 
 const createGLOBAL = ()=>{
@@ -20,6 +20,7 @@ const createGLOBAL = ()=>{
     let pointData = null;
     let sendInfoToServer = null;
     let updateActionsFromStorage = null;
+    let globalToMainBtn = null;
     
       
     return{
@@ -37,6 +38,7 @@ const createGLOBAL = ()=>{
             NBtn = document.getElementById('G_NBtn');
             KBtn = document.getElementById('G_KBtn');   
             storage = window.localStorage;
+            globalToMainBtn = document.getElementById('globalToMainBtn');
 
             coords = {
                 "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
@@ -68,6 +70,10 @@ const createGLOBAL = ()=>{
                 cancelable: false,
                 detail:storage
             });
+
+            globalToMainBtn.addEventListener("click",()=>{
+                PAGEROUTER.moveToPage("MAIN");
+            })
         },
 
         setUserStorage(){

@@ -1,7 +1,7 @@
 //Closure 패턴으로 정리. 
+import PAGEROUTER from "../Tools/pageRouter.js";
 
-
-const create = ()=>{
+const createLOCAL = ()=>{
     let fixBtn
     let points = null;
     let tooltip = null;
@@ -18,6 +18,7 @@ const create = ()=>{
     let pointData = null;
     let sendInfoToServer = null;
     let updateActionsFromStorage = null;
+    let localToMainBtn = null;
       
     return{
         init(){
@@ -34,6 +35,7 @@ const create = ()=>{
             NBtn = document.getElementById('L_NBtn');
             KBtn = document.getElementById('L_KBtn');   
             storage = window.Storage;
+            localToMainBtn = document.getElementById('localToMainBtn'); 
 
             coords = {
                 "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
@@ -66,6 +68,10 @@ const create = ()=>{
                 cancelable: false,
                 detail:storage
             });
+
+            localToMainBtn.addEventListener("click",()=>{
+                PAGEROUTER.moveToPage("MAIN");
+            })
         },
         // 스토리지도 mocking 할 때 제대로, G/L 나누기.
         setUserStorage(){
