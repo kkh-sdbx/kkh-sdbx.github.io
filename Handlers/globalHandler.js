@@ -4,6 +4,16 @@ import PAGEROUTER from "../Tools/pageRouter.js";
 
 
 const createGLOBAL = ()=>{
+
+    //470줄은 너무 많대.
+    /**
+     * 이 파일을 어떻게 나눌 수 있을까, 이걸 고민해 봐.
+     * 
+     * fix 등 액션을 선택하고 포인트 애니메이션, 툴팁=> 이건 CSS잖아.
+     * 서버와의 통신
+     * 
+     * 
+     */
     let fixBtn = null;
     let points = null;
     let tooltip = null;
