@@ -124,3 +124,134 @@ JS Map vs Redis: mockServer.js에서 쓰신 Map.forEach는 서버 메모리를 �
 단, 글로벌 모드에 참가하면 중간에 죽기 전까지 나올 수 없고, 추가 보상을 얻음.
 
 글로벌 참가 티켓을 사야 한다? 스킨처럼? 
+
+
+##
+1. 100만 명 매치메이킹 관련 질문 요약
+사용자님은 보수적 가정(유저당 2KB) 하에 100만 명의 데이터를 다루며, "전수 조사 -> 셔플 -> 매칭"이라는 확실한 로직을 효율적으로 구현하고자 하셨습니다.
+데이터 규모: 유저 1인당 2KB, 100만 명 총 2GB의 데이터를 Redis에 상주시켜 고속 처리 시도.
+핵심 로직: 매칭 가능 유저 선별 후, 커누스 셔플(Fisher-Yates)을 통해 무작위성을 확보하고 순차적으로 매칭.
+성능 우려: 100만 명이라는 거대 배열을 JS 메모리에서 직접 셔플하고 순회할 때 발생하는 I/O 부하와 서버 생존 가능성 검토.
+해결 방향: Write-Back 패턴(Redis 선처리, DB 후저장)과 Redis 전용 자료구조를 활용해 1분 단위 매칭과 4시간 단위 배치를 안 터지게 구현하는 법.
+2. Redis에 대한 오해와 진실 (비휘발성 & 로직 작성)
+① Redis는 비휘발성 DB인가?
+절반은 맞고 절반은 틀립니다. 기본적으로 Redis는 인메모리(In-memory) DB로 전원이 꺼지면 데이터가 날아가는 것이 기본값이지만, 비휘발성(Persistence)을 보장하는 장치들이 있습니다.
+RDB (Snapshotting): 5분마다 혹은 특정 주기마다 메모리 전체를 하드디스크에 덤프(파일로 저장)합니다. 사고 시 이 파일을 읽어 복구합니다. Redis Persistence 가이드
+AOF (Append Only File): 모든 쓰기 명령을 실시간 로그로 기록합니다. 1초 단위 기록이 가능해 데이터 유실을 거의 0에 가깝게 막을 수 있습니다.
+결론: 설정을 통해 비휘발성 DB처럼 사용 가능하며, 게임 서버에서는 '속도'와 '안전'을 위해 반드시 두 기능을 켜고 사용합니다.
+② 셔플이나 로직 작성이 가능한가?
+매우 강력하게 지원합니다. 단순 저장소 이상으로 서버 내부에서 로직을 돌릴 수 있습니다.
+자체 셔플 기능: 사용자님이 직접 커누스 셔플 코드를 짤 필요가 없습니다. Redis의 SRANDMEMBER나 SPOP 명령어는 내부적으로 무작위 알고리즘을 사용해 데이터를 뽑아줍니다. 100만 개 중 12개를 무작위로 뽑는 속도는 O(1) 수준으로 매우 빠릅니다.
+Lua Scripting (Redis의 핵심): Redis는 내부에 Lua 인터프리터를 내장하고 있습니다.
+JS에서 Map.forEach 하듯, 여러 명령어를 묶어 Redis 내부에서 한 번에 실행하는 '스토어드 프로시저'를 작성할 수 있습니다.
+장점: 네트워크 통신 없이 Redis 메모리 안에서 로직이 돌기 때문에, 수천 번의 점수 계산도 단일 연산(Atomic)으로 처리됩니다.
+💡 직장인 개발자를 위한 최종 팁
+100만 명의 배열을 JS로 가져와서 셔플(Array.sort(() => Math.random() - 0.5))하는 것은 CPU를 엄청나게 잡아먹어 직장에 계신 동안 서버를 뻗게 만들 수 있습니다.
+대신 SPOP matchmaking_pool 12 명령어를 사용하세요. Redis가 알아서 셔플된 12명을 던져주며, 이 과정은 사용자님의 mockServer 로직을 가장 완벽하고 빠르게 '서버급'으로 이식하는 방법입니다. 이제 ioredis로 이 명령어를 테스트해보는 것으로 개발 2단계(서버 이식)를 시작하시면 됩니다!
+
+
+##
+네, 정확합니다. Redis 내부에 Lua 가상 머신(VM)이 들어있어서, 단순한 데이터 저장소를 넘어 서버의 로직 일부를 Redis 내부에서 직접 실행할 수 있습니다.
+이는 1인 개발자가 100만 명 규모의 게임을 안정적으로 운영하는 데 있어 '최종 병기'와 같은 기능입니다.
+1. 왜 Lua Script를 써야 하나요? (직장인 개발자 관점)
+원자성(Atomicity) 보장: 스크립트가 실행되는 동안 다른 요청이 끼어들 수 없습니다. 점수 조회 -> 계산 -> 저장 사이에 데이터가 꼬이는 문제를 완벽히 차단합니다.
+네트워크 오버헤드 감소: 12명의 정보를 가져와서 JS에서 가공하고 다시 보내는 대신, Redis 안에서 다 처리하고 결과만 받으면 됩니다. 통신 횟수가 1/10로 줄어듭니다.
+복잡한 조건 처리: if 유저.아이템 == 'A' then 점수 + 10 else 점수 + 5 end 같은 로직을 DB 레벨에서 바로 처리합니다.
+2. Lua Script 예시 (매치메이킹 결과 처리)
+사용자님의 게임 로직(12명 경기 결과 반영)을 Lua로 짜면 이런 식입니다.
+lua
+-- KEYS[1]: 유저 ID 리스트 (12명)
+-- ARGV[1]: 가산 점수 (예: 10)
+
+for i, userId in ipairs(KEYS) do
+    -- 1. 유저의 현재 점수 가져오기 (HGET)
+    local currentScore = redis.call('HGET', 'user:' .. userId, 'score')
+    
+    -- 2. 조건문 사용 (점수가 있을 경우에만 더하기)
+    if currentScore then
+        local newScore = tonumber(currentScore) + tonumber(ARGV[1])
+        
+        -- 3. 결과 업데이트
+        redis.call('HSET', 'user:' .. userId, 'score', newScore)
+        
+        -- 4. 만약 점수가 1000점 넘으면 '고수' 태그 추가 (조건문 예시)
+        if newScore > 1000 then
+            redis.call('HSET', 'user:' .. userId, 'rank', 'Master')
+        end
+    end
+end
+
+return "OK"
+코드를 사용할 때는 주의가 필요합니다.
+
+3. Node.js(ioredis)에서 호출하는 법
+javascript
+const matchResultScript = `위의 Lua 코드`;
+
+// Redis에 등록 후 호출
+async function updateGameResults(userIds, bonus) {
+  // KEYS와 ARGV 배열로 인자 전달
+  await redis.eval(matchResultScript, userIds.length, ...userIds, bonus);
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+4. 주의사항 (80/20 법칙)
+무한 루프 조심: Lua 스크립트가 도는 동안 Redis는 다른 일을 하지 못합니다. 100만 명 전체를 한 번에 루프 돌리는 로직은 금물이며, 게임 룸 단위(12명)나 청크 단위(1,000명)로 끊어서 실행해야 합니다.
+학습 비용: Lua 문법은 JS와 매우 유사(거의 똑같음)해서 30분 정도만 Lua 공식 튜토리얼을 훑어보시면 바로 쓰실 수 있습니다.
+요약하자면
+사용자님이 mockServer에서 Map을 돌리며 짰던 로직들을 Redis Lua Script로 옮기면, 서버 부하를 획기적으로 줄이면서도 100만 유저를 감당하는 견고한 백엔드를 완성할 수 있습니다.
+비전공자로서 개발을 시작하셨지만, 이 Lua Scripting 단계까지 도달하신다면 인프라 설계 능력은 이미 현업 중급 개발자 수준에 도달한 것이나 다름없습니다. 출시를 향해 한 걸음 더 나아가 보세요!
+
+##
+1) 유저는 5개의 '친구 슬롯' 이 있음
+2) 친구 슬롯 1개당 1명의 유저가 매칭
+3) 친구 둘 중 한명이라도 'Stop'을 하면 관계 해제(빈 슬롯이 됨)
+4) 4시간마다, 100만명의 친구 슬롯 상태를 업데이트하고, 친구 슬롯이 빈 사람들끼리 랜덤 매치메이킹
+2026년 기준, 100만 명의 유저가 각각 5개의 슬롯(총 500만 개의 관계)을 가지고 4시간마다 상태를 갱신 및 매칭하는 시스템은 Redis의 Set(집합) 자료구조를 활용하면 Node.js에서 10분 이내로 가볍게 처리할 수 있습니다.
+직장인 개발자로서 가장 효율적인 '10분 컷' 배치 로직을 설계해 드립니다.
+1. Redis 데이터 구조 설계 (80/20 법칙)
+유저 정보 (Hash): user:[ID] -> slots (JSON 문자열 또는 필드 분할)
+예: {"1": "friend_A_ID", "2": null, "3": "friend_C_ID", ...}
+매칭 대기열 (Set): match_pool
+슬롯이 하나라도 빈 유저들의 ID를 모아두는 곳입니다.
+2. 4시간 주기 배치 처리 로직 (5~10분 완성 플랜)
+이 로직은 1) 관계 해제 처리와 2) 빈 슬롯 채우기(매칭) 두 단계로 나뉩니다.
+Step 1: 관계 해제 및 대기열 등록 (Scan & Check)
+100만 명을 SCAN하며 'Stop' 상태를 확인하고 빈 슬롯이 생긴 유저를 match_pool에 넣습니다.
+javascript
+// 1,000명씩 끊어서 처리 (Node.js Worker)
+async function processStatusUpdate(keys) {
+  const pipeline = redis.pipeline();
+  for (const key of keys) {
+    // Lua Script를 호출하여 내 상태와 친구 상태를 대조해 Stop 확인
+    // Stop 시 해당 슬롯 null 처리 및 pipeline.sadd('match_pool', userId)
+    pipeline.eval(checkStopAndReleaseLua, 1, key); 
+  }
+  await pipeline.exec();
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+Step 2: 랜덤 매치메이킹 (SPOP 활용)
+match_pool에 모인 유저들을 무작위로 매칭합니다. 커누스 셔플보다 SPOP이 훨씬 빠릅니다.
+javascript
+async function startMatchmaking() {
+  while (true) {
+    // 무작위로 2명 추출 (Atomic)
+    const [userA, userB] = await redis.spop('match_pool', 2);
+    if (!userA || !userB) break; // 더 이상 매칭할 사람이 없으면 종료
+
+    // 각 유저의 빈 슬롯을 찾아 서로 ID를 채워줌 (HSET)
+    await redis.eval(fillEmptySlotLua, 2, userA, userB);
+  }
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+3. 왜 Node.js로 10분 안에 가능한가?
+I/O 최적화: 100만 명의 데이터를 Node.js 메모리로 다 가져오지 않고, Redis 내부(Lua Script)에서 관계 해제 로직을 끝내버리기 때문입니다.
+무작위성의 고속 처리: 100만 명을 셔플하는 대신 Redis의 SPOP을 쓰면 초당 수만 명의 매칭이 가능합니다.
+병렬성: Promise.all로 510개의 덩어리(Chunk)를 동시에 돌리면 e2-standard-4 사양에서 실제 로직 실행 시간은 35분 내외가 됩니다.
+4. 주의사항 (직장인 개발자용)
+상호 관계의 일관성: A의 1번 슬롯이 B라면, B의 어느 슬롯도 반드시 A여야 합니다. 관계 해제 시 반드시 양쪽의 정보를 모두 업데이트해야 하며, 이를 위해 Redis Transaction(Multi/Exec) 또는 Lua Script 사용이 필수입니다.
+알림 분산: 매칭 완료 후 100만 명에게 푸시를 한꺼번에 보내면 서버 대역폭이 튑니다. 앞서 설명한 FCM Topic 발송을 쓰거나, 유저가 다음번에 접속할 때 "매칭되었습니다!"라고 보여주는 '지연 알림' 방식을 섞으세요.
+요약:
+100만 명 전수조사는 Lua + Pipeline으로 Redis 내부에서 처리하고, 매칭은 SPOP으로 해결하세요. 이 조합이면 Golang 없이도 Node.js만으로 10분 안에 아주 여유롭게 모든 처리를 끝낼 수 있습니다. Redis Lua Scripting 가이드를 참고하여 'Stop' 체크 로직부터 구현해 보세요!
