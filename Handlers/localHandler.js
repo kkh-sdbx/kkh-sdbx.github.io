@@ -1,8 +1,10 @@
+
 //Closure 패턴으로 정리. 
 import PAGEROUTER from "../Tools/pageRouter.js";
 
-const createLOCAL = ()=>{
-    let fixBtn
+
+const createGLOBAL = ()=>{
+    let fixBtn = null;
     let points = null;
     let tooltip = null;
     let opntName  = null;
@@ -22,14 +24,13 @@ const createLOCAL = ()=>{
     let pointData = null;
     let sendInfoToServer = null;
     let updateActionsFromStorage = null;
-    let localToMainBtn = null;
-      
-    return{
-        init(){
+    let globalToMainBtn = null;
+
+    const init = ()=>{
             // 데이터 정의
             fixBtn = document.getElementById("L_fix");
             points = document.querySelectorAll('.L_point');
-            [point_1, point_2, point_3, point_4, point_5] = points;
+            let [point_1, point_2, point_3, point_4, point_5] = points;
             tooltip = document.getElementById('L_tooltip');
             opntName = document.getElementById('L_opntName');
             opntYNKratio = document.getElementById('L_opntYNKratio');
@@ -37,14 +38,13 @@ const createLOCAL = ()=>{
             selection = document.getElementById('L_selectionPanel');
             YBtn = document.getElementById('L_YBtn');
             NBtn = document.getElementById('L_NBtn');
-            KBtn = document.getElementById('L_KBtn');
-            
+            KBtn = document.getElementById('L_KBtn');   
+
             proceedBtn = document.getElementById('L_proceedBtn');
             discardBtn = document.getElementById('L_discardBtn');
             fixModal = document.getElementById('L_fixModal');
-
-            storage = window.Storage;
-            localToMainBtn = document.getElementById('localToMainBtn'); 
+            storage = window.localStorage;
+            globalToMainBtn = document.getElementById('globalToMainBtn');
 
             coords = {
                 "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
@@ -57,14 +57,13 @@ const createLOCAL = ()=>{
             currentPoint = null;
 
             pointData = {
-                "point_1": { "name": "point_1 점 opntName", "YNKratio": "30%", "history":[] },
-                "point_2": { "name": "point_2 점 opntName", "YNKratio": "30%", "history":[] },
-                "point_3": { "name": "point_3 점 opntName", "YNKratio": "30%", "history":[] },
-                "point_4": { "name": "point_4 점 opntName", "YNKratio": "30%", "history":[] },
-                "point_5": { "name": "point_5 점 opntName", "YNKratio": "30%", "history":[] }
+                        "point_1": { "name": "point_1 점 opntName", "YNKratio": "30%", "history":[] },
+                        "point_2": { "name": "point_2 점 opntName", "YNKratio": "30%", "history":[] },
+                        "point_3": { "name": "point_3 점 opntName", "YNKratio": "30%", "history":[] },
+                        "point_4": { "name": "point_4 점 opntName", "YNKratio": "30%", "history":[] },
+                        "point_5": { "name": "point_5 점 opntName", "YNKratio": "30%", "history":[] }
             };
 
-            // 이벤트는 이름이든 뭐든 수정 필요하다.
             sendInfoToServer = new CustomEvent("actionFixed",{
                 bubbles: true, // Allows the event to bubble up the DOM
                 cancelable: false,
@@ -78,19 +77,19 @@ const createLOCAL = ()=>{
                 detail:storage
             });
 
-            localToMainBtn.addEventListener("click",()=>{
+            globalToMainBtn.addEventListener("click",()=>{
                 PAGEROUTER.moveToPage("MAIN");
             })
-        },
-        // 스토리지도 mocking 할 때 제대로, G/L 나누기.
-        setUserStorage(){
+    };
+
+    const setUserStorage = ()=>{
             storage.clear();
             storage.setItem("name","KH");
             storage.setItem("id","KH_ID");
             storage.setItem("status","not yet");
-        },
+    };
 
-        updateActions(){
+    const updateActions = ()=>{
             for(let i=1;i<points.length+1;i++){
                     if(storage[`point_${i}`]!=undefined){
                         
@@ -125,9 +124,9 @@ const createLOCAL = ()=>{
 
                 }
         
-        },
-        
-        updateCoords(){
+    };
+
+    const updateCoords = ()=>{
             coords.point_1.x = point_1.getBoundingClientRect().left; 
             coords.point_1.y = point_1.getBoundingClientRect().top; 
                 
@@ -142,45 +141,44 @@ const createLOCAL = ()=>{
 
             coords.point_5.x = point_5.getBoundingClientRect().left;
             coords.point_5.y = point_5.getBoundingClientRect().top;
-        },
-        
-        updateTooltipPosition(x,y) {
+    };
+
+    const updateTooltipPosition = (x,y) => {
             tooltip.style.left = x + 'px';
             tooltip.style.top = y + 'px';
-        },
-        
-        updateSelectionPosition(x, y) {
+    };
+
+    const updateSelectionPosition = ()=>{
             selection.style.left = x + 'px';
             selection.style.top = y + 'px';
-        },
+    };
 
-        
-        
-        updatePositions(){
-            updateCoords();
-            let changingX = coords[`${currentPoint.id}`].x;
-            let changingY = coords[`${currentPoint.id}`].y;
-                    
-            let xd = currentPoint.getBoundingClientRect().width /0.9; 
-            let yd = currentPoint.getBoundingClientRect().height /0.9;
+    const updatePositions = ()=>{
+        updateCoords();
+        let changingX = coords[`${currentPoint.id}`].x;
+        let changingY = coords[`${currentPoint.id}`].y;
+                
+        let xd = currentPoint.getBoundingClientRect().width /0.9; 
+        let yd = currentPoint.getBoundingClientRect().height /0.9;
 
-            updateSelectionPosition(changingX -36, changingY+yd);
-            updateTooltipPosition(changingX+xd, changingY);
-        },
-        
-        updatePointData(){ /** 각 point에 매칭된 상대의 정보를 제공.*/
-                // 표시할 정보 : userName, YNKratio, history
-                // history를 알려면, '나와 매칭된 기록'을 알아야 함.
-        },
-        
-        updatePositions_Resize(){
-            if(currentPoint){
-                updatePositions();
-            }
+        updateSelectionPosition(changingX -36, changingY+yd);
+        updateTooltipPosition(changingX+xd, changingY);
+    };
 
-        },
+    const updatePointData = ()=>{/** 각 point에 매칭된 상대의 정보를 제공.*/
+        // 표시할 정보 : userName, YNKratio, history
+        // history를 알려면, '나와 매칭된 기록'을 알아야 함.
 
-        setPointsInteractive(){
+    };
+
+    const updatePositions_Resize = ()=>{
+        if(currentPoint){
+            updatePositions();
+        }
+
+    };
+
+    const setPointsInteractive = ()=>{
             //마우스 오버 이벤트 핸들러
             points.forEach(point => {
                 point.addEventListener('mouseenter', function(e) {
@@ -259,9 +257,9 @@ const createLOCAL = ()=>{
 
             });
 
-        },
+        };
 
-        setSelectionInteractive(){
+        const setSelectionInteractive = ()=>{
             YBtn.addEventListener("click",()=>{
 
             storage.setItem(`${currentPoint.id}`, `Y`);
@@ -325,9 +323,9 @@ const createLOCAL = ()=>{
             });
 
 
-        },
+        };
 
-        setModalInteractive(){
+        const setModalInteractive = ()=>{
             proceedBtn.addEventListener("click",()=>{
                 const result = {"point_1":"Y","point_2":"Y","point_3":"Y","point_4":"Y","point_5":"Y"};
                 if(storage.getItem("status") === "fixed"){
@@ -366,9 +364,8 @@ const createLOCAL = ()=>{
                 fixModal.style.display = "none";
             });
 
-        },
-
-        fixActions(){
+        };
+        const fixActions = ()=>{
             fixBtn.addEventListener("click",()=>{
                 const checker = ["point_1","point_2","point_3","point_4","point_5"];
             
@@ -395,9 +392,10 @@ const createLOCAL = ()=>{
 
             });
             
-        },
-        storageUpdate(e){
-            for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
+        };
+
+        const storageUpdate = (e)=>{
+            for(let i=1;i<6;i++){ 
                 if(e.detail[`point_${i}`]){ // storage에 point별 action이 추가된 경우 업데이트
                     if(e.detail[`point_${i}`] === "Y"){
                         points[i-1].parentElement.classList.remove("kicked");
@@ -427,16 +425,48 @@ const createLOCAL = ()=>{
                     points[i-1].classList.remove("decided");
                     points[i-1].previousElementSibling.classList.remove("picked");
                     points[i-1].nextElementSibling.classList.remove("picked");
-                }
+                };
                 
-            }
-        }
+            };
+        };
+
+
+      
+    return{
+        init,
+
+        setUserStorage,
+
+        updateActions,
+        
+        updateCoords,
+        
+        updateTooltipPosition,
+        
+        updateSelectionPosition,
+
+        updatePositions,
+        
+        updatePointData,
+        
+        updatePositions_Resize,
+
+        setPointsInteractive,
+
+        setSelectionInteractive,
+
+        setModalInteractive,
+
+        fixActions,
+
+        storageUpdate
+        
     }
 
 }
 
 
-const LOCAL = createLOCAL();
-export default LOCAL
+const GLOBAL = createGLOBAL();
+export default GLOBAL
 
 
