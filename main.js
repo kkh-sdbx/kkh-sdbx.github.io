@@ -63,7 +63,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     
     PAGEROUTER.moveToPage("LOADING");
-    window.dispatchEvent("loadingChecker");
+    window.dispatchEvent(loadingChecker);
 
 });
 
