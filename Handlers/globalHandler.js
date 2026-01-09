@@ -28,6 +28,7 @@ const createGLOBAL = ()=>{
     let discardBtn = null;
     let fixModal = null;
 
+    let G_myHp = null;
     let storage = null;
     let coords = null;
     let currentPoint = null;
@@ -53,6 +54,7 @@ const createGLOBAL = ()=>{
             proceedBtn = document.getElementById('G_proceedBtn');
             discardBtn = document.getElementById('G_discardBtn');
             fixModal = document.getElementById('G_fixModal');
+            G_myHp = document.getElementById('G_myHp');
             storage = window.localStorage;
             globalToMainBtn = document.getElementById('globalToMainBtn');
 
