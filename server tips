@@ -22,3 +22,94 @@ PostgreSQL: 최종 경기 결과 및 결제 데이터 저장.
 5. 현실적인 조언
 10만 다운로드에 5,000명 접속은 성공한 게임의 지표입니다. 처음부터 이 사양을 결제하지 마시고, GCP의 인스턴스 사양 변경은 5분이면 가능하므로 처음에는 낮은 사양으로 시작했다가 유저가 늘 때 사양을 올리(Scale-up)는 방식을 취하세요.
 지금 단계에서는 "서버가 죽어도 데이터는 날아가지 않는다(Redis/DB 활용)"와 "에러가 나도 프로세스는 자동으로 살아난다(PM2)" 이 두 가지만 확실히 구축하셔도 퇴근 전까지 큰 사고 없이 운영하실 수 있습니다. PM2 공식 문서를 먼저 훑어보시는 것을 강력 추천합니다.
+
+//
+
+1. 직장인 개발자를 위한 서버 구축 3단계 요약
+단계	핵심 전략	비고
+1단계: 자동 복구	PM2 Cluster 모드 도입. 서버가 죽으면 1초 만에 자동 재시작.	pm2 start app.js -i max
+2단계: 데이터 보호	GCP VM 스냅샷 자동화(주 1회) + PostgreSQL 인덱스 최적화.	서버가 통째로 날아가도 복구 가능
+3단계: 알림 설정	UptimeRobot(무료) 등을 사용하여 서버 다운 시 폰으로 푸시 알림.	퇴근 전까지 상황 파악용
+
+2. 반드시 알아야 할 핵심 개념 요약
+알고 계신 개념들을 '실무적 관점'에서 한 줄로 정의해 드립니다.
+① Stateless (무상태성)
+정의: 서버 메모리에 유저 상태(로그인 여부, 게임 점수 등)를 절대 저장하지 않는 방식.
+이유: 서버가 재시작되어 메모리가 초기화되어도 유저는 튕기지 않아야 하기 때문입니다.
+실천: 모든 데이터는 반드시 Redis나 DB에서 읽고 쓰세요. 서버는 오직 '계산기' 역할만 합니다.
+② ULID (Universally Unique Lexicographically Sortable Identifier)
+정의: 시간 순서대로 정렬이 가능한 고유 ID (UUID의 단점 보완).
+이유: DB에 저장할 때 생성 시간 순으로 자동 정렬되므로, 인덱스 성능이 압도적입니다. 10만 명의 전적을 정렬할 때 Created_at 컬럼 없이 ID만으로 해결 가능합니다.
+실천: 유저 ID나 게임 세션 ID를 생성할 때 uuid 대신 ulid 라이브러리를 사용하세요.
+③ Atomic Operations (원자적 연산)
+정의: "모 아니면 도". 중간에 끊기지 않는 일련의 작업 단위.
+이유: 5,000명이 동시에 매칭을 요청할 때, 12명을 뽑는 과정에서 중복이 발생하면 안 됩니다.
+실천: Redis의 LPOP, SPOP 혹은 PostgreSQL의 TRANSACTION을 사용하여 "한 번에 하나씩만 정확히 처리"됨을 보장해야 합니다.
+④ Connection Pooling (커넥션 풀링)
+정의: DB 연결 통로를 미리 여러 개 만들어두고 돌려쓰는 방식.
+이유: 요청마다 DB에 새로 연결하면 핸드셰이킹 비용 때문에 서버가 금방 뻗습니다.
+실천: pg 라이브러리의 new Pool() 설정을 통해 동시 접속 부하를 분산하세요.
+⑤ CORS (Cross-Origin Resource Sharing)
+정의: 보안을 위해 내 도메인 외의 요청을 차단하는 브라우저 정책.
+이유: Capacitor 앱은 localhost나 특정 스킴에서 돌아가므로, 서버에서 이를 허용해주지 않으면 통신이 거부됩니다.
+실천: Express에 cors 미들웨어를 설치하고 앱의 원천 주소를 허용 목록에 넣으세요.
+3. 현실적인 조언 (2026년형)
+배치 처리의 묘미: 1분 단위 매칭이므로, 서버 로직 마지막에 "현재 매칭된 인원 수" 같은 통계만 별도 Redis 키에 저장해두세요. 퇴근길에 폰으로 그 숫자만 확인해도 서버가 잘 도는지 알 수 있습니다.
+Capacitor의 이점: 바닐라 JS로 짜셨으니 업데이트가 필요할 때 서버의 JS 파일만 교체하는 Live Update(Capacitor 전용 서비스 등)를 고려해보세요. 스토어 심사 없이 로직 수정이 가능해져 직장인에게 매우 유리합니다.
+이제 GCP VM을 생성하고 Nginx - Node.js - PostgreSQL/Redis를 한 서버에 올리는 것부터 시작해 보시기 바랍니다. 성공적인 출시를 응원합니다!
+
+
+//
+1. 서버 아키텍처 최종 요약 (Single VM)
+직장인 개발자에게 최적화된 '단순하지만 강력한' 구조입니다.
+L7 (Nginx): 외부 HTTPS 요청을 받아 내부 3000번 포트(Node.js)로 전달. SSL 인증서 관리.
+WAS (Node.js + PM2):
+API 영역: 로그인, 결제, 유저 정보 조회.
+Batch 영역: 1분마다 Redis에서 12명씩 끊어서 게임 세션 생성 (Cron 혹은 setInterval).
+Storage (Redis): 매치메이킹 대기열(Queue), 유저 세션 토큰.
+Database (PostgreSQL): 유저 전적, 결제 기록, 최종 게임 결과물.
+
+
+//명령어 목록.
+2. Redis 핵심 명령어 (매치메이킹용)
+JS의 Map이나 Array를 대체하여 원자성(Atomic)을 보장하는 3가지 패턴입니다.
+LPUSH / RPOP (대기열): 유저가 매칭 버튼을 누르면 큐에 넣고, 서버는 뒤에서 뽑아갑니다.
+LPUSH match_queue user_id: 대기열 끝에 추가.
+RPOP match_queue 12: 대기열에서 12명을 한 번에 꺼냄 (중복 방지).
+HSET / HGET (해시테이블): JS 객체처럼 유저의 실시간 상태를 저장합니다.
+HSET user:123 score 500 status "matching"
+HGETALL user:123: 유저 정보 통째로 가져오기.
+EXPIRE (자동 삭제): 로그인 세션이나 임시 매칭 데이터를 관리합니다.
+EXPIRE user:session:abc 3600: 1시간 뒤 자동 삭제 (메모리 관리 자동화).
+3. PostgreSQL 핵심 명령어 (영구 저장용)
+복잡한 Join보다는 빠른 조회와 안전한 갱신에 집중합니다.
+INSERT ... ON CONFLICT (Upsert): 유저가 있으면 업데이트, 없으면 새로 생성.
+sql
+INSERT INTO users (id, score) VALUES ('ulid', 100)
+ON CONFLICT (id) DO UPDATE SET score = users.score + EXCLUDED.score;
+코드를 사용할 때는 주의가 필요합니다.
+
+INDEX 생성: 10만 명 규모에서 검색 속도를 보장합니다.
+sql
+CREATE INDEX idx_users_score ON users (score DESC); -- 랭킹 조회용
+코드를 사용할 때는 주의가 필요합니다.
+
+Simple Transaction: 결제나 점수 반영 시 필수입니다.
+BEGIN; -> UPDATE ... -> COMMIT; (중간에 에러 나면 ROLLBACK;)
+4. Nginx 핵심 설정 (Reverse Proxy)
+이것만 설정하면 Node.js 서버를 안전하게 외부로 노출할 수 있습니다.
+nginx
+location / {
+    proxy_pass http://localhost:3000; # Node.js 포트
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+💡 직장인을 위한 20%의 핵심 팁
+Redis는 '휘발성'임을 명심: 게임 진행 중인 중요한 데이터는 Redis에 두되, 게임이 끝나면 즉시 PostgreSQL로 옮기세요. 그래야 서버가 재부팅되어도 유저 전적이 사라지지 않습니다.
+JS Map vs Redis: mockServer.js에서 쓰신 Map.forEach는 서버 메모리를 점유하지만, Redis는 외부 프로세스입니다. const players = await redis.hgetall(...) 식으로 데이터를 가져와서 JS로 가공한 뒤 다시 밀어 넣는 흐름만 익히시면 됩니다.
+이 정도 명령어만으로도 10만 명 다운로드 급의 배치 처리 게임을 운영하는 데 지장이 없습니다. 로직의 80%는 이미 JS로 짜두셨으니, 이제 이 명령어들을 node-redis와 pg 라이브러리로 교체하는 작업에 집중하시면 됩니다!
