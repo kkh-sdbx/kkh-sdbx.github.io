@@ -443,11 +443,11 @@ const createGLOBAL = ()=>{
         
         updateTooltipPosition,
         
-        updateSelectionPosition
+        updateSelectionPosition,
 
         updatePositions,
         
-        updatePointData
+        updatePointData,
         
         updatePositions_Resize,
 
