@@ -92,14 +92,14 @@
     cursor: default;
     transform: rotate(45deg) scale(1.2);
 }
-.G_point.decided .point-text { transform: rotate(-45deg) !important; }
+.G_point.decided .G_point-text { transform: rotate(-45deg) !important; }
 
 .G_point:hover {
         background-color: rgb(50, 120, 245); 
 }
 .G_point:hover{ transform:  rotate(45deg) scale(1.2); }
 
-.G_point:hover .point-text { transform: rotate(-45deg) !important; }
+.G_point:hover .G_point-text { transform: rotate(-45deg) !important; }
 
 .G_point.activated {
         background-color: rgb(50, 120, 245)!important;
@@ -121,7 +121,7 @@
 
 .G_point.activated { transform:  rotate(45deg) scale(1.2); }
 
-.G_point.activated .point-text { transform: rotate(-45deg) !important; }
+.G_point.activated .G_point-text { transform: rotate(-45deg) !important; }
 .G_saidNo{
     visibility:hidden;
 }

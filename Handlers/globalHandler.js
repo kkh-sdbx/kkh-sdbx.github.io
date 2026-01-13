@@ -16,6 +16,11 @@ const createGLOBAL = ()=>{
      */
     let fixBtn = null;
     let points = null;
+    let point_1 = null;
+    let point_2 = null;
+    let point_3 = null;
+    let point_4 = null;
+    let point_5 = null;
     let tooltip = null;
     let opntName  = null;
     let opntYNKratio = null;
@@ -41,7 +46,7 @@ const createGLOBAL = ()=>{
             // 데이터 정의
             fixBtn = document.getElementById("G_fix");
             points = document.querySelectorAll('.G_point');
-            let [point_1, point_2, point_3, point_4, point_5] = points;
+            [point_1, point_2, point_3, point_4, point_5] = points;
             tooltip = document.getElementById('G_tooltip');
             opntName = document.getElementById('G_opntName');
             opntYNKratio = document.getElementById('G_opntYNKratio');
