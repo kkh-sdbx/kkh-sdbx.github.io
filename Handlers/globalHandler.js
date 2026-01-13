@@ -15,12 +15,12 @@ const createGLOBAL = ()=>{
      * 
      */
     let fixBtn = null;
-    let points = null;
-    let point_1 = null;
-    let point_2 = null;
-    let point_3 = null;
-    let point_4 = null;
-    let point_5 = null;
+    let G_points = null;
+    let G_point_1 = null;
+    let G_point_2 = null;
+    let G_point_3 = null;
+    let G_point_4 = null;
+    let G_point_5 = null;
     let tooltip = null;
     let opntName  = null;
     let opntYNKratio = null;
@@ -46,7 +46,7 @@ const createGLOBAL = ()=>{
             // 데이터 정의
             fixBtn = document.getElementById("G_fix");
             points = document.querySelectorAll('.G_point');
-            [point_1, point_2, point_3, point_4, point_5] = points;
+            [G_point_1, G_point_2, G_point_3, G_point_4, G_point_5] = G_points;
             tooltip = document.getElementById('G_tooltip');
             opntName = document.getElementById('G_opntName');
             opntYNKratio = document.getElementById('G_opntYNKratio');
@@ -64,21 +64,21 @@ const createGLOBAL = ()=>{
             globalToMainBtn = document.getElementById('globalToMainBtn');
 
             coords = {
-                "point_1": { "x": point_1.getBoundingClientRect().left, "y": point_1.getBoundingClientRect().top },
-                "point_2": { "x": point_2.getBoundingClientRect().left, "y": point_2.getBoundingClientRect().top  },
-                "point_3": { "x": point_3.getBoundingClientRect().left, "y": point_3.getBoundingClientRect().top  },
-                "point_4": { "x": point_4.getBoundingClientRect().left, "y": point_4.getBoundingClientRect().top  },
-                "point_5": { "x": point_5.getBoundingClientRect().left, "y": point_5.getBoundingClientRect().top  }
+                "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
+                "G_point_2": { "x": G_point_2.getBoundingClientRect().left, "y": G_point_2.getBoundingClientRect().top  },
+                "G_point_3": { "x": G_point_3.getBoundingClientRect().left, "y": G_point_3.getBoundingClientRect().top  },
+                "G_point_4": { "x": G_point_4.getBoundingClientRect().left, "y": G_point_4.getBoundingClientRect().top  },
+                "G_point_5": { "x": G_point_5.getBoundingClientRect().left, "y": G_point_5.getBoundingClientRect().top  }
             };
 
             currentPoint = null;
 
             pointData = {
-                        "point_1": { "name": "point_1 점 opntName", "YNKratio": "30%", "history":[] },
-                        "point_2": { "name": "point_2 점 opntName", "YNKratio": "30%", "history":[] },
-                        "point_3": { "name": "point_3 점 opntName", "YNKratio": "30%", "history":[] },
-                        "point_4": { "name": "point_4 점 opntName", "YNKratio": "30%", "history":[] },
-                        "point_5": { "name": "point_5 점 opntName", "YNKratio": "30%", "history":[] }
+                        "G_point_1": { "name": "G_point_1 점 opntName", "YNKratio": "30%", "history":[] },
+                        "G_point_2": { "name": "G_point_2 점 opntName", "YNKratio": "30%", "history":[] },
+                        "G_point_3": { "name": "G_point_3 점 opntName", "YNKratio": "30%", "history":[] },
+                        "G_point_4": { "name": "G_point_4 점 opntName", "YNKratio": "30%", "history":[] },
+                        "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
             };
 
             sendInfoToServer = new CustomEvent("actionFixed",{
@@ -107,34 +107,34 @@ const createGLOBAL = ()=>{
     };
 
     const updateActions = ()=>{
-            for(let i=1;i<points.length+1;i++){
+            for(let i=1;i<G_points.length+1;i++){
                     if(storage[`point_${i}`]!=undefined){
                         
                         //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
 
                         if(storage[`point_${i}`] === "Y"){
-                            points[i-1].parentElement.classList.remove("kicked");
-                            points[i-1].nextElementSibling.classList.add("picked");
-                            points[i-1].previousElementSibling.classList.remove("picked");
-                            points[i-1].classList.add('decided');
+                            G_points[i-1].parentElement.classList.remove("kicked");
+                            G_points[i-1].nextElementSibling.classList.add("picked");
+                            G_points[i-1].previousElementSibling.classList.remove("picked");
+                            G_points[i-1].classList.add('decided');
 
 
                         }else if(storage[`point_${i}`] === "N"){
-                            points[i-1].parentElement.classList.remove("kicked");
-                            points[i-1].nextElementSibling.classList.remove("picked");
-                            points[i-1].previousElementSibling.classList.add("picked");
-                            points[i-1].classList.add('decided');
+                            G_points[i-1].parentElement.classList.remove("kicked");
+                            G_points[i-1].nextElementSibling.classList.remove("picked");
+                            G_points[i-1].previousElementSibling.classList.add("picked");
+                            G_points[i-1].classList.add('decided');
 
 
                         }else if(storage[`point_${i}`] === "K"){
-                            points[i-1].parentElement.classList.add("kicked");
-                            points[i-1].nextElementSibling.classList.remove("picked");
-                            points[i-1].previousElementSibling.classList.remove("picked");
-                            points[i-1].classList.add('decided');
+                            G_points[i-1].parentElement.classList.add("kicked");
+                            G_points[i-1].nextElementSibling.classList.remove("picked");
+                            G_points[i-1].previousElementSibling.classList.remove("picked");
+                            G_points[i-1].classList.add('decided');
 
 
                         }else{
-                            console.log(storage[`point_${i}`]);
+                            console.log(storage[`G_point_${i}`]);
                         }
                     }
 
@@ -144,20 +144,20 @@ const createGLOBAL = ()=>{
     };
 
     const updateCoords = ()=>{
-            coords.point_1.x = point_1.getBoundingClientRect().left; 
-            coords.point_1.y = point_1.getBoundingClientRect().top; 
+            coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
+            coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
                 
-            coords.point_2.x = point_2.getBoundingClientRect().left;
-            coords.point_2.y = point_2.getBoundingClientRect().top;
+            coords.G_point_2.x = G_point_2.getBoundingClientRect().left;
+            coords.G_point_2.y = G_point_2.getBoundingClientRect().top;
 
-            coords.point_3.x = point_3.getBoundingClientRect().left;
-            coords.point_3.y = point_3.getBoundingClientRect().top;
+            coords.G_point_3.x = G_point_3.getBoundingClientRect().left;
+            coords.G_point_3.y = G_point_3.getBoundingClientRect().top;
 
-            coords.point_4.x = point_4.getBoundingClientRect().left;
-            coords.point_4.y = point_4.getBoundingClientRect().top;
+            coords.G_point_4.x = G_point_4.getBoundingClientRect().left;
+            coords.G_point_4.y = G_point_4.getBoundingClientRect().top;
 
-            coords.point_5.x = point_5.getBoundingClientRect().left;
-            coords.point_5.y = point_5.getBoundingClientRect().top;
+            coords.G_point_5.x = G_point_5.getBoundingClientRect().left;
+            coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
     };
 
     const updateTooltipPosition = (x,y) => {
