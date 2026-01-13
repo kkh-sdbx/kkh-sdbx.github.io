@@ -165,7 +165,7 @@ const createGLOBAL = ()=>{
             G_tooltip.style.top = y + 'px';
     };
 
-    const updateSelectionPosition = ()=>{
+    const updateSelectionPosition = (x,y)=>{
             G_selection.style.left = x + 'px';
             G_selection.style.top = y + 'px';
     };
