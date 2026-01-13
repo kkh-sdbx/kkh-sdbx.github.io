@@ -144,20 +144,20 @@ const createGLOBAL = ()=>{
     };
 
     const updateCoords = ()=>{
-            coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
-            coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
+            G_coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
+            G_coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
                 
-            coords.G_point_2.x = G_point_2.getBoundingClientRect().left;
-            coords.G_point_2.y = G_point_2.getBoundingClientRect().top;
+            G_coords.G_point_2.x = G_point_2.getBoundingClientRect().left;
+            G_coords.G_point_2.y = G_point_2.getBoundingClientRect().top;
 
-            coords.G_point_3.x = G_point_3.getBoundingClientRect().left;
-            coords.G_point_3.y = G_point_3.getBoundingClientRect().top;
+            G_coords.G_point_3.x = G_point_3.getBoundingClientRect().left;
+            G_coords.G_point_3.y = G_point_3.getBoundingClientRect().top;
 
-            coords.G_point_4.x = G_point_4.getBoundingClientRect().left;
-            coords.G_point_4.y = G_point_4.getBoundingClientRect().top;
+            G_coords.G_point_4.x = G_point_4.getBoundingClientRect().left;
+            G_coords.G_point_4.y = G_point_4.getBoundingClientRect().top;
 
-            coords.G_point_5.x = G_point_5.getBoundingClientRect().left;
-            coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
+            G_coords.G_point_5.x = G_point_5.getBoundingClientRect().left;
+            G_coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
     };
 
     const updateTooltipPosition = (x,y) => {
@@ -237,9 +237,9 @@ const createGLOBAL = ()=>{
                 point.addEventListener("click",(e)=>{
                     const target = point.name ;
 
-                    if( currentPoint != null) {
+                    if( G_currentPoint != null) {
 
-                        if( currentPoint === point){
+                        if( G_currentPoint === point){
                         // 같은 point를 다시 눌렀을 때 
                         G_currentPoint = null;
                         point.classList.toggle('activated');
