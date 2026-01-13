@@ -172,8 +172,8 @@ const createGLOBAL = ()=>{
 
     const updatePositions = ()=>{
         updateCoords();
-        let changingX = coords[`${G_currentPoint.id}`].x;
-        let changingY = coords[`${G_currentPoint.id}`].y;
+        let changingX = G_coords[`${G_currentPoint.id}`].x;
+        let changingY = G_coords[`${G_currentPoint.id}`].y;
                 
         let xd = G_currentPoint.getBoundingClientRect().width /0.9; 
         let yd = G_currentPoint.getBoundingClientRect().height /0.9;
@@ -280,7 +280,7 @@ const createGLOBAL = ()=>{
         const setSelectionInteractive = ()=>{
             G_YBtn.addEventListener("click",()=>{
 
-            storage.setItem(`${currentPoint.id}`, `Y`);
+            storage.setItem(`${G_currentPoint.id}`, `Y`);
 
             G_currentPoint.parentElement.classList.remove("kicked");
             G_currentPoint.nextElementSibling.classList.add("picked");
