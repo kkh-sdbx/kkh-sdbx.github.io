@@ -42,6 +42,9 @@ const createGLOBAL = ()=>{
     let G_updateActionsFromStorage = null;
     let globalToMainBtn = null;
 
+    let G_donutSkin = null;
+    let isDonut = false;
+
     const init = ()=>{
             // 데이터 정의
             G_fixBtn = document.getElementById("G_fix");
@@ -96,6 +99,20 @@ const createGLOBAL = ()=>{
 
             globalToMainBtn.addEventListener("click",()=>{
                 PAGEROUTER.moveToPage("MAIN");
+            })
+
+            G_donutSkin = document.getElementById('G_donutSkin');
+            G_donutSkin.addEventListener("click",()=>{
+                isDonut = !isDounut;
+                console.log(`isDonut : ${isDonut}`);
+                if(isDonut){
+
+                    
+                }else{
+
+
+                }
+
             })
     };
 

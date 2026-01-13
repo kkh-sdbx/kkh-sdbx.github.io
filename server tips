@@ -1,3 +1,88 @@
+## 스킨 구매 구현 방식
+
+1) 보유하지 않은 스킨의 CSS 코드는 아예 전달하지 않는 것이죠 => 이거지.
+서버는 모든 스킨의 css를 갖고 있고, 구매 시에는 유저가 가진 스킨의 key만 받아서 새 css로 만들고, 그걸 클라이언트에 전송.
+
+컨디션이 회복된 후 구현할 때 참고할 '한 줄 팁'
+머리가 맑아졌을 때 아래 흐름대로만 코딩해 보세요.
+1. 서버 사이드 (Node.js/Python 등)
+마스터 CSS 파일을 읽어옵니다.
+유저의 purchased_skins 리스트를 DB에서 가져옵니다.
+리스트에 해당하는 CSS 클래스들만 합쳐서(Concatenate) 하나의 문자열로 만듭니다.
+클라이언트에 text/css 타입으로 응답합니다.
+2. 클라이언트 사이드 (JS)
+결제 성공 콜백이 오면 기존 <link id="skin-css">의 href를 교체합니다.
+이때 캐시 방지를 위해 뒤에 파라미터를 꼭 붙여주세요.
+javascript
+// 서버에서 동적으로 생성된 CSS를 새로고침 없이 적용
+document.getElementById('skin-css').href = `/api/generate-user-css?uid=123&t=${Date.now()}`;
+
+## CSS 변수 사용 방법
+
+CSS 변수 사용법 설명
+2026년 현대 웹 표준에서 CSS 변수(Custom Properties)는 스킨이나 테마 시스템을 구현할 때 가장 강력한 도구입니다. 특히 질문자님처럼 서버에서 동적으로 스킨을 생성해 보내주는 구조에서 진가를 발휘합니다.
+핵심적인 사용법과 스킨 시스템 적용 방안을 정리해 드립니다.
+1. 기본 문법 (선언과 사용)
+변수 이름은 반드시 --로 시작해야 하며, var() 함수를 통해 호출합니다. 
+css
+/* 1. 변수 선언 (보통 최상단이나 특정 클래스에 선언) */
+:root {
+  --main-color: #ff4500; /* 오렌지색 */
+  --font-size: 16px;
+}
+
+/* 2. 변수 사용 */
+.donut-body {
+  background-color: var(--main-color);
+  font-size: var(--font-size);
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+2. 질문자님의 '스킨 시스템'에 적용하기 (강력 추천)
+스킨 100개를 각각 300줄씩 짜는 대신, 구조(Template)와 데이터(Variable)를 분리하면 서버 전송량이 획기적으로 줄어듭니다.
+[STEP 1] 공통 구조 정의 (basic.css)
+모든 스킨이 공유하는 레이아웃을 미리 짜둡니다. 값 대신 변수를 넣으세요.
+css
+/* basic.css */
+.donut-skin {
+  width: 100px;
+  height: 100px;
+  background-color: var(--bg-color, white); /* 변수가 없으면 white 사용 */
+  border: 5px solid var(--border-color, black);
+  box-shadow: 0 0 10px var(--glow-color, transparent);
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+[STEP 2] 스킨 데이터만 서버에서 전송 (skins.css)
+서버는 유저가 보유한 스킨의 변수 값만 골라서 보내줍니다. 300줄이 필요 없게 됩니다.
+css
+/* 서버가 동적으로 생성해서 보낸 skins.css */
+.skin-neon {
+  --bg-color: #000;
+  --border-color: #0f0;
+  --glow-color: #0f0;
+}
+
+.skin-gold {
+  --bg-color: #ffd700;
+  --border-color: #b8860b;
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+3. CSS 변수의 장점 (1인 개발자 체감)
+실시간 변경: 자바스크립트로 변수 값만 바꾸면 게임 내 모든 요소의 색상이 즉시 바뀝니다.
+javascript
+// JS로 실시간 테마 변경 예시
+document.documentElement.style.setProperty('--main-color', 'blue');
+코드를 사용할 때는 주의가 필요합니다.
+
+유지보수: 스킨의 크기를 키우고 싶을 때, 100개 스킨의 width를 고치는 게 아니라 basic.css의 변수 하나만 고치면 끝납니다.
+가독성: #ff4500 같은 코드보다 --neon-green 같은 이름이 코딩 시 훨씬 직관적입니다. 
+
+===
+
+
+
 동시 접속자(CCU) 5,000명은 1인 개발자에게 매우 큰 도전이지만, 1분 단위의 배치 처리 방식이라면 VM 1~2대만으로도 충분히 방어 가능한 수준입니다. 실시간 대응이 불가능한 직장인 환경을 고려하여, '최대한 단순하고 견고한' 아키텍처를 제안합니다.
 1. 5,000명 CCU를 버티는 전략: "Stateless & Queue"
 실시간 소켓(WebSocket) 방식이 아니기 때문에, 서버는 1분마다 몰려오는 요청만 잘 쳐내면 됩니다.
