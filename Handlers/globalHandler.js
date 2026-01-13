@@ -45,7 +45,7 @@ const createGLOBAL = ()=>{
     const init = ()=>{
             // 데이터 정의
             fixBtn = document.getElementById("G_fix");
-            points = document.querySelectorAll('.G_point');
+            G_points = document.querySelectorAll('.G_point');
             [G_point_1, G_point_2, G_point_3, G_point_4, G_point_5] = G_points;
             tooltip = document.getElementById('G_tooltip');
             opntName = document.getElementById('G_opntName');
