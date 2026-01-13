@@ -287,8 +287,8 @@ const createGLOBAL = ()=>{
             G_currentPoint.previousElementSibling.classList.remove("picked");
             
             G_currentPoint.classList.remove('activated');
-            if(storage.getItem(`${currentPoint.id}`) != undefined){
-                currentPoint.classList.add('decided');
+            if(storage.getItem(`${G_currentPoint.id}`) != undefined){
+                G_currentPoint.classList.add('decided');
             }
             // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
             G_currentPoint = null;
@@ -301,14 +301,14 @@ const createGLOBAL = ()=>{
             });
             G_NBtn.addEventListener("click",()=>{
 
-                storage.setItem(`${currentPoint.id}`, `N`);
+                storage.setItem(`${G_currentPoint.id}`, `N`);
 
                 G_currentPoint.parentElement.classList.remove("kicked");
                 G_currentPoint.nextElementSibling.classList.remove("picked");
                 G_currentPoint.previousElementSibling.classList.add("picked");
 
                 G_currentPoint.classList.remove('activated');
-                if(storage.getItem(`${currentPoint.id}`) != undefined){
+                if(storage.getItem(`${G_currentPoint.id}`) != undefined){
                     G_currentPoint.classList.add('decided');
                 }
                 G_currentPoint = null;
