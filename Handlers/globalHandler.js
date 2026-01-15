@@ -260,7 +260,7 @@ const createGLOBAL = ()=>{
                 });
                 
                 point.addEventListener("click",(e)=>{
-                    const target = point.name ;
+                    const target = point.name;
 
                     if( G_currentPoint != null) {
 
