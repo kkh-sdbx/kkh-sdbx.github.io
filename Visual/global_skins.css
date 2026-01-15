@@ -11,7 +11,6 @@
 }
 
 .donut:hover {
-    background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
     content: '';
     top: 10%; left: 10%; right: 10%; bottom: 10%;
     background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
@@ -20,22 +19,31 @@
 .donut:hover{ transform:  scale(1.2); }
 
 .donut.activated {
-        background-color: rgb(50, 120, 245)!important;
-        border-radius: 0%;
+    content: '';
+    top: 10%; left: 10%; right: 10%; bottom: 10%;
+    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
+    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));    
 }
-.donut.activated,
 .donut:hover.activated{
-        background-color: rgb(50, 120, 245)!important; 
-        border-radius: 0%;
-
+    content: '';
+    top: 10%; left: 10%; right: 10%; bottom: 10%;
+    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
+    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));   
+}
+150->40
+.donut.decided {
+    content: '';
+    position: absolute;
+    width: 6px; height: 12px;
+    top: 40px; left: 70px;
+    border-radius: 3px;
+    /* 3. 수많은 스프링클 가루를 box-shadow 하나로 구현 */
+    box-shadow: 
+    10px 20px 0 #fff, -25px 15px 0 #ffff00, 30px -10px 0 #00ffff,
+    -15px -25px 0 #ff00ff, 20px -30px 0 #adff2f, -35px 5px 0 #ffa500;
+    transform: rotate(30deg);
 }
 
-.G_point.decided {
-    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
-    cursor: default;
-    transform: rotate(45deg) scale(1.2);
-}
-.G_point.decided .G_point-text { transform: rotate(-45deg) !important; }
 
 
 
