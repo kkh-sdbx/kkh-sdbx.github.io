@@ -1,42 +1,62 @@
 /* 1) 기본 상태: 갈색 빵 모양 */
+/* 1단계: 기본 상태 - 갈색 빵 도넛 */
 .donut {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    /* 구멍(30%) / 빵(31~100%) */
     background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
 }
 
-/* 2) Hover 시: 핑크색 시럽 추가 & 확대 */
+/* 2단계: Hover 시 - 핑크색 시럽 추가 (가장자리 빵 테두리 유지) */
 .donut:hover {
-    background: radial-gradient(circle, transparent 30%, #ff69b4 31%, #ff1493 100%);
+    /* 구멍(30%) / 시럽(31~75%) / 빵 테두리(76~100%) */
+    background: radial-gradient(
+        circle, 
+        transparent 30%, 
+        #ff69b4 31%, #ff1493 75%, 
+        #d2b48c 76%, #8b4513 100%
+    );
     transform: scale(1.2);
-    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }
 
-/* 3) Activated 상태: 클릭 시 핑크색 고정 */
+/* 3단계: Activated - 클릭 시 핑크색 시럽 고정 */
 .donut.activated {
-    background: radial-gradient(circle, transparent 30%, #ff69b4 31%, #ff1493 100%);
-    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
+    background: radial-gradient(
+        circle, 
+        transparent 30%, 
+        #ff69b4 31%, #ff1493 75%, 
+        #d2b48c 76%, #8b4513 100%
+    );
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }
 
-/* 4) Decided 상태: 한 번 더 클릭 시 스프링클 추가 (가상 요소 사용) */
+/* 4단계: Decided - 한 번 더 클릭 시 스프링클 가루 뿌리기 */
 .donut.decided::after {
     content: '';
     position: absolute;
-    width: 3px; /* 40px 크기에 맞춰 축소 */
-    height: 6px;
+    /* 스프링클 알갱이 하나의 크기 */
+    width: 2px; 
+    height: 5px;
     border-radius: 2px;
-    /* 수많은 스프링클을 box-shadow로 구현 (좌표 조정) */
+    /* 40px 크기 도넛 안에 안착하도록 좌표(x, y) 미세 조정 */
     box-shadow: 
-        5px -10px 0 #fff, -8px -8px 0 #ffff00, 10px 5px 0 #00ffff,
-        -10px 6px 0 #ff00ff, 4px 10px 0 #adff2f, -5px -2px 0 #ffa500;
-    transform: rotate(30deg);
+        /* x  y  blur color */
+        6px -8px 0 #ffffff,   /* 흰색 */
+        -7px -5px 0 #ffff00,  /* 노랑 */
+        9px 4px 0 #00ffff,    /* 하늘 */
+        -9px 6px 0 #ff00ff,   /* 보라 */
+        0px 10px 0 #adff2f,   /* 연두 */
+        -4px -10px 0 #ffa500; /* 주황 */
+    transform: rotate(20deg);
+    animation: sprinkleFade 0.3s ease-in;
 }
 
 
