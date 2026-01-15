@@ -1,46 +1,41 @@
+/* 1) 기본 상태: 갈색 빵 모양 */
 .donut {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    /* 1. 기본 빵 모양: 가운데가 뚫린 갈색 링 */
     background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
+/* 2) Hover 시: 핑크색 시럽 추가 & 확대 */
 .donut:hover {
-    content: '';
-    top: 10%; left: 10%; right: 10%; bottom: 10%;
-    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
-    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));
+    background: radial-gradient(circle, transparent 30%, #ff69b4 31%, #ff1493 100%);
+    transform: scale(1.2);
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
 }
-.donut:hover{ transform:  scale(1.2); }
 
+/* 3) Activated 상태: 클릭 시 핑크색 고정 */
 .donut.activated {
-    content: '';
-    top: 10%; left: 10%; right: 10%; bottom: 10%;
-    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
-    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));    
+    background: radial-gradient(circle, transparent 30%, #ff69b4 31%, #ff1493 100%);
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
 }
-.donut:hover.activated{
-    content: '';
-    top: 10%; left: 10%; right: 10%; bottom: 10%;
-    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
-    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));   
-}
-150->40
-.donut.decided {
+
+/* 4) Decided 상태: 한 번 더 클릭 시 스프링클 추가 (가상 요소 사용) */
+.donut.decided::after {
     content: '';
     position: absolute;
-    width: 6px; height: 12px;
-    top: 40px; left: 70px;
-    border-radius: 3px;
-    /* 3. 수많은 스프링클 가루를 box-shadow 하나로 구현 */
+    width: 3px; /* 40px 크기에 맞춰 축소 */
+    height: 6px;
+    border-radius: 2px;
+    /* 수많은 스프링클을 box-shadow로 구현 (좌표 조정) */
     box-shadow: 
-    10px 20px 0 #fff, -25px 15px 0 #ffff00, 30px -10px 0 #00ffff,
-    -15px -25px 0 #ff00ff, 20px -30px 0 #adff2f, -35px 5px 0 #ffa500;
+        5px -10px 0 #fff, -8px -8px 0 #ffff00, 10px 5px 0 #00ffff,
+        -10px 6px 0 #ff00ff, 4px 10px 0 #adff2f, -5px -2px 0 #ffa500;
     transform: rotate(30deg);
 }
 
@@ -60,32 +55,7 @@
 
 .G_point.activated .G_point-text { transform: rotate(-45deg) !important; }
 
-/* 2. 시럽과 스프링클 (Activated 상태에서만 나타남) */
-.donut.activated::before {
-    content: '';
-    position: absolute;
-    top: 10%; left: 10%; right: 10%; bottom: 10%;
-    border-radius: 50%;
-    /* 핑크색 시럽 (가운데는 여전히 구멍) */
-    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
-    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));
-}
 
-.donut.activated::after {
-    content: '';
-    position: absolute;
-    width: 6px; height: 12px;
-    top: 40px; left: 70px;
-    border-radius: 3px;
-    /* 3. 수많은 스프링클 가루를 box-shadow 하나로 구현 */
-    box-shadow: 
-    10px 20px 0 #fff, -25px 15px 0 #ffff00, 30px -10px 0 #00ffff,
-    -15px -25px 0 #ff00ff, 20px -30px 0 #adff2f, -35px 5px 0 #ffa500;
-    transform: rotate(30deg);
-}
-
-/* 클릭 효과용 (테스트용) */
-.donut:active { transform: scale(0.95); }
 
 
 .G_container {
