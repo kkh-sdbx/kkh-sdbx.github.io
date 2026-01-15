@@ -23,8 +23,8 @@
     background: radial-gradient(
         circle, 
         transparent 30%, 
-        #ff69b4 31%, #ff1493 65%, 
-        #d2b48c 66%, #8b4513 100%
+        #ff69b4 21%, #ff1493 45%, 
+        #d2b48c 46%, #8b4513 100%
     );
     filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }
