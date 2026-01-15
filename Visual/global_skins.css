@@ -77,26 +77,7 @@
 
 }
 
-/* 색상 테스트용 div 스타일 */
-.color-test-area {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    gap: 10px;
-}
 
-/* 테스트 색상 스타일 (이전 답변의 RGB 코드 사용) */
-.orange { color: rgb(255, 145, 40); }
-.blue {color: rgb(50, 120, 245);}
-.cyan { color: rgb(0, 190, 190); }
-.black { color: rgb(20, 20, 19); }
-.white { color: rgb(240, 240, 240); }
-.red {color:rgb(235, 65, 65); }
-.green  { color: rgb(40, 180, 100); }  /* 신뢰감 있고 선명한 초록 */
-.lime   { color: rgb(160, 210, 50); }  /* 눈이 아프지 않으면서 생동감 있는 연두 */
-.purple { color: rgb(145, 85, 230); }  /* 너무 어둡지 않고 세련된 보라 */
-.gray   { color: rgb(130, 135, 145); } /* 푸른 기가 살짝 섞인 세련된 회색 */
-.yellow { color: rgb(255, 205, 10); }  /* 주황색과 대비되는 명확한 노랑 */
 
 
 /* 원형 점 스타일 */

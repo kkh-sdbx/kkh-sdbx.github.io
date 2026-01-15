@@ -21,7 +21,56 @@ body {
     margin: auto;
 }
 
-/* 컨테이너 (점을 배치할 기준 영역) */
+/* 색상 테스트용 div 스타일 */
+.color-test-area {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    gap: 10px;
+}
 
+/* 테스트 색상 스타일 (이전 답변의 RGB 코드 사용) */
+.orange { color: rgb(255, 145, 40); }
+.blue {color: rgb(50, 120, 245);}
+.cyan { color: rgb(0, 190, 190); }
+.black { color: rgb(20, 20, 19); }
+.white { color: rgb(240, 240, 240); }
+.red {color:rgb(235, 65, 65); }
+.green  { color: rgb(40, 180, 100); }  /* 신뢰감 있고 선명한 초록 */
+.lime   { color: rgb(160, 210, 50); }  /* 눈이 아프지 않으면서 생동감 있는 연두 */
+.purple { color: rgb(145, 85, 230); }  /* 너무 어둡지 않고 세련된 보라 */
+.gray   { color: rgb(130, 135, 145); } /* 푸른 기가 살짝 섞인 세련된 회색 */
+.yellow { color: rgb(255, 205, 10); }  /* 주황색과 대비되는 명확한 노랑 */
 
+#currentSkin {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(80, 200, 255); /* 파란색 rgb(70, 190, 245)또는  rgb(185, 220, 240)도 확인할 것!!*/
+    border-radius: 50%; /* 초기 상태: 원형 */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-out, background-color 0.3s,  border-radius 0.3s;
+        transform: rotate(0deg) scale(1); 
+}
+#currentSkin:hover {
+        background-color: rgb(50, 120, 245); 
+}
+#currentSkin:hover{ transform:  rotate(45deg) scale(1.2); }
 
+#currentSkin:hover #currentSkin-text { transform: rotate(-45deg) !important; }
+
+#currentSkin.activated {
+        background-color: rgb(50, 120, 245)!important;
+        border-radius: 0%;
+}
+#currentSkin.activated,
+#currentSkin:hover.activated{
+        background-color: rgb(50, 120, 245)!important; 
+        border-radius: 0%;
+
+}
