@@ -43,7 +43,7 @@ const createGLOBAL = ()=>{
     let globalToMainBtn = null;
 
     let G_donutSkin = null;
-    let isDonut = false;
+    let G_isDonut = null;
 
     const init = ()=>{
             // 데이터 정의
@@ -65,6 +65,7 @@ const createGLOBAL = ()=>{
             G_myHp = document.getElementById('G_myHp');
             storage = window.localStorage;
             globalToMainBtn = document.getElementById('globalToMainBtn');
+            G_isDonut = false;
 
             G_coords = {
                 "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
@@ -103,9 +104,9 @@ const createGLOBAL = ()=>{
 
             G_donutSkin = document.getElementById('G_donutSkin');
             G_donutSkin.addEventListener("click",()=>{
-                isDonut = !isDounut;
-                console.log(`isDonut : ${isDonut}`);
-                if(isDonut){
+                G_isDonut = !G_isDonut;
+                console.log(`isDonut : ${G_isDonut}`);
+                if(G_isDonut){
                     G_points.classList.add("donut");
                     
                 }else{
