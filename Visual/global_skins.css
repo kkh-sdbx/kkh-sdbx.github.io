@@ -20,6 +20,7 @@
 .donut.activated, 
 .donut.decided {
     /* 빵 테두리 영역(#d2b48c 이후)을 더 넓게 잡아 스케일업 시 가시성 확보 */
+    transform: scale(1.2);
     background: radial-gradient(
         circle, 
         transparent 30%, 
