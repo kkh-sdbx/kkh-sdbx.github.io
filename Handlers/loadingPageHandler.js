@@ -1,7 +1,7 @@
 import PAGEROUTER from "../Tools/pageRouter.js";
 
 const LOADINGPAGE = {
-    setRouter(){
+    init(){
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
         loadingToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");

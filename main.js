@@ -46,10 +46,10 @@ window.addEventListener("DOMContentLoaded",()=>{
     GLOBAL.init();
 
     // 로딩 페이지 셋업.
-    LOADINGPAGE.setRouter();
+    LOADINGPAGE.init();
 
     // 메인 페이지  셋업.
-    MAINPAGE.setRouter();
+    MAINPAGE.init();
 
     // 상점 페이지  셋업.
 

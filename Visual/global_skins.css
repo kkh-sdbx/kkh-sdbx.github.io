@@ -1,13 +1,56 @@
 .donut {
     width: 40px;
     height: 40px;
-    position: relative;
     border-radius: 50%;
     /* 1. 기본 빵 모양: 가운데가 뚫린 갈색 링 */
     background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 0.3s;
 }
+
+.donut:hover {
+    background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
+    content: '';
+    top: 10%; left: 10%; right: 10%; bottom: 10%;
+    background: radial-gradient(circle, transparent 30%, #ff69b4 31%);
+    filter: drop-shadow(0 4px 2px rgba(0,0,0,0.2));
+}
+.donut:hover{ transform:  scale(1.2); }
+
+.donut.activated {
+        background-color: rgb(50, 120, 245)!important;
+        border-radius: 0%;
+}
+.donut.activated,
+.donut:hover.activated{
+        background-color: rgb(50, 120, 245)!important; 
+        border-radius: 0%;
+
+}
+
+.G_point.decided {
+    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
+    cursor: default;
+    transform: rotate(45deg) scale(1.2);
+}
+.G_point.decided .G_point-text { transform: rotate(-45deg) !important; }
+
+
+
+
+/*
+- CSS 점검. hover 이벤트가 아니라, 
+    클릭 시에 회전 사각형이 되어야 함.(모바일 버전)
+
+    - hover 시에는 색깔만 바뀌고, 클릭 시 회전 사각형 toggle.
+
+*/
+
+.G_point.activated { transform:  rotate(45deg) scale(1.2); }
+
+.G_point.activated .G_point-text { transform: rotate(-45deg) !important; }
 
 /* 2. 시럽과 스프링클 (Activated 상태에서만 나타남) */
 .donut.activated::before {
@@ -107,41 +150,7 @@
 /* 호버 시 스타일 */
 
 
-.G_point.decided {
-    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
-    cursor: default;
-    transform: rotate(45deg) scale(1.2);
-}
-.G_point.decided .G_point-text { transform: rotate(-45deg) !important; }
 
-.G_point:hover {
-        background-color: rgb(50, 120, 245); 
-}
-.G_point:hover{ transform:  rotate(45deg) scale(1.2); }
-
-.G_point:hover .G_point-text { transform: rotate(-45deg) !important; }
-
-.G_point.activated {
-        background-color: rgb(50, 120, 245)!important;
-        border-radius: 0%;
-}
-.G_point.activated,
-.G_point:hover.activated{
-        background-color: rgb(50, 120, 245)!important; 
-        border-radius: 0%;
-
-}
-/*
-- CSS 점검. hover 이벤트가 아니라, 
-    클릭 시에 회전 사각형이 되어야 함.(모바일 버전)
-
-    - hover 시에는 색깔만 바뀌고, 클릭 시 회전 사각형 toggle.
-
-*/
-
-.G_point.activated { transform:  rotate(45deg) scale(1.2); }
-
-.G_point.activated .G_point-text { transform: rotate(-45deg) !important; }
 .G_saidNo{
     visibility:hidden;
 }
