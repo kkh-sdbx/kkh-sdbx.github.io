@@ -259,7 +259,7 @@ const createGLOBAL = ()=>{
 
                 });
                 
-                point.addEventListener("click",(e)=>{
+                point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
                     const target = point.name;
 
                     if( G_currentPoint != null) {
