@@ -265,14 +265,16 @@ const createGLOBAL = ()=>{
                     if( G_currentPoint != null) {
 
                         if( G_currentPoint === point){
-                        // 같은 point를 다시 눌렀을 때 
-                        G_currentPoint = null;
-                        point.classList.toggle('activated');
+                            point.classList.remove("decided");
+                            // 같은 point를 다시 눌렀을 때 
+                            G_currentPoint = null;
+                            point.classList.toggle('activated');
 
-                        G_selection.style.display = 'none';
-                        G_tooltip.style.display = 'none';
+                            G_selection.style.display = 'none';
+                            G_tooltip.style.display = 'none';
 
                         }else{
+                            point.classList.remove("decided");
                             // 이전에 클릭했던 point가 있고, 새 point 클릭 시
 
                             G_currentPoint.classList.toggle('activated');
@@ -286,6 +288,7 @@ const createGLOBAL = ()=>{
                         
 
                     }else{
+                        point.classList.remove("decided");
                         // 이전에 클릭했던 point가 없고, 새 point 클릭 시
 
                         point.classList.toggle('activated');
