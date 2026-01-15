@@ -108,12 +108,15 @@ const createGLOBAL = ()=>{
                 console.log(`isDonut : ${G_isDonut}`);
                 if(G_isDonut){
                     G_points.forEach((point)=>{
+                      point.className = "";  
                       point.classList.add("donut");  
                     });
                     
                 }else{
                     G_points.forEach((point)=>{
-                      point.classList.remove("donut");  
+                        point.className = ""; 
+                        point.classList.remove("donut"); 
+                        point.classList.add("G_point");  
                     });
 
                 }

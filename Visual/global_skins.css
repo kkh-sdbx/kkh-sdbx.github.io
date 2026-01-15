@@ -5,7 +5,7 @@
     height: 40px;
     border-radius: 50%;
     /* 구멍(30%) / 빵(31~100%) */
-    background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
+    background: radial-gradient(circle, rgb(20, 20, 19) 30%, #d2b48c 31%, #8b4513 100%);
     position: relative;
     display: flex;
     justify-content: center;
