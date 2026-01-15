@@ -106,10 +106,10 @@ const createGLOBAL = ()=>{
                 isDonut = !isDounut;
                 console.log(`isDonut : ${isDonut}`);
                 if(isDonut){
-
+                    G_points.classList.add("donut");
                     
                 }else{
-
+                    G_points.classList.remove("donut");
 
                 }
 

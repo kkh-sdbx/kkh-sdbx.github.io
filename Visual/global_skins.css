@@ -1,6 +1,6 @@
 .donut {
-    width: 150px;
-    height: 150px;
+    width: 40px;
+    height: 40px;
     position: relative;
     border-radius: 50%;
     /* 1. 기본 빵 모양: 가운데가 뚫린 갈색 링 */
