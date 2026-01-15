@@ -1,62 +1,56 @@
-/* 1) 기본 상태: 갈색 빵 모양 */
-/* 1단계: 기본 상태 - 갈색 빵 도넛 */
+/* 1단계: 기본 상태 */
 .donut {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    /* 구멍(30%) / 빵(31~100%) */
-    background: radial-gradient(circle, rgb(20, 20, 19) 30%, #d2b48c 31%, #8b4513 100%);
+    /* 빵의 가장자리 진한 갈색(#8b4513) 비중을 높여 스케일업 시에도 잘 보이게 조정 */
+    background: radial-gradient(circle, transparent 30%, #d2b48c 31%, #8b4513 100%);
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
+    box-sizing: border-box; /* 크기 계산 오류 방지 */
 }
 
-/* 2단계: Hover 시 - 핑크색 시럽 추가 (가장자리 빵 테두리 유지) */
+/* 2단계(Hover), 3단계(Activated), 4단계(Decided) 공통: 시럽 상태 유지 */
+/* .donut.decided를 추가하여 스프링클이 생겨도 시럽 배경이 사라지지 않게 함 */
+.donut:hover, 
+.donut.activated, 
+.donut.decided {
+    /* 빵 테두리 영역(#d2b48c 이후)을 더 넓게 잡아 스케일업 시 가시성 확보 */
+    background: radial-gradient(
+        circle, 
+        transparent 30%, 
+        #ff69b4 31%, #ff1493 65%, 
+        #d2b48c 66%, #8b4513 100%
+    );
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+}
+
+/* Hover 시에만 확대 */
 .donut:hover {
-    /* 구멍(30%) / 시럽(31~75%) / 빵 테두리(76~100%) */
-    background: radial-gradient(
-        circle, 
-        transparent 30%, 
-        #ff69b4 31%, #ff1493 75%, 
-        #d2b48c 76%, #8b4513 100%
-    );
     transform: scale(1.2);
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
 }
 
-/* 3단계: Activated - 클릭 시 핑크색 시럽 고정 */
-.donut.activated {
-    background: radial-gradient(
-        circle, 
-        transparent 30%, 
-        #ff69b4 31%, #ff1493 75%, 
-        #d2b48c 76%, #8b4513 100%
-    );
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
-}
-
-/* 4단계: Decided - 한 번 더 클릭 시 스프링클 가루 뿌리기 */
+/* 4단계: Decided - 시럽 위에 스프링클 추가 */
 .donut.decided::after {
     content: '';
     position: absolute;
-    /* 스프링클 알갱이 하나의 크기 */
     width: 2px; 
     height: 5px;
     border-radius: 2px;
-    /* 40px 크기 도넛 안에 안착하도록 좌표(x, y) 미세 조정 */
+    /* 좌표를 중앙(0,0) 기준으로 다시 정렬하여 시럽 영역 안에 배치 */
     box-shadow: 
-        /* x  y  blur color */
-        6px -8px 0 #ffffff,   /* 흰색 */
-        -7px -5px 0 #ffff00,  /* 노랑 */
-        9px 4px 0 #00ffff,    /* 하늘 */
-        -9px 6px 0 #ff00ff,   /* 보라 */
-        0px 10px 0 #adff2f,   /* 연두 */
-        -4px -10px 0 #ffa500; /* 주황 */
+        6px -8px 0 #ffffff,   
+        -7px -5px 0 #ffff00,  
+        9px 4px 0 #00ffff,    
+        -9px 6px 0 #ff00ff,   
+        0px 8px 0 #adff2f,    
+        -4px -10px 0 #ffa500; 
     transform: rotate(20deg);
-    animation: sprinkleFade 0.3s ease-in;
+    z-index: 1; /* 시럽보다 위에 표시 */
 }
 
 
