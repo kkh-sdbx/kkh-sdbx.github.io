@@ -1,5 +1,3 @@
-
-
 const renderGlobalMode = ()=>{
     // View (View.js) - UI만 담당
     let G_fixBtn = null;
@@ -25,11 +23,16 @@ const renderGlobalMode = ()=>{
 
     let globalToMainBtn = null;
 
-    let G_donutSkin = null;
-    let G_isDonut = null;
     let G_coords = null;
     let G_currentPoint = null;
     let G_pointData = null;
+
+    let G_donutSkin = null;
+    let G_isDonut = null;
+
+    let DECISION_DETAIL = null;
+    let pointDecisionEvent = null;
+    
 
     const init = ()=>{
         G_fixBtn = document.getElementById("G_fix");
@@ -51,6 +54,14 @@ const renderGlobalMode = ()=>{
         globalToMainBtn = document.getElementById('globalToMainBtn');
         G_isDonut = false;
 
+        DECISION_DETAIL = {"target":null, "action":"Y" };
+
+        pointDecisionEvent = new CustomEvent("actionDecided",{ 
+            bubbles: true, // Allows the event to bubble up the DOM
+            cancelable: false,
+            detail:DECISION_DETAIL
+        });
+
         G_coords = {
             "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
             "G_point_2": { "x": G_point_2.getBoundingClientRect().left, "y": G_point_2.getBoundingClientRect().top  },
@@ -62,11 +73,11 @@ const renderGlobalMode = ()=>{
         G_currentPoint = null;
 
         G_pointData = {
-                    "G_point_1": { "name": "G_point_1 점 opntName", "YNKratio": "30%", "history":[] },
-                    "G_point_2": { "name": "G_point_2 점 opntName", "YNKratio": "30%", "history":[] },
-                    "G_point_3": { "name": "G_point_3 점 opntName", "YNKratio": "30%", "history":[] },
-                    "G_point_4": { "name": "G_point_4 점 opntName", "YNKratio": "30%", "history":[] },
-                    "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
+            "G_point_1": { "name": "G_point_1 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_2": { "name": "G_point_2 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_3": { "name": "G_point_3 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_4": { "name": "G_point_4 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
         };
 
         globalToMainBtn.addEventListener("click",()=>{
@@ -74,6 +85,7 @@ const renderGlobalMode = ()=>{
         })
 
         G_donutSkin = document.getElementById('G_donutSkin');
+
         G_donutSkin.addEventListener("click",()=>{
             G_isDonut = !G_isDonut;
             console.log(`isDonut : ${G_isDonut}`);
@@ -92,33 +104,33 @@ const renderGlobalMode = ()=>{
 
             }
 
-        })
+        });
     }
-        const updateCoords = ()=>{
-            G_coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
-            G_coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
-                
-            G_coords.G_point_2.x = G_point_2.getBoundingClientRect().left;
-            G_coords.G_point_2.y = G_point_2.getBoundingClientRect().top;
+    const updateCoords = ()=>{
+        G_coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
+        G_coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
+            
+        G_coords.G_point_2.x = G_point_2.getBoundingClientRect().left;
+        G_coords.G_point_2.y = G_point_2.getBoundingClientRect().top;
 
-            G_coords.G_point_3.x = G_point_3.getBoundingClientRect().left;
-            G_coords.G_point_3.y = G_point_3.getBoundingClientRect().top;
+        G_coords.G_point_3.x = G_point_3.getBoundingClientRect().left;
+        G_coords.G_point_3.y = G_point_3.getBoundingClientRect().top;
 
-            G_coords.G_point_4.x = G_point_4.getBoundingClientRect().left;
-            G_coords.G_point_4.y = G_point_4.getBoundingClientRect().top;
+        G_coords.G_point_4.x = G_point_4.getBoundingClientRect().left;
+        G_coords.G_point_4.y = G_point_4.getBoundingClientRect().top;
 
-            G_coords.G_point_5.x = G_point_5.getBoundingClientRect().left;
-            G_coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
+        G_coords.G_point_5.x = G_point_5.getBoundingClientRect().left;
+        G_coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
     };
 
     const updateTooltipPosition = (x,y) => {
-            G_tooltip.style.left = x + 'px';
-            G_tooltip.style.top = y + 'px';
+        G_tooltip.style.left = x + 'px';
+        G_tooltip.style.top = y + 'px';
     };
 
     const updateSelectionPosition = (x,y)=>{
-            G_selection.style.left = x + 'px';
-            G_selection.style.top = y + 'px';
+        G_selection.style.left = x + 'px';
+        G_selection.style.top = y + 'px';
     };
 
     const updatePositions = ()=>{
@@ -222,6 +234,8 @@ const renderGlobalMode = ()=>{
 
         };
 
+        //# 작업중.
+        
         const setSelectionInteractive = ()=>{
             G_YBtn.addEventListener("click",()=>{
 
@@ -230,20 +244,18 @@ const renderGlobalMode = ()=>{
             G_currentPoint.parentElement.classList.remove("kicked");
             G_currentPoint.nextElementSibling.classList.add("picked");
             G_currentPoint.previousElementSibling.classList.remove("picked");
-            
+
             G_currentPoint.classList.remove('activated');
             if(storage.getItem(`${G_currentPoint.id}`) != undefined){
                 G_currentPoint.classList.add('decided');
-            }
+            };
+
             // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
             G_currentPoint = null;
             G_tooltip.style.display = 'none';
             G_selection.style.display = 'none';
-
-            
-
-                
             });
+
             G_NBtn.addEventListener("click",()=>{
 
                 storage.setItem(`${G_currentPoint.id}`, `N`);
@@ -255,34 +267,27 @@ const renderGlobalMode = ()=>{
                 G_currentPoint.classList.remove('activated');
                 if(storage.getItem(`${G_currentPoint.id}`) != undefined){
                     G_currentPoint.classList.add('decided');
-                }
+                };
                 G_currentPoint = null;
                 G_tooltip.style.display = 'none';   
                 G_selection.style.display = 'none';
-
-                
-
             }); 
+
             G_KBtn.addEventListener("click",()=>{
 
                 storage.setItem(`${G_currentPoint.id}`, `K`);
+
                 G_currentPoint.classList.remove('activated');
-
-
                 G_currentPoint.parentElement.classList.add("kicked");
                 G_currentPoint.nextElementSibling.classList.remove("picked");
                 G_currentPoint.previousElementSibling.classList.remove("picked");
 
                 if(storage.getItem(`${G_currentPoint.id}`) != undefined){
                     G_currentPoint.classList.add('decided');
-
-                }
+                };
                 G_currentPoint = null;
                 G_tooltip.style.display = 'none';
                 G_selection.style.display = 'none';
-
-                
-
             });
 
 

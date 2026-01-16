@@ -16,20 +16,25 @@ import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
  * 
  */
 
+    /**
+     * Model이 서버에서 받아온 정보를 커스텀 이벤트로 dispatch(서버 통신 성공 알림) => 
+     * Controller가 이걸 듣고(addEventListener) 콜백으로 View.changeButtonColor(e); 호출
+     * 
+     * 과 같은 프로세스로 진행한다.
+     */
+
 const VIEW = GLOBAL_RENDERER;
 const MODEL = GLOBAL_CONNECTION;
 
 
 const createGLOBAL = ()=>{
 
-    
-
     const init = ()=>{
         // 데이터 정의  
+        VIEW.init();
+        MODEL.init();
 
-        
-
-    
+    }
 
     const updateActions = ()=>{
             for(let i=1;i<G_points.length+1;i++){
@@ -79,41 +84,7 @@ const createGLOBAL = ()=>{
 
     
 
-        const storageUpdate = (e)=>{
-            for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
-                if(e.detail[`G_point_${i}`]){ // storage에 point별 action이 추가된 경우 업데이트
-                    if(e.detail[`point_${i}`] === "Y"){
-                        G_points[i-1].parentElement.classList.remove("kicked");
-                        G_points[i-1].classList.add(e.detail[`point_${i}`]);
-                        G_points[i-1].classList.add("decided");
-                        G_points[i-1].previousElementSibling.classList.remove("picked");
-                        G_points[i-1].nextElementSibling.classList.add("picked");
-                    
-                    }else if(e.detail[`G_point_${i}`] === "N"){
-                        G_points[i-1].parentElement.classList.remove("kicked");
-                        G_points[i-1].classList.add(e.detail[`point_${i}`]);
-                        G_points[i-1].classList.add("decided");
-                        G_points[i-1].previousElementSibling.classList.add("picked");
-                        G_points[i-1].nextElementSibling.classList.remove("picked");
-
-                    }else if(e.detail[`G_point_${i}`] === "K"){
-                        G_points[i-1].parentElement.classList.add("kicked");
-                        G_points[i-1].classList.add(e.detail[`point_${i}`]);
-                        G_points[i-1].classList.add("decided");
-                        G_points[i-1].previousElementSibling.classList.remove("picked");
-                        G_points[i-1].nextElementSibling.classList.remove("picked");
-
-                    }
-
-                }else{ // showDown이후 storage에 point별 action이 삭제된 경우 업데이트
-                    G_points[i-1].parentElement.classList.remove("kicked");
-                    G_points[i-1].classList.remove("decided");
-                    G_points[i-1].previousElementSibling.classList.remove("picked");
-                    G_points[i-1].nextElementSibling.classList.remove("picked");
-                };
-                
-            };
-        };
+        
 
 
       
