@@ -235,9 +235,13 @@ const renderGlobalMode = ()=>{
         };
 
         //# 작업중.
-        
-        const setSelectionInteractive = ()=>{
+
+        /**
+         * @param
+         */
+        const setSelectionInteractive = ()=>{ 
             G_YBtn.addEventListener("click",()=>{
+            
 
             storage.setItem(`${G_currentPoint.id}`, `Y`);
 
