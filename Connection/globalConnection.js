@@ -8,7 +8,10 @@ const connectGlobalMode = ()=>{
     let G_sendInfoToServer = null;
     let G_updateActionsFromStorage = null;
 
-    }
+    let pointsEventTarget = null;
+    let selectionEventTarget = null;
+    let modalEventTarget = null;
+
     const setUserStorage = ()=>{
         storage.clear();
         storage.setItem("name","KH");
@@ -53,9 +56,19 @@ const connectGlobalMode = ()=>{
                 
             };
         };
+
+        const setEventTarget(eventTarget){
+            
+
+        }
+
+        const init(eventTarget) = ()=>{
         
-        const init() = ()=>{
         storage = window.localStorage;
+
+        pointsEventTarget = eventTarget.pointsEventTarget;
+        selectionEventTarget = eventTarget.selectionEventTarget;
+        modalEventTarget = eventTarget.modalEventTarget;
 
         G_sendInfoToServer = new CustomEvent("actionFixed",{
             bubbles: true, // Allows the event to bubble up the DOM
@@ -74,6 +87,10 @@ const connectGlobalMode = ()=>{
     };
 
     return{
+        init,
+        storageUpdate,
+        setUserStorage
+
         
 
     }

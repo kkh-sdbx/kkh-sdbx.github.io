@@ -32,9 +32,13 @@ const renderGlobalMode = ()=>{
 
     let DECISION_DETAIL = null;
     let pointDecisionEvent = null;
-    
 
-    const init = ()=>{
+    let pointsEventTarget = null;    
+    let selectionEventTarget = null;
+    let modalEventTarget = null;    
+
+    const init = (eventTarget)=>{
+        
         G_fixBtn = document.getElementById("G_fix");
         G_points = document.querySelectorAll('.G_point');
         [G_point_1, G_point_2, G_point_3, G_point_4, G_point_5] = G_points;
@@ -56,8 +60,12 @@ const renderGlobalMode = ()=>{
 
         DECISION_DETAIL = {"target":null, "action":"Y" };
 
+        pointsEventTarget = eventTarget.pointsEventTarget;
+        selectionEventTarget = eventTarget.selectionEventTarget;
+        modalEventTarget = eventTarget.modalEventTarget;
+
         pointDecisionEvent = new CustomEvent("actionDecided",{ 
-            bubbles: true, // Allows the event to bubble up the DOM
+            bubbles: false, 
             cancelable: false,
             detail:DECISION_DETAIL
         });
@@ -243,6 +251,7 @@ const renderGlobalMode = ()=>{
         const updateDecison = ()=>{
             // DECISION_DETAIL 우선 초기화.
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
+
             
 
         }

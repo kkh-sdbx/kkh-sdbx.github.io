@@ -1,6 +1,7 @@
 
 //Closure 패턴으로 정리. 
 import PAGEROUTER from "../Tools/pageRouter.js";
+import G_EVENT_TARGETS from "../Tools/globalEventBus.js";
 
 // 컨트롤러로서, View 와 Model 임포트
 import GLOBAL_RENDERER from "../Visual/globalRenderer.js";
@@ -16,20 +17,16 @@ import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
  * 
  */
 
-    /**
-     * Model이 서버에서 받아온 정보를 커스텀 이벤트로 dispatch(서버 통신 성공 알림) => 
-     * Controller가 이걸 듣고(addEventListener) 콜백으로 View.changeButtonColor(e); 호출
-     * 
-     * 과 같은 프로세스로 진행한다.
-     */
+/**
+ * Model이 서버에서 받아온 정보를 커스텀 이벤트로 dispatch(서버 통신 성공 알림) => 
+ * Controller가 이걸 듣고(addEventListener) 콜백으로 View.changeButtonColor(e); 호출
+ * 
+ * 과 같은 프로세스로 진행한다.
+ */
 
 const VIEW = GLOBAL_RENDERER;
 const MODEL = GLOBAL_CONNECTION;
-
-let G_container = null;
-let G_selectionPanel = null;
-let G_fixModal = null;
-let G_tooltip = null;
+const EVENT_TARGET = G_EVENT_TARGETS;
 
 
 
@@ -41,7 +38,7 @@ const createGLOBAL = ()=>{
      *  N/Y/K 클릭 시 Renderer classList 수정 이벤트 전달, Connection에는 현재 선택지 업데이트 이벤트 전달.
      */
     const updateActions = (e)=>{
-        
+
         
 
 
