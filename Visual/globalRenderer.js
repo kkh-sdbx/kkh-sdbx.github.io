@@ -237,9 +237,18 @@ const renderGlobalMode = ()=>{
         //# 작업중.
 
         /**
+         * 컨트롤러에서 호출됨. target G_point의 decided classList를 바꿔주는 함수.
          * @param
          */
+        const updateDecison = ()=>{
+            // DECISION_DETAIL 우선 초기화.
+            DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
+            
+
+        }
+
         const setSelectionInteractive = ()=>{ 
+            
             G_YBtn.addEventListener("click",()=>{
             
 
@@ -293,7 +302,6 @@ const renderGlobalMode = ()=>{
                 G_tooltip.style.display = 'none';
                 G_selection.style.display = 'none';
             });
-
 
         };
 

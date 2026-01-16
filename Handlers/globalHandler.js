@@ -79,6 +79,8 @@ const createGLOBAL = ()=>{
         //  point 하나를 클릭해둔 상태에서 다른 포인트에 hover - 마우스를 갖다대면 툴팁 사라짐. 
 
     };
+    
+
 
     
 
