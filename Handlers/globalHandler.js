@@ -26,7 +26,7 @@ import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
 
 const VIEW = GLOBAL_RENDERER;
 const MODEL = GLOBAL_CONNECTION;
-const EVENT_TARGET = G_EVENT_TARGETS;
+const EVENT_TARGETS = G_EVENT_TARGETS;
 
 
 
@@ -115,16 +115,10 @@ const createGLOBAL = ()=>{
     
 
     const init = ()=>{
-        
-        // import해둔 모듈들 init()  
-        VIEW.init();
-        MODEL.init();
 
-        // 이벤트버스 가져오기
-        G_container = document.getElementById("G_container");
-        G_selectionPanel = document.getElementById("G_selectionPanel");
-        G_fixModal = document.getElementById("G_fixModal");
-        G_tooltip = document.getElementById("G_tooltip");
+        // import해둔 모듈들 init()  
+        VIEW.init(EVENT_TARGETS);
+        MODEL.init(EVENT_TARGETS);
 
         // 
 
