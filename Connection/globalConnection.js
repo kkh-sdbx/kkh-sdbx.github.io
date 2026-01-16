@@ -8,25 +8,6 @@ const connectGlobalMode = ()=>{
     let G_sendInfoToServer = null;
     let G_updateActionsFromStorage = null;
 
-
-    const init() = ()=>{
-        storage = window.localStorage;
-
-        G_sendInfoToServer = new CustomEvent("actionFixed",{
-            bubbles: true, // Allows the event to bubble up the DOM
-            cancelable: false,
-            detail:storage
-            }
-        );
-
-        G_updateActionsFromStorage = new CustomEvent("storageUpdated",{
-            bubbles:true,
-            cancelable: false,
-            detail:storage
-        });
-
-            
-    };
     }
     const setUserStorage = ()=>{
         storage.clear();
@@ -72,7 +53,25 @@ const connectGlobalMode = ()=>{
                 
             };
         };
+        
+        const init() = ()=>{
+        storage = window.localStorage;
 
+        G_sendInfoToServer = new CustomEvent("actionFixed",{
+            bubbles: true, // Allows the event to bubble up the DOM
+            cancelable: false,
+            detail:storage
+            }
+        );
+
+        G_updateActionsFromStorage = new CustomEvent("storageUpdated",{
+            bubbles:true,
+            cancelable: false,
+            detail:storage
+        });
+
+            
+    };
 
     return{
         

@@ -26,17 +26,53 @@ import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
 const VIEW = GLOBAL_RENDERER;
 const MODEL = GLOBAL_CONNECTION;
 
+let G_container = null;
+let G_selectionPanel = null;
+let G_fixModal = null;
+let G_tooltip = null;
+
+
+
 
 const createGLOBAL = ()=>{
 
-    const init = ()=>{
-        // 데이터 정의  
-        VIEW.init();
-        MODEL.init();
+    /**
+     * !! Listener: G_selectionPanel !! 
+     *  N/Y/K 클릭 시 Renderer classList 수정 이벤트 전달, Connection에는 현재 선택지 업데이트 이벤트 전달.
+     */
+    const updateActions = (e)=>{
+        
+        
 
-    }
 
-    const updateActions = ()=>{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             for(let i=1;i<G_points.length+1;i++){
                     if(storage[`point_${i}`]!=undefined){
                         
@@ -81,7 +117,21 @@ const createGLOBAL = ()=>{
     };
     
 
+    const init = ()=>{
+        
+        // import해둔 모듈들 init()  
+        VIEW.init();
+        MODEL.init();
 
+        // 이벤트버스 가져오기
+        G_container = document.getElementById("G_container");
+        G_selectionPanel = document.getElementById("G_selectionPanel");
+        G_fixModal = document.getElementById("G_fixModal");
+        G_tooltip = document.getElementById("G_tooltip");
+
+        // 
+
+    };
     
 
     
