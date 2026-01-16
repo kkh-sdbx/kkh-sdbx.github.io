@@ -316,7 +316,7 @@ const renderGlobalMode = ()=>{
             
         };
 
-        const init = (eventTarget)=>{
+    const init = (eventTarget)=>{
 
         G_fixBtn = document.getElementById("G_fix");
         G_points = document.querySelectorAll('.G_point');
