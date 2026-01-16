@@ -328,7 +328,6 @@ const renderGlobalMode = ()=>{
             
         });
 
-
         G_tooltip = document.getElementById('G_tooltip');
         G_opntName = document.getElementById('G_opntName');
         G_opntYNKratio = document.getElementById('G_opntYNKratio');
