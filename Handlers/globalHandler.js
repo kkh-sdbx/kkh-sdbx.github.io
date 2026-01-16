@@ -120,7 +120,11 @@ const createGLOBAL = ()=>{
         VIEW.init(EVENT_TARGETS);
         MODEL.init(EVENT_TARGETS);
 
-        // 
+        // eventTarget에 리스너 붙이기
+        pointsEventTarget.addEventListener("actionDecided",(e)=>{
+            // {"target":null, "action":"Y" }를 받아온다.
+            VIEW.updateDecision(e.detail);
+        })
 
     };
     
@@ -132,6 +136,10 @@ const createGLOBAL = ()=>{
 
       
     return{
+        init,
+        updatePointData,
+        updateActions
+
 
     }
 

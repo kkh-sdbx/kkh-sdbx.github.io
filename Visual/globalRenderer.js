@@ -2,11 +2,16 @@ const renderGlobalMode = ()=>{
     // View (View.js) - UI만 담당
     let G_fixBtn = null;
     let G_points = null;
-    let G_point_1 = null;
-    let G_point_2 = null;
-    let G_point_3 = null;
-    let G_point_4 = null;
-    let G_point_5 = null;
+
+    let POINTS_TABLE = new Map([
+        ["G_point_1",null],
+        ["G_point_2",null],
+        ["G_point_3",null],
+        ["G_point_4",null],
+        ["G_point_5",null]
+
+    ]);
+
     let G_tooltip = null;
     let G_opntName  = null;
     let G_opntYNKratio = null;
@@ -37,83 +42,7 @@ const renderGlobalMode = ()=>{
     let selectionEventTarget = null;
     let modalEventTarget = null;    
 
-    const init = (eventTarget)=>{
-        
-        G_fixBtn = document.getElementById("G_fix");
-        G_points = document.querySelectorAll('.G_point');
-        [G_point_1, G_point_2, G_point_3, G_point_4, G_point_5] = G_points;
-        G_tooltip = document.getElementById('G_tooltip');
-        G_opntName = document.getElementById('G_opntName');
-        G_opntYNKratio = document.getElementById('G_opntYNKratio');
-        G_emptyPoints = [];
-        G_selection = document.getElementById('G_selectionPanel');
-        G_YBtn = document.getElementById('G_YBtn');
-        G_NBtn = document.getElementById('G_NBtn');
-        G_KBtn = document.getElementById('G_KBtn');   
-
-        G_proceedBtn = document.getElementById('G_proceedBtn');
-        G_discardBtn = document.getElementById('G_discardBtn');
-        G_fixModal = document.getElementById('G_fixModal');
-        G_myHp = document.getElementById('G_myHp');
-        globalToMainBtn = document.getElementById('globalToMainBtn');
-        G_isDonut = false;
-
-        DECISION_DETAIL = {"target":null, "action":"Y" };
-
-        pointsEventTarget = eventTarget.pointsEventTarget;
-        selectionEventTarget = eventTarget.selectionEventTarget;
-        modalEventTarget = eventTarget.modalEventTarget;
-
-        pointDecisionEvent = new CustomEvent("actionDecided",{ 
-            bubbles: false, 
-            cancelable: false,
-            detail:DECISION_DETAIL
-        });
-
-        G_coords = {
-            "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
-            "G_point_2": { "x": G_point_2.getBoundingClientRect().left, "y": G_point_2.getBoundingClientRect().top  },
-            "G_point_3": { "x": G_point_3.getBoundingClientRect().left, "y": G_point_3.getBoundingClientRect().top  },
-            "G_point_4": { "x": G_point_4.getBoundingClientRect().left, "y": G_point_4.getBoundingClientRect().top  },
-            "G_point_5": { "x": G_point_5.getBoundingClientRect().left, "y": G_point_5.getBoundingClientRect().top  }
-        };
-
-        G_currentPoint = null;
-
-        G_pointData = {
-            "G_point_1": { "name": "G_point_1 점 opntName", "YNKratio": "30%", "history":[] },
-            "G_point_2": { "name": "G_point_2 점 opntName", "YNKratio": "30%", "history":[] },
-            "G_point_3": { "name": "G_point_3 점 opntName", "YNKratio": "30%", "history":[] },
-            "G_point_4": { "name": "G_point_4 점 opntName", "YNKratio": "30%", "history":[] },
-            "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
-        };
-
-        globalToMainBtn.addEventListener("click",()=>{
-            PAGEROUTER.moveToPage("MAIN");
-        })
-
-        G_donutSkin = document.getElementById('G_donutSkin');
-
-        G_donutSkin.addEventListener("click",()=>{
-            G_isDonut = !G_isDonut;
-            console.log(`isDonut : ${G_isDonut}`);
-            if(G_isDonut){
-                G_points.forEach((point)=>{
-                    point.className = "";  
-                    point.classList.add("donut");  
-                });
-                
-            }else{
-                G_points.forEach((point)=>{
-                    point.className = ""; 
-                    point.classList.remove("donut"); 
-                    point.classList.add("G_point");  
-                });
-
-            }
-
-        });
-    }
+    
     const updateCoords = ()=>{
         G_coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
         G_coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
@@ -244,15 +173,20 @@ const renderGlobalMode = ()=>{
 
         //# 작업중.
 
-        /**
-         * 컨트롤러에서 호출됨. target G_point의 decided classList를 바꿔주는 함수.
-         * @param
-         */
-        const updateDecison = ()=>{
+        
+        const sendDecison = ()=>{
             // DECISION_DETAIL 우선 초기화.
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
-
+            pointsEventTarget.dispatchEvent(pointDecisionEvent);
             
+
+        }
+        /**
+         * 컨트롤러에서 호출됨. target G_point의 decided classList를 바꿔주는 함수.
+         * DECISION_DETAIL을 그대로 받아온다.
+         * @param
+         */
+        const updateDecision = ()=>{
 
         }
 
@@ -326,7 +260,6 @@ const renderGlobalMode = ()=>{
 
                     if(storage.getItem(`G_point_${i}`) != undefined){
                         
-
                         continue
                     }else{
                         
@@ -346,7 +279,6 @@ const renderGlobalMode = ()=>{
 
                 }
                 
-
             });
 
             G_discardBtn.addEventListener("click",()=>{
@@ -354,6 +286,7 @@ const renderGlobalMode = ()=>{
             });
 
         };
+
         const fixActions = ()=>{
             G_fixBtn.addEventListener("click",()=>{
                 const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
@@ -383,8 +316,97 @@ const renderGlobalMode = ()=>{
             
         };
 
+        const init = (eventTarget)=>{
+
+        G_fixBtn = document.getElementById("G_fix");
+        G_points = document.querySelectorAll('.G_point');
+
+        G_points.forEach((point)=>{
+            if(POINTS_TABLE.has(point.id)){
+                POINTS_TABLE.set(point.id,point);
+            }
+            
+        });
+
+
+        G_tooltip = document.getElementById('G_tooltip');
+        G_opntName = document.getElementById('G_opntName');
+        G_opntYNKratio = document.getElementById('G_opntYNKratio');
+        G_emptyPoints = [];
+        G_selection = document.getElementById('G_selectionPanel');
+        G_YBtn = document.getElementById('G_YBtn');
+        G_NBtn = document.getElementById('G_NBtn');
+        G_KBtn = document.getElementById('G_KBtn');   
+
+        G_proceedBtn = document.getElementById('G_proceedBtn');
+        G_discardBtn = document.getElementById('G_discardBtn');
+        G_fixModal = document.getElementById('G_fixModal');
+        G_myHp = document.getElementById('G_myHp');
+        globalToMainBtn = document.getElementById('globalToMainBtn');
+        G_isDonut = false;
+
+        DECISION_DETAIL = {"target":null, "action":"Y" };
+
+        pointsEventTarget = eventTarget.pointsEventTarget;
+        selectionEventTarget = eventTarget.selectionEventTarget;
+        modalEventTarget = eventTarget.modalEventTarget;
+
+        pointDecisionEvent = new CustomEvent("actionDecided",{ 
+            bubbles: false, 
+            cancelable: false,
+            detail:DECISION_DETAIL
+        });
+
+        G_coords = {
+            "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
+            "G_point_2": { "x": G_point_2.getBoundingClientRect().left, "y": G_point_2.getBoundingClientRect().top  },
+            "G_point_3": { "x": G_point_3.getBoundingClientRect().left, "y": G_point_3.getBoundingClientRect().top  },
+            "G_point_4": { "x": G_point_4.getBoundingClientRect().left, "y": G_point_4.getBoundingClientRect().top  },
+            "G_point_5": { "x": G_point_5.getBoundingClientRect().left, "y": G_point_5.getBoundingClientRect().top  }
+        };
+
+        G_currentPoint = null;
+
+        G_pointData = {
+            "G_point_1": { "name": "G_point_1 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_2": { "name": "G_point_2 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_3": { "name": "G_point_3 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_4": { "name": "G_point_4 점 opntName", "YNKratio": "30%", "history":[] },
+            "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
+        };
+
+        globalToMainBtn.addEventListener("click",()=>{
+            PAGEROUTER.moveToPage("MAIN");
+        })
+
+        G_donutSkin = document.getElementById('G_donutSkin');
+
+        G_donutSkin.addEventListener("click",()=>{
+            G_isDonut = !G_isDonut;
+            console.log(`isDonut : ${G_isDonut}`);
+            if(G_isDonut){
+                G_points.forEach((point)=>{
+                    point.className = "";  
+                    point.classList.add("donut");  
+                });
+                
+            }else{
+                G_points.forEach((point)=>{
+                    point.className = ""; 
+                    point.classList.remove("donut"); 
+                    point.classList.add("G_point");  
+                });
+
+            }
+
+        });
+    }
+
 
     return{
+        init
+
+
 
     }
 }
