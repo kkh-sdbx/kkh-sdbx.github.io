@@ -21,7 +21,10 @@ const connectGlobalMode = ()=>{
     /**
      * @
      */
-    
+    const storageUpdate = ()=>{
+        // 데이터가 변경되었음을 알림
+        
+    };    
 
     const setEventTarget = (eventTarget)=>{
             
