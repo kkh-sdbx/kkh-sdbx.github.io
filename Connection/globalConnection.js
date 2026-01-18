@@ -28,7 +28,7 @@ const connectGlobalMode = ()=>{
 
     }
 
-        const init = (eventTarget) = ()=>{
+    const init = (eventTarget)=>{
         
         storage = window.localStorage;
 
