@@ -4,9 +4,9 @@ const modalEventTarget = new EventTarget();
 
 const G_EVENT_TARGETS = {
 
-    pointsEventTarget
+    pointsEventTarget,
     selectionEventTarget,
-    modalEventTarget,
+    modalEventTarget
     
 };
 export default G_EVENT_TARGETS
