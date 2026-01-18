@@ -213,75 +213,49 @@ const renderGlobalMode = ()=>{
             // DECISION_DETAIL 우선 초기화.
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             pointsEventTarget.dispatchEvent(pointDecisionEvent);
-            
-
         }
         /**
          * 컨트롤러에서 호출됨. target G_point의 decided classList를 바꿔주는 함수.
          * DECISION_DETAIL을 그대로 받아온다.
          * @param
          */
-        const updateDecision = ()=>{
+        const updateDecision = (decisionDetail)=>{ //####
+            // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
+            let targetPoint = POINTS_TABLE.get(decisionDetail.target);
+            if(decisionDetail.action === "Y"){
 
-        }
+                targetPoint.classList.remove("kicked");
+                targetPoint.nextElementSibling.classList.add("picked");
+                targetPoint.previousElementSibling.classList.remove("picked");
+                targetPoint.classList.remove('activated');
+                targetPoint.classList.add('decided');
 
-        const setSelectionInteractive = ()=>{ 
-            
-            G_YBtn.addEventListener("click",()=>{
-            
-
-            storage.setItem(`${G_currentPoint.id}`, `Y`);
-
-            G_currentPoint.parentElement.classList.remove("kicked");
-            G_currentPoint.nextElementSibling.classList.add("picked");
-            G_currentPoint.previousElementSibling.classList.remove("picked");
-
-            G_currentPoint.classList.remove('activated');
-            if(storage.getItem(`${G_currentPoint.id}`) != undefined){
-                G_currentPoint.classList.add('decided');
-            };
-
-            // toggle이 아니라, 데이터를 확인하고 decided 여부 체크해야 함.
-            G_currentPoint = null;
-            G_tooltip.style.display = 'none';
-            G_selection.style.display = 'none';
-            });
-
-            G_NBtn.addEventListener("click",()=>{
-
-                storage.setItem(`${G_currentPoint.id}`, `N`);
-
-                G_currentPoint.parentElement.classList.remove("kicked");
-                G_currentPoint.nextElementSibling.classList.remove("picked");
-                G_currentPoint.previousElementSibling.classList.add("picked");
-
-                G_currentPoint.classList.remove('activated');
-                if(storage.getItem(`${G_currentPoint.id}`) != undefined){
-                    G_currentPoint.classList.add('decided');
-                };
-                G_currentPoint = null;
-                G_tooltip.style.display = 'none';   
-                G_selection.style.display = 'none';
-            }); 
-
-            G_KBtn.addEventListener("click",()=>{
-
-                storage.setItem(`${G_currentPoint.id}`, `K`);
-
-                G_currentPoint.classList.remove('activated');
-                G_currentPoint.parentElement.classList.add("kicked");
-                G_currentPoint.nextElementSibling.classList.remove("picked");
-                G_currentPoint.previousElementSibling.classList.remove("picked");
-
-                if(storage.getItem(`${G_currentPoint.id}`) != undefined){
-                    G_currentPoint.classList.add('decided');
-                };
-                G_currentPoint = null;
                 G_tooltip.style.display = 'none';
                 G_selection.style.display = 'none';
-            });
 
-        };
+            }else if(decisionDetail.action === "N"){
+
+                targetPoint.classList.remove("kicked");
+                targetPoint.nextElementSibling.classList.remove("picked");
+                targetPoint.previousElementSibling.classList.add("picked");
+                targetPoint.classList.remove('activated');
+                targetPoint.classList.add('decided');
+
+                G_tooltip.style.display = 'none';
+                G_selection.style.display = 'none';
+
+            }else if(decisionDetail.action === "K"){
+                targetPoint.classList.add("kicked");
+                targetPoint.nextElementSibling.classList.remove("picked");
+                targetPoint.previousElementSibling.classList.remove("picked");
+                targetPoint.classList.remove('activated');
+                targetPoint.classList.add('decided');
+
+                G_tooltip.style.display = 'none';
+                G_selection.style.display = 'none';
+
+            }
+        }
 
         const setModalInteractive = ()=>{
             G_proceedBtn.addEventListener("click",()=>{
@@ -438,7 +412,10 @@ const renderGlobalMode = ()=>{
 
 
     return{
-        init
+        init,
+        sendDecison,
+        updateDecision,
+
 
 
 
