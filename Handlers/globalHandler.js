@@ -1,7 +1,7 @@
 
 //Closure 패턴으로 정리. 
 import PAGEROUTER from "../Tools/pageRouter.js";
-import G_EVENT_TARGETS from "../Tools/globalEventBus.js";
+import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
 
 // 컨트롤러로서, View 와 Model 임포트
 import GLOBAL_RENDERER from "../Visual/globalRenderer.js";
