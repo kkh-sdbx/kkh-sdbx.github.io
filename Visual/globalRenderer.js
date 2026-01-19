@@ -100,13 +100,19 @@ const renderGlobalMode = ()=>{
 
     const setSelectionInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
+            DECISION_DETAIL = {"target":G_currentPoint.id, "action":"Y" }; 
             POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+            DECISION_DETAIL = {"target":null, "action":"Y" };;
         });
         G_NBtn.addEventListener("click",()=>{
+            DECISION_DETAIL = {"target":G_currentPoint.id, "action":"N" };            
             POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+            DECISION_DETAIL = {"target":null, "action":"Y" };
         });
         G_KBtn.addEventListener("click",()=>{
+            DECISION_DETAIL = {"target":G_currentPoint.id, "action":"K" };
             POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+            DECISION_DETAIL = {"target":null, "action":"Y" };;
         })
     }
 
@@ -231,19 +237,13 @@ const renderGlobalMode = ()=>{
 
         };
         
-        const sendDecison = ()=>{
-            // DECISION_DETAIL 우선 초기화.
-            DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
-            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
-        };
 
         /**
          * 컨트롤러에서 호출됨. target G_point의 decided classList를 바꿔주는 함수.
          * DECISION_DETAIL을 그대로 받아온다.
          * @param
          */
-
-        const updateDecision = (decisionDetail)=>{ //####
+        const sendDecision = (decisionDetail)=>{ //####
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
             if(decisionDetail.action === "Y"){
@@ -429,8 +429,7 @@ const renderGlobalMode = ()=>{
         updatePositions,
         updatePositions_Resize,
         setPointsInteractive,
-        sendDecison,
-        updateDecision,
+        sendDecision,
         setModalText,
         setFixModal
 
