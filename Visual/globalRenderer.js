@@ -336,6 +336,8 @@ const renderGlobalMode = ()=>{
 
     };
 
+    const 
+
     const init = (eventTarget)=>{
 
         G_fixBtn = document.getElementById("G_fix");

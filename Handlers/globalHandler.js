@@ -138,7 +138,7 @@ const createGLOBAL = ()=>{
 
         modalEventTarget.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
             VIEW.
-            MODEL.
+            MODEL.sendUltimatumToServer();
         });
 
 
