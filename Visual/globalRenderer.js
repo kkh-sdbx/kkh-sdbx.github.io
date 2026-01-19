@@ -258,7 +258,7 @@ const renderGlobalMode = ()=>{
                 G_selection.style.display = 'none';
 
             }
-        }
+        };
 
         const setModalInteractive = ()=>{
             G_proceedBtn.addEventListener("click",()=>{
@@ -296,26 +296,25 @@ const renderGlobalMode = ()=>{
 
         };
 
-        const setFixModal = ()=>{
-            G_fixBtn.addEventListener("click",()=>{
-                G_fixModal.style.display = "block";
+    const setFixModal = ()=>{
+        G_fixBtn.addEventListener("click",()=>{
+            G_fixModal.style.display = "block";
 
-            });
+        });
 
-            G_proceedBtn.addEventListener("click",()=>{
-                modalEventTarget.dispatchEvent(fixationEvent);
+        G_proceedBtn.addEventListener("click",()=>{
+            modalEventTarget.dispatchEvent(fixationEvent);
 
-            });
+        });
 
-            G_discardBtn.addEventListener("click",()=>{
-                G_fixModal.style.display = "none";
+        G_discardBtn.addEventListener("click",()=>{
+            G_fixModal.style.display = "none";
 
-            });
+        });
 
 
                 
-            };
-        };
+    };
 
     const init = (eventTarget)=>{
 
@@ -360,7 +359,6 @@ const renderGlobalMode = ()=>{
         fixationEvent = new CustomEvent("actionFixed",{ 
             bubbles: false, 
             cancelable: false,
-            detail:DECISION_DETAIL
         });
 
         G_coords = {
