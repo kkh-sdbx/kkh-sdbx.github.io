@@ -127,7 +127,18 @@ const createGLOBAL = ()=>{
         });
 
         modalEventTarget.addEventListener("actionFixed",(e)=>{
+            // detail은 없고, proceedBtn 누른 것만 확인.
+            MODEL.handleFix();
 
+        });
+
+        modalEventTarget.addEventListener("ultimatumRequested",(e)=>{
+            VIEW.sendUltimatum();
+            if(e.detail.length>0){
+                VIEW
+            }else{
+                MODEL.
+            }
         })
 
 

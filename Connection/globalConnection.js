@@ -4,9 +4,11 @@
 const connectGlobalMode = ()=>{
 
     let storage = null;
+    let ultimatum = null;
 
     let G_sendInfoToServer = null;
     let G_updateActionsFromStorage = null;
+    let checkEmptyPoints = null;
 
     let pointsEventTarget = null;
     let selectionEventTarget = null;
@@ -32,37 +34,43 @@ const connectGlobalMode = ()=>{
         
     };    
 
-    const handleFix = (eventTarget)=>{
+    const handleFix = ()=>{
         const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
-            
-                for(const point of checker){
-                    if(storage[point] === undefined){
-                        emptyPoints.push(point);
-                    }
-                }
+        
 
-                if(G_emptyPoints.length>0){
-                    let empty =  "";
-                    for (const mt of G_emptyPoints){
-                        empty = empty + `, ${mt}`;
-                    }
-                    G_fixModal.style.display = "block";
+        for(const point of checker){
+            if(storage[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
+                
+                ultimatum[point] = storage[point];
 
+            }else{ //fix 시점에서, action이 localStorage에 없으면
+                ultimatum.emptyPoints.push(point);
+            }
+        };
 
-                    console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
-                }else{
-                    
-                    console.log("You cannot change your response after fixing. Wanna Proceed? ");
-                    G_fixModal.style.display = "block";
-                }
+        modalEventTarget.dispatchEvent(checkEmptyPoints);
 
-            });
-            
-
-    }
+    };
+    
 
     const init = (eventTarget)=>{
-        
+        ultimatum = {
+            "userId":storage.id,
+            "G_point_1":undefined,
+            "G_point_2":undefined,
+            "G_point_3":undefined,
+            "G_point_4":undefined,
+            "G_point_5":undefined,
+            "emptyPoints":[]
+        };
+
+        checkEmptyPoints = new CustomEvent("ultimatumRequested",{
+            bubbles: false,
+            cancelable: false,
+            detail:ultimatum
+
+        })
+
         storage = window.localStorage;
 
         pointsEventTarget = eventTarget.pointsEventTarget;
@@ -87,7 +95,7 @@ const connectGlobalMode = ()=>{
 
     return{
         init,
-        updateDecisionData,
+        handleFix,
         setUserStorage
 
         

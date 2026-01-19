@@ -15,7 +15,7 @@ const renderGlobalMode = ()=>{
     let G_tooltip = null;
     let G_opntName  = null;
     let G_opntYNKratio = null;
-    let G_emptyPoints = null;
+
     let G_selection = null;
     let G_YBtn  = null;
     let G_NBtn = null;
@@ -61,7 +61,7 @@ const renderGlobalMode = ()=>{
         G_coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
     };
 
-    const updateTooltipPosition = (x,y) => {
+    const updateTooltipPosition = (x,y)=>{
         G_tooltip.style.left = x + 'px';
         G_tooltip.style.top = y + 'px';
     };
@@ -296,14 +296,28 @@ const renderGlobalMode = ()=>{
 
         };
 
+    const sendUltimatum = (emptyPoints)=>{
+        if(emptyPoints.length>0){
+            console.log(`There are empty Points: these points will automatically filled with "Y".`);
+            G_fixModal.style.display = "block";
+
+        }else{
+            G_fixModal.style.display = "block";
+        }
+       
+            
+        console.log("You cannot change your response after fixing. Wanna Proceed? ");
+        
+    };
+
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
             G_fixModal.style.display = "block";
-
+            modalEventTarget.dispatchEvent(fixationEvent);
         });
 
         G_proceedBtn.addEventListener("click",()=>{
-            modalEventTarget.dispatchEvent(fixationEvent);
+            
 
         });
 
@@ -312,8 +326,6 @@ const renderGlobalMode = ()=>{
 
         });
 
-
-                
     };
 
     const init = (eventTarget)=>{
@@ -331,7 +343,7 @@ const renderGlobalMode = ()=>{
         G_tooltip = document.getElementById('G_tooltip');
         G_opntName = document.getElementById('G_opntName');
         G_opntYNKratio = document.getElementById('G_opntYNKratio');
-        G_emptyPoints = [];
+
         G_selection = document.getElementById('G_selectionPanel');
         G_YBtn = document.getElementById('G_YBtn');
         G_NBtn = document.getElementById('G_NBtn');
@@ -413,6 +425,7 @@ const renderGlobalMode = ()=>{
         init,
         sendDecison,
         updateDecision,
+        sendUltimatum
 
 
 
