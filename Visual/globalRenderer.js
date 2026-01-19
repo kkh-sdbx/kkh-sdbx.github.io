@@ -38,11 +38,10 @@ const renderGlobalMode = ()=>{
     let G_donutSkin = null;
     let G_isDonut = null;
 
-    let DECISION_DETAIL = null;
 
-    let ACTION_DECIDED_EVENT = null;
+
     let ACTION_FIXED_EVENT = null;
-    let SEND_ULTIMATUM_EVENT = null;
+
 
     let POINTS_EVENT_TARGET = null;    
     let SELECTION_EVENT_TARGET = null;
@@ -100,16 +99,16 @@ const renderGlobalMode = ()=>{
 
     const setSelectionInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
-            DECISION_DETAIL = {"target":G_currentPoint.id, "action":"Y" }; 
-            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+
+            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{"target":G_currentPoint.id, "action":"Y"}));
         });
         G_NBtn.addEventListener("click",()=>{
-            DECISION_DETAIL = {"target":G_currentPoint.id, "action":"N" };            
-            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+          
+            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{"target":G_currentPoint.id, "action":"N"}));
         });
         G_KBtn.addEventListener("click",()=>{
-            DECISION_DETAIL = {"target":G_currentPoint.id, "action":"K" };
-            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+
+            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{"target":G_currentPoint.id, "action":"K"}));
             
         })
     };            
@@ -204,7 +203,7 @@ const renderGlobalMode = ()=>{
          * @param
          */
         const updateDecision = (decisionDetail)=>{ //####
-            DECISION_DETAIL = {"target":null, "action":"Y" };
+
             console.log(decisionDetail);
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
@@ -262,12 +261,12 @@ const renderGlobalMode = ()=>{
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
             
-            MODAL_EVENT_TARGET.dispatchEvent(ACTION_FIXED_EVENT);
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("actionFixed"));
             G_fixModal.style.display = "block";
         });
 
         G_proceedBtn.addEventListener("click",()=>{
-            MODAL_EVENT_TARGET.dispatchEvent(SEND_ULTIMATUM_EVENT);
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("sendUltimatum"));
             G_fixModal.style.display = "none";
 
         });
@@ -308,27 +307,19 @@ const renderGlobalMode = ()=>{
         globalToMainBtn = document.getElementById('globalToMainBtn');
         G_isDonut = false;
 
-        DECISION_DETAIL = {"target":null, "action":"Y" };
+
 
         POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
 
-        ACTION_DECIDED_EVENT = new CustomEvent("actionDecided",{ 
-            bubbles: false, 
-            cancelable: false,
-            detail:DECISION_DETAIL
-        });
 
         ACTION_FIXED_EVENT = new CustomEvent("actionFixed",{ 
             bubbles: false, 
             cancelable: false
         });
 
-        SEND_ULTIMATUM_EVENT = new CustomEvent("sendUltimatum",{
-            bubbles: false, 
-            cancelable: false
-        });
+
 
         G_coords = {
             "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
