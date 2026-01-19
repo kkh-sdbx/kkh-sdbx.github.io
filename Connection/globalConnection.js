@@ -146,7 +146,12 @@ const connectGlobalMode = ()=>{
     return{
         init,
         handleFix,
-        setUserStorage
+        setUserStorage,
+        sendUltimatumToServer,
+        handleFix,
+        updateDecisionData
+
+
 
         
 

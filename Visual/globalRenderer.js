@@ -336,7 +336,6 @@ const renderGlobalMode = ()=>{
 
     };
 
-    const 
 
     const init = (eventTarget)=>{
 
@@ -438,13 +437,16 @@ const renderGlobalMode = ()=>{
 
     return{
         init,
+        updateCoords,
+        updateTooltipPosition,
+        updateSelectionPosition,
+        updatePositions,
+        updatePositions_Resize,
+        setPointsInteractive,
         sendDecison,
         updateDecision,
         setModalText,
-        sendUltimatum
-
-
-
+        setFixModal
 
     }
 }
