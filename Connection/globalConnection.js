@@ -95,25 +95,7 @@ const connectGlobalMode = ()=>{
     
 
     const init = (eventTarget)=>{
-        userDecisions = {
-            "userId":storage.id,
-            "G_point_1":undefined,
-            "G_point_2":undefined,
-            "G_point_3":undefined,
-            "G_point_4":undefined,
-            "G_point_5":undefined,
-            "emptyPoints":[]
-        };
-        ultimatum = {
-            "userId":storage.id,
-            "G_point_1":storage.G_point_1,
-            "G_point_2":storage.G_point_2,
-            "G_point_3":storage.G_point_3,
-            "G_point_4":storage.G_point_4,
-            "G_point_5":storage.G_point_5,
-            "timeArrived":null
-        };
-
+        
         CHECK_EMPTY_POINTS_EVENT = new CustomEvent("checkEmptyPoints",{
             bubbles: false,
             cancelable: false,
@@ -123,6 +105,7 @@ const connectGlobalMode = ()=>{
 
         storage = window.localStorage;
         setUserStorage();
+        
         POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
@@ -141,6 +124,24 @@ const connectGlobalMode = ()=>{
             detail:storage
         });
 
+        userDecisions = {
+            "userId":storage.id,
+            "G_point_1":undefined,
+            "G_point_2":undefined,
+            "G_point_3":undefined,
+            "G_point_4":undefined,
+            "G_point_5":undefined,
+            "emptyPoints":[]
+        };
+        ultimatum = {
+            "userId":storage.id,
+            "G_point_1":storage.G_point_1,
+            "G_point_2":storage.G_point_2,
+            "G_point_3":storage.G_point_3,
+            "G_point_4":storage.G_point_4,
+            "G_point_5":storage.G_point_5,
+            "timeArrived":null
+        };
             
     };
 
