@@ -206,6 +206,7 @@ const renderGlobalMode = ()=>{
          * @param
          */
         const updateDecision = (decisionDetail)=>{ //####
+            console.log(decisionDetail);
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
             if(decisionDetail.action === "Y"){
