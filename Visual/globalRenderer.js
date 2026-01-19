@@ -102,17 +102,15 @@ const renderGlobalMode = ()=>{
         G_YBtn.addEventListener("click",()=>{
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":"Y" }; 
             POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
-            DECISION_DETAIL = {"target":null, "action":"Y" };;
         });
         G_NBtn.addEventListener("click",()=>{
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":"N" };            
             POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
-            DECISION_DETAIL = {"target":null, "action":"Y" };
         });
         G_KBtn.addEventListener("click",()=>{
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":"K" };
             POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
-            DECISION_DETAIL = {"target":null, "action":"Y" };;
+            
         })
     };            
 
@@ -206,6 +204,7 @@ const renderGlobalMode = ()=>{
          * @param
          */
         const updateDecision = (decisionDetail)=>{ //####
+            DECISION_DETAIL = {"target":null, "action":"Y" };
             console.log(decisionDetail);
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
