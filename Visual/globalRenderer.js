@@ -281,42 +281,7 @@ const renderGlobalMode = ()=>{
             }
         };
 
-        const setModalInteractive = ()=>{
-            G_proceedBtn.addEventListener("click",()=>{
-                const result = {"G_point_1":"Y","G_point_2":"Y","G_point_3":"Y","G_point_4":"Y","G_point_5":"Y"};
-                if(storage.getItem("status") === "fixed"){
-                    console.log("You already had your chance !");
-                    G_fixModal.style.display = "none";
-
-                }else{
-                    for(let i=1;i<6;i++){
-
-                    if(storage.getItem(`G_point_${i}`) != undefined){
-                        
-                        continue
-                    }else{
-                        
-                        storage.setItem(`G_point_${i}`,"Y");
-
-                        G_points[i-1].parentElement.classList.remove("kicked");
-                        G_points[i-1].nextElementSibling.classList.add("picked");
-                        G_points[i-1].previousElementSibling.classList.remove("picked");
-                        G_points[i-1].classList.add("decided");
-
-                    }
-
-                }
-                storage.setItem("status","fixed");
-
-                G_proceedBtn.
-                Event(G_sendInfoToServer);
-
-                }
-                
-            });
-
-
-        };
+        
 
     const setModalText = (ultimatum)=>{
 
@@ -421,13 +386,14 @@ const renderGlobalMode = ()=>{
             "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
         };
 
-        setPointsInteractive();
+        
 
         globalToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");
         });
         
-
+        setPointsInteractive();
+        setSelectionInteractive();
         setFixModal();
         
 
