@@ -43,7 +43,7 @@ const renderGlobalMode = ()=>{
     let ACTION_FIXED_EVENT = null;
 
 
-    let POINTS_EVENT_TARGET = null;    
+   
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;    
 
@@ -99,8 +99,9 @@ const renderGlobalMode = ()=>{
 
     const setSelectionInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
+            if(!G_currentPoint) {return};
 
-            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
+            SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"Y"}
@@ -108,8 +109,9 @@ const renderGlobalMode = ()=>{
         }));
         });
         G_NBtn.addEventListener("click",()=>{
+            if(!G_currentPoint) {return};
           
-            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
+            SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"N"}
@@ -117,8 +119,9 @@ const renderGlobalMode = ()=>{
         }));
         });
         G_KBtn.addEventListener("click",()=>{
+            if(!G_currentPoint) {return};
 
-            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
+            SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"K"}
@@ -323,11 +326,8 @@ const renderGlobalMode = ()=>{
         G_isDonut = false;
 
 
-
-        POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
-
 
         ACTION_FIXED_EVENT = new CustomEvent("actionFixed",{ 
             bubbles: false, 
