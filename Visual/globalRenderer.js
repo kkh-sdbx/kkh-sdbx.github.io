@@ -36,12 +36,17 @@ const renderGlobalMode = ()=>{
     let G_isDonut = null;
 
     let DECISION_DETAIL = null;
-    let pointDecisionEvent = null;
-    let fixationEvent = null;
 
-    let pointsEventTarget = null;    
-    let selectionEventTarget = null;
-    let modalEventTarget = null;    
+    let ACTION_DECIDED_EVENT = null;
+    let ACTION_FIXED_EVENT = null;
+
+    let POINTS_EVENT_TARGET = null;    
+    let SELECTION_EVENT_TARGET = null;
+    let MODAL_EVENT_TARGET = null;    
+
+
+
+
 
     
     const updateCoords = ()=>{
@@ -313,7 +318,7 @@ const renderGlobalMode = ()=>{
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
             G_fixModal.style.display = "block";
-            modalEventTarget.dispatchEvent(fixationEvent);
+            modalEventTarget.dispatchEvent(ACTION_FIXED_EVENT);
         });
 
         G_proceedBtn.addEventListener("click",()=>{
@@ -358,17 +363,17 @@ const renderGlobalMode = ()=>{
 
         DECISION_DETAIL = {"target":null, "action":"Y" };
 
-        pointsEventTarget = eventTarget.pointsEventTarget;
-        selectionEventTarget = eventTarget.selectionEventTarget;
-        modalEventTarget = eventTarget.modalEventTarget;
+        POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
+        SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
+        MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
 
-        pointDecisionEvent = new CustomEvent("actionDecided",{ 
+        ACTION_DECIDED_EVENT = new CustomEvent("actionDecided",{ 
             bubbles: false, 
             cancelable: false,
             detail:DECISION_DETAIL
         });
 
-        fixationEvent = new CustomEvent("actionFixed",{ 
+        ACTION_FIXED_EVENT = new CustomEvent("actionFixed",{ 
             bubbles: false, 
             cancelable: false,
         });
