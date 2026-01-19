@@ -234,7 +234,7 @@ const renderGlobalMode = ()=>{
         const sendDecison = ()=>{
             // DECISION_DETAIL 우선 초기화.
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
-            SELECTION_EVENT_TARGET.dispatchEvent(pointDecisionEvent);
+            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
         };
 
         /**
