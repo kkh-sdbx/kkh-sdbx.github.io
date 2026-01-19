@@ -11,10 +11,10 @@ const connectGlobalMode = ()=>{
     let G_updateActionsFromStorage = null;
     let CHECK_EMPTY_POINTS_EVENT = null;
 
-    let pointsEventTarget = null;
-    let selectionEventTarget = null;
-    let modalEventTarget = null;
-    let mockServerEventTarget = null;
+    let POINTS_EVENT_TARGET = null;
+    let SELECTION_EVENT_TARGET = null;
+    let MODAL_EVENT_TARGET = null;
+    let MOCK_SERVER_EVENT_TARGET = null;
 
     const setUserStorage = ()=>{
         storage.clear();
@@ -87,7 +87,7 @@ const connectGlobalMode = ()=>{
             }
         };
 
-        mockServerEventTarget.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
+        MOCK_SERVER_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
 
 
@@ -123,9 +123,10 @@ const connectGlobalMode = ()=>{
 
         storage = window.localStorage;
         setUserStorage();
-        pointsEventTarget = eventTarget.pointsEventTarget;
-        selectionEventTarget = eventTarget.selectionEventTarget;
-        modalEventTarget = eventTarget.modalEventTarget;
+        POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
+        SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
+        MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
+        MOCK_SERVER_EVENT_TARGET = eventTarget.mockServerEventTarget;
 
         SEND_INFO_TO_SERVER_EVENT = new CustomEvent("sendInfoToServer",{
             bubbles: true, // Allows the event to bubble up the DOM

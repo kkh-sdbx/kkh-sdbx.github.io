@@ -26,7 +26,11 @@ import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
 
 const VIEW = GLOBAL_RENDERER;
 const MODEL = GLOBAL_CONNECTION;
-const EVENT_TARGETS = G_EVENT_TARGETS;
+
+const POINTS_EVENT_TARGET = G_EVENT_TARGETS.pointsEventTarget;
+const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
+const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarge;
 
 
 

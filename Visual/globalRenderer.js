@@ -219,7 +219,7 @@ const renderGlobalMode = ()=>{
         const sendDecison = ()=>{
             // DECISION_DETAIL 우선 초기화.
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
-            selectionEventTarget.dispatchEvent(pointDecisionEvent);
+            SELECTION_EVENT_TARGET.dispatchEvent(pointDecisionEvent);
         };
 
         /**
@@ -319,12 +319,12 @@ const renderGlobalMode = ()=>{
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
             
-            modalEventTarget.dispatchEvent(ACTION_FIXED_EVENT);
+            MODAL_EVENT_TARGET.dispatchEvent(ACTION_FIXED_EVENT);
             G_fixModal.style.display = "block";
         });
 
         G_proceedBtn.addEventListener("click",()=>{
-            modalEventTarget.dispatchEvent(SEND_ULTIMATUM_EVENT);
+            MODAL_EVENT_TARGET.dispatchEvent(SEND_ULTIMATUM_EVENT);
             G_fixModal.style.display = "none";
 
         });

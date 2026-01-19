@@ -1,3 +1,6 @@
+
+
+import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
 console.log("mock server");
 //console.log(storage);
 
@@ -9,6 +12,8 @@ const finishRound = document.getElementById("finishRound");
 const startMatchMaking = document.getElementById("startMatchMaking");
 
 let leftUsers = [];
+
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget
 
 // Z. 기타 함수들. 및 클래스 선언
 class Prisoner{
@@ -541,7 +546,10 @@ B. Client Side에서 행동 정하고 Fix + Dummy들 setRandomActions
 C. 
 
 
+
 */ 
+
+MOCK_SERVER_EVENT_TARGET.addEventListener
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
