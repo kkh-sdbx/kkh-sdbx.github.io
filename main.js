@@ -69,22 +69,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 window.addEventListener("loadingFinished",(e)=>{
 
-    console.log("loadingFinished Event listened - global Mode setting");
-     //아래는 글로벌 모드 세팅
-    GLOBAL.setUserStorage();
-    GLOBAL.updateActions();
-
-    // 마우스 오버 이벤트 핸들러
-    GLOBAL.setPointsInteractive();
-
-    //NYK 버튼 이벤트리스너 붙이기
-    GLOBAL.setSelectionInteractive();
-            
-    //모달창 proceed,discard 이벤트리스너 붙이기
-    GLOBAL.setModalInteractive();
-
-    //글로벌 모드 액션 고정
-    GLOBAL.fixActions();
+    
 });
 
 
@@ -131,22 +116,6 @@ globalToMainBtn.addEventListener("click",()=>{
         //자바스크립트에서 이벤트가 발생했을 때 리스너가 해당 이벤트를 감지하려면, 이벤트가 발생하기 전에 addEventListener를 통해 리스너가 등록되어 있어야 합니다.
         
 
-
-
-
-window.addEventListener('resize',()=>{
-    GLOBAL.updatePositions_Resize();
-})
-
-
-        
-
-document.addEventListener("storageUpdated",(e)=>{
-    console.log("storageUpdated event listened!", e);
-
-    GLOBAL.storageUpdate(e);
-
-});
 
 
 

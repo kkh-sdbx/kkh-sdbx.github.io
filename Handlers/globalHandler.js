@@ -120,8 +120,9 @@ const createGLOBAL = ()=>{
     const init = ()=>{
 
         // import해둔 모듈들 init()  
-        VIEW.init(EVENT_TARGETS);
-        MODEL.init(EVENT_TARGETS);
+        VIEW.init(G_EVENT_TARGETS);
+        MODEL.init(G_EVENT_TARGETS);
+
 
         // eventTarget에 리스너 붙이기
         selectionEventTarget.addEventListener("actionDecided",(e)=>{
@@ -141,7 +142,7 @@ const createGLOBAL = ()=>{
         });
 
         modalEventTarget.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
-            VIEW.
+
             MODEL.sendUltimatumToServer();
         });
 

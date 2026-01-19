@@ -293,7 +293,8 @@ const renderGlobalMode = ()=>{
                 }
                 storage.setItem("status","fixed");
 
-                G_proceedBtn.dispatchEvent(G_sendInfoToServer);
+                G_proceedBtn.
+                Event(G_sendInfoToServer);
 
                 }
                 
