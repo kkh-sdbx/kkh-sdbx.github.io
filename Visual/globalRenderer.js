@@ -1,3 +1,6 @@
+
+import PAGEROUTER from "../Tools/pageRouter.js";
+
 const renderGlobalMode = ()=>{
     // View (View.js) - UI만 담당
     let G_fixBtn = null;
@@ -411,6 +414,7 @@ const renderGlobalMode = ()=>{
         });
 
         setFixModal();
+        setPointsInteractive();
 
         G_donutSkin = document.getElementById('G_donutSkin');
 
