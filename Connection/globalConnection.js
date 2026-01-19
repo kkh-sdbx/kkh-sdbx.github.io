@@ -8,7 +8,7 @@ const connectGlobalMode = ()=>{
 
     let G_sendInfoToServer = null;
     let G_updateActionsFromStorage = null;
-    let checkEmptyPoints = null;
+    let CHECK_EMPTY_POINTS_EVENT = null;
 
     let pointsEventTarget = null;
     let selectionEventTarget = null;
@@ -36,6 +36,16 @@ const connectGlobalMode = ()=>{
 
     const handleFix = ()=>{
         const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
+
+        ultimatum = {
+            "userId":storage.id,
+            "G_point_1":undefined,
+            "G_point_2":undefined,
+            "G_point_3":undefined,
+            "G_point_4":undefined,
+            "G_point_5":undefined,
+            "emptyPoints":[]
+        };
         
 
         for(const point of checker){
@@ -49,6 +59,8 @@ const connectGlobalMode = ()=>{
         };
 
         modalEventTarget.dispatchEvent(checkEmptyPoints);
+
+        
 
     };
     
@@ -64,7 +76,7 @@ const connectGlobalMode = ()=>{
             "emptyPoints":[]
         };
 
-        checkEmptyPoints = new CustomEvent("ultimatumRequested",{
+        CHECK_EMPTY_POINTS_EVENT = new CustomEvent("checkEmptyPoints",{
             bubbles: false,
             cancelable: false,
             detail:ultimatum

@@ -317,7 +317,7 @@ const renderGlobalMode = ()=>{
         });
 
         G_proceedBtn.addEventListener("click",()=>{
-            
+            sendUltimatum()
 
         });
 
