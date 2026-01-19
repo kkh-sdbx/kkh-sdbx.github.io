@@ -171,7 +171,9 @@ const renderGlobalMode = ()=>{
                 });
                 
                 point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
-                    const target = point.name;
+
+                    const target = point.id;
+                    // globalRenderer : click event listened !!
 
                     if( G_currentPoint != null) {
 
@@ -185,6 +187,7 @@ const renderGlobalMode = ()=>{
                             G_tooltip.style.display = 'none';
 
                         }else{
+                            updatePositions();
                             point.classList.remove("decided");
                             // 이전에 클릭했던 point가 있고, 새 point 클릭 시
 
@@ -193,12 +196,13 @@ const renderGlobalMode = ()=>{
                             point.classList.toggle('activated');
                             G_selection.style.display = 'flex';
                             G_tooltip.style.display = 'block';
-                            updatePositions();
+                            
 
                         }
                         
 
                     }else{
+                        updatePositions();
                         point.classList.remove("decided");
                         // 이전에 클릭했던 point가 없고, 새 point 클릭 시
 
@@ -206,7 +210,7 @@ const renderGlobalMode = ()=>{
                         G_currentPoint = point;
                         G_selection.style.display = 'flex';
                         G_tooltip.style.display = 'block';
-                        updatePositions();
+                        
                     };
                     
 
