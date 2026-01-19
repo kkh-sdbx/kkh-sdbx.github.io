@@ -101,11 +101,11 @@ const connectGlobalMode = ()=>{
             cancelable: false,
             detail:userDecisions
 
-        })
+        });
 
         storage = window.localStorage;
         setUserStorage();
-        
+
         POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
