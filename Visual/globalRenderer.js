@@ -391,7 +391,7 @@ const renderGlobalMode = ()=>{
         updatePositions,
         updatePositions_Resize,
         setPointsInteractive,
-        sendDecision,
+        updateDecision,
         setModalText,
         setFixModal
 
