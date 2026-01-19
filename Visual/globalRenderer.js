@@ -97,8 +97,21 @@ const renderGlobalMode = ()=>{
         }
 
     };
-    const storageUpdate = (e)=>{
-            for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
+
+    const setSelectionInteractive = (e)=>{
+        G_YBtn.addEventListener("click",()=>{
+            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+        });
+        G_NBtn.addEventListener("click",()=>{
+            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+        });
+        G_KBtn.addEventListener("click",()=>{
+            POINTS_EVENT_TARGET.dispatchEvent(ACTION_DECIDED_EVENT);
+        })
+    }
+
+    const handleDecision = ()=>{
+        for(let i=1;i<6;i++){ // point가 5개가 아닐 수도 있다.
                 if(e.detail[`G_point_${i}`]){ // storage에 point별 action이 추가된 경우 업데이트
                     if(e.detail[`point_${i}`] === "Y"){
                         G_points[i-1].parentElement.classList.remove("kicked");
@@ -131,7 +144,10 @@ const renderGlobalMode = ()=>{
                 };
                 
             };
-        };
+
+    }
+            
+
     const setPointsInteractive = ()=>{
             //마우스 오버 이벤트 핸들러
             G_points.forEach(point => {
@@ -177,37 +193,30 @@ const renderGlobalMode = ()=>{
 
                     if( G_currentPoint != null) {
 
-                        if( G_currentPoint === point){
-                            point.classList.remove("decided");
-                            // 같은 point를 다시 눌렀을 때 
+                        if( G_currentPoint === point){ // 같은 point를 다시 눌렀을 때 
+                            point.classList.remove("decided");                            
                             G_currentPoint = null;
-                            point.classList.toggle('activated');
+                            point.classList.remove('activated');
 
                             G_selection.style.display = 'none';
                             G_tooltip.style.display = 'none';
 
-                        }else{
-                            G_currentPoint = point;
-                            
-                            point.classList.remove("decided");
-                            // 이전에 클릭했던 point가 있고, 새 point 클릭 시
+                        }else{ // 이전에 클릭했던 point가 있고, 새 point 클릭 시
 
-                            G_currentPoint.classList.toggle('activated');
-                            
-                            point.classList.toggle('activated');
+                            G_currentPoint.classList.remove('activated');
+                            G_currentPoint = point;
+                            point.classList.remove("decided");
+                            point.classList.add('activated');
                             G_selection.style.display = 'flex';
                             G_tooltip.style.display = 'block';
                             updatePositions();
 
                         }
-                        
 
-                    }else{
+                    }else{ // 이전에 클릭했던 point가 없고, 새 point 클릭 시
                         
                         point.classList.remove("decided");
-                        // 이전에 클릭했던 point가 없고, 새 point 클릭 시
-
-                        point.classList.toggle('activated');
+                        point.classList.add('activated');
                         G_currentPoint = point;
                         G_selection.style.display = 'flex';
                         G_tooltip.style.display = 'block';
@@ -221,9 +230,6 @@ const renderGlobalMode = ()=>{
             });
 
         };
-
-        //# 작업중.
-
         
         const sendDecison = ()=>{
             // DECISION_DETAIL 우선 초기화.
@@ -393,7 +399,7 @@ const renderGlobalMode = ()=>{
         });
 
         SEND_ULTIMATUM_EVENT = new CustomEvent("sendUltimatum",{
-             bubbles: false, 
+            bubbles: false, 
             cancelable: false
         });
 
@@ -415,12 +421,15 @@ const renderGlobalMode = ()=>{
             "G_point_5": { "name": "G_point_5 점 opntName", "YNKratio": "30%", "history":[] }
         };
 
+        setPointsInteractive();
+
         globalToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");
         });
+        
 
         setFixModal();
-        setPointsInteractive();
+        
 
         G_donutSkin = document.getElementById('G_donutSkin');
 
