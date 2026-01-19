@@ -132,14 +132,14 @@ const createGLOBAL = ()=>{
 
         });
 
-        modalEventTarget.addEventListener("ultimatumRequested",(e)=>{
-            VIEW.sendUltimatum();
-            if(e.detail.length>0){
-                VIEW
-            }else{
-                MODEL.
-            }
-        })
+        modalEventTarget.addEventListener("checkEmptyPoints",(e)=>{
+            VIEW.setModalText(e.detail);
+        });
+
+        modalEventTarget.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
+            VIEW.
+            MODEL.
+        });
 
 
     };

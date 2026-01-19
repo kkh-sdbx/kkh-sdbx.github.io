@@ -39,6 +39,7 @@ const renderGlobalMode = ()=>{
 
     let ACTION_DECIDED_EVENT = null;
     let ACTION_FIXED_EVENT = null;
+    let SEND_ULTIMATUM_EVENT = null;
 
     let POINTS_EVENT_TARGET = null;    
     let SELECTION_EVENT_TARGET = null;
@@ -301,28 +302,30 @@ const renderGlobalMode = ()=>{
 
         };
 
-    const sendUltimatum = (emptyPoints)=>{
-        if(emptyPoints.length>0){
+    const setModalText = (ultimatum)=>{
+
+        if(ultimatum.emptyPoints.length>0){
             console.log(`There are empty Points: these points will automatically filled with "Y".`);
             G_fixModal.style.display = "block";
 
         }else{
+            console.log("You cannot change your response after fixing. Wanna Proceed? ");
             G_fixModal.style.display = "block";
         }
-       
-            
-        console.log("You cannot change your response after fixing. Wanna Proceed? ");
-        
+
     };
+
 
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
-            G_fixModal.style.display = "block";
+            
             modalEventTarget.dispatchEvent(ACTION_FIXED_EVENT);
+            G_fixModal.style.display = "block";
         });
 
         G_proceedBtn.addEventListener("click",()=>{
-            sendUltimatum()
+            modalEventTarget.dispatchEvent(SEND_ULTIMATUM_EVENT);
+            G_fixModal.style.display = "none";
 
         });
 
@@ -375,7 +378,12 @@ const renderGlobalMode = ()=>{
 
         ACTION_FIXED_EVENT = new CustomEvent("actionFixed",{ 
             bubbles: false, 
-            cancelable: false,
+            cancelable: false
+        });
+
+        SEND_ULTIMATUM_EVENT = new CustomEvent("sendUltimatum",{
+             bubbles: false, 
+            cancelable: false
         });
 
         G_coords = {
@@ -430,6 +438,7 @@ const renderGlobalMode = ()=>{
         init,
         sendDecison,
         updateDecision,
+        setModalText,
         sendUltimatum
 
 
