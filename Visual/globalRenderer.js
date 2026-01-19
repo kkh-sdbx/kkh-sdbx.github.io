@@ -187,22 +187,23 @@ const renderGlobalMode = ()=>{
                             G_tooltip.style.display = 'none';
 
                         }else{
-                            updatePositions();
+                            G_currentPoint = point;
+                            
                             point.classList.remove("decided");
                             // 이전에 클릭했던 point가 있고, 새 point 클릭 시
 
                             G_currentPoint.classList.toggle('activated');
-                            G_currentPoint = point;
+                            
                             point.classList.toggle('activated');
                             G_selection.style.display = 'flex';
                             G_tooltip.style.display = 'block';
-                            
+                            updatePositions();
 
                         }
                         
 
                     }else{
-                        updatePositions();
+                        
                         point.classList.remove("decided");
                         // 이전에 클릭했던 point가 없고, 새 point 클릭 시
 
@@ -210,6 +211,7 @@ const renderGlobalMode = ()=>{
                         G_currentPoint = point;
                         G_selection.style.display = 'flex';
                         G_tooltip.style.display = 'block';
+                        updatePositions();
                         
                     };
                     
