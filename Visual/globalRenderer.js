@@ -303,8 +303,7 @@ const renderGlobalMode = ()=>{
             });
 
             G_proceedBtn.addEventListener("click",()=>{
-                G_fixModal.style.display = "none";
-                selectionEventTarget.dispatchEvent#
+                modalEventTarget.dispatchEvent(fixationEvent);
 
             });
 
@@ -358,7 +357,7 @@ const renderGlobalMode = ()=>{
             detail:DECISION_DETAIL
         });
 
-        fixationEvent = new CustomEvent("actionDecided",{ 
+        fixationEvent = new CustomEvent("actionFixed",{ 
             bubbles: false, 
             cancelable: false,
             detail:DECISION_DETAIL
@@ -386,7 +385,7 @@ const renderGlobalMode = ()=>{
             PAGEROUTER.moveToPage("MAIN");
         });
 
-        setFixBtn();
+        setFixModal();
 
         G_donutSkin = document.getElementById('G_donutSkin');
 

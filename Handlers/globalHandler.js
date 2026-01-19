@@ -126,6 +126,9 @@ const createGLOBAL = ()=>{
             MODEL.updateDecisionData(e.detail);
         });
 
+        modalEventTarget.addEventListener("actionFixed",(e)=>{
+
+        })
 
 
     };
