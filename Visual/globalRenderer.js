@@ -100,15 +100,30 @@ const renderGlobalMode = ()=>{
     const setSelectionInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
 
-            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{"target":G_currentPoint.id, "action":"Y"}));
+            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
+            bubbles: false,
+            cancelable: false,
+            detail:{"target":G_currentPoint.id, "action":"Y"}
+
+        }));
         });
         G_NBtn.addEventListener("click",()=>{
           
-            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{"target":G_currentPoint.id, "action":"N"}));
+            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
+            bubbles: false,
+            cancelable: false,
+            detail:{"target":G_currentPoint.id, "action":"N"}
+
+        }));
         });
         G_KBtn.addEventListener("click",()=>{
 
-            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{"target":G_currentPoint.id, "action":"K"}));
+            POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
+            bubbles: false,
+            cancelable: false,
+            detail:{"target":G_currentPoint.id, "action":"K"}
+
+        }));
             
         })
     };            

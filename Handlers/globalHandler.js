@@ -30,7 +30,7 @@ const MODEL = GLOBAL_CONNECTION;
 const POINTS_EVENT_TARGET = G_EVENT_TARGETS.pointsEventTarget;
 const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
 const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
-const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarge;
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 
 
@@ -133,6 +133,7 @@ const createGLOBAL = ()=>{
         });
 
         MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
+
             // detail은 없고, proceedBtn 누른 것만 확인.
             MODEL.handleFix();
 
