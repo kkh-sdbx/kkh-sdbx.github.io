@@ -125,23 +125,23 @@ const createGLOBAL = ()=>{
 
 
         // eventTarget에 리스너 붙이기
-        selectionEventTarget.addEventListener("actionDecided",(e)=>{
+        SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
             // {"target":null, "action":"Y" }를 받아온다.
             VIEW.updateDecision(e.detail);
             MODEL.updateDecisionData(e.detail);
         });
 
-        modalEventTarget.addEventListener("actionFixed",(e)=>{
+        MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
             // detail은 없고, proceedBtn 누른 것만 확인.
             MODEL.handleFix();
 
         });
 
-        modalEventTarget.addEventListener("checkEmptyPoints",(e)=>{
+        MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{
             VIEW.setModalText(e.detail);
         });
 
-        modalEventTarget.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
+        MODAL_EVENT_TARGET.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
 
             MODEL.sendUltimatumToServer();
         });

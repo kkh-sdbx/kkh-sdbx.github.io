@@ -133,6 +133,7 @@ const connectGlobalMode = ()=>{
             "G_point_5":undefined,
             "emptyPoints":[]
         };
+        
         ultimatum = {
             "userId":storage.id,
             "G_point_1":storage.G_point_1,
