@@ -227,7 +227,7 @@ const renderGlobalMode = ()=>{
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
             if(decisionDetail.action === "Y"){
 
-                targetPoint.classList.remove("kicked");
+                targetPoint.parentElement.classList.remove("kicked");
                 targetPoint.nextElementSibling.classList.add("picked");
                 targetPoint.previousElementSibling.classList.remove("picked");
                 targetPoint.classList.remove('activated');
@@ -238,7 +238,7 @@ const renderGlobalMode = ()=>{
 
             }else if(decisionDetail.action === "N"){
 
-                targetPoint.classList.remove("kicked");
+                targetPoint.parentElement.classList.remove("kicked");
                 targetPoint.nextElementSibling.classList.remove("picked");
                 targetPoint.previousElementSibling.classList.add("picked");
                 targetPoint.classList.remove('activated');
@@ -248,7 +248,7 @@ const renderGlobalMode = ()=>{
                 G_selection.style.display = 'none';
 
             }else if(decisionDetail.action === "K"){
-                targetPoint.classList.add("kicked");
+                targetPoint.parentElement.classList.add("kicked");
                 targetPoint.nextElementSibling.classList.remove("picked");
                 targetPoint.previousElementSibling.classList.remove("picked");
                 targetPoint.classList.remove('activated');
