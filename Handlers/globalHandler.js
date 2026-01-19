@@ -120,10 +120,13 @@ const createGLOBAL = ()=>{
         MODEL.init(EVENT_TARGETS);
 
         // eventTarget에 리스너 붙이기
-        pointsEventTarget.addEventListener("actionDecided",(e)=>{
+        selectionEventTarget.addEventListener("actionDecided",(e)=>{
             // {"target":null, "action":"Y" }를 받아온다.
             VIEW.updateDecision(e.detail);
-        })
+            MODEL.updateDecisionData(e.detail);
+        });
+
+
 
     };
     

@@ -37,6 +37,7 @@ const renderGlobalMode = ()=>{
 
     let DECISION_DETAIL = null;
     let pointDecisionEvent = null;
+    let fixationEvent = null;
 
     let pointsEventTarget = null;    
     let selectionEventTarget = null;
@@ -212,13 +213,15 @@ const renderGlobalMode = ()=>{
         const sendDecison = ()=>{
             // DECISION_DETAIL 우선 초기화.
             DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
-            pointsEventTarget.dispatchEvent(pointDecisionEvent);
-        }
+            selectionEventTarget.dispatchEvent(pointDecisionEvent);
+        };
+
         /**
          * 컨트롤러에서 호출됨. target G_point의 decided classList를 바꿔주는 함수.
          * DECISION_DETAIL을 그대로 받아온다.
          * @param
          */
+
         const updateDecision = (decisionDetail)=>{ //####
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
@@ -283,46 +286,36 @@ const renderGlobalMode = ()=>{
 
                 }
                 storage.setItem("status","fixed");
-                G_fixModal.style.display = "none";
+
                 G_proceedBtn.dispatchEvent(G_sendInfoToServer);
 
                 }
                 
             });
 
-            G_discardBtn.addEventListener("click",()=>{
-                G_fixModal.style.display = "none";
-            });
 
         };
 
-        const fixActions = ()=>{
+        const setFixModal = ()=>{
             G_fixBtn.addEventListener("click",()=>{
-                const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
-            
-                for(const point of checker){
-                    if(storage[point] === undefined){
-                        emptyPoints.push(point);
-                    }
-                }
-
-                if(G_emptyPoints.length>0){
-                    let empty =  "";
-                    for (const mt of G_emptyPoints){
-                        empty = empty + `, ${mt}`;
-                    }
-                    G_fixModal.style.display = "block";
-
-
-                    console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
-                }else{
-                    
-                    console.log("You cannot change your response after fixing. Wanna Proceed? ");
-                    G_fixModal.style.display = "block";
-                }
+                G_fixModal.style.display = "block";
 
             });
-            
+
+            G_proceedBtn.addEventListener("click",()=>{
+                G_fixModal.style.display = "none";
+                selectionEventTarget.dispatchEvent#
+
+            });
+
+            G_discardBtn.addEventListener("click",()=>{
+                G_fixModal.style.display = "none";
+
+            });
+
+
+                
+            };
         };
 
     const init = (eventTarget)=>{
@@ -365,6 +358,12 @@ const renderGlobalMode = ()=>{
             detail:DECISION_DETAIL
         });
 
+        fixationEvent = new CustomEvent("actionDecided",{ 
+            bubbles: false, 
+            cancelable: false,
+            detail:DECISION_DETAIL
+        });
+
         G_coords = {
             "G_point_1": { "x": G_point_1.getBoundingClientRect().left, "y": G_point_1.getBoundingClientRect().top },
             "G_point_2": { "x": G_point_2.getBoundingClientRect().left, "y": G_point_2.getBoundingClientRect().top  },
@@ -385,7 +384,9 @@ const renderGlobalMode = ()=>{
 
         globalToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");
-        })
+        });
+
+        setFixBtn();
 
         G_donutSkin = document.getElementById('G_donutSkin');
 

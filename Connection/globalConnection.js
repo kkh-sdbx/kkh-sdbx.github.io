@@ -21,12 +21,42 @@ const connectGlobalMode = ()=>{
     /**
      * @
      */
-    const storageUpdate = ()=>{
+    const updateDecisionData = (decisionDetail)=>{
+        
+        // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
+
+        storage.setItem(`${decisionDetail.taget}`, `${decisionDetail.action}`); //=> RDB 구조를 짜야 할 시점이다. => 아직 아냐! G_,L_,S_만 구분해놓자.
+
+
         
     };    
 
-    const setEventTarget = (eventTarget)=>{
+    const handleFix = (eventTarget)=>{
+        const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
+            
+                for(const point of checker){
+                    if(storage[point] === undefined){
+                        emptyPoints.push(point);
+                    }
+                }
+
+                if(G_emptyPoints.length>0){
+                    let empty =  "";
+                    for (const mt of G_emptyPoints){
+                        empty = empty + `, ${mt}`;
+                    }
+                    G_fixModal.style.display = "block";
+
+
+                    console.log(`There are empty Points:${empty.slice(1)}. If you Proceed, these points will automatically filled with "Y". Wanna Proceed?`);
+                }else{
+                    
+                    console.log("You cannot change your response after fixing. Wanna Proceed? ");
+                    G_fixModal.style.display = "block";
+                }
+
+            });
             
 
     }
@@ -57,7 +87,7 @@ const connectGlobalMode = ()=>{
 
     return{
         init,
-        storageUpdate,
+        updateDecisionData,
         setUserStorage
 
         
