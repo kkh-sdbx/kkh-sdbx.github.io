@@ -1,0 +1,23 @@
+튜토리얼 - 글로벌 - 로컬
+3가지 '모드'를 만들어야 하면, 같은 부분을 묶는 게 맞다.
+
+M-V-C
+클라이언트 자체를 Dumb View 형태로 만든다.
+
+Tutorial - tutorialView에서 import ViewHandler.
+Global - GlobalView에서 import ViewHandler.
+Local - LocalView에서 import ViewHandler.
+
+그러면 뭐가 분리되어야 하는건가?
+
+Model-View-Controller, 이벤트 기반 통신.
+
+Model - ConnectionHandler
+View - UI
+Controller - EventTarget 핸들링, storage 접근.
+
+====
+용어 정리부터 하자.
+
+point
+
