@@ -104,6 +104,88 @@ const BASIC_VIEW = ()=>{
         }
 
     };
+    const setPointsInteractive = ()=>{
+            //마우스 오버 이벤트 핸들러
+            G_points.forEach(point => {
+                point.addEventListener('mouseenter', function(e) {
+                    
+                    updateCoords();
+
+                    const target = point.id;
+                    const data = G_pointData[`${target}`];
+
+
+                    G_opntName.textContent = data.name;
+                    G_opntYNKratio.textContent = data.YNKratio;
+                    G_tooltip.style.display = 'block';
+                    
+                    let changingX = G_coords[`${target}`].x;
+                    let changingY = G_coords[`${target}`].y;
+                    
+                    let xd = point.getBoundingClientRect().width *1.2/0.9; 
+                    let yd = point.getBoundingClientRect().height *1.2/0.9;
+                    
+                    updateTooltipPosition(changingX+xd, changingY);
+                });
+
+                point.addEventListener('mouseleave', function() {
+                    //클릭된 상태, 즉 activated 한 상태에서는 마우스가 나가도 툴팁 보여야 하거든#
+                    if(point.classList.contains("activated")){
+                        
+                        G_tooltip.style.display = 'block';
+
+                    }else{
+                        
+                        G_tooltip.style.display = 'none';
+                    }
+                    
+
+                });
+                
+                point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
+
+                    const target = point.id;
+                    // globalRenderer : click event listened !!
+
+                    if( G_currentPoint != null) {
+
+                        if( G_currentPoint === point){ // 같은 point를 다시 눌렀을 때 
+                            point.classList.remove("decided");                            
+                            G_currentPoint = null;
+                            point.classList.remove('activated');
+
+                            G_selection.style.display = 'none';
+                            G_tooltip.style.display = 'none';
+
+                        }else{ // 이전에 클릭했던 point가 있고, 새 point 클릭 시
+
+                            G_currentPoint.classList.remove('activated');
+                            G_currentPoint = point;
+                            point.classList.remove("decided");
+                            point.classList.add('activated');
+                            G_selection.style.display = 'flex';
+                            G_tooltip.style.display = 'block';
+                            updatePositions();
+
+                        }
+
+                    }else{ // 이전에 클릭했던 point가 없고, 새 point 클릭 시
+                        
+                        point.classList.remove("decided");
+                        point.classList.add('activated');
+                        G_currentPoint = point;
+                        G_selection.style.display = 'flex';
+                        G_tooltip.style.display = 'block';
+                        updatePositions();
+                        
+                    };
+                    
+
+                });
+
+            });
+
+        };
 
     return{
         setPointClick
