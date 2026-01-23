@@ -26,56 +26,7 @@ point
                     setPointClick(point);
                 }
                 => 이 형태로 만드는 게 목표다.
-                /**
-                @params {point} : 형태가 바뀌는, 실제 클릭 가능한 포인트 element
-                */
-                const setPointClick = (point)=>{
-                    const target = point.id;
-                    if(currentPoint){ // 이미 activated 된 포인트가 있는 경우 (activated 한 번 더 누르기 || 다른 포인트 누르기)
-
-                        if(currentPoint.id === target){
-
-                            // 초기화 이후 채우기 패턴.
-                            // # point.classList.remove("decided"); => 이 코드의 삭제 여부 검토. 사용자가 decided 포인트를 클릭 -> action 수정하지 않고 다른 포인트 클릭 => 문제가 될수도.
-                            // # 아닌가? decided는 selection이 관리하나? 지금 상태 안 좋으니 놔둔다.
-                            
-                            point.classList.remove("decided");
-                            currentPoint = null;
-                            point.classList.remove('activated');
-
-                            // selection과 tooltip 관련 함수는 분리하자. => 이 결정도 검토. 굳이 분리할 필요가 있을까?
-                            /*
-                            selection.style.display = 'none';
-                            tooltip.style.display = 'none';
-                            */
-
-                        }else{ // 이전에 클릭했던 point가 있고, 새 point 클릭 시
-
-                            // 이전 point의 activated 지우기
-                            currentPoint.classList.remove('activated');
-
-                            // 초기화 후 채우기 패턴
-                            point.classList.remove("decided");
-                            point.classList.add('activated');
-                            selection.style.display = 'flex';
-                            tooltip.style.display = 'block';
-                            updatePositions();
-
-                        }
-
-                    }else{ // currentPoint가 없는 경우 (activated 된 포인트 없고 새로 누르기)
-
-                        // 
-                        point.classList.remove("decided");
-                        point.classList.add('activated');
-                        currentPoint = point;
-                        selection.style.display = 'flex';
-                        tooltip.style.display = 'block';
-                        updatePositions();
-
-                    }
-
-                }
+                
                 point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
 
                     const target = point.id;
