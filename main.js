@@ -81,6 +81,7 @@ window.addEventListener("loadingFinished",(e)=>{
 
 
 // 서비스 워커 불러오기
+/*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -89,7 +90,7 @@ if ('serviceWorker' in navigator) {
     });
 };
 
-
+*/
         
 // 페이지 이동 함수 - 모듈 이용
 
