@@ -1,6 +1,5 @@
 // 데이터가 변경되었음을 알림 (누구에게? 상관없음, 그냥 던짐)
 
-
 const connectGlobalMode = ()=>{
 
     let storage = null;
@@ -49,7 +48,6 @@ const connectGlobalMode = ()=>{
             "emptyPoints":[]
         };
         
-
         for(const point of checker){
             if(storage[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
                 
@@ -96,6 +94,7 @@ const connectGlobalMode = ()=>{
 
     const init = (eventTarget)=>{
         
+        //  
         CHECK_EMPTY_POINTS_EVENT = new CustomEvent("checkEmptyPoints",{
             bubbles: false,
             cancelable: false,
@@ -103,27 +102,32 @@ const connectGlobalMode = ()=>{
 
         });
 
+        // 지금은 localStorage를 쓰지만 모바일이든 PC버전이든 스토리지를 수정해야 한다.
         storage = window.localStorage;
         setUserStorage();
 
+        // 이 Model 안에서 쓸 이벤트 타겟 지정.
         POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
         MOCK_SERVER_EVENT_TARGET = eventTarget.mockServerEventTarget;
 
+        // Model은 로컬 저장소와 웹 서버 사이를 중개.
         SEND_INFO_TO_SERVER_EVENT = new CustomEvent("sendInfoToServer",{
-            bubbles: true, // Allows the event to bubble up the DOM
+            bubbles: true, // Allows the event to bubble up the DOM => 왜 이렇게 되어 있었는지 파악해야 함.
             cancelable: false,
             detail:ultimatum
             }
         );
 
+        // storage 에서 선택지 불러오기
         G_updateActionsFromStorage = new CustomEvent("storageUpdated",{
             bubbles:true,
             cancelable: false,
             detail:storage
         });
 
+        // userDecision와 ultimatum이 분리된 이유=> 저장됭 값은 nully할 수 있음. 빈 칸은 Y로 채워 서버로 보낸다.
         userDecisions = {
             "userId":storage.id,
             "G_point_1":undefined,
@@ -152,11 +156,7 @@ const connectGlobalMode = ()=>{
         setUserStorage,
         sendUltimatumToServer,
         handleFix,
-        updateDecisionData
-
-
-
-        
+        updateActions
 
     }
 }

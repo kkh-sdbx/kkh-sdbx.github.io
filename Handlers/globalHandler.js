@@ -1,4 +1,3 @@
-
 //Closure 패턴으로 정리. 
 import PAGEROUTER from "../Tools/pageRouter.js";
 import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
@@ -43,37 +42,8 @@ const createGLOBAL = ()=>{
      */
     const updateActions = (e)=>{
 
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // DOM의 classList를 직접 건드릴 수 있는 모듈인가, 이게? G_points도 여기에는 없는 변수다.
+            // storage를 읽어 와서 렌더링하는 함수지, 이건. 
             for(let i=1;i<G_points.length+1;i++){
                     if(storage[`point_${i}`]!=undefined){
                         
@@ -106,11 +76,12 @@ const createGLOBAL = ()=>{
                     }
 
 
-                }
+            }
         
     };
 
-    const updatePointData = ()=>{/** 각 point에 매칭된 상대의 정보를 제공.*/
+    // 각 point에 매칭된 상대의 정보를 제공.
+    const updatePointData = ()=>{
         // 표시할 정보 : userName, YNKratio, history
         // history를 알려면, '나와 매칭된 기록'을 알아야 함.
         //  point 하나를 클릭해둔 상태에서 다른 포인트에 hover - 마우스를 갖다대면 툴팁 사라짐. 
@@ -122,7 +93,6 @@ const createGLOBAL = ()=>{
         // import해둔 모듈들 init()  
         VIEW.init(G_EVENT_TARGETS);
         MODEL.init(G_EVENT_TARGETS);
-
 
         // eventTarget에 리스너 붙이기
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
@@ -136,10 +106,10 @@ const createGLOBAL = ()=>{
 
             // detail은 없고, proceedBtn 누른 것만 확인.
             MODEL.handleFix();
-
         });
 
         MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{
+
             VIEW.setModalText(e.detail);
         });
 
@@ -151,12 +121,6 @@ const createGLOBAL = ()=>{
 
     };
     
-
-    
-
-        
-
-
       
     return{
         init,

@@ -53,20 +53,20 @@ const renderGlobalMode = ()=>{
 
     
     const updateCoords = ()=>{
-        G_coords.G_point_1.x = G_point_1.getBoundingClientRect().left; 
-        G_coords.G_point_1.y = G_point_1.getBoundingClientRect().top; 
+        G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
+        G_coords.G_point_1.y = POINTS_TABLE.get("G_point_1").getBoundingClientRect().top; 
             
-        G_coords.G_point_2.x = G_point_2.getBoundingClientRect().left;
-        G_coords.G_point_2.y = G_point_2.getBoundingClientRect().top;
+        G_coords.G_point_2.x = POINTS_TABLE.get("G_point_2").getBoundingClientRect().left;
+        G_coords.G_point_2.y = POINTS_TABLE.get("G_point_2").getBoundingClientRect().top;
 
-        G_coords.G_point_3.x = G_point_3.getBoundingClientRect().left;
-        G_coords.G_point_3.y = G_point_3.getBoundingClientRect().top;
+        G_coords.G_point_3.x = POINTS_TABLE.get("G_point_3").getBoundingClientRect().left;
+        G_coords.G_point_3.y = POINTS_TABLE.get("G_point_3").getBoundingClientRect().top;
 
-        G_coords.G_point_4.x = G_point_4.getBoundingClientRect().left;
-        G_coords.G_point_4.y = G_point_4.getBoundingClientRect().top;
+        G_coords.G_point_4.x = POINTS_TABLE.get("G_point_4").getBoundingClientRect().left;
+        G_coords.G_point_4.y = POINTS_TABLE.get("G_point_4").getBoundingClientRect().top;
 
-        G_coords.G_point_5.x = G_point_5.getBoundingClientRect().left;
-        G_coords.G_point_5.y = G_point_5.getBoundingClientRect().top;
+        G_coords.G_point_5.x = POINTS_TABLE.get("G_point_5").getBoundingClientRect().left;
+        G_coords.G_point_5.y = POINTS_TABLE.get("G_point_5").getBoundingClientRect().top;
     };
 
     const updateTooltipPosition = (x,y)=>{

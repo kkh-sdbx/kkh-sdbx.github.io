@@ -61,22 +61,16 @@ window.addEventListener("DOMContentLoaded",()=>{
     // mockServer  셋업.
 
 
-    
     PAGEROUTER.moveToPage("LOADING");
     window.dispatchEvent(loadingChecker);
 
 });
 
 window.addEventListener("loadingFinished",(e)=>{
+    
 
     
 });
-
-
-
-
-
-
 
 
 
