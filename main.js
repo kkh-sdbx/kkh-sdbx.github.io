@@ -95,11 +95,15 @@ if ('serviceWorker' in navigator) {
 // 페이지 이동 함수 - 모듈 이용
 
 const globalToMainBtn = document.getElementById("globalToMainBtn");
+const localToMainBtn = document.getElementById("localToMainBtn");
 
 
 
 
 globalToMainBtn.addEventListener("click",()=>{
+    PAGEROUTER.moveToPage("MAIN");
+});
+localToMainBtn.addEventListener("click",()=>{
     PAGEROUTER.moveToPage("MAIN");
 });
 
