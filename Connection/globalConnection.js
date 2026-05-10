@@ -121,7 +121,7 @@ const connectGlobalMode = ()=>{
         );
 
         // storage 에서 선택지 불러오기
-        G_updateActionsFromStorage = new CustomEvent("storageUpdated",{
+        G_updateActionsFromStorage = new CustomEvent("storageUpdated",{ //이 변수명인데, 왜 커스텀 이벤트로 되어있지? 
             bubbles:true,
             cancelable: false,
             detail:storage
