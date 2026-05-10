@@ -40,6 +40,7 @@ const createGLOBAL = ()=>{
      * !! Listener: G_selectionPanel !! 
      *  N/Y/K 클릭 시 Renderer classList 수정 이벤트 전달, Connection에는 현재 선택지 업데이트 이벤트 전달.
      */
+    // 20260509: 여기서 삭제하고, 스토리지 정보를 렌더러에 있는 updateDecision으로 던지는 게 맞는듯하다.
     const updateActions = (e)=>{
 
             // DOM의 classList를 직접 건드릴 수 있는 모듈인가, 이게? G_points도 여기에는 없는 변수다.
