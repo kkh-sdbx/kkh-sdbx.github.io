@@ -28,8 +28,9 @@ const connectGlobalMode = ()=>{
     const getStorageData = ()=>{
         const userFormerDecisions = [];
         const validator = ["Y","N","K"];
-        let pointId = `G_point${i}`;
+        
         for(let i=1;i<6;i++){
+            let pointId = `G_point${i}`;
             if(validator.contains(storage.getItem(pointId))){
                 userFormerDecisions.push({ "target":pointId, "action":storage.getItem(pointId)});
             
