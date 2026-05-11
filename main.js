@@ -1,11 +1,11 @@
 // import  GLOBAL  from "./Connectios/mockServer.js"; => mockServer는 모듈이 아니지. 하...이것도 해야겠다.
 // 그래도 머리아픈 로직 짜기가 아니라 노가다 정리작업이니 오히려 좋아~
 
-import  GLOBAL  from "./Handlers/globalHandler.js";
-import  LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
-import  MAINPAGE  from "./Handlers/mainPageHandler.js";
+import GLOBAL  from "./Handlers/globalHandler.js";
+import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
+import MAINPAGE  from "./Handlers/mainPageHandler.js";
 
-import  PAGEROUTER  from "./Tools/pageRouter.js";
+import PAGEROUTER  from "./Tools/pageRouter.js";
 
 
 /*
