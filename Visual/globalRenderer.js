@@ -220,7 +220,7 @@ const renderGlobalMode = ()=>{
          * DECISION_DETAIL을 그대로 받아온다.
          * @param
          */
-        const updateDecision = (decisionDetail)=>{ //####
+        const updateDecision = (decisionDetail)=>{
 
             console.log(decisionDetail);
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
@@ -253,6 +253,16 @@ const renderGlobalMode = ()=>{
                 targetPoint.previousElementSibling.classList.remove("picked");
                 targetPoint.classList.remove('activated');
                 targetPoint.classList.add('decided');
+
+                G_tooltip.style.display = 'none';
+                G_selection.style.display = 'none';
+
+            }else if(decisionDetail.action === null){
+                targetPoint.parentElement.classList.remove("kicked");
+                targetPoint.nextElementSibling.classList.remove("picked");
+                targetPoint.previousElementSibling.classList.remove("picked");
+                targetPoint.classList.remove('activated');
+                targetPoint.classList.remove('decided');
 
                 G_tooltip.style.display = 'none';
                 G_selection.style.display = 'none';

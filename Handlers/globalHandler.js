@@ -41,44 +41,16 @@ const createGLOBAL = ()=>{
      *  N/Y/K 클릭 시 Renderer classList 수정 이벤트 전달, Connection에는 현재 선택지 업데이트 이벤트 전달.
      */
     // 20260509: 여기서 삭제하고, 스토리지 정보를 렌더러에 있는 updateDecision으로 던지는 게 맞는듯하다.
-    const updateActions = (e)=>{
+    const updateActions = ()=>{
+        /**
+         * VIEW.updateUserActions(userSelections);
+         */
+        const userSelections = MODEL.getStorageData();
+        userSelections.forEach((pointData)=>{
+            VIEW.updateDecision(pointData);
+        });
 
-            // DOM의 classList를 직접 건드릴 수 있는 모듈인가, 이게? G_points도 여기에는 없는 변수다.
-            // storage를 읽어 와서 렌더링하는 함수지, 이건. 
-            for(let i=1;i<G_points.length+1;i++){
-                    if(storage[`point_${i}`]!=undefined){
-                        
-                        //div에, 현재 선택해 놓은 선택지를 로드하는 게 필요하다.
-
-                        if(storage[`point_${i}`] === "Y"){
-                            G_points[i-1].parentElement.classList.remove("kicked");
-                            G_points[i-1].nextElementSibling.classList.add("picked");
-                            G_points[i-1].previousElementSibling.classList.remove("picked");
-                            G_points[i-1].classList.add('decided');
-
-
-                        }else if(storage[`point_${i}`] === "N"){
-                            G_points[i-1].parentElement.classList.remove("kicked");
-                            G_points[i-1].nextElementSibling.classList.remove("picked");
-                            G_points[i-1].previousElementSibling.classList.add("picked");
-                            G_points[i-1].classList.add('decided');
-
-
-                        }else if(storage[`point_${i}`] === "K"){
-                            G_points[i-1].parentElement.classList.add("kicked");
-                            G_points[i-1].nextElementSibling.classList.remove("picked");
-                            G_points[i-1].previousElementSibling.classList.remove("picked");
-                            G_points[i-1].classList.add('decided');
-
-
-                        }else{
-                            console.log(storage[`G_point_${i}`]);
-                        }
-                    }
-
-
-            }
-        
+                   
     };
 
     // 각 point에 매칭된 상대의 정보를 제공.

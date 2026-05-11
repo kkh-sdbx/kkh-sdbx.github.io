@@ -67,6 +67,11 @@ window.addEventListener("DOMContentLoaded",()=>{
 });
 
 window.addEventListener("loadingFinished",(e)=>{
+
+    //글로벌 모드 선택지 스토리지에서 업데이트
+        GLOBAL.updateActions();
+
+    // 
     
 
     

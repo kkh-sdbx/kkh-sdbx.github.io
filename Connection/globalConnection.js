@@ -15,6 +15,7 @@ const connectGlobalMode = ()=>{
     let MODAL_EVENT_TARGET = null;
     let MOCK_SERVER_EVENT_TARGET = null;
 
+    // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
     const setUserStorage = ()=>{
         storage.clear();
         storage.setItem("name","KH");
@@ -24,13 +25,23 @@ const connectGlobalMode = ()=>{
     /**
      * @
      */
-    const updateDecisionData = (decisionDetail)=>{
+    const getStorageData = ()=>{
+        const userFormerDecisions = [];
+        const validator = ["Y","N","K"];
+        let pointId = `G_point${i}`;
+        for(let i=1;i<6;i++){
+            if(validator.contains(storage.getItem(pointId))){
+                userFormerDecisions.push({ "target":pointId, "action":storage.getItem(pointId)});
+            
+            }else{
+                userFormerDecisions.push({"target":pointId, "action":null});
+            }
+        }
         
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
-
-        storage.setItem(`${decisionDetail.taget}`, `${decisionDetail.action}`); //=> RDB 구조를 짜야 할 시점이다. => 아직 아냐! G_,L_,S_만 구분해놓자.
-
+        console.log(userFormerDecisions);
+        return userFormerDecisions
 
         
     };    
@@ -156,7 +167,7 @@ const connectGlobalMode = ()=>{
         setUserStorage,
         sendUltimatumToServer,
         handleFix,
-        updateDecisionData
+        getStorageData
 
     }
 }
