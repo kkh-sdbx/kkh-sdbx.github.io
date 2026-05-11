@@ -156,7 +156,7 @@ const connectGlobalMode = ()=>{
         setUserStorage,
         sendUltimatumToServer,
         handleFix,
-        updateActions
+        updateDecisionData
 
     }
 }
