@@ -42,12 +42,13 @@ const createGLOBAL = ()=>{
      */
     // 20260509: 여기서 삭제하고, 스토리지 정보를 렌더러에 있는 updateDecision으로 던지는 게 맞는듯하다.
     const updateActions = ()=>{
-        /**
-         * VIEW.updateUserActions(userSelections);
-         */
+
+        console.log("GLOBAL.updateActions Run!");
+        
         const userSelections = MODEL.getStorageData();
         userSelections.forEach((pointData)=>{
             VIEW.updateDecision(pointData);
+            console.log(pointData);
         });
 
                    
