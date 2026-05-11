@@ -41,7 +41,7 @@ const loadingChecker = new CustomEvent("loadingFinished",{
         //임의의 유저네임을 집어넣음
         
 window.addEventListener("DOMContentLoaded",()=>{
-
+    console.log("setting up runs!");
     // 변수 할당.
     GLOBAL.init();
 
