@@ -68,10 +68,14 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 window.addEventListener("loadingFinished",(e)=>{
 
-    //글로벌 모드 선택지 스토리지에서 업데이트
+    
+
+    // 상점이 먼저다. 돈과 점수, 스킨 정보 업데이트!
+
+    // 글로벌 모드 선택지 스토리지에서 업데이트
         GLOBAL.updateActions();
 
-    // 
+    // 인사말 등, welcome back message!
     
 
     
