@@ -12,6 +12,7 @@ const BASIC_VIEW = ()=>{
                 // # point.classList.remove("decided"); => 이 코드의 삭제 여부 검토. 사용자가 decided 포인트를 클릭 -> action 수정하지 않고 다른 포인트 클릭 => 문제가 될수도.
                 // # 아닌가? decided는 selection이 관리하나? 지금 상태 안 좋으니 놔둔다.
                 
+                // 이걸 다 함수로 분리?
                 point.classList.remove("decided");
                 currentPoint = null;
                 point.classList.remove('activated');
