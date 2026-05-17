@@ -163,8 +163,8 @@ const renderGlobalMode = ()=>{
                 point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
 
                     const target = point.id;
-                   console.log("globalRenderer : click event listened !");
 
+                    console.log(point);
                     if( G_currentPoint != null) {
 
                         if( G_currentPoint === point){ // 같은 point를 다시 눌렀을 때 
