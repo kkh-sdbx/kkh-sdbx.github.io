@@ -157,7 +157,6 @@ const renderGlobalMode = ()=>{
                         G_tooltip.style.display = 'none';
                     }
                     
-
                 });
                 
                 point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
