@@ -12,7 +12,6 @@ const renderGlobalMode = ()=>{
         ["G_point_3",null],
         ["G_point_4",null],
         ["G_point_5",null]
-
     ]);
 
     let G_tooltip = null;
@@ -53,6 +52,7 @@ const renderGlobalMode = ()=>{
 
     
     const updateCoords = ()=>{
+        console.log("updateCoords at View called");
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
         G_coords.G_point_1.y = POINTS_TABLE.get("G_point_1").getBoundingClientRect().top; 
             
