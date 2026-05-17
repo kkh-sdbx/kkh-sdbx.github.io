@@ -36,21 +36,12 @@ const renderGlobalMode = ()=>{
 
     let G_donutSkin = null;
     let G_isDonut = null;
-
-
-
+  
     let ACTION_FIXED_EVENT = null;
-
-
-   
+  
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;    
 
-
-
-
-
-    
     const updateCoords = ()=>{
         console.log("updateCoords at View called");
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
