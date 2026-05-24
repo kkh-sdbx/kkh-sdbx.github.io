@@ -36,23 +36,6 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 const createGLOBAL = ()=>{
 
-    /**
-     * !! Listener: G_selectionPanel !! 
-     *  N/Y/K 클릭 시 Renderer classList 수정 이벤트 전달, Connection에는 현재 선택지 업데이트 이벤트 전달.
-     */
-    // 20260509: 여기서 삭제하고, 스토리지 정보를 렌더러에 있는 updateDecision으로 던지는 게 맞는듯하다.
-    const updateActions = ()=>{
-
-        console.log("GLOBAL.updateActions Run!");
-        
-        const userSelections = MODEL.getStorageData();
-        userSelections.forEach((pointData)=>{
-            VIEW.updateDecision(pointData);
-            console.log(pointData);
-        });
-
-                   
-    };
 
     // 각 point에 매칭된 상대의 정보를 제공.
     const updatePointData = ()=>{
@@ -83,7 +66,7 @@ const createGLOBAL = ()=>{
             // MODEL이 storage에 data 저장
             MODEL.setPointDecision(e.detail);
 
-            // 저장된 data 받아서 VIEW업데이트
+            // 저장된 data 받아서 VIEW업데이트 => 이 함수가 Controller 안에 있는updatePointData와 같은 것 아닌가?
             for(let i=1;i<6;i++){  
                 VIEW.updateDecision(MODEL.getPointData(i));
             
@@ -114,7 +97,7 @@ const createGLOBAL = ()=>{
     return{
         init,
         updatePointData,
-        updateActions
+
 
 
     }
