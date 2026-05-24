@@ -1,10 +1,13 @@
 // 데이터가 변경되었음을 알림 (누구에게? 상관없음, 그냥 던짐)
 
+import SCHEMA from "./Tools/DATA_SCHEMA"
+
 const connectGlobalMode = ()=>{
 
     let storage = null;
     let userDecisions = null;
     let ultimatum = null;
+    let SCHEMA  = null;
 
     let SEND_INFO_TO_SERVER_EVENT = null;
     let G_updateActionsFromStorage = null;
@@ -17,11 +20,20 @@ const connectGlobalMode = ()=>{
     let POINT_VALIDATOR = null;
 
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
-    const setUserStorage = ()=>{
+    const setPrionerStorage = ()=>{
+        const PRISONER_DATA = SCHEMA.prisonerData();
         storage.clear();
-        storage.setItem("name","KH");
-        storage.setItem("id","KH_ID");
-        storage.setItem("status","not yet");
+        storage.setItem("name",PRISONER_DATA.PRISONER_NAME);
+    
+        storage.setItem("type",PRISONER_DATA.PRISONER_TYPE);
+        
+        POINT_VALIDATOR.forEach((pointId)=>{
+            storage.setItem(pointId,PRISONER_DATA.PRISONER_GLOBAL_ACTIONS[pointId]);    
+            
+        });
+
+        storage.setItem("status",PRISONER_DATA.PRISONER_GLOBAL_STATUS);
+
     };
     /**
      * point 1개의 decision 을 storage에서 가져와 리턴
@@ -126,8 +138,8 @@ const connectGlobalMode = ()=>{
         });
 
         // 지금은 localStorage를 쓰지만 모바일이든 PC버전이든 스토리지를 수정해야 한다.
+        SCHEMA = PRISONER_DATA
         storage = window.localStorage;
-        setUserStorage();
 
         // 이 Model 안에서 쓸 이벤트 타겟 지정.
         POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
@@ -172,6 +184,7 @@ const connectGlobalMode = ()=>{
             "timeArrived":null
         };
         
+        setPrionerStorage();
 
     };
 
