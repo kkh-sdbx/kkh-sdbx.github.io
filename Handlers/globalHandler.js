@@ -73,7 +73,7 @@ const createGLOBAL = ()=>{
             // {"target":null, "action":"Y" }를 받아온다.
             console.log(e);
             VIEW.updateDecision(e.detail);
-            MODEL.updateDecisionData(e.detail);
+            MODEL.getStorageData(e.detail);
         });
 
         MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
