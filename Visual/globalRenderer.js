@@ -301,6 +301,15 @@ const renderGlobalMode = ()=>{
 
     const init = (eventTarget)=>{
 
+        /**1. 상태(State) 관리 주체의 명확화
+            현재 렌더러인 globalRenderer.js(View) 안에 G_currentPoint, G_pointData, G_coords 등 
+            데이터와 앱의 상태가 섞여 있어. View는 오직 화면을 그리고 사용자의 클릭을 감지하는 역할만 담당하는 것이 좋아. 
+            현재 선택된 대상이 무엇인지, 대상의 체력이나 비율(YNKratio)이 몇 인지와 같은 핵심 데이터는
+            모두 globalConnection.js(Model)로 넘기고, View는 Model의 데이터를 받아와서 
+            화면만 업데이트하도록 역할을 완전히 분리해 봐.
+         * 
+         */
+
         G_fixBtn = document.getElementById("G_fix");
         G_points = document.querySelectorAll('.G_point');
 
