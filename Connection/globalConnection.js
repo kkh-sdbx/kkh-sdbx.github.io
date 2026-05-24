@@ -37,10 +37,10 @@ const connectGlobalMode = ()=>{
         }
         
         if(validator.includes(storage.getItem(pointId))){
-            pointData.push({ "target":pointId, "action":storage.getItem(pointId)});
+            pointData = { "target":pointId, "action":storage.getItem(pointId)};
             
         }else{
-            pointData.push({"target":pointId, "action":null});
+            pointData = {"target":pointId, "action":null};
         }
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림

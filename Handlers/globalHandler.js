@@ -84,8 +84,10 @@ const createGLOBAL = ()=>{
             MODEL.setPointDecision(e.detail);
 
             // 저장된 data 받아서 VIEW업데이트
-           const pointData = MODEL.
-            VIEW.updateDecision(pointData);
+            for(let i=1;i<6;i++){  
+                VIEW.updateDecision(MODEL.getPointData(i));
+            
+            };
             
         });
 
