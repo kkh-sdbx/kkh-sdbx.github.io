@@ -1,13 +1,13 @@
 // 데이터가 변경되었음을 알림 (누구에게? 상관없음, 그냥 던짐)
 
-import SCHEMA from "./Tools/DATA_SCHEMA"
+import SCHEMA from "../Tools/DATA_SCHEMA.js";
 
 const connectGlobalMode = ()=>{
 
     let storage = null;
     let userDecisions = null;
     let ultimatum = null;
-    let SCHEMA  = null;
+    let PRISONER_DATA= null;
 
     let SEND_INFO_TO_SERVER_EVENT = null;
     let G_updateActionsFromStorage = null;
@@ -21,7 +21,8 @@ const connectGlobalMode = ()=>{
 
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
     const setPrionerStorage = ()=>{
-        const PRISONER_DATA = SCHEMA.prisonerData();
+        const DATA_SCHEMA = SCHEMA();
+        PRISONER_DATA = DATA_SCHEMA.prisonerData();
         storage.clear();
         storage.setItem("name",PRISONER_DATA.PRISONER_NAME);
     
@@ -40,10 +41,10 @@ const connectGlobalMode = ()=>{
      * @params action이 일어난 point의 number
      */
     const getPointData = (pointId)=>{
-        let pointData = { "target":null, "action":null};
+        let pointData = {"target":null, "action":null};
         const validator = ["Y","N","K"];
         
-        if(POINT_VALIDATOR.includes(pointId)){
+        if(!(POINT_VALIDATOR.includes(pointId))){
             console.log("pointId invalid:", pointId);
             return
         }
@@ -138,7 +139,6 @@ const connectGlobalMode = ()=>{
         });
 
         // 지금은 localStorage를 쓰지만 모바일이든 PC버전이든 스토리지를 수정해야 한다.
-        SCHEMA = PRISONER_DATA
         storage = window.localStorage;
 
         // 이 Model 안에서 쓸 이벤트 타겟 지정.
@@ -191,9 +191,10 @@ const connectGlobalMode = ()=>{
     return{
         init,
         handleFix,
-        setUserStorage,
+        setPrionerStorage,
         sendUltimatumToServer,
-        getPointData
+        getPointData,
+        setPointDecision
 
     }
 }
