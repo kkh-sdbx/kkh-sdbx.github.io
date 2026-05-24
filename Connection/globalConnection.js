@@ -14,6 +14,7 @@ const connectGlobalMode = ()=>{
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;
     let MOCK_SERVER_EVENT_TARGET = null;
+    let POINT_VALIDATOR = null;
 
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
     const setUserStorage = ()=>{
@@ -23,16 +24,15 @@ const connectGlobalMode = ()=>{
         storage.setItem("status","not yet");
     };
     /**
-     * point 1개의 decision 을 업데티
+     * point 1개의 decision 을 storage에서 가져와 리턴
      * @params action이 일어난 point의 number
      */
-    const getPointData = (pointNum)=>{
+    const getPointData = (pointId)=>{
         let pointData = { "target":null, "action":null};
         const validator = ["Y","N","K"];
-        let pointId = `G_point_${pointNum}`;
-
-        if(pointNum>5 || pointNum<1){
-            console.log("pointNumber invalid:", pointNum);
+        
+        if(POINT_VALIDATOR.includes(pointId)){
+            console.log("pointId invalid:", pointId);
             return
         }
         
@@ -60,7 +60,7 @@ const connectGlobalMode = ()=>{
 
 
     const handleFix = ()=>{ 
-        const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
+        const POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
         userDecisions = {
             "userId":storage.id,
@@ -72,7 +72,7 @@ const connectGlobalMode = ()=>{
             "emptyPoints":[]
         };
         
-        for(const point of checker){
+        for(const point of POINT_VALIDATOR){
             if(storage[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
                 
                 userDecisions[point] = storage[point];
@@ -89,8 +89,7 @@ const connectGlobalMode = ()=>{
     };
 
     const sendUltimatumToServer = () =>{
-        const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
-
+        
         ultimatum = {
             "userId":storage.id,
             "G_point_1":storage.G_point_1,
@@ -102,7 +101,7 @@ const connectGlobalMode = ()=>{
         };
         
 
-        for(const point of checker){
+        for(const point of POINT_VALIDATOR){
             if(!ultimatum[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
                 
                 ultimatum[point] = "Y";
@@ -135,6 +134,7 @@ const connectGlobalMode = ()=>{
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
         MOCK_SERVER_EVENT_TARGET = eventTarget.mockServerEventTarget;
+        POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
         // Model은 로컬 저장소와 웹 서버 사이를 중개.
         SEND_INFO_TO_SERVER_EVENT = new CustomEvent("sendInfoToServer",{
@@ -171,7 +171,8 @@ const connectGlobalMode = ()=>{
             "G_point_5":storage.G_point_5,
             "timeArrived":null
         };
-            
+        
+
     };
 
     return{

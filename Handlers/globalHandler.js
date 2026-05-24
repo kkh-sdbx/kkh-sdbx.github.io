@@ -36,7 +36,6 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 const createGLOBAL = ()=>{
 
-
     // 각 point에 매칭된 상대의 정보를 제공.
     const updatePointData = ()=>{
         // 표시할 정보 : userName, YNKratio, history
@@ -53,7 +52,7 @@ const createGLOBAL = ()=>{
 
         // storage에 있는 global 선택지들 업데이트해서보여준다.
         for(let i=1;i<6;i++){  
-            VIEW.updateDecision(MODEL.getPointData(i));
+            VIEW.updateDecision(MODEL.getPointData(`G_point_${i}`));
             
         };
 
@@ -67,12 +66,12 @@ const createGLOBAL = ()=>{
             MODEL.setPointDecision(e.detail);
 
             // 저장된 data 받아서 VIEW업데이트 => 이 함수가 Controller 안에 있는updatePointData와 같은 것 아닌가?
-            for(let i=1;i<6;i++){  
-                VIEW.updateDecision(MODEL.getPointData(i));
+            VIEW.updateDecision(MODEL.getPointData(e.detail.target));
             
-            };
+ 
             
         });
+
 
         MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
 
