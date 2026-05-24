@@ -69,7 +69,7 @@ const createGLOBAL = ()=>{
         MODEL.init(G_EVENT_TARGETS);
 
         // storage에 있는 global 선택지들 업데이트해서보여준다.
-        for(i=1;i<6;i++){  
+        for(let i=1;i<6;i++){  
             VIEW.updateDecision(MODEL.getPointData(i));
             
         };
