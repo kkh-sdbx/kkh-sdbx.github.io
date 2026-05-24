@@ -80,7 +80,7 @@ const createGLOBAL = ()=>{
         });
 
         MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{
-
+            console.log(e);
             VIEW.setModalText(e.detail);
         });
 

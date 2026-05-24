@@ -263,9 +263,10 @@ const renderGlobalMode = ()=>{
 
         
 
-    const setModalText = (ultimatum)=>{
+    const setModalText = (userDecisions)=>{
+        console.log("userDecisions:",userDecisions);
 
-        if(ultimatum.emptyPoints.length>0){
+        if(userDecisions.emptyPoints.length>0){
             console.log(`There are empty Points: these points will automatically filled with "Y".`);
             G_fixModal.style.display = "block";
 

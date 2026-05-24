@@ -33,7 +33,7 @@ const connectGlobalMode = ()=>{
             
         });
 
-        storage.setItem("status",PRISONER_DATA.PRISONER_GLOBAL_STATUS);
+        storage.setItem("status",JSON.stringify(PRISONER_DATA.PRISONER_GLOBAL_STATUS));
 
     };
     /**
@@ -73,29 +73,29 @@ const connectGlobalMode = ()=>{
 
 
     const handleFix = ()=>{ 
-        const POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
         userDecisions = {
             "userId":storage.id,
-            "G_point_1":null,
-            "G_point_2":null,
-            "G_point_3":null,
-            "G_point_4":null,
-            "G_point_5":null,
+            "G_point_1":undefined,
+            "G_point_2":undefined,
+            "G_point_3":undefined,
+            "G_point_4":undefined,
+            "G_point_5":undefined,
             "emptyPoints":[]
-        };
+        }
         
         for(const point of POINT_VALIDATOR){
-            if(storage[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
-                
-                userDecisions[point] = storage[point];
+            let userAction = storage.getItem(point);
+            if(userAction){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
+                userDecisions[point] = userAction;
 
             }else{ //fix 시점에서, action이 localStorage에 없으면
                 userDecisions.emptyPoints.push(point);
             }
         };
+        
 
-        modalEventTarget.dispatchEvent(checkEmptyPoints);
+        MODAL_EVENT_TARGET.dispatchEvent(CHECK_EMPTY_POINTS_EVENT);
 
         
 
@@ -181,7 +181,8 @@ const connectGlobalMode = ()=>{
             "G_point_3":storage.G_point_3,
             "G_point_4":storage.G_point_4,
             "G_point_5":storage.G_point_5,
-            "timeArrived":null
+            "timeArrived":null,
+            "emptyPoints":[]
         };
         
         setPrionerStorage();
