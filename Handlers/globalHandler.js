@@ -69,18 +69,23 @@ const createGLOBAL = ()=>{
         MODEL.init(G_EVENT_TARGETS);
 
         // storage에 있는 global 선택지들 업데이트해서보여준다.
-        const globalStorageData = MODEL.getStorageData(e.detail); // 이 함수는 [{"target":pointId, "action":null}, ...]array를 리턴한다.
-        globalStorageData.forEach((point)=>{
-
-            VIEW.updateDecision(point);
-
-        });
+        for(i=1;i<6;i++){  
+            VIEW.updateDecision(MODEL.getPointData(i));
+            
+        };
 
         // eventTarget에 리스너 붙이기
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
+
             // {"target":null, "action":"Y" }를 받아온다.
             console.log(e);
             
+            // MODEL이 storage에 data 저장
+            MODEL.setPointDecision(e.detail);
+
+            // 저장된 data 받아서 VIEW업데이트
+           const pointData = MODEL.
+            VIEW.updateDecision(pointData);
             
         });
 

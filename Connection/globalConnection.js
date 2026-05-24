@@ -23,40 +23,52 @@ const connectGlobalMode = ()=>{
         storage.setItem("status","not yet");
     };
     /**
-     * @
+     * point 1개의 decision 을 업데티
+     * @params action이 일어난 point의 number
      */
-    const getStorageData = ()=>{
-        const userFormerDecisions = [];
+    const getPointData = (pointNum)=>{
+        let pointData = { "target":null, "action":null};
         const validator = ["Y","N","K"];
-        
-        for(let i=1;i<6;i++){
-            let pointId = `G_point_${i}`;
-            if(validator.includes(storage.getItem(pointId))){
-                userFormerDecisions.push({ "target":pointId, "action":storage.getItem(pointId)});
-            
-            }else{
-                userFormerDecisions.push({"target":pointId, "action":null});
-            }
+        let pointId = `G_point_${pointNum}`;
+
+        if(pointNum>5 || pointNum<1){
+            console.log("pointNumber invalid:", pointNum);
+            return
         }
         
+        if(validator.includes(storage.getItem(pointId))){
+            pointData.push({ "target":pointId, "action":storage.getItem(pointId)});
+            
+        }else{
+            pointData.push({"target":pointId, "action":null});
+        }
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
-        console.log(userFormerDecisions);
-        return userFormerDecisions
+        console.log("pointData changed: ",pointData);
+        return pointData
 
-        
     };    
 
-    const handleFix = ()=>{
+    /**
+     * 포인트에서 내린 결정을 스토리지에 업데이트하는 함수
+     * @params {"target":G_currentPoint.id, "action":"Y"}
+     */
+    const setPointDecision = (fixData) =>{
+        storage.setItem(fixData.target,fixData.action);
+
+    }
+
+
+    const handleFix = ()=>{ 
         const checker = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
         userDecisions = {
             "userId":storage.id,
-            "G_point_1":undefined,
-            "G_point_2":undefined,
-            "G_point_3":undefined,
-            "G_point_4":undefined,
-            "G_point_5":undefined,
+            "G_point_1":null,
+            "G_point_2":null,
+            "G_point_3":null,
+            "G_point_4":null,
+            "G_point_5":null,
             "emptyPoints":[]
         };
         
@@ -167,8 +179,7 @@ const connectGlobalMode = ()=>{
         handleFix,
         setUserStorage,
         sendUltimatumToServer,
-        handleFix,
-        getStorageData
+        getPointData
 
     }
 }
