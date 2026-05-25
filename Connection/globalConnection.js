@@ -49,7 +49,7 @@ const connectGlobalMode = ()=>{
         let pointData = {"target":null, "action":null};
         
         if(!(POINT_VALIDATOR.includes(pointId))){
-            console.log("pointId invalid:", pointId);
+            console.log("pointId invalid:", pointId); // 추가적인 방어 코드가 필요한 부분이다.
             return
         }
         
@@ -61,7 +61,6 @@ const connectGlobalMode = ()=>{
         }
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
-        console.log("pointData changed: ",pointData);
         return pointData
 
     };    
@@ -98,9 +97,7 @@ const connectGlobalMode = ()=>{
             }
         };
         
-        
-        console.log(userDecisions);
-        //  
+         
         MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("checkEmptyPoints",{
             bubbles: false,
             cancelable: false,
@@ -112,25 +109,17 @@ const connectGlobalMode = ()=>{
 
     };
 
-    const sendUltimatumToServer = () =>{
-        
-        ultimatum = {
-            "userId":storage.id,
-            "G_point_1":storage.G_point_1,
-            "G_point_2":storage.G_point_2,
-            "G_point_3":storage.G_point_3,
-            "G_point_4":storage.G_point_4,
-            "G_point_5":storage.G_point_5,
-            "timeArrived":null
-        };
-        
+    const sendUltimatumToServer = () =>{               
 
         for(const point of POINT_VALIDATOR){
-            if(!ultimatum[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
+            if(!userDecisions[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
                 
                 ultimatum[point] = "Y";
+                storage.setItem(point,"Y");
             }
         };
+        
+        console.log("Ult: ",ultimatum);
 
         MOCK_SERVER_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
@@ -152,7 +141,7 @@ const connectGlobalMode = ()=>{
         ACTION_VALIDATOR = ["Y","N","K"];
         POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
-        // userDecision와 ultimatum이 분리된 이유=> 저장됭 값은 nully할 수 있음. 빈 칸은 Y로 채워 서버로 보낸다.
+        // userDecision와 ultimatum이 분리된 이유=> 저장된 값은 nully할 수 있음. 빈 칸은 Y로 채워 서버로 보낸다.
         userDecisions = {
             "userId":storage.id,
             "G_point_1":undefined,
@@ -170,8 +159,7 @@ const connectGlobalMode = ()=>{
             "G_point_3":storage.G_point_3,
             "G_point_4":storage.G_point_4,
             "G_point_5":storage.G_point_5,
-            "timeArrived":null,
-            "emptyPoints":[]
+            "timeArrived":null
         };
 
         

@@ -89,6 +89,17 @@ const createGLOBAL = ()=>{
             MODEL.sendUltimatumToServer();
         });
 
+        MOCK_SERVER_EVENT_TARGET.addEventListener("sendInfoToServer",()=>{
+            for(let i=1;i<6;i++){  
+                VIEW.updateDecision(MODEL.getPointData(`G_point_${i}`));
+            
+            };
+            
+            // 이제 서버에 ultimatum을 보냈으니, point들에 있는 클릭 이벤트 리스너를 떼어야 한다.
+            // ult 이후 결과 대기까지 또 다른 CSS 스타일로 표시?
+            VIEW.disableInteractives();
+        });
+
 
     };
     

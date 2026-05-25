@@ -3,6 +3,7 @@ import PAGEROUTER from "../Tools/pageRouter.js";
 
 const renderGlobalMode = ()=>{
     // View (View.js) - UI만 담당
+    let G_container = null;
     let G_fixBtn = null;
     let G_points = null;
 
@@ -25,6 +26,9 @@ const renderGlobalMode = ()=>{
     let G_proceedBtn = null;
     let G_discardBtn = null;
     let G_fixModal = null;
+    let G_fixModalTitle = null;
+    let G_fixModalContent = null;
+    let G_screenBlocker = null;
 
     let G_myHp = null;
 
@@ -43,7 +47,6 @@ const renderGlobalMode = ()=>{
     let MODAL_EVENT_TARGET = null;    
 
     const updateCoords = ()=>{
-        console.log("updateCoords at View called");
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
         G_coords.G_point_1.y = POINTS_TABLE.get("G_point_1").getBoundingClientRect().top; 
             
@@ -174,9 +177,7 @@ const renderGlobalMode = ()=>{
 
                     if( G_currentPoint != null) {
 
-                        console.log("G_currentPoint:",G_currentPoint.classList);
-                        if( G_currentPoint === point){ 
-                            point.classList.remove("decided");                            
+                        if( G_currentPoint === point){                             
                             G_currentPoint = null;
                             point.classList.remove('activated');
 
@@ -187,7 +188,6 @@ const renderGlobalMode = ()=>{
 
                             G_currentPoint.classList.remove('activated');
                             G_currentPoint = point;
-                            point.classList.remove("decided");
                             point.classList.add('activated');
                             G_selection.style.display = 'flex';
                             G_tooltip.style.display = 'block';
@@ -223,7 +223,6 @@ const renderGlobalMode = ()=>{
 
             // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
             let targetPoint = POINTS_TABLE.get(decisionDetail.target);
-            console.log("POINTS_TABLE: ", POINTS_TABLE, "targetPoint: ",targetPoint);
 
             if(decisionDetail.action === "Y"){
 
@@ -273,14 +272,16 @@ const renderGlobalMode = ()=>{
         
 
     const setModalText = (userDecisions)=>{
-        console.log("userDecisions:",userDecisions);
 
         if(userDecisions.emptyPoints.length>0){
-            console.log(`There are empty Points: these points will automatically filled with "Y".`);
+
+            G_fixModalTitle.textContent = "Sending Ultimatum";
+            G_fixModalContent.textContent = `There are empty Points: these points will automatically filled with "Y".`;
             G_fixModal.style.display = "block";
 
         }else{
-            console.log("You cannot change your response after fixing. Wanna Proceed? ");
+            G_fixModalTitle.textContent = "Sending Ultimatum";
+            G_fixModalContent.textContent = "You cannot change your response after fixing. Wanna Proceed? ";
             G_fixModal.style.display = "block";
         }
 
@@ -306,20 +307,21 @@ const renderGlobalMode = ()=>{
         });
 
     };
+    const setInteractives = ()=>{
+        
+        setPointsInteractive();
+        setSelectionInteractive();
+        setFixModal();
+    }
+    const disableInteractives = ()=>{
+        //그냥 위에 모달같은 창을 하나 덮어서 처리한다.
+        G_screenBlocker.style.display = "block";
+        G_container.inert = true;
+    }
 
 
     const init = (eventTarget)=>{
-
-        /**
-         * 1. 상태(State) 관리 주체의 명확화
-            현재 렌더러인 globalRenderer.js(View) 안에 G_currentPoint, G_pointData, G_coords 등 
-            데이터와 앱의 상태가 섞여 있어. View는 오직 화면을 그리고 사용자의 클릭을 감지하는 역할만 담당하는 것이 좋아. 
-            현재 선택된 대상이 무엇인지, 대상의 체력이나 비율(YNKratio)이 몇 인지와 같은 핵심 데이터는
-            모두 globalConnection.js(Model)로 넘기고, View는 Model의 데이터를 받아와서 
-            화면만 업데이트하도록 역할을 완전히 분리해 봐.
-         * 
-         */
-
+        G_container = document.getElementById("G_container"); 
         G_fixBtn = document.getElementById("G_fix");
         G_points = document.querySelectorAll('.G_point');
 
@@ -342,6 +344,11 @@ const renderGlobalMode = ()=>{
         G_proceedBtn = document.getElementById('G_proceedBtn');
         G_discardBtn = document.getElementById('G_discardBtn');
         G_fixModal = document.getElementById('G_fixModal');
+        G_fixModalTitle = document.getElementById('G_fixModalTitle');
+        G_fixModalContent = document.getElementById('G_fixModalContent');
+        G_screenBlocker = document.getElementById('G_screenBlocker');
+        
+
         G_myHp = document.getElementById('G_myHp');
         globalToMainBtn = document.getElementById('globalToMainBtn');
         G_isDonut = false;
@@ -349,12 +356,6 @@ const renderGlobalMode = ()=>{
 
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
-
-        ACTION_FIXED_EVENT = new CustomEvent("actionFixed",{ 
-            bubbles: false, 
-            cancelable: false
-        });
-
 
 
         G_coords = {
@@ -380,11 +381,8 @@ const renderGlobalMode = ()=>{
         globalToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");
         });
-        
-        setPointsInteractive();
-        setSelectionInteractive();
-        setFixModal();
-        
+
+        setInteractives();        
 
         G_donutSkin = document.getElementById('G_donutSkin');
 
@@ -420,8 +418,9 @@ const renderGlobalMode = ()=>{
         setPointsInteractive,
         updateDecision,
         setModalText,
-        setFixModal
-
+        setFixModal,
+        disableInteractives,
+        setInteractives
     }
 }
 

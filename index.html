@@ -17,21 +17,21 @@
 </head>
 <body>
     <div id = "loadingPage"  class = "page">
-        <button id = "loadingToMainBtn">loadingToMain</button>
+        <button id = "loadingToMainBtn" class="pageRouterBtn">loadingToMain</button>
         <div class="donut" onclick="this.classList.toggle('activated')"></div>
         <h1 class = "lime">LoadingPage</h1>
     </div>
 
     <div id = "mainPage" class = "page">
-        <button id = "mainToGlobalBtn">mainToGlobal</button>
-        <button id = "mainToLocalBtn">mainToLocal</button>
-        <button id = "mainToTutorialBtn">mainToTutorial</button>
+        <button id = "mainToGlobalBtn" class="pageRouterBtn">mainToGlobal</button>
+        <button id = "mainToLocalBtn" class="pageRouterBtn">mainToLocal</button>
+        <button id = "mainToTutorialBtn" class="pageRouterBtn">mainToTutorial</button>
         <h1 class = "lime">MainPage</h1>
         <div id = "currentSkin"></div>
     </div>
 
     <div id = "tutorial" class = "page">
-        <button id = "tutorialToMainBtn">tutorialToMain</button>
+        <button id = "tutorialToMainBtn" class="pageRouterBtn">tutorialToMain</button>
         <h1 class = "lime">Tutorial</h1>
 
                <div class="T_container">
@@ -140,8 +140,8 @@
 
     
     <div id = "globalMode" class = "page">
-
-        <button id = "globalToMainBtn">globalToMain</button>
+        <div id = "G_screenBlocker"></div>
+        <button id = "globalToMainBtn" class="pageRouterBtn">globalToMain</button>
   
         <div id = "dummy" display = "flex" >
             <h1 class ="green" >Global Mode</h1>
@@ -167,7 +167,7 @@
 
 
         
-        <div class="G_container">
+        <div id="G_container">
 
             <div class = "G_pointContainer">
                 <div class = "G_balancer"></div>
@@ -220,57 +220,53 @@
 
             </div>
 
-
-        </div>
-
+            <div id = "G_testBtns" >
+                <button id = "G_donutSkin">Use Donut</button>
+                <button id = "G_startSeason">startSeason </button>
+                <button id="G_fix">FIX</button>
+                <button id = "G_setDummyActions">setDummyActions </button>
+                <button id = "G_finishRound">finishRound </button>
+                <button id = "G_startMatchMaking">startMatchMaking </button>
+            </div>    
         
-        <div id = "G_testBtns" >
-            <button id = "G_donutSkin">Use Donut</button>
-            <button id = "G_startSeason">startSeason </button>
-            <button id="G_fix">FIX</button>
-            <button id = "G_setDummyActions">setDummyActions </button>
-            <button id = "G_finishRound">finishRound </button>
-            <button id = "G_startMatchMaking">startMatchMaking </button>
 
-        </div>
-
-        <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
-        <div class="G_tooltip" id="G_tooltip">
-            <strong id="G_opntName"></strong>
-            <div id="G_opntYNKratio"></div>
-            <strong>30%</strong>
-            <strong>Y 30</strong>
-            <strong>Total 100</strong>
-            <div id = "G_history">
-                <p class = "G_pastAction">X</p>
-                <p class = "G_pastAction">X</p>
-                <p class = "G_pastAction">X</p>
-                <p class = "G_pastAction">X</p>
-                <p class = "G_pastAction">X</p>
-
+            <div class="G_tooltip" id="G_tooltip">
+                <strong id="G_opntName"></strong>
+                <div id="G_opntYNKratio"></div>
+                <strong>30%</strong>
+                <strong>Y 30</strong>
+                <strong>Total 100</strong>
+                <div id = "G_history">
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
             </div>
-        </div>
+        
 
-        <div class="G_selection" id="G_selectionPanel">
-            <button id="G_NBtn" data-btn-type = "N"> N </button>
-            <button id="G_KBtn" data-btn-type = "K"> Kick! </button>
-            <button id="G_YBtn" data-btn-type = "Y"> Y </button>        
-        </div>
+            <div class="G_selection" id="G_selectionPanel">
+                <button id="G_NBtn" data-btn-type = "N"> N </button>
+                <button id="G_KBtn" data-btn-type = "K"> Kick! </button>
+                <button id="G_YBtn" data-btn-type = "Y"> Y </button>        
+            </div>
 
-        <div id = "G_fixModal" class = "G_modal">
-            <div class = "G_modalBody">
-                <h2> Modal Title</h2>
-                <h4> Modal Content</h4>
-                <div class = "G_modalBtnContainer">
-                    <button id = "G_proceedBtn">Proceed</button>
-                    <button id = "G_discardBtn">Discard</button>
+            <div id = "G_fixModal" class = "G_modal">
+                <div class = "G_modalBody">
+                    <h2 id="G_fixModalTitle"> Modal Title</h2>
+                    <h4 id="G_fixModalContent"> Modal Content</h4>
+                    <div class = "G_modalBtnContainer">
+                        <button id = "G_proceedBtn">Proceed</button>
+                        <button id = "G_discardBtn">Discard</button>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <div id = "localMode" class = "page">
-        <button id = "localToMainBtn">"localToMain</button>
+        <button id = "localToMainBtn" class="pageRouterBtn">"localToMain</button>
         <h1 class = "lime">Local Mode</h1>
 
         <div id = "dummy" display = "flex" >

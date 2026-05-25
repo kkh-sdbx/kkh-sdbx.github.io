@@ -1,6 +1,7 @@
 let PAGES = null;
 let current = null;
 
+// 결제 시 같은 경우, 페이지 이동을 막아야 할 필요도 있다.
 
 const PAGEROUTER = {
     currentPage(){
@@ -31,6 +32,7 @@ const PAGEROUTER = {
         if(PAGES[pageName]){
             PAGES[pageName].classList.add("current");
             current = pageName;
+            console.log("PAGE_ROUTER: current is-",current);
 
         }else{
             console.warn(`wrong page name: ${pageName}`);
