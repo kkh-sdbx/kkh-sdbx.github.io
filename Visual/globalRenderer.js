@@ -301,7 +301,8 @@ const renderGlobalMode = ()=>{
 
     const init = (eventTarget)=>{
 
-        /**1. 상태(State) 관리 주체의 명확화
+        /**
+         * 1. 상태(State) 관리 주체의 명확화
             현재 렌더러인 globalRenderer.js(View) 안에 G_currentPoint, G_pointData, G_coords 등 
             데이터와 앱의 상태가 섞여 있어. View는 오직 화면을 그리고 사용자의 클릭을 감지하는 역할만 담당하는 것이 좋아. 
             현재 선택된 대상이 무엇인지, 대상의 체력이나 비율(YNKratio)이 몇 인지와 같은 핵심 데이터는
