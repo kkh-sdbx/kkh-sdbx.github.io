@@ -85,15 +85,6 @@
 }
 
 /* 호버 시 스타일 */
-
-
-.G_point.decided {
-    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
-    cursor: default;
-    transform: rotate(45deg) scale(1.2);
-}
-.G_point.decided .G_point-text { transform: rotate(-45deg) !important; }
-
 .G_point:hover {
         background-color: rgb(50, 120, 245); 
 }
@@ -101,16 +92,29 @@
 
 .G_point:hover .G_point-text { transform: rotate(-45deg) !important; }
 
-.G_point.activated {
-        background-color: rgb(50, 120, 245)!important;
+/*activated 시 스타일: 파란색,마름모꼴,*/
+.G_point.activated{ 
         border-radius: 0%;
+        transform:  rotate(45deg) scale(1.2);
 }
-.G_point.activated,
-.G_point:hover.activated{
-        background-color: rgb(50, 120, 245)!important; 
-        border-radius: 0%;
 
+.G_point.activated .G_point-text{ 
+    transform: rotate(-45deg) !important; 
 }
+
+/*decided 시 스타일: 배경 흰색.*/
+
+.G_point.decided {
+    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
+    cursor: default;
+}
+.G_point.decided .G_point-text { 
+    
+ }
+
+
+
+
 /*
 - CSS 점검. hover 이벤트가 아니라, 
     클릭 시에 회전 사각형이 되어야 함.(모바일 버전)
@@ -119,9 +123,7 @@
 
 */
 
-.G_point.activated { transform:  rotate(45deg) scale(1.2); }
 
-.G_point.activated .G_point-text { transform: rotate(-45deg) !important; }
 .G_saidNo{
     visibility:hidden;
 }

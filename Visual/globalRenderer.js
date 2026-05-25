@@ -91,33 +91,42 @@ const renderGlobalMode = ()=>{
     const setSelectionInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
             if(!G_currentPoint) {return};
+            G_currentPoint.classList.remove("activated");
+            
 
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"Y"}
 
-        }));
+            }));
+            G_currentPoint = null;
         });
         G_NBtn.addEventListener("click",()=>{
             if(!G_currentPoint) {return};
+            G_currentPoint.classList.remove("activated");
+            
           
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"N"}
 
-        }));
+            }));
+            G_currentPoint = null;
         });
         G_KBtn.addEventListener("click",()=>{
             if(!G_currentPoint) {return};
+            G_currentPoint.classList.remove("activated");
+            
 
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"K"}
 
-        }));
+            }));
+            G_currentPoint = null;
             
         })
     };            
@@ -163,10 +172,10 @@ const renderGlobalMode = ()=>{
 
                     const target = point.id;
 
-                    console.log(point);
                     if( G_currentPoint != null) {
 
-                        if( G_currentPoint === point){ // 같은 point를 다시 눌렀을 때 
+                        console.log("G_currentPoint:",G_currentPoint.classList);
+                        if( G_currentPoint === point){ 
                             point.classList.remove("decided");                            
                             G_currentPoint = null;
                             point.classList.remove('activated');
@@ -188,7 +197,7 @@ const renderGlobalMode = ()=>{
 
                     }else{ // 이전에 클릭했던 point가 없고, 새 point 클릭 시
                         
-                        point.classList.remove("decided");
+                        //point.classList.remove("decided");
                         point.classList.add('activated');
                         G_currentPoint = point;
                         G_selection.style.display = 'flex';
