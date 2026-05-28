@@ -55,9 +55,9 @@ const SCHEMA = ()=>{
         const game = {
             "rounds":0, //로컬은 13, 글로벌은 41
             "startingLife":0, // 로컬은 100, 글로벌은 ??
-            "playingPhase": {"name":"playingPhase","num":1, "availabeActions":[]},
-            "resultPhase":{"name":"resultPhase","num":2, "availabeActions":[]},
-            "resultTable":{"name":"playingPhase","num":99, "availabeActions":[]}
+            "playingPhase": {"data":playingPhase,"num":1, "availabeActions":[]},
+            "resultPhase":{"data":resultPhase,"num":2, "availabeActions":[]},
+            "resultTable":{"data":playingPhase,"num":99, "availabeActions":[]}
         }; 
         //new Map([]);
 
