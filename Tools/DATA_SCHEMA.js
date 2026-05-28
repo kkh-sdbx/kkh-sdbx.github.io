@@ -72,6 +72,7 @@ const SCHEMA = ()=>{
 
     }
 
-};
+};//외부 모듈에 데이터를 넘겨줄 때 structuredClone(this.prisonerData())를 사용하여 깊은 복사(Deep Copy)된 독립적 객체를 반환하도록 안전장치를 걸어두면 정합성이 더욱 단단해집니다.
+
 
 export default SCHEMA
