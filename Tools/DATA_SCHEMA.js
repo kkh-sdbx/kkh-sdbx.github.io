@@ -41,23 +41,23 @@ const SCHEMA = ()=>{
         "KK": {"breakUp":false, "score":[-12, -12]}
     }; 
         const playingPhase = new Map([
-            ["commence","commencingFunctions"],
-            ["selection","selectionFunctions"],
-            ["sendingUltimatum","sendingUltimatumFunctions"],
-            ["selection","selectionFunctions"]        
+            ["commence",{"name":"commence","num":1, "availabeActions":[]}],
+            ["selection",{"name":"selection","num":2, "availabeActions":[]}],
+            ["sendingUltimatum",{"name":"sendingUltimatum","num":3, "availabeActions":[]}],
+                    
         ]);
         
         const resultPhase = new Map([
-            ["showDown","showDownFunctions"],
-            ["matchMaking","matchMakingFunctions"],
-            ["ending","endingFunctions"]        
+            ["showDown",{"name":"showDown","num":4, "availabeActions":[]}],
+            ["matchMaking",{"name":"matchMaking","num":5, "availabeActions":[]}],
+            ["ending",{"name":"ending","num":6, "availabeActions":[]}]        
         ]);
         const game = {
             "rounds":0, //로컬은 13, 글로벌은 41
             "startingLife":0, // 로컬은 100, 글로벌은 ??
-            "playingPhase": playingPhase,
-            "resultPhase":resultPhase,
-            "resultTable":resultTable
+            "playingPhase": {"name":"playingPhase","num":1, "availabeActions":[]},
+            "resultPhase":{"name":"resultPhase","num":2, "availabeActions":[]},
+            "resultTable":{"name":"playingPhase","num":99, "availabeActions":[]}
         }; 
         //new Map([]);
 
