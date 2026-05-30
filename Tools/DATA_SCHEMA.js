@@ -55,7 +55,7 @@ const SCHEMA = ()=>{
         const game = {
             "rounds":0, //로컬은 13, 글로벌은 41
             "startingLife":0, // 로컬은 100, 글로벌은 ??
-            "playingPhase": playingPhase,
+            "playingPhase": playingPhase, // object를 그냥 갖다 쓰면 문제 생기지 않나? ref 문제. 읽기 전용이라지만...
             "resultPhase":resultPhase,
             "resultTable":resultTable
         }; 

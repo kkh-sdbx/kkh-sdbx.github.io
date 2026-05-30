@@ -72,8 +72,7 @@ const connectGlobalMode = ()=>{
     const setPointDecision = (fixData) =>{
         storage.setItem(fixData.target,fixData.action);
 
-    }
-
+    };
 
     const handleFix = ()=>{ 
 
@@ -109,7 +108,7 @@ const connectGlobalMode = ()=>{
 
     };
 
-    const sendUltimatumToServer = () =>{               
+    const sendUltimatumToServer = ()=>{               
 
         for(const point of POINT_VALIDATOR){
             if(!userDecisions[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
@@ -120,6 +119,8 @@ const connectGlobalMode = ()=>{
         };
         
         console.log("Ult: ",ultimatum);
+
+        //# 문제는 여기, 이제 서버로 보내야 함.
 
         MOCK_SERVER_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
