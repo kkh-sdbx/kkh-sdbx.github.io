@@ -41,24 +41,23 @@ const SCHEMA = ()=>{
         "KK": {"breakUp":false, "score":[-12, -12]}
     }; 
         const playingPhase = new Map([
-            ["commence","commencingFunctions"],
-            ["selection","selectionFunctions"],
-            ["sendingUltimatum","sendingUltimatumFunctions"],
-            ["selection","selectionFunctions"]        
+            ["commence",{"name":"commence","num":1, "availabeActions":[]}],
+            ["selection",{"name":"selection","num":2, "availabeActions":[]}],
+            ["sendingUltimatum",{"name":"sendingUltimatum","num":3, "availabeActions":[]}],
+                    
         ]);
         
         const resultPhase = new Map([
-            ["showDown","showDownFunctions"],
-            ["matchMaking","matchMakingFunctions"],
-            ["ending","endingFunctions"]        
+            ["showDown",{"name":"showDown","num":4, "availabeActions":[]}],
+            ["matchMaking",{"name":"matchMaking","num":5, "availabeActions":[]}],
+            ["ending",{"name":"ending","num":6, "availabeActions":[]}]        
         ]);
         const game = {
             "rounds":0, //로컬은 13, 글로벌은 41
             "startingLife":0, // 로컬은 100, 글로벌은 ??
-            "playingPhase": playingPhase, // object를 그냥 갖다 쓰면 문제 생기지 않나? ref 문제. 읽기 전용이라지만...
-            "resultPhase":resultPhase,
-            "resultTable":resultTable
-        }; 
+            "playingPhase": {"data":playingPhase,"num":1, "availabeActions":[]},
+            "resultPhase":{"data":resultPhase,"num":2, "availabeActions":[]},
+            "resultTable":{"data":playingPhase,"num":99, "availabeActions":[]}}; 
         //new Map([]);
 
         return{
@@ -72,6 +71,7 @@ const SCHEMA = ()=>{
 
     }
 
-};
+};//외부 모듈에 데이터를 넘겨줄 때 structuredClone(this.prisonerData())를 사용하여 깊은 복사(Deep Copy)된 독립적 객체를 반환하도록 안전장치를 걸어두면 정합성이 더욱 단단해집니다.
+
 
 export default SCHEMA
