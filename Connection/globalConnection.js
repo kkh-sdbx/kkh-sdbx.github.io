@@ -18,7 +18,7 @@ const connectGlobalMode = ()=>{
     let POINTS_EVENT_TARGET = null;
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;
-    let MOCK_SERVER_EVENT_TARGET = null;
+    let MOCK_WEB_EVENT_TARGET = null;
 
 
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
@@ -121,8 +121,10 @@ const connectGlobalMode = ()=>{
         console.log("Ult: ",ultimatum);
 
         //# 문제는 여기, 이제 서버로 보내야 함.
+        // mockServer로 일단 흉내만 내 볼 것인지, 아니면 실제 VM에 올릴 것인지?
+        // =>어차피 이 노트북에서는 GCP 접속도 못 한다 ㅋㅋㅋㅋㅋㅋㅋㅋ
 
-        MOCK_SERVER_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
+        MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
 
 
@@ -138,7 +140,7 @@ const connectGlobalMode = ()=>{
         POINTS_EVENT_TARGET = eventTarget.pointsEventTarget;
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
-        MOCK_SERVER_EVENT_TARGET = eventTarget.mockServerEventTarget;
+        MOCK_WEB_EVENT_TARGET = eventTarget.mockWebEventTarget;
         ACTION_VALIDATOR = ["Y","N","K"];
         POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
