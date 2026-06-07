@@ -21,8 +21,18 @@ MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
      */
 
     // #1. 이걸 정리해서 MOCK_SERVER_EVENT_TARGET으로 dispatch.
+    // 이벤트 리스너 안에서 또 다른 이벤트를 dispatch? 이것도 
+    MOCK_SERVER_EVENT_TARGET.dispatchEvent(new CustomEvent("ultimatumSent",{
+            bubbles: false,
+            cancelable: false,
+            detail:e.detail
+    }));
     // #2. mockServer.js에서 showDown 한 결과를, mockWeb이 받아온다.
+    
     // #3. MOCK_SEB_EVENT_TARGET 통해 globalConnection으로 다시 보내줌.
+    
     // #4. globalConnection은 받은 결과로... =>storage 업데이트 => Handler가 VIEW 불러서 점수 업데이트 && 포인트별 득점/실점 이펙트 
 
 });
+
+MOCK_WEB_EVENT_TARGET.addEventListener("resultRecieved");
