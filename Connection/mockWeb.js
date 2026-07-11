@@ -38,3 +38,5 @@ MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
 });
 
 MOCK_WEB_EVENT_TARGET.addEventListener("resultRecieved");
+
+
