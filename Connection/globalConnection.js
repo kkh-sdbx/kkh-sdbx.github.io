@@ -46,19 +46,24 @@ const connectGlobalMode = ()=>{
      * @params action이 일어난 point의 number
      */
     const getPointData = (pointId)=>{
+
         let pointData = {"target":null, "action":null};
-        
+
         if(!(POINT_VALIDATOR.includes(pointId))){
-            console.log("pointId invalid:", pointId); // 추가적인 방어 코드가 필요한 부분이다.
-            return
+            console.log("pointId invalid:", pointId); 
+            // 추가적인 방어 코드가 필요한 부분이다.
+            //return ErrorMSG 가 필요한듯
+            alert("You already used your kick Card!");
         }
-        
+
         if(ACTION_VALIDATOR.includes(storage.getItem(pointId))){
             pointData = { "target":pointId, "action":storage.getItem(pointId)};
             
         }else{
             pointData = {"target":pointId, "action":null};
         }
+
+
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
         return pointData
@@ -70,7 +75,22 @@ const connectGlobalMode = ()=>{
      * @params {"target":G_currentPoint.id, "action":"Y"}
      */
     const setPointDecision = (fixData) =>{
-        storage.setItem(fixData.target,fixData.action);
+        // {"target":null, "action":"Y" }를 받아온다.
+
+        // 여기서 K가 2건인 사항을 걸러내자.=> 이 필터링이 여기 있어야 하는 이유가 잇을지는 나중에 생각.
+        
+        const previousActions = [];        
+        POINT_VALIDATOR.forEach((point)=>{
+            previousActions.push(storage.getItem(`${point}`));
+        
+        });
+
+        if(fixData.action === "K" && previousActions.includes("K")){
+            return
+        }else{
+            storage.setItem(fixData.target,fixData.action);
+        }
+        
 
     };
 

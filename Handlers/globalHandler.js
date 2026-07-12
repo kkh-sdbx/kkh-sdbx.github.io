@@ -58,7 +58,6 @@ const createGLOBAL = ()=>{
 
         // eventTarget에 리스너 붙이기
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
-
             // {"target":null, "action":"Y" }를 받아온다.
             console.log(e);
             
