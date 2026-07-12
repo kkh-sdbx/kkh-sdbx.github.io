@@ -52,12 +52,7 @@ const connectGlobalMode = ()=>{
         if(!(POINT_VALIDATOR.includes(pointId))){
             console.log("pointId invalid:", pointId); 
             // 추가적인 방어 코드가 필요한 부분이다.
-            //return ErrorMSG 가 필요한듯
-            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("userViolation",{
-                bubbles: false,
-                cancelable: false,
-                detail:{"type":"doubleK","message":"You already used your kick Card!"}
-            }));
+           
         }
 
         if(ACTION_VALIDATOR.includes(storage.getItem(pointId))){
@@ -90,6 +85,12 @@ const connectGlobalMode = ()=>{
         });
 
         if(fixData.action === "K" && previousActions.includes("K")){
+             //return ErrorMSG 가 필요한듯
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("userViolation",{
+                bubbles: false,
+                cancelable: false,
+                detail:{"type":"doubleK","message":"You already used your kick Card!"}
+            }));
             return
         }else{
             storage.setItem(fixData.target,fixData.action);
