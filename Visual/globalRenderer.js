@@ -25,6 +25,12 @@ const renderGlobalMode = ()=>{
     let G_KBtn = null;
     let G_proceedBtn = null;
     let G_discardBtn = null;
+    
+    let G_warningModal = null;
+    let G_warningModalTitle = null
+    let G_warningModalContent = null;
+    let G_warningBtn = null;
+
     let G_fixModal = null;
     let G_fixModalTitle = null;
     let G_fixModalContent = null;
@@ -307,6 +313,22 @@ const renderGlobalMode = ()=>{
         });
 
     };
+
+    const showWarning = (warningDetail)=>{
+        console.log(warningDetail); //detail:{"type":"doubleK","message":"You already used your kick Card!"}
+
+        //warning table을 hashmap으로 만들어서 if문을 안 쓰게 해야 한다.
+        if(warningDetail.type === "doubleK"){
+
+            G_fixModalTitle.textContent = "Kick Card Violation";
+
+            G_fixModalContent.textContent = "You already used your kick Card!";
+        }
+        
+        G_fixModal.style.display = "block";
+
+    };
+
     const setInteractives = ()=>{
         
         setPointsInteractive();
@@ -318,6 +340,7 @@ const renderGlobalMode = ()=>{
         G_screenBlocker.style.display = "block";
         G_container.inert = true;
     }
+
 
 
     const init = (eventTarget)=>{
@@ -343,9 +366,16 @@ const renderGlobalMode = ()=>{
 
         G_proceedBtn = document.getElementById('G_proceedBtn');
         G_discardBtn = document.getElementById('G_discardBtn');
+        
         G_fixModal = document.getElementById('G_fixModal');
         G_fixModalTitle = document.getElementById('G_fixModalTitle');
         G_fixModalContent = document.getElementById('G_fixModalContent');
+
+        G_warningModal = document.getElementById('G_warningModal');
+        G_warningModalTitle = document.getElementById('G_warningModalTitle');
+        G_warningModalContent = document.getElementById('G_warningModalContent');
+        G_warningBtn = document.getElementById('G_warningBtn');
+        
         G_screenBlocker = document.getElementById('G_screenBlocker');
         
 
@@ -405,6 +435,10 @@ const renderGlobalMode = ()=>{
             }
 
         });
+
+        G_warningBtn.addEventListener("click",()=>{
+            G_fixModal.style.display = "none";
+        });
     }
 
 
@@ -420,7 +454,8 @@ const renderGlobalMode = ()=>{
         setModalText,
         setFixModal,
         disableInteractives,
-        setInteractives
+        setInteractives,
+        showWarning
     }
 }
 

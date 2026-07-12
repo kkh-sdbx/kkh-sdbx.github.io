@@ -53,7 +53,11 @@ const connectGlobalMode = ()=>{
             console.log("pointId invalid:", pointId); 
             // 추가적인 방어 코드가 필요한 부분이다.
             //return ErrorMSG 가 필요한듯
-            alert("You already used your kick Card!");
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("userViolation",{
+                bubbles: false,
+                cancelable: false,
+                detail:{"type":"doubleK","message":"You already used your kick Card!"}
+            }));
         }
 
         if(ACTION_VALIDATOR.includes(storage.getItem(pointId))){

@@ -78,6 +78,13 @@ const createGLOBAL = ()=>{
             MODEL.handleFix();
         });
 
+        MODAL_EVENT_TARGET.addEventListener("userViolation",(e)=>{
+            //detail:{"type":"doubleK","message":"You already used your kick Card!"}
+            VIEW.showWarning(e.detail);
+
+
+        });
+
         MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{
             console.log(e);
             VIEW.setModalText(e.detail);
