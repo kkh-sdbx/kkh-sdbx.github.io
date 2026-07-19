@@ -320,12 +320,12 @@ const renderGlobalMode = ()=>{
         //warning table을 hashmap으로 만들어서 if문을 안 쓰게 해야 한다.
         if(warningDetail.type === "doubleK"){
 
-            G_fixModalTitle.textContent = "Kick Card Violation";
+            G_warningModalTitle.textContent = "Kick Card Violation";
 
-            G_fixModalContent.textContent = "You already used your kick Card!";
+            G_warningModalContent.textContent = "You already used your kick Card!";
         }
         
-        G_fixModal.style.display = "block";
+        G_warningModal.style.display = "block";
 
     };
 
@@ -437,7 +437,7 @@ const renderGlobalMode = ()=>{
         });
 
         G_warningBtn.addEventListener("click",()=>{
-            G_fixModal.style.display = "none";
+            G_warningModal.style.display = "none";
         });
     }
 
