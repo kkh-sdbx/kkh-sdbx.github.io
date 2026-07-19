@@ -97,7 +97,7 @@ const createGLOBAL = ()=>{
             // 
 
             // "Y" filling이 있으니 포인트 렌더링 업데이트
-            for(let i=1;i<6;i++){  
+            for(let i=1;i<6;i++){   // ##이것도 Validator 기반으로 조회해야지.
                 VIEW.updateDecision(MODEL.getPointData(`G_point_${i}`));
             
             };
