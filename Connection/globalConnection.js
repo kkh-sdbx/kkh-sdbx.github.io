@@ -152,7 +152,8 @@ const connectGlobalMode = ()=>{
 
         // # 문제 1: userDecision과 Ult가 다르다. N과 K 문제인듯.
         // # 문제 2, fix 이후에, Y로 자동 채워진 빈칸의 CSS가 변경되지 않아.
-
+        // ## userDecisions를 없애고, storage에서 바로 받아온다.
+        // ## ultimatum을  보내는 이벤트를, 보낼 때마다 new CustomEvent로 구현한다.
         MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
 
