@@ -71,18 +71,15 @@ const createGLOBAL = ()=>{
             
         });
 
-
-        MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
-
-            // detail은 없고, proceedBtn 누른 것만 확인.
-            MODEL.handleFix();
-        });
-
         MODAL_EVENT_TARGET.addEventListener("userViolation",(e)=>{
             //detail:{"type":"doubleK","message":"You already used your kick Card!"}
             VIEW.showWarning(e.detail);
 
+        });
 
+        MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
+            // detail은 없고, proceedBtn 누른 것만 확인.
+            MODEL.handleFix();
         });
 
         MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{

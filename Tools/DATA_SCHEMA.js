@@ -13,7 +13,7 @@ const SCHEMA = ()=>{
                 "G_point_4":null,
                 "G_point_5":null}
             ,
-            "PRISONER_GLOBAL_STATUS":{"status":"not yet","N":0,"Y":0,"K":0},
+            "PRISONER_GLOBAL_STATUS":{"status":"not yet","N":0,"Y":0,"K":0}, // NYK에는 뭐가 들어가야 하는거냐?
             "PRISONER_LOCAL_ACTIONS":
                 {"L_point_1":null,
                 "L_point_2":null,

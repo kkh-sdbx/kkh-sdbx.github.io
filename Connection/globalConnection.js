@@ -136,6 +136,7 @@ const connectGlobalMode = ()=>{
     const sendUltimatumToServer = ()=>{               
 
         for(const point of POINT_VALIDATOR){
+            console.log(`${point} :`,userDecisions[point] );
             if(!userDecisions[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
                 
                 ultimatum[point] = "Y";
