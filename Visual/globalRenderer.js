@@ -1,5 +1,12 @@
 
 import PAGEROUTER from "../Tools/pageRouter.js";
+/**
+ * 
+ * 한 슬롯에서 K를 누르는 순간 나머지 4개 슬롯의 T_KBtn을 비활성화
+ * (disabled) 처리해서 "이번 라운드엔 더 못 씀"을 시각적으로 알려주는 
+ * 게 좋을 것 같아요 -> Claude의 주장. 아주 좋은 포인트라고 본다.
+ * 
+ */
 
 const renderGlobalMode = ()=>{
     // View (View.js) - UI만 담당
@@ -23,6 +30,8 @@ const renderGlobalMode = ()=>{
     let G_YBtn  = null;
     let G_NBtn = null;
     let G_KBtn = null;
+    let G_KChecker = null;
+
     let G_proceedBtn = null;
     let G_discardBtn = null;
     
@@ -102,7 +111,6 @@ const renderGlobalMode = ()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
             
-
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
@@ -115,7 +123,6 @@ const renderGlobalMode = ()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
             
-          
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
@@ -128,13 +135,13 @@ const renderGlobalMode = ()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
             
-
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"K"}
 
             }));
+            G_KChecker = {"target":G_currentPoint.id};
             G_currentPoint = null;
             
         })
@@ -253,11 +260,16 @@ const renderGlobalMode = ()=>{
                 G_selection.style.display = 'none';
 
             }else if(decisionDetail.action === "K"){
+                //# K를 누른 포인트에서는,K를 다시 누를 수 없도록 해야 한다.
+                G_KChecker = {"target":null}; // : K를 누르면 어느 포인트에서 K를 눌렀는지만 표시해놓고, 
+                
+
                 targetPoint.parentElement.classList.add("kicked");
                 targetPoint.nextElementSibling.classList.remove("picked");
                 targetPoint.previousElementSibling.classList.remove("picked");
                 targetPoint.classList.remove('activated');
                 targetPoint.classList.add('decided');
+                
 
                 G_tooltip.style.display = 'none';
                 G_selection.style.display = 'none';
@@ -363,6 +375,7 @@ const renderGlobalMode = ()=>{
         G_YBtn = document.getElementById('G_YBtn');
         G_NBtn = document.getElementById('G_NBtn');
         G_KBtn = document.getElementById('G_KBtn');   
+        G_KChecker = undefined;
 
         G_proceedBtn = document.getElementById('G_proceedBtn');
         G_discardBtn = document.getElementById('G_discardBtn');

@@ -78,9 +78,10 @@ const connectGlobalMode = ()=>{
         
         const previousActions = [];        
         POINT_VALIDATOR.forEach((point)=>{
-            previousActions.push(storage.getItem(`${point}`));
-        
-        });
+            if(fixData.target != point){
+                previousActions.push(storage.getItem(`${point}`));
+            }        
+        });        
 
         if(fixData.action === "K" && previousActions.includes("K")){
              //return ErrorMSG 가 필요한듯
