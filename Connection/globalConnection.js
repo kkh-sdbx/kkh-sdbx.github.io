@@ -7,7 +7,6 @@ const connectGlobalMode = ()=>{
     let POINT_VALIDATOR = null;
 
     let storage = null;
-    let userDecisions = null;
     let ultimatum = null;
     let PRISONER_DATA= null;
 
@@ -151,8 +150,10 @@ const connectGlobalMode = ()=>{
         // mockServer로 일단 흉내만 내 볼 것인지, 아니면 실제 VM에 올릴 것인지?
         // =>어차피 이 노트북에서는 GCP 접속도 못 한다 ㅋㅋㅋㅋㅋㅋㅋㅋ
 
-        // # 문제 1: userDecision과 Ult가 다르다. N과 K 문제인듯.
+        //  문제 1: userDecision과 Ult가 다르다. N과 K 문제인듯. => 이건 해결함.
+
         // # 문제 2, fix 이후에, Y로 자동 채워진 빈칸의 CSS가 변경되지 않아.
+
         // ## userDecisions를 없애고, storage에서 바로 받아온다.
         // ## ultimatum을  보내는 이벤트를, 보낼 때마다 new CustomEvent로 구현한다.
         MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
@@ -175,17 +176,6 @@ const connectGlobalMode = ()=>{
         ACTION_VALIDATOR = ["Y","N","K"];
         POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
 
-        // userDecision와 ultimatum이 분리된 이유=> 저장된 값은 nully할 수 있음. 빈 칸은 Y로 채워 서버로 보낸다.
-        userDecisions = {
-            "userId":storage.getItem("id"),
-            "G_point_1":undefined,
-            "G_point_2":undefined,
-            "G_point_3":undefined,
-            "G_point_4":undefined,
-            "G_point_5":undefined,
-            "emptyPoints":[]
-        };
-        
         ultimatum = {
             "userId":storage.getItem("id"),
             "G_point_1":storage.getItem("G_point_1"),

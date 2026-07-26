@@ -295,12 +295,12 @@ const renderGlobalMode = ()=>{
 
             G_fixModalTitle.textContent = "Sending Ultimatum";
             G_fixModalContent.textContent = `There are empty Points: these points will automatically filled with "Y".`;
-            G_fixModal.style.display = "block";
+            G_fixModal.style.display = "flex";
 
         }else{
             G_fixModalTitle.textContent = "Sending Ultimatum";
             G_fixModalContent.textContent = "You cannot change your response after fixing. Wanna Proceed? ";
-            G_fixModal.style.display = "block";
+            G_fixModal.style.display = "flex";
         }
 
     };
@@ -308,9 +308,14 @@ const renderGlobalMode = ()=>{
 
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
-            
-            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("actionFixed"));
-            G_fixModal.style.display = "block";
+
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("actionFixed")); => Fix이벤트가 의미가 있나?
+            // FIX 버튼을 누른 순간(모달이 뜨는 순간) disableInteractives()를 같이 호출해서 화면 조작을 막아두는 게 맞습니다 => 이것만 할까?
+
+            /**
+ 
+             */
+            G_fixModal.style.display = "flex";
         });
 
         G_proceedBtn.addEventListener("click",()=>{
