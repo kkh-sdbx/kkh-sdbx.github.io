@@ -309,7 +309,8 @@ const renderGlobalMode = ()=>{
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
 
-            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("actionFixed")); => Fix이벤트가 의미가 있나?
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("actionFixed"));
+            // => Fix이벤트가 의미가 있나?
             // FIX 버튼을 누른 순간(모달이 뜨는 순간) disableInteractives()를 같이 호출해서 화면 조작을 막아두는 게 맞습니다 => 이것만 할까?
 
             /**
