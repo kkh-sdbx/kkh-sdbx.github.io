@@ -103,21 +103,13 @@ const connectGlobalMode = ()=>{
     at Object.handleFix (globalConnection.js:102:23)
     at EventTarget.<anonymous> (globalHandler.js:82:19)
     at HTMLButtonElement.<anonymous> (globalRenderer.js:312:32)Understand this error
+
 globalConnection.js:137 Uncaught ReferenceError: userDecisions is not defined
     at Object.sendUltimatumToServer (globalConnection.js:137:38)
     at EventTarget.<anonymous> (globalHandler.js:92:19)
     at HTMLButtonElement.<anonymous> (globalRenderer.js:323:32)
          */
 
-        userDecisions = {
-            "userId":storage.getItem("id"),
-            "G_point_1":undefined,
-            "G_point_2":undefined,
-            "G_point_3":undefined,
-            "G_point_4":undefined,
-            "G_point_5":undefined,
-            "emptyPoints":[]
-        }
 
         for(const point of POINT_VALIDATOR){
             let userAction = storage.getItem(point);
