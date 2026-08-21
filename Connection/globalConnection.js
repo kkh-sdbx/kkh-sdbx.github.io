@@ -98,7 +98,8 @@ const connectGlobalMode = ()=>{
     };
 
     const handleFix = ()=>{ 
-        /** //## entryPoint:FIX->Proceed 버튼 눌렀을 때 이 에러가 나온다. 
+        /** 
+         FIX->Proceed 버튼 눌렀을 때 이 에러가 나온다. 
          * globalConnection.js:102 Uncaught ReferenceError: userDecisions is not defined
     at Object.handleFix (globalConnection.js:102:23)
     at EventTarget.<anonymous> (globalHandler.js:82:19)
@@ -115,10 +116,14 @@ globalConnection.js:137 Uncaught ReferenceError: userDecisions is not defined
             let userAction = storage.getItem(point);
             if(ACTION_VALIDATOR.includes(userAction)){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
                 userDecisions[point] = userAction;
-
+                // ## entryPoint: handleFix, sendUltimatumToServer이 2개 함수에서 userDecisions를 아직 쓴다.  
+                // Ctrl+F로 userDecisions 찾아서 storage.getItem(point)
+                // userDecision이 없으면 handleFix->sendUlt를 분리할 이유가 없어. emptyPoints 체크해서 그냥 보내면 된다.
+                //  =>> handleFix()내부 코드를 sendUltimatumToServer내부에 복붙하기에서 시작!!
+                // $$ endPoint:Proceed 버튼 누르면 ->서버로 선택지 전송-> 서버는 해당 데이터 다시 클라이언트로 전송-> storage 업데이트-> storage 기반으로 다시 렌더링.까지 구현하기 !!
             }else{ //fix 시점에서, action이 localStorage에 없으면
                 userDecisions.emptyPoints.push(point);
-            }
+            };
         };
         
          
