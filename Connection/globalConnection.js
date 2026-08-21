@@ -98,6 +98,16 @@ const connectGlobalMode = ()=>{
     };
 
     const handleFix = ()=>{ 
+        /** //## entryPoint:FIX->Proceed 버튼 눌렀을 때 이 에러가 나온다. 
+         * globalConnection.js:102 Uncaught ReferenceError: userDecisions is not defined
+    at Object.handleFix (globalConnection.js:102:23)
+    at EventTarget.<anonymous> (globalHandler.js:82:19)
+    at HTMLButtonElement.<anonymous> (globalRenderer.js:312:32)Understand this error
+globalConnection.js:137 Uncaught ReferenceError: userDecisions is not defined
+    at Object.sendUltimatumToServer (globalConnection.js:137:38)
+    at EventTarget.<anonymous> (globalHandler.js:92:19)
+    at HTMLButtonElement.<anonymous> (globalRenderer.js:323:32)
+         */
 
         userDecisions = {
             "userId":storage.getItem("id"),
