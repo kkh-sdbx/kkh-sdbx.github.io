@@ -97,54 +97,28 @@ const connectGlobalMode = ()=>{
 
     };
 
-    const handleFix = ()=>{ 
-        /** 
-         FIX->Proceed 버튼 눌렀을 때 이 에러가 나온다. 
-         * globalConnection.js:102 Uncaught ReferenceError: userDecisions is not defined
-    at Object.handleFix (globalConnection.js:102:23)
-    at EventTarget.<anonymous> (globalHandler.js:82:19)
-    at HTMLButtonElement.<anonymous> (globalRenderer.js:312:32)Understand this error
-
-globalConnection.js:137 Uncaught ReferenceError: userDecisions is not defined
-    at Object.sendUltimatumToServer (globalConnection.js:137:38)
-    at EventTarget.<anonymous> (globalHandler.js:92:19)
-    at HTMLButtonElement.<anonymous> (globalRenderer.js:323:32)
-         */
-
+    const handleFix = ()=>{ // 있는 게 맞다.
+        let emptyPoints = [];
+         // $$ endPoint:Proceed 버튼 누르면 ->서버로 선택지 전송-> 서버는 해당 데이터 다시 클라이언트로 전송-> storage 업데이트-> storage 기반으로 다시 렌더링.까지 구현하기 !!
 
         for(const point of POINT_VALIDATOR){
             let userAction = storage.getItem(point);
-            if(ACTION_VALIDATOR.includes(userAction)){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
-                userDecisions[point] = userAction;
-                // ## entryPoint: handleFix, sendUltimatumToServer이 2개 함수에서 userDecisions를 아직 쓴다.  
-                // Ctrl+F로 userDecisions 찾아서 storage.getItem(point)
-                // userDecision이 없으면 handleFix->sendUlt를 분리할 이유가 없어. emptyPoints 체크해서 그냥 보내면 된다.
-                //  =>> handleFix()내부 코드를 sendUltimatumToServer내부에 복붙하기에서 시작!!
-                // $$ endPoint:Proceed 버튼 누르면 ->서버로 선택지 전송-> 서버는 해당 데이터 다시 클라이언트로 전송-> storage 업데이트-> storage 기반으로 다시 렌더링.까지 구현하기 !!
-            }else{ //fix 시점에서, action이 localStorage에 없으면
-                userDecisions.emptyPoints.push(point);
+            if(!ACTION_VALIDATOR.includes(userAction)){ /fix 시점에서, action이 localStorage에 없으면
+                emptyPoints.push(point);
             };
         };
-        
-         
-        MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("checkEmptyPoints",{
-            bubbles: false,
-            cancelable: false,
-            detail:userDecisions
 
-        }));
-
-        
-
+        // emptyPoints를 그냥 여기서 체크하는게 맞다.
+        return emptyPoints ;
+    
     };
 
-    const sendUltimatumToServer = ()=>{               
+    const sendUltimatumToServer = ()=>{
 
         for(const point of POINT_VALIDATOR){
-            console.log(`${point} :`,userDecisions[point] );
-            if(userDecisions[point]){ //fix 시점에서, action이 localStorage에 저장되어 있으면 result에 입력
-                
-                ultimatum[point] = userDecisions[point];
+            
+            if(storage.getItem(point)){                 
+                ultimatum[point] = storage.getItem(point);
             }else{
                 ultimatum[point] = "Y";
                 storage.setItem(point,"Y");
@@ -161,8 +135,10 @@ globalConnection.js:137 Uncaught ReferenceError: userDecisions is not defined
 
         // # 문제 2, fix 이후에, Y로 자동 채워진 빈칸의 CSS가 변경되지 않아.
 
-        // ## userDecisions를 없애고, storage에서 바로 받아온다.
-        // ## ultimatum을  보내는 이벤트를, 보낼 때마다 new CustomEvent로 구현한다.
+        // # userDecisions를 없애고, storage에서 바로 받아온다.
+        // # ultimatum을  보내는 이벤트를, 보낼 때마다 new CustomEvent로 구현한다.
+        // ## entryPoint: FIX- Proceed 절차가 제대로 되는지, github Pages에 접속해서 한 번 해볼 것. 
+        // ## 방향은 일단 로컬에서 한 판 돌린 후 서버에 올리는 쪽으로 간다.
         MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
 

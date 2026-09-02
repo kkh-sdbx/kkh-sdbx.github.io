@@ -76,21 +76,19 @@ const createGLOBAL = ()=>{
             VIEW.showWarning(e.detail);
 
         });
-
-        MODAL_EVENT_TARGET.addEventListener("actionFixed",(e)=>{
-            // detail은 없고, proceedBtn 누른 것만 확인.
-            MODEL.handleFix();
-        });
-
-        MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{
-            console.log(e);
-            VIEW.setModalText(e.detail);
+        
+        MODAL_EVENT_TARGET.addEventListener("checkEmptyPoints",(e)=>{ // FIX 버튼을 누른 경우
+            const emptyPoints = MODEL.handleFix();
+            VIEW.setModalText(emptyPoints);
         });
 
         MODAL_EVENT_TARGET.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
 
-            MODEL.sendUltimatumToServer();
+            MODEL.sendUltimatumToServer(); 
         });
+
+
+
 
         MOCK_SERVER_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
 
