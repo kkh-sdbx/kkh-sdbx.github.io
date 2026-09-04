@@ -103,7 +103,7 @@ const connectGlobalMode = ()=>{
 
         for(const point of POINT_VALIDATOR){
             let userAction = storage.getItem(point);
-            if(!ACTION_VALIDATOR.includes(userAction)){ /fix 시점에서, action이 localStorage에 없으면
+            if(!ACTION_VALIDATOR.includes(userAction)){ //fix 시점에서, action이 localStorage에 없으면
                 emptyPoints.push(point);
             };
         };
