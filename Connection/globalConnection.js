@@ -146,7 +146,7 @@ const connectGlobalMode = ()=>{
     
 
     const init = (eventTarget)=>{
-        
+
         // 지금은 localStorage를 쓰지만 모바일이든 PC버전이든 스토리지를 수정해야 한다.
         storage = window.localStorage;
 
