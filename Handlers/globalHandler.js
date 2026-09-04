@@ -59,7 +59,6 @@ const createGLOBAL = ()=>{
         // eventTarget에 리스너 붙이기
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
             // {"target":null, "action":"Y" }를 받아온다.
-            console.log(e);
             
             // MODEL이 storage에 data 저장
             MODEL.setPointDecision(e.detail);
@@ -84,7 +83,9 @@ const createGLOBAL = ()=>{
 
         MODAL_EVENT_TARGET.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
 
-            MODEL.sendUltimatumToServer(); 
+            //VIEW에서 
+
+            const ultimatumSent = MODEL.sendUltimatumToServer(); 
         });
 
 
