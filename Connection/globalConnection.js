@@ -137,7 +137,8 @@ const connectGlobalMode = ()=>{
 
         // # userDecisions를 없애고, storage에서 바로 받아온다.
         // # ultimatum을  보내는 이벤트를, 보낼 때마다 new CustomEvent로 구현한다.
-        // ## entryPoint: FIX- Proceed 절차가 제대로 되는지, github Pages에 접속해서 한 번 해볼 것. 
+        // ## entryPoint: 커밋된 것 확인. disableInteractives()가 모든 화면을 완전히 block 했고 github Pages 는 느려서 확인이 지금 안 된다.
+        // ## FIX- Proceed 절차가 제대로 되는지, github Pages에 접속해서 한 번 해볼 것. 
         // ## 방향은 일단 로컬에서 한 판 돌린 후 서버에 올리는 쪽으로 간다.
         MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
