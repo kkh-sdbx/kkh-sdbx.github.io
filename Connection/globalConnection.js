@@ -141,8 +141,6 @@ const connectGlobalMode = ()=>{
         // ## 방향은 일단 로컬에서 한 판 돌린 후 서버에 올리는 쪽으로 간다.
         MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
 
-
-
     }; 
     
 

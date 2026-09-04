@@ -312,7 +312,7 @@ const renderGlobalMode = ()=>{
             MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("checkEmptyPoints"));
 
             // FIX 버튼을 누른 순간(모달이 뜨는 순간) disableInteractives()를 같이 호출해서 화면 조작을 막아두는 게 맞습니다 => 이것만 할까?
-            disableInteractives();
+            //disableInteractives();
             G_fixModal.style.display = "flex";
         });
 
