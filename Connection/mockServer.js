@@ -548,8 +548,10 @@ C.
 
 
 */ 
+MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
+    console.log("mockServer got Ultimatum: ",e.detail);
 
-MOCK_SERVER_EVENT_TARGET.addEventListener
+});
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
@@ -643,10 +645,7 @@ startMatchMaking.addEventListener("click",()=>{
 
 
 
-MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
-    console.log("mockServer got Ultimatum: ",e.detail);
 
-});
 // 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
 // 최소한의 봇만 생각해도 8명임.
 
