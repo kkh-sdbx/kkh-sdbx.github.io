@@ -81,7 +81,8 @@ const createGLOBAL = ()=>{
             const ultimatumSent = MODEL.sendUltimatumToServer();
             ultimatumSent.ultToRender.forEach((point)=>{
                 VIEW.updateDecision(point);
-            })
+            });
+            VIEW.disableInteractives();
 
         });
 
