@@ -19,7 +19,6 @@ const connectGlobalMode = ()=>{
     let MODAL_EVENT_TARGET = null;
     let MOCK_WEB_EVENT_TARGET = null;
 
-
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
     const setPrisonerStorage = ()=>{
         const DATA_SCHEMA = SCHEMA();
@@ -58,7 +57,6 @@ const connectGlobalMode = ()=>{
         }else{
             pointData = {"target":pointId, "action":null};
         }
-
 
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
