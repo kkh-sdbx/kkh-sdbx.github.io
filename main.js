@@ -1,19 +1,16 @@
 // import  GLOBAL  from "./Connectios/mockServer.js"; => mockServer는 모듈이 아니지. 하...이것도 해야겠다.
 // 그래도 머리아픈 로직 짜기가 아니라 노가다 정리작업이니 오히려 좋아~
-
 import GLOBAL  from "./Handlers/globalHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import MAINPAGE  from "./Handlers/mainPageHandler.js";
 
 import PAGEROUTER  from "./Tools/pageRouter.js";
 
-
 /*
 기억할 것:
 1. 수정 전에는 초기화 먼저 해야 하는지 여부 체크
 2. 값이 유효하지 않을 수 있다는 점 항상 확인.
 */
-
 
 // 로딩 페이지 핸들러 - 인터넷 연결 확인, 애니메이션, pageRouter 들어왔는지 확인.
 
@@ -36,7 +33,6 @@ const loadingChecker = new CustomEvent("loadingFinished",{
     }
 );
 
-
 // Test 환경 ... Setting
         //임의의 유저네임을 집어넣음
         
@@ -55,11 +51,9 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     // 로컬 모드  셋업.
 
-
     // 커넥션핸들러  셋업.
 
     // mockServer  셋업.
-
 
     PAGEROUTER.moveToPage("LOADING");
     window.dispatchEvent(loadingChecker);
@@ -68,18 +62,13 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 window.addEventListener("loadingFinished",(e)=>{
 
-    
-
     // 상점이 먼저다. 돈과 점수, 스킨 정보 업데이트!
 
     // 글로벌 모드 선택지 스토리지에서 업데이트
     
     // 인사말 등, welcome back message!
     
-
-    
 });
-
 
 
 // 서비스 워커 불러오기

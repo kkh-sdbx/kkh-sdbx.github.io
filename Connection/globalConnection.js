@@ -19,7 +19,6 @@ const connectGlobalMode = ()=>{
     let MODAL_EVENT_TARGET = null;
     let MOCK_WEB_EVENT_TARGET = null;
 
-
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
     const setPrisonerStorage = ()=>{
         const DATA_SCHEMA = SCHEMA();
@@ -59,7 +58,6 @@ const connectGlobalMode = ()=>{
             pointData = {"target":pointId, "action":null};
         }
 
-
         // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
         // 데이터가 변경되었음을 알림
         return pointData
@@ -94,7 +92,6 @@ const connectGlobalMode = ()=>{
             storage.setItem(fixData.target,fixData.action);
         }
         
-
     };
 
     const handleFix = ()=>{ // 있는 게 맞다.
@@ -145,7 +142,6 @@ const connectGlobalMode = ()=>{
 
     }; 
     
-
     const init = (eventTarget)=>{
 
         // 지금은 localStorage를 쓰지만 모바일이든 PC버전이든 스토리지를 수정해야 한다.
@@ -168,8 +164,7 @@ const connectGlobalMode = ()=>{
             "G_point_5":storage.getItem("G_point_5"),
             "timeArrived":null
         };
-
-        
+    
         // Model은 로컬 저장소와 웹 서버 사이를 중개.
         SEND_INFO_TO_SERVER_EVENT = new CustomEvent("sendInfoToServer",{
             bubbles: true, // Allows the event to bubble up the DOM => 왜 이렇게 되어 있었는지 파악해야 함.
@@ -197,9 +192,8 @@ const connectGlobalMode = ()=>{
         getPointData,
         setPointDecision
 
-    }
-}
-
+    };
+};
 
 const GLOBAL_CONNECTION = connectGlobalMode();
 export default GLOBAL_CONNECTION

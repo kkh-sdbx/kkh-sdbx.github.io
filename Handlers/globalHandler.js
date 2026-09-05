@@ -6,7 +6,6 @@ import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
 import GLOBAL_RENDERER from "../Visual/globalRenderer.js";
 import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
 
-
 /**
  * // 3. Controller (Controller.js) - 연결 고리
     import { Model } from './Model.js';
@@ -30,8 +29,6 @@ const POINTS_EVENT_TARGET = G_EVENT_TARGETS.pointsEventTarget;
 const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
 const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
-
-
 
 
 const createGLOBAL = ()=>{
@@ -65,9 +62,7 @@ const createGLOBAL = ()=>{
 
             // 저장된 data 받아서 VIEW업데이트 => 이 함수가 Controller 안에 있는updatePointData와 같은 것 아닌가?
             VIEW.updateDecision(MODEL.getPointData(e.detail.target));
-            
- 
-            
+                        
         });
 
         MODAL_EVENT_TARGET.addEventListener("userViolation",(e)=>{
@@ -88,12 +83,7 @@ const createGLOBAL = ()=>{
             const ultimatumSent = MODEL.sendUltimatumToServer(); 
         });
 
-
-
-
         MOCK_SERVER_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
-
-            // 
 
             // "Y" filling이 있으니 포인트 렌더링 업데이트
             for(let i=1;i<6;i++){   // ##이것도 Validator 기반으로 조회해야지.
@@ -101,12 +91,10 @@ const createGLOBAL = ()=>{
             
             };
 
-            
             // 이제 서버에 ultimatum을 보냈으니, point들에 있는 클릭 이벤트 리스너를 떼어야 한다.=>screenBlocker로 처리함.
             // ult 이후 결과 대기까지 또 다른 CSS 스타일로 표시?
             VIEW.disableInteractives();
         });
-
 
     };
     
@@ -114,8 +102,6 @@ const createGLOBAL = ()=>{
     return{
         init,
         updatePointData,
-
-
 
     }
 
