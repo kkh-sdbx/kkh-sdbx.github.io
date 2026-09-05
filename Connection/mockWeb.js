@@ -10,6 +10,11 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
     console.log("mock web listens event: sendInfoToServer",e);
+    const ultReceived = e.detail;
+    ultReceived.timeArrived = new Date();
+    
+    console.log("ultReceived: ", ultReceived);
+
     /**
      * e.detail ===
      * ultimatum = {
