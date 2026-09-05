@@ -9,12 +9,9 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 // 이제 async로 mockServer에 ultimatum을 던지고 그 결과를 받아와야 함.
           
 MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
-    console.log("mock web listens event: sendInfoToServer",e);
+    
     const ultReceived = e.detail;
     ultReceived.timeArrived = new Date();
-    
-    console.log("ultReceived: ", ultReceived);
-    // ## entryPoint:
 
     /**
      * e.detail ===

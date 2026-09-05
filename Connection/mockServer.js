@@ -552,6 +552,9 @@ MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
 
 });
+// startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
+// ## mockServer에는 라운드 시작 시간 기반 cron으로 진행해야 한다. 여기서 cron을 건드릴 때가 온 듯
+// ## entryPoint: const standardTime = new Date() 작성해 놓기.
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
