@@ -13,7 +13,7 @@ const startMatchMaking = document.getElementById("startMatchMaking");
 
 let leftUsers = [];
 
-const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 // Z. 기타 함수들. 및 클래스 선언
 class Prisoner{
