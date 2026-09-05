@@ -13,7 +13,7 @@ const startMatchMaking = document.getElementById("startMatchMaking");
 
 let leftUsers = [];
 
-const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 // Z. 기타 함수들. 및 클래스 선언
 class Prisoner{
@@ -548,8 +548,13 @@ C.
 
 
 */ 
+MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
+    console.log("mockServer got Ultimatum: ",e.detail);
 
-MOCK_SERVER_EVENT_TARGET.addEventListener
+});
+// startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
+// ## mockServer에는 라운드 시작 시간 기반 cron으로 진행해야 한다. 여기서 cron을 건드릴 때가 온 듯
+// ## entryPoint: const standardTime = new Date() 작성해 놓기.
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
@@ -643,10 +648,7 @@ startMatchMaking.addEventListener("click",()=>{
 
 
 
-MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
-    console.log("mockServer got Ultimatum: ",e.detail);
 
-});
 // 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
 // 최소한의 봇만 생각해도 8명임.
 

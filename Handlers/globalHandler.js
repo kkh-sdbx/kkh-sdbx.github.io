@@ -30,7 +30,10 @@ const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
 const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d41cc14ff2321a5a69df4d2485dda481a0fb2f0c
 const createGLOBAL = ()=>{
 
     // 각 point에 매칭된 상대의 정보를 제공.
@@ -50,7 +53,7 @@ const createGLOBAL = ()=>{
         // storage에 있는 global 선택지들 업데이트해서보여준다.
         for(let i=1;i<6;i++){  
             VIEW.updateDecision(MODEL.getPointData(`G_point_${i}`));
-            
+
         };
 
         // eventTarget에 리스너 붙이기
@@ -62,7 +65,11 @@ const createGLOBAL = ()=>{
 
             // 저장된 data 받아서 VIEW업데이트 => 이 함수가 Controller 안에 있는updatePointData와 같은 것 아닌가?
             VIEW.updateDecision(MODEL.getPointData(e.detail.target));
+<<<<<<< HEAD
                         
+=======
+ 
+>>>>>>> d41cc14ff2321a5a69df4d2485dda481a0fb2f0c
         });
 
         MODAL_EVENT_TARGET.addEventListener("userViolation",(e)=>{
@@ -79,8 +86,12 @@ const createGLOBAL = ()=>{
         MODAL_EVENT_TARGET.addEventListener("sendUltimatum",()=>{ // 선택지를 fix->proceed한 경우.
 
             //VIEW에서 
+            const ultimatumSent = MODEL.sendUltimatumToServer();
+            ultimatumSent.ultToRender.forEach((point)=>{
+                VIEW.updateDecision(point);
+            });
+            VIEW.disableInteractives();
 
-            const ultimatumSent = MODEL.sendUltimatumToServer(); 
         });
 
         MOCK_SERVER_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{

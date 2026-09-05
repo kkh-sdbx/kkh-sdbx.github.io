@@ -7,9 +7,12 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 // ok, 알았다 이제.
 
 // 이제 async로 mockServer에 ultimatum을 던지고 그 결과를 받아와야 함.
-
+          
 MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
-    console.log("mock web listens event: sendInfoToServer",e);
+    
+    const ultReceived = e.detail;
+    ultReceived.timeArrived = new Date();
+
     /**
      * e.detail ===
      * ultimatum = {
@@ -29,7 +32,7 @@ MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
     MOCK_SERVER_EVENT_TARGET.dispatchEvent(new CustomEvent("ultimatumSent",{
             bubbles: false,
             cancelable: false,
-            detail:e.detail
+            detail:ultReceived
     }));
     // #2. mockServer.js에서 showDown 한 결과를, mockWeb이 받아온다.
     
@@ -39,7 +42,7 @@ MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
 
 });
 
-MOCK_WEB_EVENT_TARGET.addEventListener("resultRecieved",()=>{
+MOCK_WEB_EVENT_TARGET.addEventListener("resultReceived",()=>{
 
     console.log("module connected!");
 });

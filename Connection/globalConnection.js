@@ -112,6 +112,8 @@ const connectGlobalMode = ()=>{
 
     const sendUltimatumToServer = ()=>{
 
+        const ultToRender = [];
+
         for(const point of POINT_VALIDATOR){
             
             if(ACTION_VALIDATOR.includes(storage.getItem(point))){                 
@@ -120,6 +122,9 @@ const connectGlobalMode = ()=>{
                 ultimatum[point] = "Y";
                 storage.setItem(point,"Y");
             }
+
+            ultToRender.push({"target":point, "action":storage.getItem(point)});
+
         };
         
         console.log("Ult: ",ultimatum);
@@ -134,14 +139,16 @@ const connectGlobalMode = ()=>{
 
         // # userDecisions를 없애고, storage에서 바로 받아온다.
         // # ultimatum을  보내는 이벤트를, 보낼 때마다 new CustomEvent로 구현한다.
-        // ## entryPoint: ACTION_VALIDATOR에 있는 Action일 경우는 그대로, 없을 경우는 "Y"로 넣어서 보낸다. 이제 이걸 storage에 넣고, 그 storage 기반으로 VIEW가 렌더링을 할 차례
-        // => storage 에 선택지 업데이트하는 함수가 뭐였는지 찾기. 아마 getPointData() 였을 걸
-        // ## 방향은 일단 로컬에서 한 판 돌린 후 서버에 올리는 쪽으로 간다.
+        // 방향은 일단 로컬에서 한 판 돌린 후 서버에 올리는 쪽으로 간다.
         MOCK_WEB_EVENT_TARGET.dispatchEvent(SEND_INFO_TO_SERVER_EVENT);
-        return ultimatum
+        return {ultimatum,ultToRender}
 
     }; 
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> d41cc14ff2321a5a69df4d2485dda481a0fb2f0c
     const init = (eventTarget)=>{
 
         // 지금은 localStorage를 쓰지만 모바일이든 PC버전이든 스토리지를 수정해야 한다.
