@@ -195,8 +195,8 @@ function pushDummyUsers(dummies){
         dummy.setId(dummyId);
         ALLUSERS.set(`dummy${i}`, dummy);   
 
-    }
-}
+    };
+};
 
 function setRandomActions(dummyUser){
     // User.YES NO KICK 3개의 메소드가 있다.
@@ -205,10 +205,13 @@ function setRandomActions(dummyUser){
     for(let i=1; i<6; i++){
         dummyUser[todo](i);
         todo = actionPool[Math.floor(Math.random()*3)];
-    }    
+    };    
 
-}
+};
 
+/**
+ * @params userPool
+ */
 function NYK_showDown(userPool){
     // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
 console.log("=== NYK_showDown 정산 시작 ===");
@@ -273,7 +276,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
             opponentActionInfo.isVisited = true;
 
             console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
-        }
+        };
     });
 
     console.log("=== 정산 완료 결과 ===");
@@ -281,7 +284,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
 
 
 
-}
+};
 
 function matchMaking(userPool){ 
     
@@ -499,7 +502,8 @@ function matchBots(listOfBots){
     return leftBots
 }
 
-function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
+function seasonStarts(){ 
+    // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
 
     console.log(" functions seasonStarts called");
 
@@ -534,7 +538,7 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 
     });
 
-    let initial = matchMaking(ALLUSERS);
+    let initial = matchMaking(ALLUSERS); // 
     console.log("season Starts and initial matchMaking result is: ", initial); // 여기에 fillLeftOvers, addBots 추가해야 함.
     return initial
 
@@ -555,7 +559,7 @@ MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
 
 });
-// ## entryPoint: 일단 코드를 읽어야 웹 쪽 개발을 하든 리팩토링을 하든 할 수 있다. 코드 읽기-
+// ## entryPoint: 일단 코드를 읽어야 웹 쪽 개발을 하든 리팩토링을 하든 할 수 있다. mockWeb과 연결되는 'QueueFilled' 이벤트 만들고, QueueFilled 이벤트 발생 시 seasonStarts()되도록 수정만 해 놓기.
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
