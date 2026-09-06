@@ -2,7 +2,10 @@
 
 import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
 console.log("mock server");
-//console.log(storage);
+
+// startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
+// ## mockServer에는 라운드 시작 시간 기반 cron으로 진행해야 한다. 여기서 cron을 건드릴 때가 온 듯
+const STANDARD_TIME = new Date();
 
 const ALLUSERS = new Map();
 const startSeason = document.getElementById("startSeason");
@@ -552,9 +555,7 @@ MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
 
 });
-// startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
-// ## mockServer에는 라운드 시작 시간 기반 cron으로 진행해야 한다. 여기서 cron을 건드릴 때가 온 듯
-// ## entryPoint: const standardTime = new Date() 작성해 놓기.
+// ## entryPoint: 일단 코드를 읽어야 웹 쪽 개발을 하든 리팩토링을 하든 할 수 있다. 코드 읽기-
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
