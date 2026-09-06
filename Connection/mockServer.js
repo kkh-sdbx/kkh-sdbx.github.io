@@ -559,7 +559,7 @@ MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
 
 });
-// ## entryPoint: 일단 코드를 읽어야 웹 쪽 개발을 하든 리팩토링을 하든 할 수 있다. mockWeb과 연결되는 'QueueFilled' 이벤트 만들고, QueueFilled 이벤트 발생 시 seasonStarts()되도록 수정만 해 놓기.
+// ##entryPoint: 일단 코드를 읽어야 웹 쪽 개발을 하든 리팩토링을 하든 할 수 있다. mockWeb과 연결되는 'QueueFilled' 이벤트 만들고, QueueFilled 이벤트 발생 시 seasonStarts()되도록 수정만 해 놓기.
 
 // 1. 시즌 시작을 mock.
 startSeason.addEventListener("click",()=>{
