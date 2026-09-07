@@ -551,19 +551,13 @@ function seasonStarts(){
 A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
 B. Client Side에서 행동 정하고 Fix + Dummy들 setRandomActions 
 C. 
-
-
-
 */ 
+
+// I. 시즌 시작을 mock.
+
 MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
-
-});
-// ##entryPoint: 일단 코드를 읽어야 웹 쪽 개발을 하든 리팩토링을 하든 할 수 있다. mockWeb과 연결되는 'QueueFilled' 이벤트 만들고, QueueFilled 이벤트 발생 시 seasonStarts()되도록 수정만 해 놓기.
-
-// 1. 시즌 시작을 mock.
-startSeason.addEventListener("click",()=>{
-
+    
     console.log("actions Set:", ALLUSERS);
 
     const initial = seasonStarts();
@@ -575,10 +569,11 @@ startSeason.addEventListener("click",()=>{
     });
 
 });
-
+ 
 
 // II. fix 버튼을 누르면 플레이어 정보 업데이트.
-
+// ## entryPoint: 이벤트 이름이 겹친다(actionFixed). mockServer를 클라이언트와 분리해야 함.
+// ## 일단, ALLUSERS를 console.log()찍어보기. endPoint는 선택 한 번과 showDown까지 stream 연결
 document.addEventListener("actionFixed",(e)=>{
 
     const userStorage = window.localStorage;

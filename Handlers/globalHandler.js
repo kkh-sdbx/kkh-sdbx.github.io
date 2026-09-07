@@ -30,10 +30,6 @@ const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
 const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> d41cc14ff2321a5a69df4d2485dda481a0fb2f0c
 const createGLOBAL = ()=>{
 
     // 각 point에 매칭된 상대의 정보를 제공.
