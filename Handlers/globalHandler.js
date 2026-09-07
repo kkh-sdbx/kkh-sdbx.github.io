@@ -61,11 +61,7 @@ const createGLOBAL = ()=>{
 
             // 저장된 data 받아서 VIEW업데이트 => 이 함수가 Controller 안에 있는updatePointData와 같은 것 아닌가?
             VIEW.updateDecision(MODEL.getPointData(e.detail.target));
-<<<<<<< HEAD
                         
-=======
- 
->>>>>>> d41cc14ff2321a5a69df4d2485dda481a0fb2f0c
         });
 
         MODAL_EVENT_TARGET.addEventListener("userViolation",(e)=>{
