@@ -1,0 +1,207 @@
+해결은 main.js에서 조립하는 편을 추천한다.
+
+예:
+
+main.js
+
+GAME.init()
+MOCK_WEB.init()
+MOCK_SERVER.init()
+
+즉 main.js를 진짜 Composition Root로 만드는 것.
+
+나는 이게 side-effect import보다 낫다고 본다.
+
+5. mockServer 안의 DOM 접근은 장기적으로 끊어야 한다
+
+현재 mockServer에:
+
+document.getElementById(...)
+window.localStorage
+button.addEventListener(...)
+
+가 꽤 많이 있다.
+
+프로토타입에서는 괜찮았다.
+
+그런데 Node.js 이전을 생각하면 가장 명확한 경계는:
+
+mockServer
+= 게임 서버 흉내
+
+이므로 DOM을 몰라야 한다.
+
+궁극적으로:
+
+UI debug button
+      ↓
+Handler
+      ↓
+mockWeb
+      ↓
+mockServer
+
+여야 한다.
+
+현재는:
+
+debug button
+      ↓
+mockServer 직접
+
+도 동시에 존재한다.
+
+그래서 서버 경계가 조금 새고 있다.
+
+당장 다 뜯을 필요는 없지만, 리팩토링하면서 새 DOM 의존성은 mockServer에 더 넣지 않는 게 좋다.
+
+6. 지금 새 게임 규칙 때문에 한 레이어가 하나 필요해질 가능성이 높다
+
+현재 mockServer.js가 28KB 정도고 안에:
+
+Prisoner
+User
+Bot
+
+matchMaking()
+addBots()
+matchBots()
+NYK_showDown()
+seasonStarts()
+event listener
+localStorage
+DOM debug controls
+
+가 모두 들어있다.
+
+이제 규칙이:
+
+6명
+turn
+target
+Y/N/K
+token
+kick
+duel
+out
+timeout
+
+으로 바뀌니까 여기까지 mockServer에 다 넣기 시작하면 다시 커진다.
+
+그래서 하나만 분리한다면 gameEngine.js가 가장 가치가 크다.
+
+Connection/
+    gameConnection.js
+    mockWeb.js
+    mockServer.js
+
+Game/
+    gameEngine.js
+
+Tools/
+    DATA_SCHEMA.js
+    gameEventTargets.js
+
+역할:
+
+mockServer
+= 요청 받고 응답하는 서버
+
+gameEngine
+= 게임 규칙 계산
+
+예:
+
+gameEngine.resolveShowdown(A, B, "N", "Y");
+gameEngine.getAvailableTargets(A);
+gameEngine.nextTurn();
+gameEngine.isGameOver();
+
+gameEngine은:
+
+DOM도 모르고 localStorage도 모르게.
+
+그러면 나중에 Node.js로 갈 때:
+
+mockServer.js 제거
+
+Node server
+   ↓
+동일 gameEngine.js
+
+이 가능하다.
+
+이건 지금 하는 리팩토링에서 꽤 큰 가치가 있다.
+
+7. 반대로 지금 과한 추상화는 필요 없다
+
+현재:
+
+basicController.js   0 bytes
+basicModel.js
+basicView.js
+mainPageConnection.js 0 bytes
+
+가 있는데, 나는 여기에는 크게 투자하지 않을 것 같다.
+
+BasicModel → GameModel 상속
+
+같은 식으로 일반화할 정도로 페이지가 복잡하지 않다.
+
+지금은 차라리:
+
+gameHandler
+gameRenderer
+gameConnection
+gameEngine
+
+네 역할을 선명하게 만드는 게 낫다.
+
+basicView.js에는 기존 gameRenderer 코드와 겹치는 리팩토링 흔적도 상당히 있다. 공통화할 게 실제 두 번 이상 생겼을 때 추출하는 편이 낫다.
+
+최종적으로 내가 추천하는 모양
+index.html
+    ↓
+main.js
+    │
+    ├── mainPageHandler
+    │      └── mainPageRenderer
+    │
+    └── gameHandler
+           ├── gameRenderer
+           │
+           └── gameConnection
+                    ↓
+                  mockWeb
+                    ↓
+                mockServer
+                    ↓
+                gameEngine
+                    ↓
+                 rules/state
+
+shared:
+    gameEventTargets
+    DATA_SCHEMA
+    pageRouter
+
+그리고 나중에는 딱 이것만 바뀐다.
+
+mockWeb → HTTP/fetch
+mockServer → Node.js/Express
+
+gameEngine 아래는 그대로.
+
+평가
+
+아키텍처 방향: 좋음.
+
+지금 당장 고칠 우선순위만 뽑으면:
+
+global → game rename 완결
+main.js에서 모든 주요 모듈을 명시적으로 init
+mockServer를 실행 흐름에 제대로 연결
+새 규칙은 mockServer에 때려 넣지 말고 gameEngine으로 분리
+basic* 일반화는 보류
+
+특히 4번이 이번 리팩토링에서 가장 중요한 경계라고 본다. 지금부터 규칙이 많이 변할 텐데, gameEngine만 순수하게 만들어 놓으면 로컬 6인 봇판을 돌린 뒤 Node.js로 옮기기가 상당히 쉬워진다.

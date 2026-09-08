@@ -6,6 +6,7 @@ const MAINPAGE = {
         const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
         const mainToLocalBtn = document.getElementById("mainToLocalBtn");
         const currentSkin = document.getElementById("currentSkin");
+        // ## skinsMap 같은 걸 쓰지 말고, game_skins에 있는 css로직을 그대로 갖고 오면 된다.
         const skinStateMap = new Map([
             [undefined, "activated"],   // 클래스 없음 -> activated
             ["activated", "decided"],   // activated -> decided
