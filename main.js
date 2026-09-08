@@ -1,5 +1,4 @@
-// import  GLOBAL  from "./Connectios/mockServer.js"; => mockServer는 모듈이 아니지. 하...이것도 해야겠다.
-// 그래도 머리아픈 로직 짜기가 아니라 노가다 정리작업이니 오히려 좋아~
+// ## entryPoint: Ctrl+F로 'global'모든 파일에 한 번씩 찾기.  main.js에서 시작해, 화면이 나올 때까지 globa->game으로 수정하고, stream 연결하기. 일단  
 import GLOBAL  from "./Handlers/globalHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import MAINPAGE  from "./Handlers/mainPageHandler.js";
