@@ -21,6 +21,7 @@ const MAINPAGE = {
             PAGEROUTER.moveToPage("GLOBAL");
         });
 
+        // ## currentSkin 클릭하고 mouseleave하면 사각형이 회전한다. css 조건이 잘못 짜여 있는거지.
         currentSkin.addEventListener("click",()=>{
             let currentState = currentSkin.classList[0]; // nodeList형태와 비슷.
             let nextState = skinStateMap.get(currentState);

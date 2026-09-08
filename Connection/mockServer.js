@@ -509,7 +509,9 @@ function seasonStarts(){
     console.log(" functions seasonStarts called");
 
     // 1. 유저의 행동을 input으로 받아서 storage에 저장. 
-    // ## entryPoint: 게임 규칙이 바뀌었다. 6인 체제 게임으로 가자. 이제 서버는 6인 게임룸 1개를 데이터로 갖고 있어야 한다.
+
+    // 이제 서버는 6인 게임룸 1개를 데이터로 갖고 있어야 한다.
+    // ## 서버를 건드릴 게 아니라, 유저의 UI와 선택지를 먼저 건드려야 하네.
     const userStorage = window.localStorage;
     const activePoints = 5;
     let newbie = new User(userStorage.id, "player");

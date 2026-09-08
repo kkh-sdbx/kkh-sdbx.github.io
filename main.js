@@ -35,7 +35,9 @@ const loadingChecker = new CustomEvent("loadingFinished",{
 
 // Test 환경 ... Setting
         //임의의 유저네임을 집어넣음
-        
+
+
+// ## DOMContent 실행 시가 아니라 큐가 잡혔을 때지.
 window.addEventListener("DOMContentLoaded",()=>{
     console.log("setting up runs!");
     // 변수 할당.
