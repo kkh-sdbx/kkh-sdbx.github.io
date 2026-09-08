@@ -557,7 +557,7 @@ C.
 
 MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
-    
+    console.log(ALLUSERS);
     console.log("actions Set:", ALLUSERS);
 
     const initial = seasonStarts();
@@ -570,7 +570,6 @@ MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
 
 });
  
-
 // II. fix 버튼을 누르면 플레이어 정보 업데이트.
 // ## entryPoint: 이벤트 이름이 겹친다(actionFixed). mockServer를 클라이언트와 분리해야 함.
 // ## 일단, ALLUSERS를 console.log()찍어보기. endPoint는 선택 한 번과 showDown까지 stream 연결
