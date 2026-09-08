@@ -1,10 +1,10 @@
 //Closure 패턴으로 정리. 
 import PAGEROUTER from "../Tools/pageRouter.js";
-import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
+import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 
 // 컨트롤러로서, View 와 Model 임포트
-import GLOBAL_RENDERER from "../Visual/globalRenderer.js";
-import GLOBAL_CONNECTION from "../Connection/globalConnection.js";
+import GLOBAL_RENDERER from "../Visual/gameRenderer.js";
+import GLOBAL_CONNECTION from "../Connection/gameConnection.js";
 
 /**
  * // 3. Controller (Controller.js) - 연결 고리

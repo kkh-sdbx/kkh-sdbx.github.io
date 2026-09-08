@@ -1,4 +1,5 @@
 import PAGEROUTER from "../Tools/pageRouter.js";
+import VIEW from "../Visual/mainPageRenderer.js";
 
 const MAINPAGE = {
     init(){
