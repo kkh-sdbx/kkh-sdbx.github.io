@@ -1,4 +1,4 @@
-import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
+import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 
 const MOCK_WEB_EVENT_TARGET = G_EVENT_TARGETS.mockWebEventTarget; 
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget; 

@@ -1,6 +1,6 @@
 
 
-import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
+import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 console.log("mock server");
 
 // startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
