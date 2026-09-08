@@ -503,11 +503,13 @@ function matchBots(listOfBots){
 }
 
 function seasonStarts(){ 
-    // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
+    // ## 큐가 10초를 넘었을 때, 
+    // 사용자 및 봇 6명을 모아 매치메이킹이 한 번 일어난다.
 
     console.log(" functions seasonStarts called");
 
-    //1. 유저의 행동을 모두 Y로 고정.
+    // 1. 유저의 행동을 input으로 받아서 storage에 저장. 
+    // ## entryPoint: 게임 규칙이 바뀌었다. 6인 체제 게임으로 가자. 이제 서버는 6인 게임룸 1개를 데이터로 갖고 있어야 한다.
     const userStorage = window.localStorage;
     const activePoints = 5;
     let newbie = new User(userStorage.id, "player");
@@ -558,7 +560,6 @@ C.
 MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     console.log("mockServer got Ultimatum: ",e.detail);
     console.log(ALLUSERS);
-    console.log("actions Set:", ALLUSERS);
 
     const initial = seasonStarts();
     const initialLeftOvers = fillLeftOvers(initial);
@@ -569,10 +570,9 @@ MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
     });
 
 });
- 
+
 // II. fix 버튼을 누르면 플레이어 정보 업데이트.
-// ## entryPoint: 이벤트 이름이 겹친다(actionFixed). mockServer를 클라이언트와 분리해야 함.
-// ## 일단, ALLUSERS를 console.log()찍어보기. endPoint는 선택 한 번과 showDown까지 stream 연결
+
 document.addEventListener("actionFixed",(e)=>{
 
     const userStorage = window.localStorage;
