@@ -4,7 +4,6 @@ import VIEW from "../Visual/mainPageRenderer.js";
 const MAINPAGE = {
     init(){
         const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
-        const mainToLocalBtn = document.getElementById("mainToLocalBtn");
         const currentSkin = document.getElementById("currentSkin");
         // ## skinsMap 같은 걸 쓰지 말고, game_skins에 있는 css로직을 그대로 갖고 오면 된다.
         const skinStateMap = new Map([

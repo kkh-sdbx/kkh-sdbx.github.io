@@ -3,8 +3,8 @@ import PAGEROUTER from "../Tools/pageRouter.js";
 import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 
 // 컨트롤러로서, View 와 Model 임포트
-import GLOBAL_RENDERER from "../Visual/gameRenderer.js";
-import GLOBAL_CONNECTION from "../Connection/gameConnection.js";
+import GAME_RENDERER from "../Visual/gameRenderer.js";
+import GAME_CONNECTION from "../Connection/gameConnection.js";
 
 /**
  * // 3. Controller (Controller.js) - 연결 고리
@@ -22,15 +22,15 @@ import GLOBAL_CONNECTION from "../Connection/gameConnection.js";
  * 과 같은 프로세스로 진행한다.
  */
 
-const VIEW = GLOBAL_RENDERER;
-const MODEL = GLOBAL_CONNECTION;
+const VIEW = GAME_RENDERER;
+const MODEL = GAME_CONNECTION;
 
 const POINTS_EVENT_TARGET = G_EVENT_TARGETS.pointsEventTarget;
 const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
 const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
-const createGLOBAL = ()=>{
+const createGAME = ()=>{
 
     // 각 point에 매칭된 상대의 정보를 제공.
     const updatePointData = ()=>{
@@ -46,7 +46,7 @@ const createGLOBAL = ()=>{
         VIEW.init(G_EVENT_TARGETS);
         MODEL.init(G_EVENT_TARGETS);
 
-        // storage에 있는 global 선택지들 업데이트해서보여준다.
+        // storage에 있는 GAME 선택지들 업데이트해서보여준다.
         for(let i=1;i<6;i++){  
             VIEW.updateDecision(MODEL.getPointData(`G_point_${i}`));
 
@@ -111,7 +111,7 @@ const createGLOBAL = ()=>{
 }
 
 
-const GLOBAL = createGLOBAL();
-export default GLOBAL
+const GAME = createGAME();
+export default GAME
 
 

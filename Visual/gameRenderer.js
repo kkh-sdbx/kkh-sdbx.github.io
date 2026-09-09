@@ -8,7 +8,7 @@ import PAGEROUTER from "../Tools/pageRouter.js";
  * 
  */
 
-const renderGlobalMode = ()=>{
+const renderGameMode = ()=>{
     // View (View.js) - UI만 담당
     let G_container = null;
     let G_fixBtn = null;
