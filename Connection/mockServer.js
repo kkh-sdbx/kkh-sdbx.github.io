@@ -1,8 +1,11 @@
 
 
-import G_EVENT_TARGETS from "../Tools/globalEventTargets.js";
+import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 console.log("mock server");
-//console.log(storage);
+
+// startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
+// ## mockServer에는 라운드 시작 시간 기반 cron으로 진행해야 한다. 여기서 cron을 건드릴 때가 온 듯
+const STANDARD_TIME = new Date();
 
 const ALLUSERS = new Map();
 const startSeason = document.getElementById("startSeason");
@@ -13,7 +16,7 @@ const startMatchMaking = document.getElementById("startMatchMaking");
 
 let leftUsers = [];
 
-const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 // Z. 기타 함수들. 및 클래스 선언
 class Prisoner{
@@ -192,8 +195,8 @@ function pushDummyUsers(dummies){
         dummy.setId(dummyId);
         ALLUSERS.set(`dummy${i}`, dummy);   
 
-    }
-}
+    };
+};
 
 function setRandomActions(dummyUser){
     // User.YES NO KICK 3개의 메소드가 있다.
@@ -202,10 +205,13 @@ function setRandomActions(dummyUser){
     for(let i=1; i<6; i++){
         dummyUser[todo](i);
         todo = actionPool[Math.floor(Math.random()*3)];
-    }    
+    };    
 
-}
+};
 
+/**
+ * @params userPool
+ */
 function NYK_showDown(userPool){
     // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
 console.log("=== NYK_showDown 정산 시작 ===");
@@ -270,7 +276,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
             opponentActionInfo.isVisited = true;
 
             console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
-        }
+        };
     });
 
     console.log("=== 정산 완료 결과 ===");
@@ -278,7 +284,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
 
 
 
-}
+};
 
 function matchMaking(userPool){ 
     
@@ -496,11 +502,16 @@ function matchBots(listOfBots){
     return leftBots
 }
 
-function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더미가 'Y'로 세팅된 상태에서 매치메이킹이 한 번 일어난다.
+function seasonStarts(){ 
+    // ## 큐가 10초를 넘었을 때, 
+    // 사용자 및 봇 6명을 모아 매치메이킹이 한 번 일어난다.
 
     console.log(" functions seasonStarts called");
 
-    //1. 유저의 행동을 모두 Y로 고정.
+    // 1. 유저의 행동을 input으로 받아서 storage에 저장. 
+
+    // 이제 서버는 6인 게임룸 1개를 데이터로 갖고 있어야 한다.
+    // ## 서버를 건드릴 게 아니라, 유저의 UI와 선택지를 먼저 건드려야 하네.
     const userStorage = window.localStorage;
     const activePoints = 5;
     let newbie = new User(userStorage.id, "player");
@@ -531,7 +542,7 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 
     });
 
-    let initial = matchMaking(ALLUSERS);
+    let initial = matchMaking(ALLUSERS); // 
     console.log("season Starts and initial matchMaking result is: ", initial); // 여기에 fillLeftOvers, addBots 추가해야 함.
     return initial
 
@@ -544,17 +555,13 @@ function seasonStarts(){ // 페이지가 로드될 때, 사용자 및 모든 더
 A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
 B. Client Side에서 행동 정하고 Fix + Dummy들 setRandomActions 
 C. 
-
-
-
 */ 
 
-MOCK_SERVER_EVENT_TARGET.addEventListener
+// I. 시즌 시작을 mock.
 
-// 1. 시즌 시작을 mock.
-startSeason.addEventListener("click",()=>{
-
-    console.log("actions Set:", ALLUSERS);
+MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
+    console.log("mockServer got Ultimatum: ",e.detail);
+    console.log(ALLUSERS);
 
     const initial = seasonStarts();
     const initialLeftOvers = fillLeftOvers(initial);
@@ -565,7 +572,6 @@ startSeason.addEventListener("click",()=>{
     });
 
 });
-
 
 // II. fix 버튼을 누르면 플레이어 정보 업데이트.
 
@@ -643,10 +649,7 @@ startMatchMaking.addEventListener("click",()=>{
 
 
 
-MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
-    console.log("mockServer got Ultimatum: ",e.detail);
 
-});
 // 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
 // 최소한의 봇만 생각해도 8명임.
 

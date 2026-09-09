@@ -1,4 +1,4 @@
-.L_container {
+#G_container {
 /* 이 컨테이너를 화면 전체에 고정시킵니다 */
     position: absolute;
     display:flex;
@@ -17,14 +17,14 @@
     max-height: 500px;
     margin: auto;
 }
-.L_fixBtnContainer{
+.G_fixBtnContainer{
     position: absolute;
     display:flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
 }
-.L_pointContainer{
+.G_pointContainer{
     width: 50%; 
     display:flex;
     flex-direction:row;
@@ -33,7 +33,7 @@
     align-items: center;
 
 }
-.L_pointContainer.kicked{   
+.G_pointContainer.kicked{   
     background-color: rgb(235, 65, 65);
 
 }
@@ -61,7 +61,7 @@
 
 
 /* 원형 점 스타일 */
-.L_point {
+.G_point {
     width: 40px;
     height: 40px;
     background-color: rgb(80, 200, 255); /* 파란색 rgb(70, 190, 245)또는  rgb(185, 220, 240)도 확인할 것!!*/
@@ -78,39 +78,43 @@
 }
 
 /* 점 내부 텍스트 스타일 (회전 보정용) */
-.L_point-text {
+.G_point-text {
     font-weight: bold;
     transition: transform 0.3s ease-out;
     transform: rotate(0deg);
 }
 
 /* 호버 시 스타일 */
-
-
-.L_point.decided {
-    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
-    cursor: default;
-    transform: rotate(45deg) scale(1.2);
-}
-.L_point.decided .point-text { transform: rotate(-45deg) !important; }
-
-.L_point:hover {
+.G_point:hover {
         background-color: rgb(50, 120, 245); 
 }
-.L_point:hover{ transform:  rotate(45deg) scale(1.2); }
+.G_point:hover{ transform:  rotate(45deg) scale(1.2); }
 
-.L_point:hover .point-text { transform: rotate(-45deg) !important; }
+.G_point:hover .G_point-text { transform: rotate(-45deg) !important; }
 
-.L_point.activated {
-        background-color: rgb(50, 120, 245)!important;
+/*activated 시 스타일: 파란색,마름모꼴,*/
+.G_point.activated{ 
         border-radius: 0%;
+        transform:  rotate(45deg) scale(1.2);
 }
-.L_point.activated,
-.L_point:hover.activated{
-        background-color: rgb(50, 120, 245)!important; 
-        border-radius: 0%;
 
+.G_point.activated .G_point-text{ 
+    transform: rotate(-45deg) !important; 
 }
+
+/*decided 시 스타일: 배경 흰색.*/
+
+.G_point.decided {
+    background-color: rgb(240, 240, 240); /* 결정된 점은 흰색 */
+    cursor: default;
+}
+.G_point.decided .G_point-text { 
+
+ }
+
+
+
+
 /*
 - CSS 점검. hover 이벤트가 아니라, 
     클릭 시에 회전 사각형이 되어야 함.(모바일 버전)
@@ -119,41 +123,39 @@
 
 */
 
-.L_point.activated { transform:  rotate(45deg) scale(1.2); }
 
-.L_point.activated .point-text { transform: rotate(-45deg) !important; }
-.L_saidNo{
+.G_saidNo{
     visibility:hidden;
 }
-.L_saidYes{
+.G_saidYes{
     visibility:hidden;
 }
 
-.L_saidNo.picked{
+.G_saidNo.picked{
     visibility:visible;
     color:rgb(255, 145, 40);
 }
-.L_saidYes.picked{
+.G_saidYes.picked{
     visibility:visible;
     color: rgb(0, 190, 190);
 }
 
-.L_showDownResult{
+.G_showDownResult{
     visibility: hidden;
 }            
 
-.L_showDownResult.plus{
+.G_showDownResult.plus{
 
 }
-.L_showDownResult.minus{
+.G_showDownResult.minus{
 
 }
-.L_showDownResult.tie{
+.G_showDownResult.tie{
 
 }
 
 /* 툴팁 스타일 (동일하게 유지) */
-.L_tooltip {
+.G_tooltip {
     display: none;
     position: fixed;
     background-color: rgb(240, 240, 240);
@@ -168,7 +170,7 @@
     transform: translate(15px, -50%);
 
 }
-.L_selection{
+.G_selection{
     display:none;
     position:fixed;
     background-color: rgb(20,20,19);
@@ -182,7 +184,7 @@
     box-sizing: border-box;
 
 }
-.L_selection button{
+.G_selection button{
     flex: 1;
     background-color: rgb(240, 240, 230);
     border-radius: 4px;
@@ -194,8 +196,7 @@
     justify-content: center;
 }
 
-
-.L_modal{
+#G_screenBlocker{
     position:absolute;
     display:none;
     justify-content: center;
@@ -203,10 +204,27 @@
     left:0;
     width:100%;
     height:100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(159, 115, 209, 0.39);
     z-index:10;
+
 }
-.L_modalBody{
+
+
+.G_modal{
+    position:fixed;
+    display:none;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left:0;
+    right: 0;                   
+    bottom: 0; 
+    width:100vw;
+    height:100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index:11;
+}
+.G_modalBody{
     position:absolute;
     background-color:rgb(240, 240, 240);
     padding: 20px;
@@ -215,24 +233,24 @@
     width: 50%;
 
 }
-.L_modalBtnContainer{
+.G_modalBtnContainer{
     display:flex;
     flex-direction: row;
 
 }
-.L_modalBtnContainer .button{
+.G_modalBtnContainer .button{
     border-radius: 10%;
 
 
 }
-#L_testBtns{
+.G_testBtns{
     background-color: rgb(20, 20, 19); 
     display:flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.L_memoText{
+.G_memoText{
     color:white;
 }
 
@@ -241,15 +259,15 @@
     flex-direction: row;
 
 }
-.L_pastAction{
+.G_pastAction{
     font-weight: bold;
     color: rgb(145, 85, 230);
 }
 
-.L_pastAction .yes{
+.G_pastAction .yes{
     color:rgb(0, 190, 190);
 }
 
-.L_pastAction .no{
+.G_pastAction .no{
     color:rgb(255, 145, 40);
 }

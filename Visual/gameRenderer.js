@@ -1,5 +1,12 @@
 
 import PAGEROUTER from "../Tools/pageRouter.js";
+/**
+ * 
+ * 한 슬롯에서 K를 누르는 순간 나머지 4개 슬롯의 T_KBtn을 비활성화
+ * (disabled) 처리해서 "이번 라운드엔 더 못 씀"을 시각적으로 알려주는 
+ * 게 좋을 것 같아요 -> Claude의 주장. 아주 좋은 포인트라고 본다.
+ * 
+ */
 
 const renderGlobalMode = ()=>{
     // View (View.js) - UI만 담당
@@ -23,8 +30,16 @@ const renderGlobalMode = ()=>{
     let G_YBtn  = null;
     let G_NBtn = null;
     let G_KBtn = null;
+    let G_KChecker = null;
+
     let G_proceedBtn = null;
     let G_discardBtn = null;
+    
+    let G_warningModal = null;
+    let G_warningModalTitle = null
+    let G_warningModalContent = null;
+    let G_warningBtn = null;
+
     let G_fixModal = null;
     let G_fixModalTitle = null;
     let G_fixModalContent = null;
@@ -96,7 +111,6 @@ const renderGlobalMode = ()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
             
-
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
@@ -109,7 +123,6 @@ const renderGlobalMode = ()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
             
-          
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
@@ -122,13 +135,13 @@ const renderGlobalMode = ()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
             
-
             SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("actionDecided",{
             bubbles: false,
             cancelable: false,
             detail:{"target":G_currentPoint.id, "action":"K"}
 
             }));
+            G_KChecker = {"target":G_currentPoint.id};
             G_currentPoint = null;
             
         })
@@ -247,11 +260,16 @@ const renderGlobalMode = ()=>{
                 G_selection.style.display = 'none';
 
             }else if(decisionDetail.action === "K"){
+                //# K를 누른 포인트에서는,K를 다시 누를 수 없도록 해야 한다.
+                G_KChecker = {"target":null}; // : K를 누르면 어느 포인트에서 K를 눌렀는지만 표시해놓고, 
+                
+
                 targetPoint.parentElement.classList.add("kicked");
                 targetPoint.nextElementSibling.classList.remove("picked");
                 targetPoint.previousElementSibling.classList.remove("picked");
                 targetPoint.classList.remove('activated');
                 targetPoint.classList.add('decided');
+                
 
                 G_tooltip.style.display = 'none';
                 G_selection.style.display = 'none';
@@ -271,18 +289,18 @@ const renderGlobalMode = ()=>{
 
         
 
-    const setModalText = (userDecisions)=>{
+    const setModalText = (emptyPointsArray)=>{
 
-        if(userDecisions.emptyPoints.length>0){
+        if(emptyPointsArray.length>0){
 
             G_fixModalTitle.textContent = "Sending Ultimatum";
             G_fixModalContent.textContent = `There are empty Points: these points will automatically filled with "Y".`;
-            G_fixModal.style.display = "block";
+            G_fixModal.style.display = "flex";
 
         }else{
             G_fixModalTitle.textContent = "Sending Ultimatum";
             G_fixModalContent.textContent = "You cannot change your response after fixing. Wanna Proceed? ";
-            G_fixModal.style.display = "block";
+            G_fixModal.style.display = "flex";
         }
 
     };
@@ -290,9 +308,12 @@ const renderGlobalMode = ()=>{
 
     const setFixModal = ()=>{
         G_fixBtn.addEventListener("click",()=>{
-            
-            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("actionFixed"));
-            G_fixModal.style.display = "block";
+
+            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("checkEmptyPoints"));
+
+            // FIX 버튼을 누른 순간(모달이 뜨는 순간) disableInteractives()를 같이 호출해서 화면 조작을 막아두는 게 맞습니다 => 이것만 할까?
+            //disableInteractives();
+            G_fixModal.style.display = "flex";
         });
 
         G_proceedBtn.addEventListener("click",()=>{
@@ -307,6 +328,22 @@ const renderGlobalMode = ()=>{
         });
 
     };
+
+    const showWarning = (warningDetail)=>{
+        console.log(warningDetail); //detail:{"type":"doubleK","message":"You already used your kick Card!"}
+
+        //warning table을 hashmap으로 만들어서 if문을 안 쓰게 해야 한다.
+        if(warningDetail.type === "doubleK"){
+
+            G_warningModalTitle.textContent = "Kick Card Violation";
+
+            G_warningModalContent.textContent = "You already used your kick Card!";
+        }
+        
+        G_warningModal.style.display = "block";
+
+    };
+
     const setInteractives = ()=>{
         
         setPointsInteractive();
@@ -318,6 +355,7 @@ const renderGlobalMode = ()=>{
         G_screenBlocker.style.display = "block";
         G_container.inert = true;
     }
+
 
 
     const init = (eventTarget)=>{
@@ -340,12 +378,20 @@ const renderGlobalMode = ()=>{
         G_YBtn = document.getElementById('G_YBtn');
         G_NBtn = document.getElementById('G_NBtn');
         G_KBtn = document.getElementById('G_KBtn');   
+        G_KChecker = undefined;
 
         G_proceedBtn = document.getElementById('G_proceedBtn');
         G_discardBtn = document.getElementById('G_discardBtn');
+        
         G_fixModal = document.getElementById('G_fixModal');
         G_fixModalTitle = document.getElementById('G_fixModalTitle');
         G_fixModalContent = document.getElementById('G_fixModalContent');
+
+        G_warningModal = document.getElementById('G_warningModal');
+        G_warningModalTitle = document.getElementById('G_warningModalTitle');
+        G_warningModalContent = document.getElementById('G_warningModalContent');
+        G_warningBtn = document.getElementById('G_warningBtn');
+        
         G_screenBlocker = document.getElementById('G_screenBlocker');
         
 
@@ -405,6 +451,10 @@ const renderGlobalMode = ()=>{
             }
 
         });
+
+        G_warningBtn.addEventListener("click",()=>{
+            G_warningModal.style.display = "none";
+        });
     }
 
 
@@ -420,7 +470,8 @@ const renderGlobalMode = ()=>{
         setModalText,
         setFixModal,
         disableInteractives,
-        setInteractives
+        setInteractives,
+        showWarning
     }
 }
 

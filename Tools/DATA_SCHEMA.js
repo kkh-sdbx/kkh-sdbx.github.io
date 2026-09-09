@@ -1,4 +1,5 @@
-
+// ## 260908, 데이터 스키마부터 뜯어고쳐야 한다. 이제 달라졌잖아.
+// ## 아이디어: Persona 를 교체할 수 있게 할까? 새로 만들기 쿠폰은 돈 주고 사야지?
 const SCHEMA = ()=>{
     
     const prisonerData = ()=>{
@@ -13,7 +14,7 @@ const SCHEMA = ()=>{
                 "G_point_4":null,
                 "G_point_5":null}
             ,
-            "PRISONER_GLOBAL_STATUS":{"status":"not yet","N":0,"Y":0,"K":0},
+            "PRISONER_GLOBAL_STATUS":{"status":"not yet","N":0,"Y":0,"K":0}, // NYK에는 뭐가 들어가야 하는거냐?
             "PRISONER_LOCAL_ACTIONS":
                 {"L_point_1":null,
                 "L_point_2":null,
