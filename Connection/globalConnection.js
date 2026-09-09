@@ -129,7 +129,6 @@ const connectGlobalMode = ()=>{
 
 
     }; 
-    
 
     const init = (eventTarget)=>{
         
@@ -164,7 +163,6 @@ const connectGlobalMode = ()=>{
             "G_point_5":storage.G_point_5,
             "timeArrived":null
         };
-
         
         // Model은 로컬 저장소와 웹 서버 사이를 중개.
         SEND_INFO_TO_SERVER_EVENT = new CustomEvent("sendInfoToServer",{
