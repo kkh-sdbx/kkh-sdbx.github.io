@@ -19,7 +19,8 @@ const renderGameMode = ()=>{
         ["G_point_2",null],
         ["G_point_3",null],
         ["G_point_4",null],
-        ["G_point_5",null]
+        ["G_point_5",null],
+        ["G_userPoint",null]
     ]);
 
     let G_tooltip = null;
