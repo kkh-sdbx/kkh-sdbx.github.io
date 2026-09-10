@@ -1,6 +1,4 @@
-// ## 일단 global-> Game 으로 수정은 됐다.
-// ## entryPoint: 메인 게임 UI를 정해야 한다....? => 정할 필요가 있었나? 그냥 하면 되지 않나.
-// ## => 6번째 point div 만들기(플레이어)
+
 import GAME  from "./Handlers/gameHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import MAINPAGE  from "./Handlers/mainPageHandler.js";

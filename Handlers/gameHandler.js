@@ -22,6 +22,12 @@ import GAME_CONNECTION from "../Connection/gameConnection.js";
  * 과 같은 프로세스로 진행한다.
  */
 
+// ## 일단 global-> Game 으로 수정은 됐다.
+// ## entryPoint: 이제, Handler(Controller)에서 수정된 룰의 라운드별 흐름을 잡아야 한다.=>이제는 한 방의 데이터를 서버가 갖고 있어야 하는 시점. 쇼다운 2인은 순서인 사람+available한 사람 랜덤 1인. 플레이어는 NYK만 실행 가능, 그리고 K는 게임당 딱 한 번만 사용 가능.
+
+// ## => point Validator에서 G_userPoint 넣기.
+// ## 생각해보니, Tools/DATA_SCHEMA를 건드려야 한다. 게임룸 하나의 데이터를 설정해둬야 한다. 그건 이 다음 entryPoint에서, 진행할 것.
+
 const VIEW = GAME_RENDERER;
 const MODEL = GAME_CONNECTION;
 
