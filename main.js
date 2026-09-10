@@ -1,5 +1,5 @@
 // ## entryPoint: Ctrl+F로 'global'모든 파일에 한 번씩 찾기.  main.js에서 시작해, 화면이 나올 때까지 globa->game으로 수정하고, stream 연결하기. 일단  
-import GLOBAL  from "./Handlers/globalHandler.js";
+import GAME  from "./Handlers/gameHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import MAINPAGE  from "./Handlers/mainPageHandler.js";
 
@@ -40,7 +40,7 @@ const loadingChecker = new CustomEvent("loadingFinished",{
 window.addEventListener("DOMContentLoaded",()=>{
     console.log("setting up runs!");
     // 변수 할당.
-    GLOBAL.init();
+    GAME.init();
 
     // 로딩 페이지 셋업.
     LOADINGPAGE.init();
@@ -86,16 +86,13 @@ if ('serviceWorker' in navigator) {
         
 // 페이지 이동 함수 - 모듈 이용
 
-const globalToMainBtn = document.getElementById("globalToMainBtn");
-const localToMainBtn = document.getElementById("localToMainBtn");
+const gameToMainBtn = document.getElementById("gameToMainBtn");
 
 
 
 
-globalToMainBtn.addEventListener("click",()=>{
-    PAGEROUTER.moveToPage("MAIN");
-});
-localToMainBtn.addEventListener("click",()=>{
+
+gameToMainBtn.addEventListener("click",()=>{
     PAGEROUTER.moveToPage("MAIN");
 });
 

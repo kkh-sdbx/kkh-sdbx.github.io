@@ -47,7 +47,7 @@ const renderGameMode = ()=>{
 
     let G_myHp = null;
 
-    let globalToMainBtn = null;
+    let gameToMainBtn = null;
 
     let G_coords = null;
     let G_currentPoint = null;
@@ -396,7 +396,7 @@ const renderGameMode = ()=>{
         
 
         G_myHp = document.getElementById('G_myHp');
-        globalToMainBtn = document.getElementById('globalToMainBtn');
+        gameToMainBtn = document.getElementById('gameToMainBtn');
         G_isDonut = false;
 
 
@@ -424,7 +424,7 @@ const renderGameMode = ()=>{
 
         
 
-        globalToMainBtn.addEventListener("click",()=>{
+        gameToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");
         });
 
@@ -476,5 +476,5 @@ const renderGameMode = ()=>{
 }
 
 
-const GLOBAL_RENDERER = renderGlobalMode();
-export default GLOBAL_RENDERER
+const GAME_RENDERER = renderGameMode();
+export default GAME_RENDERER

@@ -16,11 +16,10 @@ const PAGEROUTER = {
 
         if(!PAGES){
             PAGES = {
-                "ALLPAGES" : document.querySelectorAll(".page"),
-                "LOADING": document.getElementById("loadingPage"),    
+                "ALLPAGES" : document.querySelectorAll(".page"),    
                 "MAIN": document.getElementById("mainPage"),
-                "GLOBAL": document.getElementById("globalMode"),
-                "LOCAL": document.getElementById("localMode")
+                "GAME": document.getElementById("gameMode"),
+                "TUTORIAL": document.getElementById("tutorialMode"),
             };
 
         }

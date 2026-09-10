@@ -3,7 +3,7 @@ import VIEW from "../Visual/mainPageRenderer.js";
 
 const MAINPAGE = {
     init(){
-        const mainToGlobalBtn = document.getElementById("mainToGlobalBtn");
+        const mainToGameBtn = document.getElementById("mainToGameBtn");
         const currentSkin = document.getElementById("currentSkin");
         // ## skinsMap 같은 걸 쓰지 말고, game_skins에 있는 css로직을 그대로 갖고 오면 된다.
         const skinStateMap = new Map([
@@ -11,12 +11,6 @@ const MAINPAGE = {
             ["activated", "decided"],   // activated -> decided
             ["decided", undefined]      // decided -> 초기화 (필요시 추가)
         ]);
-
-
-        mainToLocalBtn.addEventListener("click",()=>{
-            PAGEROUTER.moveToPage("LOCAL");
-        });
-
 
         mainToGlobalBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("GLOBAL");

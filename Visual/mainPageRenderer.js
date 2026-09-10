@@ -10,3 +10,16 @@
     </div>
 </div>
  */
+
+const renderMainPage = ()=>{
+
+    const init = ()=>{
+
+    };
+    return{
+        init
+    }
+};
+
+const MAIN_PAGE_RENDERER = renderMainPage();
+export default MAIN_PAGE_RENDERER;  
