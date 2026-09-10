@@ -12,8 +12,8 @@ const MAINPAGE = {
             ["decided", undefined]      // decided -> 초기화 (필요시 추가)
         ]);
 
-        mainToGlobalBtn.addEventListener("click",()=>{
-            PAGEROUTER.moveToPage("GLOBAL");
+        mainToGameBtn.addEventListener("click",()=>{
+            PAGEROUTER.moveToPage("GAME");
         });
 
         // ## currentSkin 클릭하고 mouseleave하면 사각형이 회전한다. css 조건이 잘못 짜여 있는거지.

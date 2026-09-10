@@ -20,6 +20,7 @@ const PAGEROUTER = {
                 "MAIN": document.getElementById("mainPage"),
                 "GAME": document.getElementById("gameMode"),
                 "TUTORIAL": document.getElementById("tutorialMode"),
+                "LOADING": document.getElementById("loadingPage")
             };
 
         }
