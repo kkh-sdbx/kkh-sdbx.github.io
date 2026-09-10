@@ -1,4 +1,6 @@
-// ## entryPoint: Ctrl+F로 'global'모든 파일에 한 번씩 찾기.  main.js에서 시작해, 화면이 나올 때까지 globa->game으로 수정하고, stream 연결하기. 일단  
+// ## 일단 global-> Game 으로 수정은 됐다.
+// ## entryPoint: 메인 게임 UI를 정해야 한다....? => 정할 필요가 있었나? 그냥 하면 되지 않나.
+// ## => 6번째 point div 만들기(플레이어)
 import GAME  from "./Handlers/gameHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import MAINPAGE  from "./Handlers/mainPageHandler.js";
