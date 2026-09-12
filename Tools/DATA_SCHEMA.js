@@ -1,11 +1,5 @@
-// ## 260908, 데이터 스키마부터 뜯어고쳐야 한다. 이제 달라졌잖아.
-// ## 아이디어: Persona 를 교체할 수 있게 할까? 새로 만들기 쿠폰은 돈 주고 사야지?
-// ## 생각해보니, Tools/DATA_SCHEMA를 건드려야 한다. 게임룸 하나의 데이터를 설정해둬야 한다. 그건 이 다음 entryPoint에서, 진행할 것.
-// ## entryPoint: 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.
-// 일단 유저 데이터 말고, 메타데이터-게임 방에 있어야 하는 데이터부터 정리해 보자. validator가 붙을 거니까.
-// ## const GAME_DATA 만들기
+// 생각해보니, DATA_SCHEMA는 서버에서 클라이언트로 GET된 데이터셋이잖아. 서버에서 마스터 데이터를 잡아 놓는 게 먼저지.
 
-// 
 const SCHEMA = ()=>{
     
     const prisonerData = ()=>{
@@ -13,29 +7,21 @@ const SCHEMA = ()=>{
             "PRISONER_NAME":"prisonerName",
             "PRISONER_TYPE":"prisonerType",
             "PRISONER_ID":"prisonerID",
-            "PRISONER_GLOBAL_ACTIONS":
+            "PRISONER_GAME_ACTIONS":
                 {"G_point_1":null, 
                 "G_point_2":null,
                 "G_point_3":null,
                 "G_point_4":null,
-                "G_point_5":null}
-            ,
-            "PRISONER_GLOBAL_STATUS":{"status":"not yet","N":0,"Y":0,"K":0}, // NYK에는 뭐가 들어가야 하는거냐?
-            "PRISONER_LOCAL_ACTIONS":
-                {"L_point_1":null,
-                "L_point_2":null,
-                "L_point_3":null,
-                "L_point_4":null,
-                "L_point_5":null}
-            ,
-            "PRISONER_LOCAL_STATUS":{"status":"not yet","N":0,"Y":0,"K":0}
+                "G_point_5":null},
+            "PRISONER_GAME_STATUS":{"status":"not yet","N":0,"Y":0,"K":0} // NYK에는 뭐가 들어가야 하는거냐?
         }
         return prisoner
     
     };
 
     const GAME_PHASE = ()=>{
-        /**resultTable은 서버에서 받아와 저장을 하든지 해야 한다. Connection에서 setSchema()도 있어야 할 듯. */
+        /**
+         * resultTable은 서버에서 받아와 저장을 하든지 해야 한다. Connection에서 setSchema()도 있어야 할 듯. */
         const resultTable = {
         "YY": {"breakUp":false, "score":[4, 4]},   
         "YN": {"breakUp":false, "score":[-8, 8]},  

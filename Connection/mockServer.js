@@ -19,11 +19,46 @@ let leftUsers = [];
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 // Z. 기타 함수들. 및 클래스 선언
+// ## 260912, 데이터 스키마와 게임 룰부터 뜯어고쳐야 한다. 이제 달라졌잖아.
+// ## 아이디어: Persona 를 교체할 수 있게 할까? 새로 만들기 쿠폰은 돈 주고 사야지?
+// ## entryPoint: 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩. GAME_DATA_6P의 possibleMatch 30개 만들기!
+
 class Prisoner{
     constructor(name,prisonerType){
         this.name = name;
         this.type = prisonerType;
-        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
+        this.points = new Map([
+            ["G_point_1",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_2",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_3",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_4",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_5",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }]
+        ]);
         this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.reversePoints = new Map();
         this.totalY = 0;
@@ -96,98 +131,28 @@ class Bot extends Prisoner{
          * 
          */
 
-    }
+    };
 
-}
-/*
-class User extends Prisoner { // ##User class에서 actions: {"type":"Y","isVisited":false}로 놓아야겠다.
-    constructor(userNum, type){
-        type === "dummy"? this.name = `dummy${userNum}`: this.name = `user${userNum}`;
-        this.kickTickets = 3;
-        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
-        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
-        this.userType = type;
-        this.reversePoints = new Map();
-        this.totalY = 0;
-        this.totalN = 0;
-        this.totalK = 0;
-        this.ynkratio = 0; // 지금까지 이 유저가 선택한 Y/(Y+N+K)의 비율.
-        this.history = []; // 매칭 된 상대와의 지난 5번의 행동 기록.
-    }
-    YES(pointNum){
-        this.actions.get(`point_${pointNum}`).type="Y";        
-    }
-    NO(pointNum){
-        this.actions.get(`point_${pointNum}`).type="N";
-    }
-    KICK(pointNum){
-        this.actions.get(`point_${pointNum}`).type="K";
-    }
-    setId(userId){
-        this.id = userId;
-    }
-    setReverseMap(pointsMap){
-        this.reversePoints.clear();
-        pointsMap.forEach((userName, point)=>{ 
-            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
-            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
-            if(userName){
-                this.reversePoints.set(userName, point);
-            }
-            
-        })
+};
 
-    }
-    setYNKR(){
-        if((this.totalY+this.totalN+this.totalK) != 0){
-            this.ynkratio = this.totalY/(this.totalY+this.totalN+this.totalK);
-        }else{
-            this.ynkratio = 0;
-        }
-        
-    }
+// ## 잠깐, 6인 모두의 데이터가 있는 게임룸 마스터 데이터를 만들고(서버 사이드), 각 클라이언트에 뭘 주고 어떻게 렌더링할지를 정하는 게 맞겠다.
+// 기존 데이터를 쓰려니까 머리아픈거야! 새로 쓰는 게 더 빠르다.
+const GAME_DATA_6P = {
+    "GAME_ID":"gameULID", // ## 아이디 만드는 것도 알아야 한다.
+    "rank":[], // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.
+    "Prionser0":{},
+    "Prionser1":{}, // fillDummy 든, addBots 든 매치메이킹 이후 이 데이터에 Map을 채워 주면 된다.
+    "Prionser2":{},
+    "Prionser3":{},
+    "Prionser4":{},
+    "Prionser5":{},
+    "MATCHES": new Map([]), // 이럴거면 GAME_DATA를 아예 class로 만들어서 복제하도록 해? ## 데이터에 메소드가 붙는 건 안 좋을 것 같은데....
+    "currentMatch":{"0_1":true},
+    "currentMatch":"0_0"
 
-}
+};
 
-/**
- * 1. ynkratio 구하는 로직 확인
-현재 로직은 수학적으로 정확합니다. 다만, totalY, totalN, totalK가 언제 업데이트되는지가 중요합니다.
-문제점: 현재 setYNKR() 함수 내에 총합을 업데이트하는 로직이 없습니다.
-해결: totalY, totalN, totalK는 배치가 완료되어 결과가 확정될 때 한꺼번에 더해져야 합니다.
-제언: setYNKR을 호출하기 전, 이번 라운드에서 확정된 액션을 total 변수들에 합산하는 프로세스를 배치 엔진에 넣으세요.
- * 
- * ② kickTickets 관리 로직
-KICK(pointNum) 메서드 실행 시 티켓 잔여량을 체크하는 로직이 필요합니다.
-
-④ points와 actions의 구조화
-현재 point_1부터 point_5까지 고정되어 있는데, 이는 한 유저가 동시에 맺을 수 있는 '관계의 수'를 제한하는 효과를 줍니다.
-제언: 1인 개발자로서 확장성을 고려한다면, Map 키값을 고정하기보다 pointId를 동적으로 생성하여 관리하는 것이 추후 '친구 추가'나 '매칭 확장'에 유리합니다.
-
-
-
-class Bot{ // ## 봇 아이디어 => smiley, 심통이 등등:  smiley는 Y만, 심통이는 N만, 외톨이는 K만, 똑똑이는 섞어서, 한다.
-    constructor(number){
-        this.name = `bot${number}`;
-        this.userType = "bot";
-        this.botType = " smiley || angry || loner || smarty";
-        this.points = new Map([["point_1",null],["point_2",null],["point_3",null],["point_4",null],["point_5",null]]);
-        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
-        this.reversePoints = new Map();
-    }
-    setReverseMap(pointsMap){
-        this.reversePoints.clear();
-        pointsMap.forEach((userName, point)=>{ 
-            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
-            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
-            if(userName){
-                this.reversePoints.set(userName, point);
-            }
-            
-        })
-
-    }
-}
-*/
+// 매칭 로직, 더미 유저 넣는 로직, 쇼다운 로직이 한 파일에 섞여 있다. 이거 페이즈별로 분리해두면 굳이 페이즈 메타데이터가 없어도 되지 않을까?
 function pushDummyUsers(dummies){
     for(let i=1;i<dummies+1;i++){
         let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
