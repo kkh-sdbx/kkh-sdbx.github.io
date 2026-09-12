@@ -1,4 +1,3 @@
-
 import GAME  from "./Handlers/gameHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import MAINPAGE  from "./Handlers/mainPageHandler.js";
