@@ -147,7 +147,32 @@ const GAME_DATA_6P = {
     "Prionser5":{},
     "MATCHES": new Map([]), // 이럴거면 GAME_DATA를 아예 class로 만들어서 복제하도록 해? ## 데이터에 메소드가 붙는 건 안 좋을 것 같은데....
     "currentMatch":{"0_1":true}, 
-    // 이것도 Validator가 붙어야 하나? 해시맵
+    // ## 이것도 Validator가 붙어야 하나? 
+    /**GPT와의 대화=> 1. mockServer.js 리팩토링 방향 요약
+mockServer.js는 서버 역할만 남기고, 게임 규칙/데이터 모델/매칭 로직을 분리.
+Prisoner → Player 모델로 전환. point_1~5 같은 고정 연결 구조 제거, players[] 기반.
+GAME_DATA_6P → GameState 객체로 전환.
+players[]
+turn
+rank
+possibleMatch
+currentMatch
+history
+NYK_showDown() → GameEngine 순수 함수로 이동.
+입력: 현재 상태 + 두 플레이어 action
+출력: 변경된 상태/결과
+localStorage, EventTarget, DOM 접근 제거.
+possibleMatch는 서버 내부 매칭용 데이터 유지.
+서버가 random matching → currentMatch 생성
+클라이언트는 currentMatch를 받아 렌더링만 수행.
+최종 구조:
+mockServer
+ ├ GameState
+ ├ MatchMaker
+ ├ GameEngine
+ └ Player
+
+정도로 축소. */
     // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
     // ## entryPoint: 6인이 아니게 될 수가 있지? maxPlayers를 입력하면 자동으로 GAME_DATA_NP가 나오는 함수를 짜 보자. 다음 entryPoint는, function configGame(plyrNum){} 쓰기. 어렵지 않다, 이거.
     "possibleMatch":{
