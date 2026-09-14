@@ -227,6 +227,32 @@ console.log("=== NYK_showDown 정산 시작 ===");
         "KK": {"breakUp":false, "score":[-12, -12]}
     };
 
+    /**먼저 해야 하는 건:
+
+GameEngine 분리
+↓
+1000판 simulation
+↓
+승률 확인
+↓
+보상 조정
+
+이다.
+
+특히 이 게임은 사람보다 Bot simulation에서 먼저 밸런스가 드러날 가능성이 높다.
+
+예를 들어:
+
+항상 Y Bot
+항상 N Bot
+K 보수 Bot
+랜덤 Bot
+Tit-for-Tat Bot
+
+5~6개만 넣어도 현재 보상표의 방향성이 보일 것이다.
+
+지금 resultTable은 "게임의 철학"은 잡혀 있고, 숫자는 테스트 영역이라고 보는 게 맞다. */
+
     // 모든 포인트의 정산 상태 초기화
     userPool.forEach(user => {
         user.actions.forEach(action => action.isVisited = false);
