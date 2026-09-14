@@ -1,5 +1,3 @@
-
-
 import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 console.log("mock server");
 
@@ -21,7 +19,7 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 // Z. 기타 함수들. 및 클래스 선언
 // ## 260912, 데이터 스키마와 게임 룰부터 뜯어고쳐야 한다. 이제 달라졌잖아.
 // ## 아이디어: Persona 를 교체할 수 있게 할까? 새로 만들기 쿠폰은 돈 주고 사야지?
-// ## entryPoint: 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩. GAME_DATA_6P의 possibleMatch 30개 만들기!
+
 
 class Prisoner{
     constructor(name,prisonerType){
@@ -137,6 +135,7 @@ class Bot extends Prisoner{
 
 // ## 잠깐, 6인 모두의 데이터가 있는 게임룸 마스터 데이터를 만들고(서버 사이드), 각 클라이언트에 뭘 주고 어떻게 렌더링할지를 정하는 게 맞겠다.
 // 기존 데이터를 쓰려니까 머리아픈거야! 새로 쓰는 게 더 빠르다.
+
 const GAME_DATA_6P = {
     "GAME_ID":"gameULID", // ## 아이디 만드는 것도 알아야 한다.
     "rank":[], // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.
@@ -147,8 +146,18 @@ const GAME_DATA_6P = {
     "Prionser4":{},
     "Prionser5":{},
     "MATCHES": new Map([]), // 이럴거면 GAME_DATA를 아예 class로 만들어서 복제하도록 해? ## 데이터에 메소드가 붙는 건 안 좋을 것 같은데....
-    "currentMatch":{"0_1":true},
-    "currentMatch":"0_0"
+    "currentMatch":{"0_1":true}, 
+    // 이것도 Validator가 붙어야 하나? 해시맵
+    // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
+    // ## entryPoint: 6인이 아니게 될 수가 있지? maxPlayers를 입력하면 자동으로 GAME_DATA_NP가 나오는 함수를 짜 보자. 다음 entryPoint는, function configGame(plyrNum){} 쓰기. 어렵지 않다, 이거.
+    "possibleMatch":{
+        "0_1":true,"0_2":true,"0_3":true,"0_4":true,"0_5":true,
+        "1_0":true,"1_2":true,"1_3":true,"1_4":true,"1_5":true,
+        "2_0":true,"2_1":true,"2_3":true,"2_4":true,"2_5":true,
+        "3_0":true,"3_1":true,"3_2":true,"3_4":true,"3_5":true,
+        "4_0":true,"4_1":true,"4_2":true,"4_3":true,"4_5":true,
+        "5_0":true,"5_1":true,"5_2":true,"5_3":true,"5_4":true
+    }
 
 };
 
