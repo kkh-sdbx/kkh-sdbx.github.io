@@ -136,55 +136,55 @@ class Bot extends Prisoner{
 // ## 잠깐, 6인 모두의 데이터가 있는 게임룸 마스터 데이터를 만들고(서버 사이드), 각 클라이언트에 뭘 주고 어떻게 렌더링할지를 정하는 게 맞겠다.
 // 기존 데이터를 쓰려니까 머리아픈거야! 새로 쓰는 게 더 빠르다.
 
-const GAME_DATA_6P = {
+
+// ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
+// ## entryPoint: setUpGameDataSchema가 정상 작동하는지, console.log()찍어보기..
+function setUpGameDataSchema(playerNum){ //setUp? 
+    const GAME_DATA = {
     "GAME_ID":"gameULID", // ## 아이디 만드는 것도 알아야 한다.
-    "rank":[], // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.
-    "Prionser0":{},
-    "Prionser1":{}, // fillDummy 든, addBots 든 매치메이킹 이후 이 데이터에 Map을 채워 주면 된다.
-    "Prionser2":{},
-    "Prionser3":{},
-    "Prionser4":{},
-    "Prionser5":{},
-    "MATCHES": new Map([]), // 이럴거면 GAME_DATA를 아예 class로 만들어서 복제하도록 해? ## 데이터에 메소드가 붙는 건 안 좋을 것 같은데....
-    "currentMatch":{"0_1":true}, 
+    "rank":[], // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.  
+    "currentMatch":undefined
+    };
     // ## 이것도 Validator가 붙어야 하나? 
     /**GPT와의 대화=> 1. mockServer.js 리팩토링 방향 요약
-mockServer.js는 서버 역할만 남기고, 게임 규칙/데이터 모델/매칭 로직을 분리.
-Prisoner → Player 모델로 전환. point_1~5 같은 고정 연결 구조 제거, players[] 기반.
-GAME_DATA_6P → GameState 객체로 전환.
-players[]
-turn
-rank
-possibleMatch
-currentMatch
-history
-NYK_showDown() → GameEngine 순수 함수로 이동.
-입력: 현재 상태 + 두 플레이어 action
-출력: 변경된 상태/결과
-localStorage, EventTarget, DOM 접근 제거.
-possibleMatch는 서버 내부 매칭용 데이터 유지.
-서버가 random matching → currentMatch 생성
-클라이언트는 currentMatch를 받아 렌더링만 수행.
-최종 구조:
-mockServer
- ├ GameState
- ├ MatchMaker
- ├ GameEngine
- └ Player
+    mockServer.js는 서버 역할만 남기고, 게임 규칙/데이터 모델/매칭 로직을 분리.
+    Prisoner → Player 모델로 전환. point_1~5 같은 고정 연결 구조 제거, players[] 기반.
+    GAME_DATA_6P → GameState 객체로 전환.
+    players[]
+    turn
+    rank
+    possibleMatch
+    currentMatch
+    history
+    NYK_showDown() → GameEngine 순수 함수로 이동.
+    입력: 현재 상태 + 두 플레이어 action
+    출력: 변경된 상태/결과
+    localStorage, EventTarget, DOM 접근 제거.
+    possibleMatch는 서버 내부 매칭용 데이터 유지.
+    서버가 random matching → currentMatch 생성
+    클라이언트는 currentMatch를 받아 렌더링만 수행.
+    최종 구조:
+    mockServer
+    ├ GameState
+    ├ MatchMaker
+    ├ GameEngine
+    └ Player
 
-정도로 축소. */
-    // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
-    // ## entryPoint: 6인이 아니게 될 수가 있지? maxPlayers를 입력하면 자동으로 GAME_DATA_NP가 나오는 함수를 짜 보자. 다음 entryPoint는, function configGame(plyrNum){} 쓰기. 어렵지 않다, 이거.
-    "possibleMatch":{
-        "0_1":true,"0_2":true,"0_3":true,"0_4":true,"0_5":true,
-        "1_0":true,"1_2":true,"1_3":true,"1_4":true,"1_5":true,
-        "2_0":true,"2_1":true,"2_3":true,"2_4":true,"2_5":true,
-        "3_0":true,"3_1":true,"3_2":true,"3_4":true,"3_5":true,
-        "4_0":true,"4_1":true,"4_2":true,"4_3":true,"4_5":true,
-        "5_0":true,"5_1":true,"5_2":true,"5_3":true,"5_4":true
-    }
-
+    정도로 축소. */
+    for(let i=0;i<playerNum;i++){
+        GAME_DATA[`PRISONER_${i}`] = {};
+        GAME_DATA["possibleMatch"] = {};
+        for(let j=0;j<plyrNum;j++){
+            if(i!=j){
+                GAME_DATA["possibleMatch"][`${i}_${j}`] = true;    
+            };
+        };
+        
+    };
+    return GAME_DATA;
 };
+
+
 
 // 매칭 로직, 더미 유저 넣는 로직, 쇼다운 로직이 한 파일에 섞여 있다. 이거 페이즈별로 분리해두면 굳이 페이즈 메타데이터가 없어도 되지 않을까?
 function pushDummyUsers(dummies){
