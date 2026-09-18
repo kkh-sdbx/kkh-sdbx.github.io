@@ -136,14 +136,12 @@ class Bot extends Prisoner{
 // ## 잠깐, 6인 모두의 데이터가 있는 게임룸 마스터 데이터를 만들고(서버 사이드), 각 클라이언트에 뭘 주고 어떻게 렌더링할지를 정하는 게 맞겠다.
 // 기존 데이터를 쓰려니까 머리아픈거야! 새로 쓰는 게 더 빠르다.
 
-
-// ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
-// ## entryPoint: setUpGameDataSchema가 정상 작동하는지, console.log()찍어보기..
 function setUpGameDataSchema(playerNum){ //setUp? 
     const GAME_DATA = {
     "GAME_ID":"gameULID", // ## 아이디 만드는 것도 알아야 한다.
     "rank":[], // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.  
-    "currentMatch":undefined
+    "currentMatch":undefined,
+    "possibleMatch":{}
     };
     // ## 이것도 Validator가 붙어야 하나? 
     /**GPT와의 대화=> 1. mockServer.js 리팩토링 방향 요약
@@ -172,9 +170,17 @@ function setUpGameDataSchema(playerNum){ //setUp?
 
     정도로 축소. */
     for(let i=0;i<playerNum;i++){
-        GAME_DATA[`PRISONER_${i}`] = {};
-        GAME_DATA["possibleMatch"] = {};
-        for(let j=0;j<plyrNum;j++){
+        GAME_DATA[`PRISONER_${i}`] = {}; // ## Prisoner를 빈 object로 넣는 게 아니라 new Prisoner(name, type)으로 넣어야 함.
+
+        GAME_DATA.rank.push(GAME_DATA[`PRISONER_${i}`]); // PrisonerID를 넣자.
+
+                
+        // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
+        // ## entryPoint: 셋업게임 함수는 작성 중이다. Prisoner 객체의 구조가 변경돼야 하지...일단 Prisoner class 에서 "isVisited"관련 내용 삭제하기. reversePoints는 의미가 있을 수 있으니 놔두자.
+        // ## 생각해 보니, 게임데이터 셋업 시에, 플레이어 숫자가 아니라,  array를 받아와야 하는 거 아니냐? 봇을 넣을지 안 넣을지도 신경써야 하잖아. "Queue"를 받아와야 하는거지...
+        // ## TypeScript 도입을 할 시기가 됐나? 모든 함수 시작 시마다 Validator 코드를 짜기보다는 타입스크립트 도입이 빠른 거 아니야?
+
+        for(let j=0;j<playerNum;j++){
             if(i!=j){
                 GAME_DATA["possibleMatch"][`${i}_${j}`] = true;    
             };
