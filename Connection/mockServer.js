@@ -57,7 +57,6 @@ class Prisoner{
                 "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
             }]
         ]);
-        this.actions = new Map([["point_1",{"type":"Y","isVisited":false}],["point_2",{"type":"Y","isVisited":false}],["point_3",{"type":"Y","isVisited":false}],["point_4",{"type":"Y","isVisited":false}],["point_5",{"type":"Y","isVisited":false}]]);
         this.reversePoints = new Map();
         this.totalY = 0;
         this.totalN = 0;
@@ -136,15 +135,24 @@ class Bot extends Prisoner{
 // ## 잠깐, 6인 모두의 데이터가 있는 게임룸 마스터 데이터를 만들고(서버 사이드), 각 클라이언트에 뭘 주고 어떻게 렌더링할지를 정하는 게 맞겠다.
 // 기존 데이터를 쓰려니까 머리아픈거야! 새로 쓰는 게 더 빠르다.
 
-function setUpGameDataSchema(playerNum){ //setUp? 
+function setUpGameDataSchema(gameId, playerNum){ //setUp? 
     const GAME_DATA = {
-    "GAME_ID":"gameULID", // ## 아이디 만드는 것도 알아야 한다.
-    "rank":[], // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.  
+
+    // ## 아이디 만드는 것도 알아야 한다.
+    "GAME_ID":gameId,
+
+    // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.   
+    "rank":[], 
+    
     "currentMatch":undefined,
+    
     "possibleMatch":{}
     };
+
     // ## 이것도 Validator가 붙어야 하나? 
-    /**GPT와의 대화=> 1. mockServer.js 리팩토링 방향 요약
+
+    /**GPT와의 대화=> 
+    1. mockServer.js 리팩토링 방향 요약
     mockServer.js는 서버 역할만 남기고, 게임 규칙/데이터 모델/매칭 로직을 분리.
     Prisoner → Player 모델로 전환. point_1~5 같은 고정 연결 구조 제거, players[] 기반.
     GAME_DATA_6P → GameState 객체로 전환.
@@ -167,18 +175,21 @@ function setUpGameDataSchema(playerNum){ //setUp?
     ├ MatchMaker
     ├ GameEngine
     └ Player
-
     정도로 축소. */
-    for(let i=0;i<playerNum;i++){
-        GAME_DATA[`PRISONER_${i}`] = {}; // ## Prisoner를 빈 object로 넣는 게 아니라 new Prisoner(name, type)으로 넣어야 함.
 
-        GAME_DATA.rank.push(GAME_DATA[`PRISONER_${i}`]); // PrisonerID를 넣자.
+    for(let i=0;i<playerNum;i++){
+         // ## entryPoint: reversePoints는 의미가 있을 수 있으니 놔두자. => 빈 객체 대신 new Prisoner(name, type)으로 넣는 코드 작성.
+        GAME_DATA[`PRISONER_${i}`] = {}; 
+
+        // PrisonerID를 넣자.
+        GAME_DATA.rank.push(GAME_DATA[`PRISONER_${i}`]); 
 
                 
         // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
-        // ## entryPoint: 셋업게임 함수는 작성 중이다. Prisoner 객체의 구조가 변경돼야 하지...일단 Prisoner class 에서 "isVisited"관련 내용 삭제하기. reversePoints는 의미가 있을 수 있으니 놔두자.
+        
         // ## 생각해 보니, 게임데이터 셋업 시에, 플레이어 숫자가 아니라,  array를 받아와야 하는 거 아니냐? 봇을 넣을지 안 넣을지도 신경써야 하잖아. "Queue"를 받아와야 하는거지...
         // ## TypeScript 도입을 할 시기가 됐나? 모든 함수 시작 시마다 Validator 코드를 짜기보다는 타입스크립트 도입이 빠른 거 아니야?
+        // ## TS 도입보다는 Validator를 활용하자.
 
         for(let j=0;j<playerNum;j++){
             if(i!=j){
@@ -189,8 +200,6 @@ function setUpGameDataSchema(playerNum){ //setUp?
     };
     return GAME_DATA;
 };
-
-
 
 // 매칭 로직, 더미 유저 넣는 로직, 쇼다운 로직이 한 파일에 섞여 있다. 이거 페이즈별로 분리해두면 굳이 페이즈 메타데이터가 없어도 되지 않을까?
 function pushDummyUsers(dummies){
@@ -233,7 +242,7 @@ console.log("=== NYK_showDown 정산 시작 ===");
         "KK": {"breakUp":false, "score":[-12, -12]}
     };
 
-    /**먼저 해야 하는 건:
+/**먼저 해야 하는 건:
 
 GameEngine 분리
 ↓
@@ -257,21 +266,14 @@ Tit-for-Tat Bot
 
 5~6개만 넣어도 현재 보상표의 방향성이 보일 것이다.
 
-지금 resultTable은 "게임의 철학"은 잡혀 있고, 숫자는 테스트 영역이라고 보는 게 맞다. */
+지금 resultTable은 "게임의 철학"은 잡혀 있고, 숫자는 테스트 영역이라고 보는 게 맞다. 
+*/
 
-    // 모든 포인트의 정산 상태 초기화
-    userPool.forEach(user => {
-        user.actions.forEach(action => action.isVisited = false);
-       // user.score = 0; // 점수 필드 초기화...는 할 필요가 없지!
-    });
 
     userPool.forEach((userInfo, userName) => {
         for (let i = 1; i <= 5; i++) {
             const pointKey = `point_${i}`;
             const actionInfo = userInfo.actions.get(pointKey);
-
-            // 이미 상대방에 의해 정산된 포인트라면 건너뜀
-            if (actionInfo.isVisited) continue;
 
             const opponentName = userInfo.points.get(pointKey);
             const opponentInfo = userPool.get(opponentName);
@@ -302,11 +304,7 @@ Tit-for-Tat Bot
             userInfo.score += myGain;
             opponentInfo.score += opponentGain;
 
-            // 정산 완료 표시 (중복 방지)
-            actionInfo.isVisited = true;
-            opponentActionInfo.isVisited = true;
-
-            console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
+              console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
         };
     });
 
@@ -738,7 +736,6 @@ else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들�
             let actionCombined = currentAction + friendsAction;
 
             console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction,"friendsPoint: ",friendsPoint,"friendsAction: ",friendsAction,"actionCombined: ",actionCombined);
-            // 1.일단, 현재 선택된 유저의 point와 연결된 유저(friend)의 포인트를 찾아서 isVisited = true로 바꿔 놓아야 함.
             // 
         
         }
