@@ -1,8 +1,26 @@
-import GAME  from "./Handlers/gameHandler.js";
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
-import MAINPAGE  from "./Handlers/mainPageHandler.js";
-
 import PAGEROUTER  from "./Tools/pageRouter.js";
+import OPERATION_EVENT_TARGETS from "./Tools/operationEventTargets.js";
+
+const LOADING = LOADINGPAGE();
+const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
+
+// ## DOMContent 실행 시
+window.addEventListener("DOMContentLoaded",()=>{
+    console.log("setting up runs!");
+    // 로딩 페이지 셋업.
+    LOADING.init();
+
+    // 로딩 페이지로 이동.
+    PAGEROUTER.moveToPage("LOADING");
+    LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("initiation",{
+        "bubbles":true,
+        "isTrusted":true,
+        "detail":{"type":"initiation","from":"main.js","to":"loadingPageHandler","isOK":true}
+    }));
+
+});
+
 
 /*
 기억할 것:
@@ -16,59 +34,11 @@ import PAGEROUTER  from "./Tools/pageRouter.js";
 
 // 상점 핸들러 - CSS 코드 확인
 
-// 글로벌 모드 핸들러 - 시작부터 끝까지.
-
-// 로컬 모드  - 화면 구성 필요.
-
-// 커넥션핸들러 - 인터넷 관련? 있으면 좋긴 할듯. global에서 dispatchEvent로 관리하고 있기는 하다 지금은. 표시를 해 두자.
-
-// mockServer - 로직은 짜 둬야 함.
-
-const loadingChecker = new CustomEvent("loadingFinished",{
-    bubbles: true, // Allows the event to bubble up the DOM
-    cancelable: false,
-    detail:true // 추후에 수정 필요
-    }
-);
-
 // Test 환경 ... Setting
         //임의의 유저네임을 집어넣음
 
 
-// ## DOMContent 실행 시가 아니라 큐가 잡혔을 때지.
-window.addEventListener("DOMContentLoaded",()=>{
-    console.log("setting up runs!");
-    // 변수 할당.
-    GAME.init();
 
-    // 로딩 페이지 셋업.
-    LOADINGPAGE.init();
-
-    // 메인 페이지  셋업.
-    MAINPAGE.init();
-
-    // 상점 페이지  셋업.
-
-    // 로컬 모드  셋업.
-
-    // 커넥션핸들러  셋업.
-
-    // mockServer  셋업.
-
-    PAGEROUTER.moveToPage("LOADING");
-    window.dispatchEvent(loadingChecker);
-
-});
-
-window.addEventListener("loadingFinished",(e)=>{
-
-    // 상점이 먼저다. 돈과 점수, 스킨 정보 업데이트!
-
-    // 글로벌 모드 선택지 스토리지에서 업데이트
-    
-    // 인사말 등, welcome back message!
-    
-});
 
 
 // 서비스 워커 불러오기
@@ -86,10 +56,6 @@ if ('serviceWorker' in navigator) {
 // 페이지 이동 함수 - 모듈 이용
 
 const gameToMainBtn = document.getElementById("gameToMainBtn");
-
-
-
-
 
 gameToMainBtn.addEventListener("click",()=>{
     PAGEROUTER.moveToPage("MAIN");

@@ -32,11 +32,11 @@ const connectGlobalMode = ()=>{
         storage.setItem("type",PRISONER_DATA.PRISONER_TYPE);
         
         POINT_VALIDATOR.forEach((pointId)=>{
-            storage.setItem(pointId,PRISONER_DATA.PRISONER_GLOBAL_ACTIONS[pointId]);    
+            storage.setItem(pointId,PRISONER_DATA.PRISONER_GAME_ACTIONS[pointId]);    
             
         });
 
-        storage.setItem("status",JSON.stringify(PRISONER_DATA.PRISONER_GLOBAL_STATUS));
+        storage.setItem("status",JSON.stringify(PRISONER_DATA.PRISONER_GAME_STATUS));
 
     };
     /**
