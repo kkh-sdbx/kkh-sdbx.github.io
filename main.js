@@ -9,10 +9,12 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 window.addEventListener("DOMContentLoaded",()=>{
     console.log("setting up runs!");
     const storage = window.localStorage;
+
+    // 디바이스에 저장된 데이터를 mock. => '앱을 처음 다운받을 때'와 '재접속 시'를 분리... => 일단 OAuth 기반 ID로 서버 DB 조회를 하도록 해야겠네. 디바이스 스토리지를 믿을 수는 없으니.
     const mockUserData = {
         "userID":"ULID something",
         "userName":"kkh",
-        "deviceInfo":"getting device Info Needed."
+        "deviceInfo":navigator.userAgent
     };
     storage.setItem("mockUserData", JSON.stringify(mockUserData));
     // 로딩 페이지 셋업.

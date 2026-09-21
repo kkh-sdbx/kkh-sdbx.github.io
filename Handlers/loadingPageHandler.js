@@ -13,6 +13,7 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 const LOADINGPAGE = ()=> {
     const storage = window.localStorage;
     const userData = JSON.parse(storage.getItem("mockUserData"));
+    console.log("userData: ",userData);
     const listenInitiation = ()=>{
         LOADING_EVENT_TARGET.addEventListener("initiation",(e)=>{
             console.log("initiation event listened at loadingController",e.detail,"isOK",e.detail.isOK);
@@ -21,8 +22,9 @@ const LOADINGPAGE = ()=> {
                     "isTrusted":true,
                     "bubbles":false,
                     "detail":{
-                        "userId":userData.userId,   
-                        "userDevice":userData.deviceInfo // ## entryPoint: 구글에 디바이스 정보 찾아오는 방법 있는지 검색해 봐, 그리고 console.log(userData)찍어서 제대로 코드가 작동하는지 확인하기. 이 다음에는, mockLoadingConnection으로 가서 로딩 정보 받아오기를 하면 된다.
+                        "userID":userData.userID,
+                        "userName":userData.userName,   
+                        "deviceInfo":userData.deviceInfo 
                     }
                 }));
             };
