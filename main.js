@@ -8,6 +8,13 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 // ## DOMContent 실행 시
 window.addEventListener("DOMContentLoaded",()=>{
     console.log("setting up runs!");
+    const storage = window.localStorage;
+    const mockUserData = {
+        "userID":"ULID something",
+        "userName":"kkh",
+        "deviceInfo":"getting device Info Needed."
+    };
+    storage.setItem("mockUserData", JSON.stringify(mockUserData));
     // 로딩 페이지 셋업.
     LOADING.init();
 

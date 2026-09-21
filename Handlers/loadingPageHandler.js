@@ -11,6 +11,8 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 // 2. 
 
 const LOADINGPAGE = ()=> {
+    const storage = window.localStorage;
+    const userData = JSON.parse(storage.getItem("mockUserData"));
     const listenInitiation = ()=>{
         LOADING_EVENT_TARGET.addEventListener("initiation",(e)=>{
             console.log("initiation event listened at loadingController",e.detail,"isOK",e.detail.isOK);
@@ -19,8 +21,8 @@ const LOADINGPAGE = ()=> {
                     "isTrusted":true,
                     "bubbles":false,
                     "detail":{
-                        "userId":"userId getter needed", // ## entryPoint: Connection 폴더에 ...=> 아니다, 모듈을 따로 또 파? 그냥 여기서 로컬스토리지에 접속해버리자. 로딩페이지는 길어질 필요가 없다. 분기별로, 케이스만 잘 나눠주면 돼. const storage = window.localStorage; 작성. 그리고 mockUserData로, main.js에서 데이터 세팅 하나만 해 두자.
-                        "userDevice":"device Info getter needed"
+                        "userId":userData.userId,   
+                        "userDevice":userData.deviceInfo // ## entryPoint: 구글에 디바이스 정보 찾아오는 방법 있는지 검색해 봐, 그리고 console.log(userData)찍어서 제대로 코드가 작동하는지 확인하기. 이 다음에는, mockLoadingConnection으로 가서 로딩 정보 받아오기를 하면 된다.
                     }
                 }));
             };
