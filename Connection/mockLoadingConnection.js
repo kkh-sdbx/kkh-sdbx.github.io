@@ -7,7 +7,7 @@ LOADING_EVENT_TARGET.addEventListener("userDataRequest",(e)=>{
     console.log("userDataRequest event listened at loadingController",e.detail);
     DB_HANDLER.seeDB();
    
-    // ## entryPoint: mockDB가 만들어졌다. 
+    
 });
 
 
