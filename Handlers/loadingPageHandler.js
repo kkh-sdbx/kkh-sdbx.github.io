@@ -11,10 +11,10 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 // 2. 
 
 const LOADINGPAGE = ()=> {
-    const storage = window.localStorage;
-    const userData = JSON.parse(storage.getItem("mockUserData"));
-    console.log("userData: ",userData);
-    const listenInitiation = ()=>{
+    
+    const listenInitiation = (userData)=>{
+
+        console.log("userData: ",userData);
         LOADING_EVENT_TARGET.addEventListener("initiation",(e)=>{
             console.log("initiation event listened at loadingController",e.detail,"isOK",e.detail.isOK);
             if(e.detail.isOK){
@@ -31,8 +31,8 @@ const LOADINGPAGE = ()=> {
         });
 
     }
-    const init = ()=>{
-        listenInitiation();
+    const init = (userStorageData)=>{
+        listenInitiation(userStorageData);
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
         loadingToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");

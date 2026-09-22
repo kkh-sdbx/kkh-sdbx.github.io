@@ -16,9 +16,10 @@ window.addEventListener("DOMContentLoaded",()=>{
         "userName":"kkh",
         "deviceInfo":navigator.userAgent
     };
+
     storage.setItem("mockUserData", JSON.stringify(mockUserData));
     // 로딩 페이지 셋업.
-    LOADING.init();
+    LOADING.init(mockUserData);
 
     // 로딩 페이지로 이동.
     PAGEROUTER.moveToPage("LOADING");
