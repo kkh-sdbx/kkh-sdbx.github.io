@@ -6,7 +6,11 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 LOADING_EVENT_TARGET.addEventListener("userDataRequest",(e)=>{
     console.log("userDataRequest event listened at loadingController",e.detail);
     DB_HANDLER.seeDB();
+    const userInfo = DB_HANDLER.searchUserInfoById();
    
+   // ## 서버로 통신요청해서 받아올 정보는 1.상점 2.마이페이지 정보. 무결성 검증이 필요한 경우다.
+   // ## userDataRequest에서, 디바이스나 유저의 로그인 정보를 보내야 서버에서 관련 DB에 접속할 수 있겠지.
+
     
 });
 
