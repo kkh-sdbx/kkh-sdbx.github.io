@@ -1,6 +1,7 @@
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import PAGEROUTER  from "./Tools/pageRouter.js";
 import OPERATION_EVENT_TARGETS from "./Tools/operationEventTargets.js";
+import VIEW from "../Visual/mainPageRenderer.js"
 
 const LOADING = LOADINGPAGE();
 const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
@@ -18,6 +19,19 @@ window.addEventListener("DOMContentLoaded",()=>{
     };
 
     storage.setItem("mockUserData", JSON.stringify(mockUserData));
+
+    // 로딩완료 이벤트리스너 부착
+    LOADING_EVENT_TARGET.addEventListener("loadingFinished",(e)=>{
+        const SHOP_RENDER_DATA = e.detail.shop;
+        const MAINPAGE_RENDER_DATA = e.detail.mainPage;
+        console.log("loading Finished: ",e.detail);
+        // ## shop && mainPage 렌더링할 데이터는 받아 왔다.로딩완료까지는 스트림이 뚫렸어.
+        // ## 다만 이 스트림이 뚫리기만 했지, 아직은 나도 헷갈리는 파트가 있다. 그냥 연결만 해 둔 거라서.
+        // ## renderInfo 받아왔으니, VIEW.renderShop(SHOP_RENDER_DATA)와 VIEW.renderMainPage(MAINPAGE_RENDER_DATA) 해야 한다.
+        // ## entryPoint: index.html에서 mainPage파트 찾기. 일단 shop과 mainPage 렌더링 후에 PAGEROUTER로 메인페이지로 넘어간다. 
+        
+    });
+
     // 로딩 페이지 셋업.
     LOADING.init(mockUserData);
 
@@ -28,6 +42,8 @@ window.addEventListener("DOMContentLoaded",()=>{
         "isTrusted":true,
         "detail":{"type":"initiation","from":"main.js","to":"loadingPageHandler","isOK":true}
     }));
+
+    
 
 });
 

@@ -5,15 +5,30 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 
 LOADING_EVENT_TARGET.addEventListener("userDataRequest",(e)=>{
     console.log("userDataRequest event listened at loadingController",e.detail);
+
+    // !!!! 이 부분은 사실 서버에서 보내와야 하는 부분이다. DB_HANDLER는 억지로 서버의 데이터를 이 모듈에서 처리하는 것.
     DB_HANDLER.seeDB();
-    const userInfo = DB_HANDLER.searchUserInfoById();
+    const userMainPageLoadingInfo = DB_HANDLER.searchUserInfoById(e.detail.userID);
    
    // ## 서버로 통신요청해서 받아올 정보는 1.상점 2.마이페이지 정보. 무결성 검증이 필요한 경우다.
    // ## userDataRequest에서, 디바이스나 유저의 로그인 정보를 보내야 서버에서 관련 DB에 접속할 수 있겠지.
-
-    
+    LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("loadingForMainpage",{
+        "isTrusted":true,
+        "bubbles":false,
+        "detail":userMainPageLoadingInfo
+    }));
 });
 
+LOADING_EVENT_TARGET.addEventListener("loadingForMainpage",(e)=>{
+    const renderInfo = e.detail;
+    console.log("rendering mainpageInfo from Server: ",renderInfo);
+    
+    LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("renderShopAndMainPage",{
+        "isTrusted":true,
+        "bubbles":false,
+        "detail":renderInfo
+    }))
+});
 
 
 

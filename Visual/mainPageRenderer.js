@@ -12,12 +12,19 @@
  */
 
 const renderMainPage = ()=>{
-
+    const renderShop = ()=>{
+        console.log();
+    };
+    const renderMainPage = ()=>{
+        console.log();
+    };
     const init = ()=>{
 
     };
     return{
-        init
+        init,
+        renderMainPage,
+        renderShop
     }
 };
 

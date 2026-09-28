@@ -1,5 +1,8 @@
 import PAGEROUTER from "../Tools/pageRouter.js";
 import VIEW from "../Visual/mainPageRenderer.js";
+import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js"
+
+const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 
 const MAINPAGE = {
     init(){

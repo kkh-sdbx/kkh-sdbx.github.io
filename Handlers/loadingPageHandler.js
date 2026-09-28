@@ -30,13 +30,36 @@ const LOADINGPAGE = ()=> {
             };
         });
 
-    }
+    };
+
+    // 서버에서 준 renderInfo를 받아와 렌더링하는 코드.
+    const listenMainPageRenderData = ()=>{
+        LOADING_EVENT_TARGET.addEventListener("renderShopAndMainPage",(e)=>{
+            const renderInfo = e.detail;
+            console.log("loadingHandler got mainPageRenderInfo: ", renderInfo);
+            
+            LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("loadingFinished",{
+                "isTrusted":true,
+                "bubbles":false,
+                "detail":renderInfo
+            }));
+        });
+ 
+    };
+
+
     const init = (userStorageData)=>{
         listenInitiation(userStorageData);
+        listenMainPageRenderData();       
+
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
         loadingToMainBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("MAIN");
         });
+
+
+        
+        
 
     };
 

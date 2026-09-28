@@ -1,13 +1,16 @@
 const storage = window.localStorage;
 const SERVER_DATA = {};
 
-// 일단 기초 mockData  저장.
+
+// 일단 기초 mockData  저장. => 이 코드 때문에 새로고침으로 재방문을 mock 하기가 안되네.
+// 일단 new user로 진행한다.
 storage.setItem("DB",JSON.stringify(SERVER_DATA));
+
 
 const MOCK_DB_HANDLER = ()=>{   
 
     const seeDB = ()=>{
-        console.log(storage.getItem("DB"));
+        console.log("see DB: ",storage.getItem("DB"));
     };
 
     const writeNewUser = (newUserID)=>{
@@ -15,6 +18,7 @@ const MOCK_DB_HANDLER = ()=>{
         // 일단은, 이렇게 mock 한다.
         const DB = JSON.parse(storage.getItem("DB"));
         DB[newUserID] = {
+            "userID": newUserID,
             "PRISONER_NAME":"prisonerName",
             "PRISONER_TYPE":"prisonerType",
             "PRISONER_ID":newUserID,
@@ -39,7 +43,7 @@ const MOCK_DB_HANDLER = ()=>{
     const searchUserInfoById = (userID)=>{ // 새 유저라도, OAuth ID 같은 건 있을거다. 아이디 받아서 데이터 리턴하는 함수가 맞아.
 
         const userInfo = JSON.parse(storage.getItem("DB"))[userID];
-        console.log("userInfo: ",userInfo);
+        console.log("userInfo at searchUserInfoById initiation: ",userInfo);
 
         // ## alert가 아니라 렌더링 정보를 보내줘야 하지...
         if(userInfo){ //다시 로그인(DB에 정보 있음)
@@ -49,7 +53,7 @@ const MOCK_DB_HANDLER = ()=>{
         }else{ // 첫 로그인(DB에 정보 없음)
             alert("new user!");
             writeNewUser(userID);
-            const newUserInfo = JSON.stringify(storage.getItem("DB"))[userID].renderInfo
+            const newUserInfo = JSON.parse(storage.getItem("DB"))[userID].renderInfo
 
             //DB에 새 user를 만들고, 새 유저의 상점과 마이페이지 정보를 전달해준다. 스키마를 정할 때가 됐다.
             /*
@@ -57,7 +61,6 @@ const MOCK_DB_HANDLER = ()=>{
             */
            console.log("newUserInfo: ", newUserInfo);
            return newUserInfo
-           // ## entryPoint: mockDB가 만들어졌다. user 1명의, 서버에 저장되는 JSON 데이터의 스키마를 대충 정했어. console.log(newUserInfo);가 나오는 걸 확인하기.
         };
         
     }; 
