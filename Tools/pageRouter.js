@@ -18,6 +18,7 @@ const PAGEROUTER = {
             PAGES = {
                 "ALLPAGES" : document.querySelectorAll(".page"),    
                 "MAIN": document.getElementById("mainPage"),
+                "SHOP": document.getElementById("shopPage"),
                 "GAME": document.getElementById("gameMode"),
                 "TUTORIAL": document.getElementById("tutorialMode"),
                 "LOADING": document.getElementById("loadingPage")
