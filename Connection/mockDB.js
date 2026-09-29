@@ -30,8 +30,20 @@ const MOCK_DB_HANDLER = ()=>{
                 "G_point_5":null},
             "PRISONER_GAME_STATUS":{"status":"not yet","N":0,"Y":0,"K":0}, // NYK에는 뭐가 들어가야 하는거냐?
             "renderInfo":{
-                "shop":{},
-                "mainPage":{}
+                "shop":{
+                    "currentCredit":0,
+                    "skinTable":{
+                        "donut":{},
+                        "balls":{},
+                        "neon":{}
+                    }
+                },
+                "mainPage":{},
+                "myPage":{
+                    "userID": newUserID,
+                    "PRISONER_NAME":"prisonerName",
+
+                }
             }
         };
         
