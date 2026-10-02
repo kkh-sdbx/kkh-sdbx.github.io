@@ -1,10 +1,10 @@
+import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 
 const MOCK_WEB_EVENT_TARGET = G_EVENT_TARGETS.mockWebEventTarget; 
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget; 
 
-// # 아, 이 파일이 존재만 하지 모듈이든 스크립트의 형태든 읽혀지고 있지 않구나! 
-// ok, 알았다 이제.
+const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
 
 // 이제 async로 mockServer에 ultimatum을 던지고 그 결과를 받아와야 함.
           
@@ -47,4 +47,10 @@ MOCK_WEB_EVENT_TARGET.addEventListener("resultReceived",()=>{
     console.log("module connected!");
 });
 
+// 클라이언트에서 
+QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
+    console.log("server gets new Player Coming: ",e.detail);
+    // ## entryPoint: 큐 entry전송까지는 mock 했다. 이제는 진짜 6-player container와 매칭 알고리즘을 짤 차례. matchMaking.js 파일 만들기.  
+    //
 
+});

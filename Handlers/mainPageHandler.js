@@ -1,8 +1,11 @@
 import PAGEROUTER from "../Tools/pageRouter.js";
+import MODEL from "../Connection/mainPageConnection.js";
 import VIEW from "../Visual/mainPageRenderer.js";
 import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 import SHOP_PAGE_HANDLER from "./shopPageHandler.js";
 import MY_PAGE_HANDLER from "./myPageHandler.js";
+
+
 
 // ## mainPage가 하는 일은 크게 3가지.
 // ## 1. 큐 잡기를 통한 게임페이지 이동
@@ -10,6 +13,8 @@ import MY_PAGE_HANDLER from "./myPageHandler.js";
 // ## 3. 마이페이지 이동.
 
 // ## init() 에서 일단 상점/마이페이지 정보를 받아와 렌더링해야 한다.
+
+const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
 
 const mainPageHandler = ()=>{
     
@@ -31,11 +36,10 @@ const mainPageHandler = ()=>{
             ["activated", "decided"],   // activated -> decided
             ["decided", undefined]      // decided -> 초기화 (필요시 추가)
         ]);
+        
+        
+        const userInfo = MODEL.getUserInfo();
 
-        getStarted.addEventListener("click",()=>{
-            // ## entryPoint: 큐 잡기로 넘어간다. 큐 모달 들여다보기. 큐 모달 확인하고 display:block으로 바꾸는 코드 작성.
-            PAGEROUTER.moveToPage("GAME");
-        });
 
         // ## currentSkin 클릭하고 mouseleave하면 사각형이 회전한다. css 조건이 잘못 짜여 있는거지.
         currentSkin.addEventListener("click",()=>{
@@ -49,10 +53,25 @@ const mainPageHandler = ()=>{
         });
 
         // shopPage 시동
-            initShopPage(loadingData.shop);
+        initShopPage(loadingData.shop);
 
         // myPage 시동
-            initMyPage(loadingData.myPage);
+        initMyPage(loadingData.myPage);
+
+        // VIEW 설정
+        VIEW.init();
+
+        // VIEW queueEntry 이벤트 리스너
+        QUEUE_EVNET_TARGET.addEventListener("queueEntry",()=>{
+            // ## 모달 형태 수정
+            // ## VIEW.renderWaitingModal();
+
+            const userInfo = MODEL.getUserInfo();
+            console.log("this user has entered the queue: ",userInfo);
+            QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("newPlayerEnteredQueue",{
+                "detail":userInfo
+            }));
+        });
     };
 
     return{

@@ -93,3 +93,6 @@ body {
     color:yellow;
     border-radius:50%
 }
+.queueModalBody{
+    background-color:green;
+}
