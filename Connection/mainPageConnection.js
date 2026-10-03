@@ -4,17 +4,17 @@ console.log(storage);
 
 const mainPageConnection = ()=>{
 
-    const getUserInfo = ()=>{
+    const getPrisonerInfo = ()=>{
 
-        const userData = JSON.parse(storage.getItem("mockUserData")); 
+        const prisonerData = JSON.parse(storage.getItem("mockPrisonerData")); 
         
-        return userData;
+        return prisonerData;
     }
 
 
 
     return {
-        getUserInfo
+        getPrisonerInfo
     }
 };
 

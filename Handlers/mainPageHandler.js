@@ -38,7 +38,7 @@ const mainPageHandler = ()=>{
         ]);
         
         
-        const userInfo = MODEL.getUserInfo();
+        const prisonerInfo = MODEL.getPrisonerInfo();
 
 
         // ## currentSkin 클릭하고 mouseleave하면 사각형이 회전한다. css 조건이 잘못 짜여 있는거지.
@@ -66,10 +66,10 @@ const mainPageHandler = ()=>{
             // ## 모달 형태 수정
             // ## VIEW.renderWaitingModal();
 
-            const userInfo = MODEL.getUserInfo();
-            console.log("this user has entered the queue: ",userInfo);
+            const prisonerInfo = MODEL.getPrisonerInfo();
+            console.log("this prisoner has entered the queue: ",prisonerInfo);
             QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("newPlayerEnteredQueue",{
-                "detail":userInfo
+                "detail":prisonerInfo
             }));
         });
     };

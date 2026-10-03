@@ -3,7 +3,7 @@ const SERVER_DATA = {};
 
 
 // 일단 기초 mockData  저장. => 이 코드 때문에 새로고침으로 재방문을 mock 하기가 안되네.
-// 일단 new user로 진행한다.
+// 일단 new prisoner로 진행한다.
 storage.setItem("DB",JSON.stringify(SERVER_DATA));
 
 
@@ -13,15 +13,15 @@ const MOCK_DB_HANDLER = ()=>{
         console.log("see DB: ",storage.getItem("DB"));
     };
 
-    const writeNewUser = (newUserID)=>{
+    const writeNewPrisoner = (newPrisonerID)=>{
         // 서버에 데이터를 저장하는 코드.
         // 일단은, 이렇게 mock 한다.
         const DB = JSON.parse(storage.getItem("DB"));
-        DB[newUserID] = {
-            "userID": newUserID,
+        DB[newPrisonerID] = {
+            "prisonerID": newPrisonerID,
             "PRISONER_NAME":"prisonerName",
             "PRISONER_TYPE":"prisonerType",
-            "PRISONER_ID":newUserID,
+            "PRISONER_ID":newPrisonerID,
             "PRISONER_GAME_ACTIONS":
                 {"G_point_1":null, 
                 "G_point_2":null,
@@ -40,7 +40,7 @@ const MOCK_DB_HANDLER = ()=>{
                 },
                 "mainPage":{},
                 "myPage":{
-                    "userID": newUserID,
+                    "prisonerID": newPrisonerID,
                     "PRISONER_NAME":"prisonerName",
 
                 }
@@ -52,34 +52,31 @@ const MOCK_DB_HANDLER = ()=>{
         storage.setItem("DB",JSON.stringify(DB));
     };
     
-    const searchUserInfoById = (userID)=>{ // 새 유저라도, OAuth ID 같은 건 있을거다. 아이디 받아서 데이터 리턴하는 함수가 맞아.
-
-        const userInfo = JSON.parse(storage.getItem("DB"))[userID];
-        console.log("userInfo at searchUserInfoById initiation: ",userInfo);
-
+    const searchPrisonerInfoById = (prisonerID)=>{ // 새 유저라도, OAuth ID 같은 건 있을거다. 아이디 받아서 데이터 리턴하는 함수가 맞아.
+        
         // ## alert가 아니라 렌더링 정보를 보내줘야 하지...
-        if(userInfo){ //다시 로그인(DB에 정보 있음)
+        if(prisonerInfo){ //다시 로그인(DB에 정보 있음)
             alert("Welcome Back!");
-            return userInfo
+            return prisonerInfo
 
         }else{ // 첫 로그인(DB에 정보 없음)
-            alert("new user!");
-            writeNewUser(userID);
-            const newUserInfo = JSON.parse(storage.getItem("DB"))[userID].renderInfo
+            alert("new prisoner!");
+            writeNewPrisoner(prisonerID);
+            const newPrisonerInfo = JSON.parse(storage.getItem("DB"))[prisonerID].renderInfo
 
-            //DB에 새 user를 만들고, 새 유저의 상점과 마이페이지 정보를 전달해준다. 스키마를 정할 때가 됐다.
+            //DB에 새 prisoner를 만들고, 새 유저의 상점과 마이페이지 정보를 전달해준다. 스키마를 정할 때가 됐다.
             /*
             //## 이런 판단 로직을 DB가 갖고 있는 게 맞나? 판단 로직은 mockLoadingConnection에서 짜야 하는 것 아닌가?
             */
-           console.log("newUserInfo: ", newUserInfo);
-           return newUserInfo
+           console.log("newPrisonerInfo: ", newPrisonerInfo);
+           return newPrisonerInfo
         };
         
     }; 
 
     return{
         seeDB,
-        searchUserInfoById
+        searchPrisonerInfoById
 
     }
 };

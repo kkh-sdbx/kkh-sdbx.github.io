@@ -1,6 +1,9 @@
 import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 
+import MATCHMAKING from "./matchMaking.js";
+
+
 const MOCK_WEB_EVENT_TARGET = G_EVENT_TARGETS.mockWebEventTarget; 
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget; 
 
@@ -49,8 +52,13 @@ MOCK_WEB_EVENT_TARGET.addEventListener("resultReceived",()=>{
 
 // 클라이언트에서 
 QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
-    console.log("server gets new Player Coming: ",e.detail);
-    // ## entryPoint: 큐 entry전송까지는 mock 했다. 이제는 진짜 6-player container와 매칭 알고리즘을 짤 차례. matchMaking.js 파일 만들기.  
-    //
+    
+    
+    // waitingUsers에 유저 넣기.
+    MATCHMAKING.appendPrisoner(e.detail);
+    
+    // ## N초마다 매치메이킹을 진행하는 함수 작성 필요.
+    // ## 그런데 이벤트로 하면, 버튼 누를때마다 매치메이킹 함수가 중복돼서 돌아간다.
+    // ## setInterval은 matchMaking 모듈이 갖고 있는 게 맞겠다.
 
 });

@@ -12,19 +12,19 @@ const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 
 const LOADINGPAGE = ()=> {
     
-    const listenInitiation = (userData)=>{
+    const listenInitiation = (prisonerData)=>{
 
-        console.log("userData: ",userData);
+        console.log("prisonerData: ",prisonerData);
         LOADING_EVENT_TARGET.addEventListener("initiation",(e)=>{
             console.log("initiation event listened at loadingController",e.detail,"isOK",e.detail.isOK);
             if(e.detail.isOK){
-                LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("userDataRequest",{
+                LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("prisonerDataRequest",{
                     "isTrusted":true,
                     "bubbles":false,
                     "detail":{
-                        "userID":userData.userID,
-                        "userName":userData.userName,   
-                        "deviceInfo":userData.deviceInfo 
+                        "prisonerID":prisonerData.prisonerID,
+                        "prisonerName":prisonerData.prisonerName,   
+                        "deviceInfo":prisonerData.deviceInfo 
                     }
                 }));
             };
@@ -48,8 +48,8 @@ const LOADINGPAGE = ()=> {
     };
 
 
-    const init = (userStorageData)=>{
-        listenInitiation(userStorageData);
+    const init = (prisonerStorageData)=>{
+        listenInitiation(prisonerStorageData);
         listenMainPageRenderData();       
 
         const loadingToMainBtn = document.getElementById("loadingToMainBtn");
