@@ -54,6 +54,7 @@ const MOCK_DB_HANDLER = ()=>{
     
     const searchPrisonerInfoById = (prisonerID)=>{ // 새 유저라도, OAuth ID 같은 건 있을거다. 아이디 받아서 데이터 리턴하는 함수가 맞아.
         
+        const prisonerInfo = JSON.parse(storage.getItem("DB"))[prisonerID];
         // ## alert가 아니라 렌더링 정보를 보내줘야 하지...
         if(prisonerInfo){ //다시 로그인(DB에 정보 있음)
             alert("Welcome Back!");

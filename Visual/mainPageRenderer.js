@@ -14,13 +14,22 @@ const renderMainPage = ()=>{
     let queueModal = document.getElementById("queueModal");
     let queueModalTitle = document.getElementById("queueModalTitle");
     let queueModalContent = document.getElementById("queueModalContent");
+    
+    let startQueueContainer = document.getElementById("startQueueContainer");
     let acceptBtn = document.getElementById("acceptBtn");
     let ejectBtn = document.getElementById("ejectBtn");
+
+    let waitingQueueContainer = document.getElementById("waitingQueueContainer");
+    let stopQueueBtn = document.getElementById("stopQueueBtn");
+    let queueSpinner = document.getElementById("queueSpinner");
+    
 
     const startQueue = ()=>{
         // 큐 시작을 했음을 이벤트로 알림.
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queueEntry"));
-        
+        // ## entryPoint: 큐 시작 시 모달 UI 수정 코드 작성. startQueueContainer은 diaply none, waitingQueueContainer은 display block
+
+
 
     };
 
