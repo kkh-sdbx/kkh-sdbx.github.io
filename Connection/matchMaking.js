@@ -17,7 +17,7 @@ const matchMaking_Method = ()=>{
 
         WAITING_PRISONERS.set(party.partyID,party);
 
-        // ## 봇들을 mock해서 넣는 코드.
+        // 봇들을 mock해서 넣는 코드. 일단 20마리
         
         let botsToAdd = 20;
         const botPartyMade = [];
@@ -62,9 +62,17 @@ const matchMaking_Method = ()=>{
 
     const matchParties = (waitingUsersMap)=>{
 
-        console.log(waitingUsersMap);
+        console.log("waiting Users are: ",waitingUsersMap);
+        const MATCHMAKING_POOL = new Map([
+            [1,[]],
+            [2,[]],
+            [3,[]],
+            [4,[]],
+            [5,[]]
+        ]);
         
-        WAITING_PRISONERS.forEach((party,partyID,allParties)=>{
+        // 일단 WAITING_PRISONERS의 파티들을 MATCHMAKING_POOL에 사이즈별로 분류해 집어넣음.
+        WAITING_PRISONERS.forEach((party, partyID,allParties)=>{
 
             console.log("party: ", party,"partyID: ", partyID);
             
@@ -76,8 +84,13 @@ const matchMaking_Method = ()=>{
                 allParties.delete(partyID);
 
             }else{ // 1~5인 파티의 경우
-                // ## Map에는 파티를 다 넣어놨다...=> waitingUser의 키를 size 로 해 놓고 value로 [{party1},{party2}...] (6-partySize)인 매칭 파티를 바로 찾을 수 있을것.
-                // ## entryPoint:  const WAITING_PRISONERS = new Map([1,2,3,4,5])로 수정하기. 
+                // ## Map에는 파티를 다 넣어놨다...=> size가 key인  로 해 놓고 value로 [{party1},{party2}...] (6-partySize)인 매칭 파티를 바로 찾을 수 있을것.
+                
+                // 사이즈에 맞게 파티 넣기
+                // ## 그런데 WAITINGUSERS와 MATCHMAKING_POOL을 분리할 필요가 있나?
+                MATCHMAKING_POOL.get(party.size).push(party);
+                // ## entryPoint: console.log(MATCHMAKING_POOL); 해 보기. 제대로 들어가는지.
+                // ## 5-1인 파티/2-4인 파티/3인 파티 각각 알고리즘이 다를걸. 이건 생각해 보자.  
 
             };
         });
