@@ -89,12 +89,14 @@ const matchMaking_Method = ()=>{
                 // 사이즈에 맞게 파티 넣기
                 // ## 그런데 WAITINGUSERS와 MATCHMAKING_POOL을 분리할 필요가 있나?
                 MATCHMAKING_POOL.get(party.size).push(party);
-                // ## entryPoint: console.log(MATCHMAKING_POOL); 해 보기. 제대로 들어가는지.
+                // ## entryPoint: deep copy가 필요한 순간. npm install lodash 진행
                 // ## 5-1인 파티/2-4인 파티/3인 파티 각각 알고리즘이 다를걸. 이건 생각해 보자.  
+
 
             };
         });
 
+        console.log(MATCHMAKING_POOL);
     };
 
     return{
