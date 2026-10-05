@@ -65,12 +65,15 @@ const mainPageHandler = ()=>{
         QUEUE_EVNET_TARGET.addEventListener("queueEntry",()=>{
             // ## 모달 형태 수정
             // ## VIEW.renderWaitingModal();
+            
 
             const prisonerInfo = MODEL.getPrisonerInfo();
             console.log("this prisoner has entered the queue: ",prisonerInfo);
             QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("newPlayerEnteredQueue",{
                 "detail":prisonerInfo
             }));
+
+            
         });
     };
 

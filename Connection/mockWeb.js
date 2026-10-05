@@ -52,10 +52,9 @@ MOCK_WEB_EVENT_TARGET.addEventListener("resultReceived",()=>{
 
 // 클라이언트에서 
 QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
-    
-    
+    console.log("new prisoner to append: ",e.detail);
     // waitingUsers에 유저 넣기.
-    MATCHMAKING.appendPrisoner(e.detail);
+    MATCHMAKING.matchParties(MATCHMAKING.appendPrisoner(e.detail));
     
     // ## N초마다 매치메이킹을 진행하는 함수 작성 필요.
     // ## 그런데 이벤트로 하면, 버튼 누를때마다 매치메이킹 함수가 중복돼서 돌아간다.

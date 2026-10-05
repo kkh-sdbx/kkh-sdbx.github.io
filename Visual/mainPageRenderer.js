@@ -27,9 +27,9 @@ const renderMainPage = ()=>{
     const startQueue = ()=>{
         // 큐 시작을 했음을 이벤트로 알림.
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queueEntry"));
-        // ## entryPoint: 큐 시작 시 모달 UI 수정 코드 작성. startQueueContainer은 diaply none, waitingQueueContainer은 display block
-
-
+        
+        startQueueContainer.style.display = "none";
+        waitingQueueContainer.style.display = "block";
 
     };
 
@@ -58,6 +58,7 @@ const renderMainPage = ()=>{
         //큐 시작 버튼 이벤트리스너 설정.
         getStarted.addEventListener("click",()=>{
             queueModal.style.display = "block";
+            waitingQueueContainer.style.display = "none";
             
         });
 
@@ -66,10 +67,14 @@ const renderMainPage = ()=>{
         acceptBtn.addEventListener("click",()=>{
             console.log("acceptBtn clicked!");
             startQueue();
-        })
+        });
         ejectBtn.addEventListener("click",()=>{
             console.log("ejectBtn clicked!");
             queueModal.style.display = "none";
+        });
+        stopQueueBtn.addEventListener("click",()=>{
+            queueModal.style.display = "none";
+            startQueueContainer.style.display = "block";
         })
 
 

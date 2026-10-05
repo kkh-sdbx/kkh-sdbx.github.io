@@ -178,7 +178,7 @@ function setUpGameDataSchema(gameId, playerNum){ //setUp?
     정도로 축소. */
 
     for(let i=0;i<playerNum;i++){
-         // ## entryPoint: reversePoints는 의미가 있을 수 있으니 놔두자. => 빈 객체 대신 new Prisoner(name, type)으로 넣는 코드 작성.
+         // ## reversePoints는 의미가 있을 수 있으니 놔두자. => 빈 객체 대신 new Prisoner(name, type)으로 넣는 코드 작성.
         GAME_DATA[`PRISONER_${i}`] = {}; 
 
         // PrisonerID를 넣자.
@@ -186,7 +186,7 @@ function setUpGameDataSchema(gameId, playerNum){ //setUp?
 
                 
         // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
-        // ## entryPoint: 셋업게임 함수는 작성 중이다. Prisoner 객체의 구조가 변경돼야 하지...일단 Prisoner class 에서 "isVisited"관련 내용 삭제하기. reversePoints는 의미가 있을 수 있으니 놔두자.
+        // ## 셋업게임 함수는 작성 중이다. Prisoner 객체의 구조가 변경돼야 하지...일단 Prisoner class 에서 "isVisited"관련 내용 삭제하기. reversePoints는 의미가 있을 수 있으니 놔두자.
         // ## 생각해 보니, 게임데이터 셋업 시에, 플레이어 숫자가 아니라,  array를 받아와야 하는 거 아니냐? 봇을 넣을지 안 넣을지도 신경써야 하잖아. "Queue"를 받아와야 하는거지...
         // ## TypeScript 도입을 할 시기가 됐나? 모든 함수 시작 시마다 Validator 코드를 짜기보다는 타입스크립트 도입이 빠른 거 아니야?
         // ## TS 도입보다는 Validator를 활용하자.
