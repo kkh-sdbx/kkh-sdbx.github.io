@@ -1,3 +1,4 @@
+import _ from "lodash";
 
 const WAITING_PRISONERS = new Map(); // 이렇게 선언하는 게 아니라? 일단 선언.
 
@@ -20,6 +21,7 @@ const matchMaking_Method = ()=>{
         // 봇들을 mock해서 넣는 코드. 일단 20마리
         
         let botsToAdd = 20;
+        // ## entryPoint: 파티는 1명으로 제한하도록, 아래 코드는 주석처리한다. 이후 봇 넣는 코드를 다시 짠다. 
         const botPartyMade = [];
         while (true){
             let toAdd ;
@@ -72,7 +74,9 @@ const matchMaking_Method = ()=>{
         ]);
         
         // 일단 WAITING_PRISONERS의 파티들을 MATCHMAKING_POOL에 사이즈별로 분류해 집어넣음.
-        WAITING_PRISONERS.forEach((party, partyID,allParties)=>{
+         
+        const toMatch = _.cloneDeep(WAITING_PRISONERS);
+        toMatch.forEach((party, partyID,allParties)=>{
 
             console.log("party: ", party,"partyID: ", partyID);
             
@@ -87,10 +91,22 @@ const matchMaking_Method = ()=>{
                 // ## Map에는 파티를 다 넣어놨다...=> size가 key인  로 해 놓고 value로 [{party1},{party2}...] (6-partySize)인 매칭 파티를 바로 찾을 수 있을것.
                 
                 // 사이즈에 맞게 파티 넣기
-                // ## 그런데 WAITINGUSERS와 MATCHMAKING_POOL을 분리할 필요가 있나?
+
                 MATCHMAKING_POOL.get(party.size).push(party);
-                // ## entryPoint: deep copy가 필요한 순간. npm install lodash 진행
-                // ## 5-1인 파티/2-4인 파티/3인 파티 각각 알고리즘이 다를걸. 이건 생각해 보자.  
+
+                 
+                // ## 5-1인 파티/2-4인 파티/3인 파티 각각 알고리즘이 다를걸. 
+                // ## 일단 아이디어는...
+                /*
+                1. 5인 파티를 매칭시킴. 5+1 서치
+                2. 3인 파티를 서로 매칭시킴. 짝수 개 파티의 경우 문제 없고, 홀수 개 파티의 경우 => 3+2+1 서치 => 3+1+1+1 서치 => 그래도 없으면 보류.
+                3. 4인 파티를 매칭시킴. 4+2 서치=>4+1+1 서치 
+                4. !! => 5인 파티까지 가능하게 할건가? 그럼 어뷰징의 영역인데. => 그러면 랭크 게임과 일반 게임을 분리해야 한다.
+                // ## 일단 '개인전' 큐부터 만든다.
+                */ 
+
+
+                 
 
 
             };
