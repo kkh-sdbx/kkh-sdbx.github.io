@@ -1,4 +1,4 @@
-import _ from "lodash";
+//import _ from "lodash";
 
 const WAITING_PRISONERS = new Map(); // 이렇게 선언하는 게 아니라? 일단 선언.
 
@@ -21,7 +21,25 @@ const matchMaking_Method = ()=>{
         // 봇들을 mock해서 넣는 코드. 일단 20마리
         
         let botsToAdd = 20;
-        // ## entryPoint: 파티는 1명으로 제한하도록, 아래 코드는 주석처리한다. 이후 봇 넣는 코드를 다시 짠다. 
+
+        for(let i=0;i<botsToAdd;i++){
+            const party = {
+            "partyID":"", // ## 파티 아이디를 만드는 함수도 필요하다
+            "leader":"", // 여러 명이 동시에 큐 신청할 때 대비
+            "size":1,
+            "members":[]
+            };
+            
+            party.partyID = `bot${i}_1`;
+            party.leader = `bot${i}`;
+            party.members.push(`bot${i}`);           
+
+            WAITING_PRISONERS.set(party.partyID,party);
+        };
+        
+        /*
+        ## 다인 큐를 bot으로 mock 했던 코드 - 2026.10.05.
+        ## 일단 개인전을 mock한 후 다인 큐 처리는 나중에 한다.
         const botPartyMade = [];
         while (true){
             let toAdd ;
@@ -53,6 +71,7 @@ const matchMaking_Method = ()=>{
         botPartyMade.forEach((botParty)=>{
             WAITING_PRISONERS.set(botParty.partyID,botParty);
         });
+        */
 
         return WAITING_PRISONERS;
         
@@ -62,7 +81,7 @@ const matchMaking_Method = ()=>{
         console.log(partyOfSix);
     }
 
-    const matchParties = (waitingUsersMap)=>{
+    const sortParties = (waitingUsersMap)=>{
 
         console.log("waiting Users are: ",waitingUsersMap);
         const MATCHMAKING_POOL = new Map([
@@ -74,8 +93,16 @@ const matchMaking_Method = ()=>{
         ]);
         
         // 일단 WAITING_PRISONERS의 파티들을 MATCHMAKING_POOL에 사이즈별로 분류해 집어넣음.
-         
-        const toMatch = _.cloneDeep(WAITING_PRISONERS);
+        //const toMatch = _.cloneDeep(WAITING_PRISONERS);
+        
+        //## Codespace에서는 lodash 설치가 됐었는데, 일단 로컬에서는 structuredClone으로 진행해 본다.
+
+        const toMatch = new Map();
+        waitingUsersMap.forEach((value,key)=>{
+            const cloned = typeof(value) === "object" && value !== null ? structuredClone(value) : value;
+            toMatch.set(key,cloned);
+
+        });
         toMatch.forEach((party, partyID,allParties)=>{
 
             console.log("party: ", party,"partyID: ", partyID);
@@ -88,7 +115,6 @@ const matchMaking_Method = ()=>{
                 allParties.delete(partyID);
 
             }else{ // 1~5인 파티의 경우
-                // ## Map에는 파티를 다 넣어놨다...=> size가 key인  로 해 놓고 value로 [{party1},{party2}...] (6-partySize)인 매칭 파티를 바로 찾을 수 있을것.
                 
                 // 사이즈에 맞게 파티 넣기
 
@@ -103,21 +129,39 @@ const matchMaking_Method = ()=>{
                 3. 4인 파티를 매칭시킴. 4+2 서치=>4+1+1 서치 
                 4. !! => 5인 파티까지 가능하게 할건가? 그럼 어뷰징의 영역인데. => 그러면 랭크 게임과 일반 게임을 분리해야 한다.
                 // ## 일단 '개인전' 큐부터 만든다.
-                */ 
+                */
+            };
+        });
 
+        
+
+        return MATCHMAKING_POOL;
+    };
+
+    const gatherSix = (sortedPool)=>{
+        console.log(sortedPool);
+        
+        // ## entryPoint: 파티는 1명으로 제한했다. '개인전' 큐부터 만든다.   
+                // ## I. 6명 매칭               
+
+                // ## II. Deep Copy해서 game Onject 만들기
+
+                // ## III. startGame()에 넘기고 클라이언트에게 줄 status에는 "gameStarted"로 명시
+                // ## ## 이 경우에는 서버에서 GET 요청에 응답할 userStatus 객체가 필요하다. 모든 접속자를 ALL_PRISONERS에 담아두는 것은 메모리 낭비. 그럼 WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
+                /**
+                 * const userStatus = {"isIn":"lobby,game,shop","queueStatus":out,waiting, inGame_GAMEROOMULID}
+                 */
 
                  
 
 
-            };
-        });
-
-        console.log(MATCHMAKING_POOL);
-    };
+    }
 
     return{
         appendPrisoner,
-        matchParties
+        sortParties,
+        gatherSix
+
     };
 
 };
