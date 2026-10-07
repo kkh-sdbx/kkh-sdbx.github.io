@@ -142,7 +142,20 @@ const matchMaking_Method = ()=>{
         console.log(sortedPool);
         
         // ## entryPoint: 파티는 1명으로 제한했다. '개인전' 큐부터 만든다.   
-                // ## I. 6명 매칭               
+                // ## I. 6명 매칭  
+                const matchesMade = [];
+                const allSingles = Math.floor(sortedPool.get(1).length/6);
+                const leftOvers = (sortedPool.get(1).length)%6;
+                let gameRoom = [];
+                for(let k=0;k<(sortedPool.get(1).length - leftOvers);k++){
+                    if(gameRoom.length !=6){
+                        gameRoom.push(sortedPool.get(1)[k]);
+                    }else{
+                        matchesMade.push(gameRoom);
+                        gameRoom = [];
+                        gameRoom.push(sortedPool.get(1)[k]);
+                    }
+                };
 
                 // ## II. Deep Copy해서 game Onject 만들기
 
