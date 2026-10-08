@@ -9,6 +9,16 @@ storage.setItem("DB",JSON.stringify(SERVER_DATA));
 
 const MOCK_DB_HANDLER = ()=>{   
 
+    const getGameRoomSchema = ()=>{
+        const GAME_ROOM = {
+            "GAME_ROOM_ID":"",
+            "players":[],
+            "turnsTaken":0,
+
+        };
+        return GAME_ROOM;
+    };
+
     const seeDB = ()=>{
         console.log("see DB: ",storage.getItem("DB"));
     };
@@ -77,7 +87,8 @@ const MOCK_DB_HANDLER = ()=>{
 
     return{
         seeDB,
-        searchPrisonerInfoById
+        searchPrisonerInfoById,
+        getGameRoomSchema
 
     }
 };

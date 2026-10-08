@@ -1,4 +1,6 @@
-//import _ from "lodash";
+import DB_HANDLER from "./mockDE.js";
+
+const GAME_ROOM_SCHEMA = DB_HANDLER.getGameRoomSchema();
 
 const WAITING_PRISONERS = new Map(); // 이렇게 선언하는 게 아니라? 일단 선언.
 
@@ -77,9 +79,36 @@ const matchMaking_Method = ()=>{
         
     };
 
-    const startGame = (partyOfSix)=>{ // ## 어떤 객체를 인자로 받는지 확정 필요
-        console.log(partyOfSix);
-    }
+    /**
+     * 
+     */
+    const startGame = (partyOfSix, gameRoomSchema)=>{ // 길이가 6인 array
+
+        const GAME_ROOM = structuredClone(GAME_ROOM_SCHEMA);
+        console.log(GAME_ROOM);
+;
+        // ## entryPoint: console.log(GAME_ROOM); 확인
+
+        // 우선 WAITING_PRISONERS에서 삭제.
+        partyOfSix.forEach((party)=>{
+            
+            party.members.forEach((member)=>{
+                const waitingID = `${member}_${party.size}`;
+                WAITING_PRISONERS.delete(waitingID);
+            });
+
+                        
+        });
+
+
+
+
+        
+    };
+
+    const returnToWaitingQueue = (leftOverPrisoners)=>{ // 길이가 0~5인 array
+        console.log(leftOverPrisoners);
+    };
 
     const sortParties = (waitingUsersMap)=>{
 
@@ -139,41 +168,47 @@ const matchMaking_Method = ()=>{
     };
 
     const gatherSix = (sortedPool)=>{
-        console.log(sortedPool);
-        
-        // ## entryPoint: 파티는 1명으로 제한했다. '개인전' 큐부터 만든다.   
-                // ## I. 6명 매칭  
-                const matchesMade = [];
-                const allSingles = Math.floor(sortedPool.get(1).length/6);
-                const leftOvers = (sortedPool.get(1).length)%6;
-                let gameRoom = [];
-                for(let k=0;k<(sortedPool.get(1).length - leftOvers);k++){
-                    if(gameRoom.length !=6){
-                        gameRoom.push(sortedPool.get(1)[k]);
-                    }else{
-                        matchesMade.push(gameRoom);
-                        gameRoom = [];
-                        gameRoom.push(sortedPool.get(1)[k]);
-                    }
-                };
+          
+           
+                // ## I. 6명 매칭 - 이 알고리즘은 반복문을 줄이는 방식으로 수정/최적화가 될 것 같다. 일단 지금은 이렇게 진행.
+        const matchesMade = [];
+        const posibleMatches = Math.floor(sortedPool.get(1).length/6);
+        const leftOvers = (sortedPool.get(1).length)%6;
+        const leftPrisoners = [];
 
-                // ## II. Deep Copy해서 game Onject 만들기
+        for(let k=0;k<posibleMatches;k++){
+            let gameRoom = [];
+            for(let l=0;l<6;l++){
+                gameRoom.push(structuredClone(sortedPool.get(1)[(k*6)+l]));
+            };
+            matchesMade.push(gameRoom);
+        };
 
-                // ## III. startGame()에 넘기고 클라이언트에게 줄 status에는 "gameStarted"로 명시
-                // ## ## 이 경우에는 서버에서 GET 요청에 응답할 userStatus 객체가 필요하다. 모든 접속자를 ALL_PRISONERS에 담아두는 것은 메모리 낭비. 그럼 WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
-                /**
-                 * const userStatus = {"isIn":"lobby,game,shop","queueStatus":out,waiting, inGame_GAMEROOMULID}
-                 */
+        if(leftOvers != 0){
+            for(let m=1;m<(leftOvers+1);m++){
+                leftPrisoners.push(structuredClone(sortedPool.get(1)[sortedPool.get(1).length-m]));
+            };
+        };
+                
+        // 남은 유저는 큐로 다시 보낸다.      
+        returnToWaitingQueue(leftPrisoners);
 
-                 
+        // 6인 파티가 매칭되면 게임 시작.
+        matchesMade.forEach((party)=>{
+            startGame(party)
+        });
+    // ## ## 이 경우에는 서버에서 GET 요청에 응답할 userStatus 객체가 필요하다. 모든 접속자를 ALL_PRISONERS에 담아두는 것은 메모리 낭비. 그럼 WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
+    /**
+     * const userStatus = {"isIn":"lobby,game,shop","queueStatus":out,waiting, inGame_GAMEROOMULID}
+     */
 
-
-    }
+    };
 
     return{
         appendPrisoner,
         sortParties,
-        gatherSix
+        gatherSix,
+        startGame
 
     };
 
