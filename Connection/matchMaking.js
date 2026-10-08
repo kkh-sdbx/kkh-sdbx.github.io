@@ -1,8 +1,11 @@
-import DB_HANDLER from "./mockDE.js";
+import DB_HANDLER from "./mockDB.js";
 
 const GAME_ROOM_SCHEMA = DB_HANDLER.getGameRoomSchema();
 
-const WAITING_PRISONERS = new Map(); // 이렇게 선언하는 게 아니라? 일단 선언.
+// 일단 선언.
+// WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
+const WAITING_PRISONERS = new Map(); 
+
 
 const matchMaking_Method = ()=>{
 
@@ -79,28 +82,36 @@ const matchMaking_Method = ()=>{
         
     };
 
-    /**
-     * 
-     */
-    const startGame = (partyOfSix, gameRoomSchema)=>{ // 길이가 6인 array
-
+ 
+    const startGame = (partyOfSix)=>{ // 길이가 6인 array
+         
         const GAME_ROOM = structuredClone(GAME_ROOM_SCHEMA);
+        
+        /**
+         * {
+            "GAME_ROOM_ID":"RandomID",
+            "prisoners":[],
+            "turnsTaken":0,
+        };
+         */
+        GAME_ROOM.prisoners = partyOfSix;
         console.log(GAME_ROOM);
-;
-        // ## entryPoint: console.log(GAME_ROOM); 확인
 
-        // 우선 WAITING_PRISONERS에서 삭제.
+        
         partyOfSix.forEach((party)=>{
             
             party.members.forEach((member)=>{
+                // 우선 WAITING_PRISONERS에서 삭제.
                 const waitingID = `${member}_${party.size}`;
                 WAITING_PRISONERS.delete(waitingID);
-            });
 
+            });
+            
+            // ## entryPoint: 이제 렌더링할 정보를 리턴하면 된다. http GET 요청(polling)이 왔을 때 클라이언트에 보낼 userStatus 객체/ 렌더링 정보를 게임룸별로 JSON화해서 mockWeb에 전달하면 됨.
+            // ## 상위 함수인 gatherSix 에서 gamesToRender.push(GAME_STARTED); 했고 mockWeb에서 forEach로 렌더링 정보를 쏠 거다. 
+            // return GAME_ROOM; 적기. 그리고 이후에 mockWeb에서 console.log로 확인한다.
                         
         });
-
-
 
 
         
@@ -140,7 +151,7 @@ const matchMaking_Method = ()=>{
                 console.log(party.size, "something wrong - party larger than 6 or smaller than 1");
             
             }else if(party.size === 6){ // 6인 파티의 경우
-                startGame(party);
+                startGame(party); // ## 이 코드 놔두면 언젠가 버그 터진다. startGame을 호출하는 코드가 이 다음인 gatherSix에도 있어서...
                 allParties.delete(partyID);
 
             }else{ // 1~5인 파티의 경우
@@ -168,8 +179,8 @@ const matchMaking_Method = ()=>{
     };
 
     const gatherSix = (sortedPool)=>{
-          
-           
+
+        const gamesToRender = [];
                 // ## I. 6명 매칭 - 이 알고리즘은 반복문을 줄이는 방식으로 수정/최적화가 될 것 같다. 일단 지금은 이렇게 진행.
         const matchesMade = [];
         const posibleMatches = Math.floor(sortedPool.get(1).length/6);
@@ -195,9 +206,12 @@ const matchMaking_Method = ()=>{
 
         // 6인 파티가 매칭되면 게임 시작.
         matchesMade.forEach((party)=>{
-            startGame(party)
+            const GAME_STARTED = startGame(party);
+            gamesToRender.push(GAME_STARTED);
         });
-    // ## ## 이 경우에는 서버에서 GET 요청에 응답할 userStatus 객체가 필요하다. 모든 접속자를 ALL_PRISONERS에 담아두는 것은 메모리 낭비. 그럼 WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
+
+        return gamesToRender;
+
     /**
      * const userStatus = {"isIn":"lobby,game,shop","queueStatus":out,waiting, inGame_GAMEROOMULID}
      */

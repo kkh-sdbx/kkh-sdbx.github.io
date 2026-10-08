@@ -6,18 +6,46 @@ const SERVER_DATA = {};
 // 일단 new prisoner로 진행한다.
 storage.setItem("DB",JSON.stringify(SERVER_DATA));
 
+const gameRoomsIDsMade = {};
 
-const MOCK_DB_HANDLER = ()=>{   
+
+const MOCK_DB_HANDLER = ()=>{
 
     const getGameRoomSchema = ()=>{
+
+        // 서버/DB에서 보내주는 게임룸 데이터의 원형
         const GAME_ROOM = {
             "GAME_ROOM_ID":"",
-            "players":[],
+            "prisoners":[],
             "turnsTaken":0,
 
         };
-        return GAME_ROOM;
+
+        // 난수를 이용한 랜덤 아이디 생성
+        let RandomID = JSON.stringify(Math.random()).slice(2,);
+
+        // 새 게임룸에 랜덤 아이디 배정
+        while(true){
+            
+            if(gameRoomsIDsMade[RandomID]){
+                RandomID = JSON.stringify(Math.random()).slice(2,);
+            }else{
+                const newGameRoom = structuredClone(GAME_ROOM);
+                newGameRoom.GAME_ROOM_ID = RandomID;
+                gameRoomsIDsMade[RandomID] = newGameRoom;
+                break;
+            };
+        };
+
+        return gameRoomsIDsMade[RandomID];
+        
     };
+
+    const setStartedGameOnDB = (gameRoomObject)=>{
+        // ## 방어 코드는 나중에 생각하기.
+        gameRoomsIDsMade[gameRoomObject.GAME_ROOM_ID] = gameRoomObject;
+    };
+
 
     const seeDB = ()=>{
         console.log("see DB: ",storage.getItem("DB"));
