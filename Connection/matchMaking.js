@@ -1,7 +1,5 @@
 import DB_HANDLER from "./mockDB.js";
 
-const GAME_ROOM_SCHEMA = DB_HANDLER.getGameRoomSchema();
-
 // 일단 선언.
 // WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
 const WAITING_PRISONERS = new Map(); 
@@ -84,6 +82,7 @@ const matchMaking_Method = ()=>{
 
  
     const startGame = (partyOfSix)=>{ // 길이가 6인 array
+        const GAME_ROOM_SCHEMA = DB_HANDLER.getGameRoomSchema();
          
         const GAME_ROOM = structuredClone(GAME_ROOM_SCHEMA);
         
