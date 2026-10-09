@@ -106,12 +106,13 @@ const matchMaking_Method = ()=>{
 
             });
             
-            // ## entryPoint: 이제 렌더링할 정보를 리턴하면 된다. http GET 요청(polling)이 왔을 때 클라이언트에 보낼 userStatus 객체/ 렌더링 정보를 게임룸별로 JSON화해서 mockWeb에 전달하면 됨.
+            
             // ## 상위 함수인 gatherSix 에서 gamesToRender.push(GAME_STARTED); 했고 mockWeb에서 forEach로 렌더링 정보를 쏠 거다. 
-            // return GAME_ROOM; 적기. 그리고 이후에 mockWeb에서 console.log로 확인한다.
+            // 그리고 이후에 mockWeb에서 console.log로 확인한다.=> 확인 완료
                         
         });
 
+        return GAME_ROOM;
 
         
     };

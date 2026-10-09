@@ -1,4 +1,18 @@
 // 생각해보니, DATA_SCHEMA는 서버에서 클라이언트로 GET된 데이터셋이잖아. 서버에서 마스터 데이터를 잡아 놓는 게 먼저지.
+const functionTemplate = ()=>{
+    const getData = ()=>{
+        console.log("getData");
+    };
+    const transform = ()=>{
+        console.log("transform");
+    };
+    const clearance = ()=>{
+        console.log("clearance");
+    };
+    const render = ()=>{
+        console.log("render");
+    };
+};
 
 const SCHEMA = ()=>{
     
