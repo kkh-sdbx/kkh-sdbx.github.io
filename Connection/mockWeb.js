@@ -2,7 +2,7 @@ import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 
 import MATCHMAKING from "./matchMaking.js";
-
+import DB_HANDLER from "./mockDB.js";
 
 const MOCK_WEB_EVENT_TARGET = G_EVENT_TARGETS.mockWebEventTarget; 
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget; 
@@ -55,13 +55,26 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
     console.log("new prisoner to append: ",e.detail);
     // waitingUsers에 유저 넣기.
     const GAMES_TO_RENDER = MATCHMAKING.gatherSix(MATCHMAKING.sortParties(MATCHMAKING.appendPrisoner(e.detail)));
+
+    console.log("GAMES_TO_RENDER: ",GAMES_TO_RENDER);
     // ## 길이가 긴 array가 나올 수 있다. lazy loading 같은 게 필요할 수도 있고, 아니면 아예 gameToRender도 Map으로 만들어서, mockWeb에서는 cron으로 N개씩만 뽑아서 매치매이킹 루프를 계속 돌리는 게 답일 수도 있겠네.
 
     // ## N초마다 매치메이킹을 진행하는 함수 작성 필요.
     // ## 그런데 이벤트로 하면, 버튼 누를때마다 매치메이킹 함수가 중복돼서 돌아간다.
     // ## setInterval은 matchMaking 모듈이 갖고 있는 게 맞겠다.
 
-    // ## http GET 요청(polling)이 왔을 때 클라이언트에 보낼 userStatus 객체/ 렌더링 정보를 게임룸별로 JSON화해서 mockWeb에 전달하면 됨. GAMES_TO_RENDER.forEach((game)=>{game.members.forEach((prisoner)=>{DB_HANDLER.setPrisonerStatus(prisoner})});로 넘어간다.
+    // ## http GET 요청(polling)이 왔을 때 클라이언트에 보낼 userStatus 객체/ 렌더링 정보를 게임룸별로 JSON화해서 mockWeb에 전달하면 됨. 
     
-    // ## ## entryPoint: import DB_HANDLER from "./mockDB.js"; 하기.
+    // ## ## entryPoint: GAMES_TO_RENDER.forEach((game)=>{game.members.forEach((prisoner)=>{DB_HANDLER.setPrisonerStatus(prisoner})});로 넘어간다.
+
+    // ## 육각형 html div 형태도, 이제 만들어야 함.
+
+    /**
+     * const GAME_ROOM = {
+            "GAME_ROOM_ID":"",
+            "prisoners":[],
+            "turnsTaken":0,
+
+        };
+     */
 });
