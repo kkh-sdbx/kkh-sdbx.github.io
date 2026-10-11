@@ -36,7 +36,7 @@ const matchMaking_Method = ()=>{
             party.partyID = `bot${i}_1`;
             party.leader = `bot${i}`;
             party.members.push(`bot${i}`);           
-
+            DB_HANDLER.writeNewPrisoner(`bot${i}`);
             WAITING_PRISONERS.set(party.partyID,party);
         };
         

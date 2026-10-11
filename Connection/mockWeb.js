@@ -9,6 +9,10 @@ const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
 
 const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
 
+const MOCKWEB_STANDARD_TIME = new Date();
+console.log("MOCKWEB_STANDARD_TIME:",MOCKWEB_STANDARD_TIME);
+
+
 // 이제 async로 mockServer에 ultimatum을 던지고 그 결과를 받아와야 함.
           
 MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
@@ -65,7 +69,19 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
 
     // ## http GET 요청(polling)이 왔을 때 클라이언트에 보낼 userStatus 객체/ 렌더링 정보를 게임룸별로 JSON화해서 mockWeb에 전달하면 됨. 
     
-    // ## ## entryPoint: GAMES_TO_RENDER.forEach((game)=>{game.members.forEach((prisoner)=>{DB_HANDLER.setPrisonerStatus(prisoner})});로 넘어간다.
+    GAMES_TO_RENDER.forEach((game)=>{
+        game.prisoners.forEach((party)=>{
+            party.members.forEach((prisoner)=>{
+                // ## depth가 너무 깊다. 추후에 JSON 스키마 수정 필요.
+                DB_HANDLER.setPrisonerStatus(prisoner, game.GAME_ROOM_ID);
+            });
+            
+        });
+    });
+
+    // ## DB에 매치메이킹 결과를 만들어 넣는 데 까지는 mock이 됐다. 큐 잡을 때의 polling 과정 구현 필요. setInterval()이 코드에 들어올 시간임. 지금 userStatus를 mockWeb이 메모리에 띄워 놓고 있어야 하는데, 그게 없다. cron으로, DB에서 끌어오기 과정을 해 보자. => 1초마다 전체 DB를 훑는다? 그건 말이 안 됨.
+
+    // ## ## entryPoint: 일단, mockWeb이 지금 필요한 게, DB_HANDLER로 조작하는 거 말고, 렌더링 시 보내줄 정보(메모리에 올려진 거)다. const ALL_ACTIVE_USERS 선언하기.    
 
     // ## 육각형 html div 형태도, 이제 만들어야 함.
 

@@ -11,6 +11,20 @@ const gameRoomsIDsMade = {};
 
 const MOCK_DB_HANDLER = ()=>{
 
+    /**(prisonerID, newStatus)status는, 메인페이지/큐 요청/큐 완료 등 게임 외의 유저가 가질 수 있는 상태를 의미함. */
+    const setPrisonerStatus = (prisonerID, newStatus)=>{
+        
+        // DB에서 유저 정보 찾아서 status 수정.
+        const updated_DB = JSON.parse(storage.getItem("DB"));
+        updated_DB[prisonerID].PRISONER_STATUS = newStatus;
+
+        // DB에 다시 쓰기write
+
+        storage.setItem("DB", JSON.stringify(updated_DB));
+        
+
+    };
+
     const getGameRoomSchema = ()=>{
 
         // 서버/DB에서 보내주는 게임룸 데이터의 원형
@@ -60,13 +74,20 @@ const MOCK_DB_HANDLER = ()=>{
             "PRISONER_NAME":"prisonerName",
             "PRISONER_TYPE":"prisonerType",
             "PRISONER_ID":newPrisonerID,
-            "PRISONER_GAME_ACTIONS":
-                {"G_point_1":null, 
+            "PRISONER_STATUS": null, // ## 이걸, pending/waitingQueue/matched 등등이 아니라 해시테이블 형태로 제작할 수는 없을까.
+            "PRISONER_GAME_ACTIONS":{
+                "G_point_1":null, 
                 "G_point_2":null,
                 "G_point_3":null,
                 "G_point_4":null,
-                "G_point_5":null},
-            "PRISONER_GAME_STATUS":{"status":"not yet","N":0,"Y":0,"K":0}, // NYK에는 뭐가 들어가야 하는거냐?
+                "G_point_5":null
+            }, // 게임 액션은 DB에 있을 필요가 없지. 메모리 영역으로 옮겨야 한다.
+            "PRISONER_GAME_STATUS":{
+                "status":"not yet",
+                "N":0,
+                "Y":0,
+                "K":0
+            }, // NYK에는 뭐가 들어가야 하는거냐? => 아마도 역대 history?
             "renderInfo":{
                 "shop":{
                     "currentCredit":0,
@@ -116,7 +137,9 @@ const MOCK_DB_HANDLER = ()=>{
     return{
         seeDB,
         searchPrisonerInfoById,
-        getGameRoomSchema
+        getGameRoomSchema,
+        writeNewPrisoner,
+        setPrisonerStatus
 
     }
 };
