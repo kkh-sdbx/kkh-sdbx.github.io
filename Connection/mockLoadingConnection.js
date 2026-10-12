@@ -3,11 +3,12 @@ import DB_HANDLER from "./mockDB.js";
 // # 지금 당장은 이벤트 타겟으로 서버 통신을 mock 한다. setInteral()이나 확률적으로 404 error 같은 걸 넣을 수도 있다.
 const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 
+// ## 이 코드는 mockWeb.js에 있어야 하는 코드 같은데?
 LOADING_EVENT_TARGET.addEventListener("prisonerDataRequest",(e)=>{
     console.log("prisonerDataRequest event listened at loadingController",e.detail);
 
-    // !!!! 이 부분은 사실 서버에서 보내와야 하는 부분이다. DB_HANDLER는 억지로 서버의 데이터를 이 모듈에서 처리하는 것.
-    DB_HANDLER.seeDB();
+    // !!!! 이 부분은 사실 서버에서 보내와야 하는 부분이다. DB_HANDLER는 억지로 서버의 데이터를 이 모듈에서 처리하는 것
+
     const prisonerMainPageLoadingInfo = DB_HANDLER.searchPrisonerInfoById(e.detail.prisonerID);
    
    // ## 서버로 통신요청해서 받아올 정보는 1.상점 2.마이페이지 정보. 무결성 검증이 필요한 경우다.

@@ -4,6 +4,10 @@ import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
 import MATCHMAKING from "./matchMaking.js";
 import DB_HANDLER from "./mockDB.js";
 
+const ALL_ACTIVE_USERS = new Map();
+
+
+const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
 const MOCK_WEB_EVENT_TARGET = G_EVENT_TARGETS.mockWebEventTarget; 
 const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget; 
 
@@ -54,6 +58,10 @@ MOCK_WEB_EVENT_TARGET.addEventListener("resultReceived",()=>{
     console.log("module connected!");
 });
 
+LOADING_EVENT_TARGET.addEventListener("loadingForMainpage",(e)=>{
+    ALL_ACTIVE_USERS.set(e.detail.prisonerID, e.detail);
+});
+
 // 클라이언트에서 
 QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
     console.log("new prisoner to append: ",e.detail);
@@ -74,6 +82,10 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
             party.members.forEach((prisoner)=>{
                 // ## depth가 너무 깊다. 추후에 JSON 스키마 수정 필요.
                 DB_HANDLER.setPrisonerStatus(prisoner, game.GAME_ROOM_ID);
+
+                // 클라이언트가 읽을 userState에 정보 작성.
+                console.log("client will GET: ", ALL_ACTIVE_USERS);
+                // ## entryPoint: const ALL_ACTIVE_USERS 선언 및 로딩 이벤트를 듣고 Map에 데이터 저장하는 것까지 됐다.. 근데 로딩 파트에서 renderInfo만 ALL_ACTIVE_USERS에 들어간듯. [prisonerID, {status: pending, isInGame: null}] 와 같은 식으로 설정되어야 한다. Ctrl+F ALL_ACTIVE_USERS 해보기. 그 다음에 이 문제 해결.
             });
             
         });
@@ -81,7 +93,7 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
 
     // ## DB에 매치메이킹 결과를 만들어 넣는 데 까지는 mock이 됐다. 큐 잡을 때의 polling 과정 구현 필요. setInterval()이 코드에 들어올 시간임. 지금 userStatus를 mockWeb이 메모리에 띄워 놓고 있어야 하는데, 그게 없다. cron으로, DB에서 끌어오기 과정을 해 보자. => 1초마다 전체 DB를 훑는다? 그건 말이 안 됨.
 
-    // ## ## entryPoint: 일단, mockWeb이 지금 필요한 게, DB_HANDLER로 조작하는 거 말고, 렌더링 시 보내줄 정보(메모리에 올려진 거)다. const ALL_ACTIVE_USERS 선언하기.    
+        
 
     // ## 육각형 html div 형태도, 이제 만들어야 함.
 
