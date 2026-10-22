@@ -20,19 +20,24 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     storage.setItem("mockPrisonerData", JSON.stringify(mockPrisonerData));
 
-    // 로딩완료 이벤트리스너 부착
+   
+    /**
+     * (로딩 4-완료) 이벤트리스너 부착
+     * loadingConnection에서 renderInfo를 받아와 렌더링 + 클라이언트 저장소에 저장.
+    */
     LOADING_EVENT_TARGET.addEventListener("loadingFinished",(e)=>{
 
         console.log("loading Finished: ",e.detail);
-        // shop && mainPage 렌더링할 데이터는 받아 왔다.로딩완료까지는 스트림이 뚫렸어.
-        // 다만 이 스트림이 뚫리기만 했지, 아직은 나도 헷갈리는 파트가 있다. 그냥 연결만 해 둔 거라서.
-        // renderInfo 받아왔으니, VIEW.renderShop(SHOP_RENDER_DATA)와 VIEW.renderMainPage(MAINPAGE_RENDER_DATA) 해야 한다. => shop과 myPage도 별도의 View와 Model을 만드는 게 낫겠다 판단함.
-        // mainPageHandler가 일종의 mini-main.js 역할을 하는거다.
+
+        // shop && mainPage 렌더링할 데이터와 gameStatus는 받아 옴.
+
+        // mainPageHandler가 일종의 mini-main.js 역할.
+
         // 일단 shop과 mainPage 렌더링 후에 PAGEROUTER로 메인페이지로 넘어간다. => MAINPAGE.init()에 보면 렌더링 함수를 적어두긴 함. 
 
-        // ## 다만, 로딩 실패 시의 방어 코드가 없다. 이건 수정할 부분.
+        // ## 로딩 실패 시의 방어 코드가 없다.
         
-        MAINPAGE.init(e.detail); // 여기서 Uncaught TypeError: MAINPAGE.init is not a function 이 나오니 로딩페이지에서 멈춘다.
+        MAINPAGE.init(e.detail); 
         PAGEROUTER.moveToPage("MAIN");
         
 

@@ -2,12 +2,17 @@ import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 import DB_HANDLER from "./mockDB.js";
 // # 지금 당장은 이벤트 타겟으로 서버 통신을 mock 한다. setInteral()이나 확률적으로 404 error 같은 걸 넣을 수도 있다.
 const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
+ 
 
-// ## 이 코드는 mockWeb.js에 있어야 하는 코드 같은데?
+/**
+ * (로딩 1)
+ * 클라이언트에서 로딩 데이터 요청 시 DB에서 사용자 정보를 조회해 클라이언트로 전송
+ * ## mockWeb.js에 있어야 하는 코드인지 검토 필요
+ */
 LOADING_EVENT_TARGET.addEventListener("prisonerDataRequest",(e)=>{
+    
     console.log("prisonerDataRequest event listened at loadingController",e.detail);
-
-    // !!!! 이 부분은 사실 서버에서 보내와야 하는 부분이다. DB_HANDLER는 억지로 서버의 데이터를 이 모듈에서 처리하는 것
+    // !! 이 부분은 사실 서버에서 보내와야 하는 부분이다. DB_HANDLER는 억지로 서버의 데이터를 이 모듈에서 처리하는 것
 
     const prisonerMainPageLoadingInfo = DB_HANDLER.searchPrisonerInfoById(e.detail.prisonerID);
    
@@ -20,6 +25,10 @@ LOADING_EVENT_TARGET.addEventListener("prisonerDataRequest",(e)=>{
     }));
 });
 
+/**
+ * (로딩 2)
+ * 서버가 보내온 로딩 데이터를 받아서 loadingPageHandler에 전달
+ */
 LOADING_EVENT_TARGET.addEventListener("loadingForMainpage",(e)=>{
     const renderInfo = e.detail;
     console.log("rendering mainpageInfo from Server: ",renderInfo);

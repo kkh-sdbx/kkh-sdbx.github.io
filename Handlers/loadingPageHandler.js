@@ -15,8 +15,10 @@ const LOADINGPAGE = ()=> {
     const listenInitiation = (prisonerData)=>{
 
         console.log("prisonerData: ",prisonerData);
+
         LOADING_EVENT_TARGET.addEventListener("initiation",(e)=>{
             console.log("initiation event listened at loadingController",e.detail,"isOK",e.detail.isOK);
+
             if(e.detail.isOK){
                 LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("prisonerDataRequest",{
                     "isTrusted":true,
@@ -32,16 +34,21 @@ const LOADINGPAGE = ()=> {
 
     };
 
-    // 서버에서 준 renderInfo를 받아와 렌더링하는 코드.
+    /**
+     * (로딩 3)
+     * loadingConnection에서 loadingData 받아와 main.js에 전달.
+    */
     const listenMainPageRenderData = ()=>{
         LOADING_EVENT_TARGET.addEventListener("renderShopAndMainPage",(e)=>{
-            const renderInfo = e.detail;
-            console.log("loadingHandler got mainPageRenderInfo: ", renderInfo);
+            const loadingData = e.detail;
+            console.log("loadingHandler got mainPageRenderInfo: ", loadingData);
+
+            //1) 렌더링
             
             LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("loadingFinished",{
                 "isTrusted":true,
                 "bubbles":false,
-                "detail":renderInfo
+                "detail":loadingData
             }));
         });
  

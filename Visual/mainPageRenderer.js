@@ -25,9 +25,10 @@ const renderMainPage = ()=>{
     
 
     const startQueue = ()=>{
-        // 큐 시작을 했음을 이벤트로 알림.
+        // (큐 1) 큐 시작을 했음을 이벤트로 알림.
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queueEntry"));
         
+        // 큐 모달 내부 UI 변경
         startQueueContainer.style.display = "none";
         waitingQueueContainer.style.display = "block";
 
