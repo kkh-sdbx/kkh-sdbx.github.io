@@ -57,8 +57,18 @@ MOCK_WEB_EVENT_TARGET.addEventListener("resultReceived",()=>{
     console.log("module connected!");
 });
 
-LOADING_EVENT_TARGET.addEventListener("loadingForMainpage",(e)=>{
+LOADING_EVENT_TARGET.addEventListener("loadingDataReq",(e)=>{
+    console.log("mockWeb listens loadingDataReq:", e.detail);
+    
     ALL_ACTIVE_USERS.set(e.detail.prisonerID, e.detail);
+    const prisonerMainPageLoadingInfo = DB_HANDLER.searchPrisonerInfoById(e.detail.prisonerID);
+    console.log("ALL_ACTIVE_USERS set loadingPrisoner: ",ALL_ACTIVE_USERS);
+    LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("loadingDataRes",{
+        "isTrusted":true,
+        "bubbles":false,
+        "detail":prisonerMainPageLoadingInfo
+    }));
+
 });
 
 // (큐 4) 클라이언트에서 사용자 데이터를 서버로 보내면 waitingList에 넣고 매치메이킹 함수 호출.
@@ -94,8 +104,9 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
 
     // (큐 5) 클라이언트의 polling 듣고 응답
     QUEUE_EVNET_TARGET.addEventListener("checkMatchingStatus",(e)=>{
+        console.log(e.detail);
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queuePollingRes",{
-            "detail":ALL_ACTIVE_USERS.get(e.detail.prisonerID)
+            "detail":ALL_ACTIVE_USERS.get(e.detail) 
         }))
     });
 

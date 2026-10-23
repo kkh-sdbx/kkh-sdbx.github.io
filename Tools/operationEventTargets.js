@@ -3,7 +3,8 @@ const queueEventTarget = new EventTarget();
 
 const OPERATION_EVENT_TARGETS = {
     loadingEventTarget,
-    queueEventTarget
+    queueEventTarget,
+    startGameEventTarget
     
 };
 

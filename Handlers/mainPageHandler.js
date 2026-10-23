@@ -6,13 +6,13 @@ import SHOP_PAGE_HANDLER from "./shopPageHandler.js";
 import MY_PAGE_HANDLER from "./myPageHandler.js";
 
 
-
 // ## mainPage가 하는 일은 크게 3가지.
 // ## 1. 큐 잡기를 통한 게임페이지 이동
 // ## 2. 상점 페이지 이동
 // ## 3. 마이페이지 이동.
 
 const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
+const START_GAME_EVNET_TARGET = OPERATION_EVENT_TARGETS.startGameEventTarget;
 
 // 게임 큐 시작 버튼 
 const getStarted = document.getElementById("getStarted");
@@ -20,14 +20,24 @@ const getStarted = document.getElementById("getStarted");
 //현재 장착중인 스킨 클리커
 const currentSkin = document.getElementById("currentSkin");
 
+// 큐 등 타이머에 쓸 Interval
+let queueInterval ;
+
+
 const mainPageHandler = ()=>{
 
-    const initGamePage = ()=>{
-        clearInterval(MODEL.pollingForQueue);
+    const initGamePage = (gameRoomData)=>{
+        clearInterval(queueInterval);
+        const gameRoomToRender = gameRoomData;
         console.log("game Page initiation!");
+
         PAGEROUTER.moveToPage("GAME");
 
-        // ## entryPoint: 일단 큐 응답받고 게임페이지로 이동하는 것까지는 작성함. 아마 mockWeb쪽에서 보내주는 데이터가 정해지지 않아서 버그가 날 거다. mockWeb.js 들어가서 console.log(ALL_ACTIVE_USERS)해보고 잘못된 것 있는지 확인하기.
+        // 일단 큐 응답받고 게임페이지로 이동하는 것까지 구성은 함. 서버쪽 req/res도 그렇고, 방어 코드가 필요할 건데 일단은 진행.
+        //스트림은 뚫렸다. gameRoomData로 게임룸을 렌더링하는 걸 진행할 시간. 
+        // mockWeb에서 게임룸 데이터 스키마를 받아와서 이벤트로 START_GAME_EVNET_TARGET 통해 
+        // 게임페이지에 렌더링 이벤트로 데이터를 전달한다.
+        // ## entryPoint: gameHandler에 START_GAME_EVNET_TARGET import하기. 데이터 스키마는 그 다음에
     };
     
     const initShopPage = (shopData)=>{
@@ -87,14 +97,14 @@ const mainPageHandler = ()=>{
 
             // (큐 3) ## 1~2초마다 polling- 결과는 main.js에서 핸들링.
 
-            
-            setInterval(MODEL.pollingForQueue,1000);
+            queueInterval = setInterval(MODEL.pollingForQueue,1000);
                 
         });
     };
 
     return{
-        init
+        init,
+        initGamePage
     }
     
 

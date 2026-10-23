@@ -1,7 +1,7 @@
 import LOADINGPAGE  from "./Handlers/loadingPageHandler.js";
 import PAGEROUTER  from "./Tools/pageRouter.js";
 import OPERATION_EVENT_TARGETS from "./Tools/operationEventTargets.js";
-import MAINPAGE from "../Handlers/mainPageHandler.js"
+import MAINPAGE from "./Handlers/mainPageHandler.js"
 
 const LOADING = LOADINGPAGE();
 const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
@@ -61,7 +61,8 @@ window.addEventListener("DOMContentLoaded",()=>{
     QUEUE_EVNET_TARGET.addEventListener("queuePollingRes",(e)=>{
         if(e.detail){
             // ## mockWeb응답에서 게임에 참가했음이 확인될 경우
-            MAINPAGE.initGamePage();
+
+            MAINPAGE.initGamePage(e.detail);
         }else{
             // ## mockWeb응답이 waiting일 경우
         };
