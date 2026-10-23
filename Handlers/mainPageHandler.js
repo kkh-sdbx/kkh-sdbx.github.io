@@ -12,8 +12,6 @@ import MY_PAGE_HANDLER from "./myPageHandler.js";
 // ## 2. 상점 페이지 이동
 // ## 3. 마이페이지 이동.
 
-// ## init() 에서 일단 상점/마이페이지 정보를 받아와 렌더링해야 한다.
-
 const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
 
 // 게임 큐 시작 버튼 
@@ -23,6 +21,14 @@ const getStarted = document.getElementById("getStarted");
 const currentSkin = document.getElementById("currentSkin");
 
 const mainPageHandler = ()=>{
+
+    const initGamePage = ()=>{
+        clearInterval(MODEL.pollingForQueue);
+        console.log("game Page initiation!");
+        PAGEROUTER.moveToPage("GAME");
+
+        // ## entryPoint: 일단 큐 응답받고 게임페이지로 이동하는 것까지는 작성함. 아마 mockWeb쪽에서 보내주는 데이터가 정해지지 않아서 버그가 날 거다. mockWeb.js 들어가서 console.log(ALL_ACTIVE_USERS)해보고 잘못된 것 있는지 확인하기.
+    };
     
     const initShopPage = (shopData)=>{
         SHOP_PAGE_HANDLER.init(shopData);
@@ -67,7 +73,7 @@ const mainPageHandler = ()=>{
         // V. VIEW 설정
         VIEW.init();
 
-        // (큐 2)VIEW에서 queueEntry 이벤트 듣고 큐에 들어간 prisoner 데이터 전달
+        // (큐 2) VIEW에서 queueEntry 이벤트 듣고 큐에 들어간 prisoner 데이터 전달
         QUEUE_EVNET_TARGET.addEventListener("queueEntry",()=>{
             // ## 모달 형태 수정 필요
             // ## VIEW.renderWaitingModal();
@@ -79,13 +85,11 @@ const mainPageHandler = ()=>{
                 "detail":prisonerInfo
             }));
 
-            // (큐 3) ## 1~2초마다 polling
-            function pollingForQueue(){
-                // ##http GET 요청이 정상적으로 되면,clearInterval(pollingForQueue) 하고 VIEW.renderGameRoom()시작하면 된다.
-                // ## entryPoint : clearInterval(pollingForQueue) 할 수 있는 함수가 필요해, while(true){} 적기. 그 이후는 하나씩 작성.
-                console.log("requesting matchMaking result:, ", prisonerInfo.prisonerID);
-            };
-            setInterval(pollingForQueue,1000);
+            // (큐 3) ## 1~2초마다 polling- 결과는 main.js에서 핸들링.
+
+            
+            setInterval(MODEL.pollingForQueue,1000);
+                
         });
     };
 

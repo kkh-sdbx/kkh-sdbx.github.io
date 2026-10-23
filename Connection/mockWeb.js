@@ -87,11 +87,16 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
 
                 // 클라이언트가 읽을 userState에 정보 작성.
                 console.log("client will GET: ", ALL_ACTIVE_USERS);
-                // ## entryPoint: const ALL_ACTIVE_USERS 선언 및 로딩 이벤트를 듣고 Map에 데이터 저장하는 것까지 됐다.. 
-                // ## 일단 현재 ALL_ACTIVE_USERS 에는 undefined인 '나' 만 들어가 있다.
             });
             
         });
+    });
+
+    // (큐 5) 클라이언트의 polling 듣고 응답
+    QUEUE_EVNET_TARGET.addEventListener("checkMatchingStatus",(e)=>{
+        QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queuePollingRes",{
+            "detail":ALL_ACTIVE_USERS.get(e.detail.prisonerID)
+        }))
     });
 
     // ## DB에 매치메이킹 결과를 만들어 넣는 데 까지는 mock이 됐다. 큐 잡을 때의 polling 과정 구현 필요. setInterval()이 코드에 들어올 시간임. 

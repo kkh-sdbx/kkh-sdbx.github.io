@@ -5,6 +5,8 @@ import MAINPAGE from "../Handlers/mainPageHandler.js"
 
 const LOADING = LOADINGPAGE();
 const LOADING_EVENT_TARGET = OPERATION_EVENT_TARGETS.loadingEventTarget;
+const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
+
 
 // ## DOMContent 실행 시
 window.addEventListener("DOMContentLoaded",()=>{
@@ -40,7 +42,6 @@ window.addEventListener("DOMContentLoaded",()=>{
         MAINPAGE.init(e.detail); 
         PAGEROUTER.moveToPage("MAIN");
         
-
     });
 
     // 로딩 페이지 셋업.
@@ -48,12 +49,24 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     // 로딩 페이지로 이동.
     PAGEROUTER.moveToPage("LOADING");
+
     LOADING_EVENT_TARGET.dispatchEvent(new CustomEvent("initiation",{
         "bubbles":true,
         "isTrusted":true,
         "detail":{"type":"initiation","from":"main.js","to":"loadingPageHandler","isOK":true}
     }));
 
+
+    // (큐 6) mainPageConnection이 보낸 polling에 대해 mockWeb에서 온 응답을 들음. 
+    QUEUE_EVNET_TARGET.addEventListener("queuePollingRes",(e)=>{
+        if(e.detail){
+            // ## mockWeb응답에서 게임에 참가했음이 확인될 경우
+            MAINPAGE.initGamePage();
+        }else{
+            // ## mockWeb응답이 waiting일 경우
+        };
+    });
+    // ## entryPoint :
     
 
 });
