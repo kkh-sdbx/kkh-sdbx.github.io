@@ -183,11 +183,11 @@ const matchMaking_Method = ()=>{
         const gamesToRender = [];
                 // ## I. 6명 매칭 - 이 알고리즘은 반복문을 줄이는 방식으로 수정/최적화가 될 것 같다. 일단 지금은 이렇게 진행.
         const matchesMade = [];
-        const posibleMatches = Math.floor(sortedPool.get(1).length/6);
+        const possibleMatches = Math.floor(sortedPool.get(1).length/6);
         const leftOvers = (sortedPool.get(1).length)%6;
         const leftPrisoners = [];
 
-        for(let k=0;k<posibleMatches;k++){
+        for(let k=0;k<possibleMatches;k++){
             let gameRoom = [];
             for(let l=0;l<6;l++){
                 gameRoom.push(structuredClone(sortedPool.get(1)[(k*6)+l]));

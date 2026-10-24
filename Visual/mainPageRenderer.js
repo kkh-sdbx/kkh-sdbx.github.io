@@ -2,33 +2,42 @@ import PAGEROUTER from "../Tools/pageRouter.js";
 import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 
 const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
+let mainToTutorialBtn = null;
+let mainToShopBtn = null;
+let greetingMessage = null;
+let currentSkin = null;
 
-const renderMainPage = ()=>{
-    let mainToTutorialBtn = document.getElementById("mainToTutorialBtn");
-    let mainToShopBtn = document.getElementById("mainToShopBtn");
-    let greetingMessage = document.getElementById("greetingMessage");
-    let currentSkin = document.getElementById("currentSkin");
+let queueBtnContainer = null;
+let getStarted = null;
+let queueModal = null;
+let queueModalTitle = null;
+let queueModalContent = null;
 
-    let queueBtnContainer = document.getElementById("queueBtnContainer");
-    let getStarted = document.getElementById("getStarted");
-    let queueModal = document.getElementById("queueModal");
-    let queueModalTitle = document.getElementById("queueModalTitle");
-    let queueModalContent = document.getElementById("queueModalContent");
+let startQueueContainer = null;
+let acceptBtn = null;
+let ejectBtn = null;
+
+let waitingQueueContainer = null;
+let stopQueueBtn = null;
+let queueSpinner = null;
+
+let gameEntryQueueContainer = null;
+let gameEntryMsg = null;
+
+const renderMainPage = ()=>{ 
     
-    let startQueueContainer = document.getElementById("startQueueContainer");
-    let acceptBtn = document.getElementById("acceptBtn");
-    let ejectBtn = document.getElementById("ejectBtn");
-
-    let waitingQueueContainer = document.getElementById("waitingQueueContainer");
-    let stopQueueBtn = document.getElementById("stopQueueBtn");
-    let queueSpinner = document.getElementById("queueSpinner");
-    
+    const hideQueueModal = ()=>{
+        waitingQueueContainer.style.display = "none";
+        gameEntryQueueContainer.style.display = "block";
+        
+    };
 
     const startQueue = ()=>{
         // (큐 1) 큐 시작을 했음을 이벤트로 알림.
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queueEntry"));
         
         // 큐 모달 내부 UI 변경
+        gameEntryQueueContainer.style.display = "none";
         startQueueContainer.style.display = "none";
         waitingQueueContainer.style.display = "block";
 
@@ -45,12 +54,37 @@ const renderMainPage = ()=>{
     };
 
     const renderShop = ()=>{
-        console.log();
+        console.log("renderShop");
     };
     const renderMainPage = ()=>{
-        console.log();
+        console.log("renderMainPage");
     };
     const init = ()=>{
+        // DOM 변수에 할당
+        mainToTutorialBtn = document.getElementById("mainToTutorialBtn");
+        mainToShopBtn = document.getElementById("mainToShopBtn");
+        greetingMessage = document.getElementById("greetingMessage");
+        currentSkin = document.getElementById("currentSkin");
+
+        queueBtnContainer = document.getElementById("queueBtnContainer");
+        getStarted = document.getElementById("getStarted");
+        queueModal = document.getElementById("queueModal");
+        queueModalTitle = document.getElementById("queueModalTitle");
+        queueModalContent = document.getElementById("queueModalContent");
+        
+        startQueueContainer = document.getElementById("startQueueContainer");
+        acceptBtn = document.getElementById("acceptBtn");
+        ejectBtn = document.getElementById("ejectBtn");
+
+        waitingQueueContainer = document.getElementById("waitingQueueContainer");
+        stopQueueBtn = document.getElementById("stopQueueBtn");
+        queueSpinner = document.getElementById("queueSpinner");
+
+        gameEntryQueueContainer = document.getElementById("gameEntryQueueContainer");
+        gameEntryMsg = document.getElementById("gameEntryMsg");
+
+
+
         // 메인페이지에서 shop으로 넘어가는 페이지라우터 설정.
         mainToShopBtn.addEventListener("click",()=>{
             PAGEROUTER.moveToPage("SHOP");
@@ -60,6 +94,7 @@ const renderMainPage = ()=>{
         getStarted.addEventListener("click",()=>{
             queueModal.style.display = "block";
             waitingQueueContainer.style.display = "none";
+            gameEntryQueueContainer.style.display = "none";
             
         });
 
@@ -85,7 +120,8 @@ const renderMainPage = ()=>{
         init,
         renderMainPage,
         renderShop,
-        startQueue
+        startQueue,
+        hideQueueModal
     }
 };
 

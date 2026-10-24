@@ -1,10 +1,13 @@
 //Closure 패턴으로 정리. 
 import PAGEROUTER from "../Tools/pageRouter.js";
 import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
+import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 
 // 컨트롤러로서, View 와 Model 임포트
 import GAME_RENDERER from "../Visual/gameRenderer.js";
 import GAME_CONNECTION from "../Connection/gameConnection.js";
+
+
 
 /**
  * // 3. Controller (Controller.js) - 연결 고리
@@ -27,6 +30,8 @@ import GAME_CONNECTION from "../Connection/gameConnection.js";
 
 const VIEW = GAME_RENDERER;
 const MODEL = GAME_CONNECTION;
+
+const START_GAME_EVENT_TARGET = OPERATION_EVENT_TARGETS.startGameEventTarget;
 
 const POINTS_EVENT_TARGET = G_EVENT_TARGETS.pointsEventTarget;
 const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
@@ -100,6 +105,10 @@ const createGAME = ()=>{
             // 이제 서버에 ultimatum을 보냈으니, point들에 있는 클릭 이벤트 리스너를 떼어야 한다.=>screenBlocker로 처리함.
             // ult 이후 결과 대기까지 또 다른 CSS 스타일로 표시?
             VIEW.disableInteractives();
+        });
+
+        START_GAME_EVENT_TARGET.addEventListener("initiateGame",(e)=>{
+            console.log("gameHandler listens initiateGame Event: ",e.detail);
         });
 
     };

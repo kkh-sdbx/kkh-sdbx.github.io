@@ -1,13 +1,10 @@
 const storage = window.localStorage;
-const SERVER_DATA = {};
+const SERVER_DATA = {"gameRoomsIDsMade":{}};
 
 
 // 일단 기초 mockData  저장. => 이 코드 때문에 새로고침으로 재방문을 mock 하기가 안되네.
 // 일단 new prisoner로 진행한다.
 storage.setItem("DB",JSON.stringify(SERVER_DATA));
-
-const gameRoomsIDsMade = {};
-
 
 const MOCK_DB_HANDLER = ()=>{
 
@@ -22,18 +19,27 @@ const MOCK_DB_HANDLER = ()=>{
         // DB에서 유저 정보 찾아서 status 수정.
         const updated_DB = JSON.parse(storage.getItem("DB"));
         updated_DB[prisonerID].PRISONER_STATUS = newStatus;
+
+        // DB에서 현재 게임룸 정보 가져오기
+        const gameRoomsMade = updated_DB.gameRoomsIDsMade;
+        if(newStatus === "enteredGameRoom" && gameRoomsMade[prisonerData]){
+            
+            updated_DB[prisonerID].PRISONER_GAME_STATUS = gameRoomsMade[prisonerData];
         
-        if(newStatus === "enteredGameRoom"){
-            // gameData {gameRoomID: null, isIn: false}
         };
         
         // DB에 다시 쓰기write
         storage.setItem("DB", JSON.stringify(updated_DB));
+
+        return updated_DB;
         
 
     };
 
     const getGameRoomSchema = ()=>{
+        const updated_DB = JSON.parse(storage.getItem("DB"));
+        
+        const gameRoomsMade = updated_DB.gameRoomsIDsMade;
 
         // 서버/DB에서 보내주는 게임룸 데이터의 원형
         const GAME_ROOM = {
@@ -49,17 +55,17 @@ const MOCK_DB_HANDLER = ()=>{
         // 새 게임룸에 랜덤 아이디 배정
         while(true){
             
-            if(gameRoomsIDsMade[RandomID]){
+            if(gameRoomsMade[RandomID]){
                 RandomID = JSON.stringify(Math.random()).slice(2,);
             }else{
                 const newGameRoom = structuredClone(GAME_ROOM);
                 newGameRoom.GAME_ROOM_ID = RandomID;
-                gameRoomsIDsMade[RandomID] = newGameRoom;
+                gameRoomsMade[RandomID] = newGameRoom;
                 break;
             };
         };
 
-        return gameRoomsIDsMade[RandomID];
+        return gameRoomsMade[RandomID];
         
     };
 

@@ -12,7 +12,7 @@ import MY_PAGE_HANDLER from "./myPageHandler.js";
 // ## 3. 마이페이지 이동.
 
 const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
-const START_GAME_EVNET_TARGET = OPERATION_EVENT_TARGETS.startGameEventTarget;
+const START_GAME_EVENT_TARGET = OPERATION_EVENT_TARGETS.startGameEventTarget;
 
 // 게임 큐 시작 버튼 
 const getStarted = document.getElementById("getStarted");
@@ -27,17 +27,20 @@ let queueInterval ;
 const mainPageHandler = ()=>{
 
     const initGamePage = (gameRoomData)=>{
+        VIEW.hideQueueModal();
         clearInterval(queueInterval);
         const gameRoomToRender = gameRoomData;
-        console.log("game Page initiation!");
+        console.log("game Page initiation!: ", gameRoomToRender);
 
         PAGEROUTER.moveToPage("GAME");
 
-        // 일단 큐 응답받고 게임페이지로 이동하는 것까지 구성은 함. 서버쪽 req/res도 그렇고, 방어 코드가 필요할 건데 일단은 진행.
         //스트림은 뚫렸다. gameRoomData로 게임룸을 렌더링하는 걸 진행할 시간. 
-        // mockWeb에서 게임룸 데이터 스키마를 받아와서 이벤트로 START_GAME_EVNET_TARGET 통해 
-        // 게임페이지에 렌더링 이벤트로 데이터를 전달한다.
-        // ## entryPoint: gameHandler에 START_GAME_EVNET_TARGET import하기. 데이터 스키마는 그 다음에
+
+        // 게임페이지에 렌더링 이벤트로 데이터를 전달한다. - 이벤트를 굳이 쓸 필요가 있나?
+        START_GAME_EVENT_TARGET.dispatchEvent(new CustomEvent("initiateGame",{
+            "detail":gameRoomToRender
+        }))
+        
     };
     
     const initShopPage = (shopData)=>{

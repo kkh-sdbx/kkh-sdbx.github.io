@@ -16,6 +16,8 @@ const MOCKWEB_STANDARD_TIME = new Date();
 console.log("MOCKWEB_STANDARD_TIME:",MOCKWEB_STANDARD_TIME);
 
 
+
+
 // 이제 async로 mockServer에 ultimatum을 던지고 그 결과를 받아와야 함.
           
 MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
@@ -93,8 +95,15 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
             party.members.forEach((prisoner)=>{
                 // ## depth가 너무 깊다. 추후에 JSON 스키마 수정 필요.
 
-                DB_HANDLER.setPrisonerStatus(prisoner, "enteredGameRoom", game.GAME_ROOM_ID);
+                const prisonerGameStatus = DB_HANDLER.setPrisonerStatus(prisoner, "enteredGameRoom", game.GAME_ROOM_ID);
 
+                if(ALL_ACTIVE_USERS.get(prisoner)){
+                    const prisonerToUpdate = structuredClone(ALL_ACTIVE_USERS.get(prisoner)) 
+                    prisonerToUpdate["PRISONER_GAME_STATUS"] = game;
+                    ALL_ACTIVE_USERS.set(prisoner,prisonerToUpdate);
+
+                };
+                
                 // 클라이언트가 읽을 userState에 정보 작성.
                 console.log("client will GET: ", ALL_ACTIVE_USERS);
             });
@@ -104,11 +113,14 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
 
     // (큐 5) 클라이언트의 polling 듣고 응답
     QUEUE_EVNET_TARGET.addEventListener("checkMatchingStatus",(e)=>{
-        console.log(e.detail);
+        
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queuePollingRes",{
-            "detail":ALL_ACTIVE_USERS.get(e.detail) 
-        }))
+            "detail":ALL_ACTIVE_USERS.get(e.detail)
+        }));
+
     });
+
+    
 
     // ## DB에 매치메이킹 결과를 만들어 넣는 데 까지는 mock이 됐다. 큐 잡을 때의 polling 과정 구현 필요. setInterval()이 코드에 들어올 시간임. 
     // 지금 userStatus를 mockWeb이 메모리에 띄워 놓고 있어야 하는데, 그게 없다. cron으로, DB에서 끌어오기 과정을 해 보자. => 1초마다 전체 DB를 훑는다? 그건 말이 안 됨.
