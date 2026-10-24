@@ -44,9 +44,13 @@ const MOCK_DB_HANDLER = ()=>{
         // 서버/DB에서 보내주는 게임룸 데이터의 원형
         const GAME_ROOM = {
             "GAME_ROOM_ID":"",
-            "prisoners":[],
+            "prisoners":[], // hp, 거리, history, isAlive(true/false)가 들어가줘야 한다.
             "turnsTaken":0,
-
+            "currentButton":null,
+            "currentMatch":[],
+            "ranks":[],
+            "isGameFinished":false
+            //## hashMap 활용한 30개짜리 possibleMatches 가 필요하다.
         };
 
         // 난수를 이용한 랜덤 아이디 생성
