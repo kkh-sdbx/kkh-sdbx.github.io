@@ -1,4 +1,9 @@
 {
     "liveServer.settings.showOnStatusbar": false,
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "git.ingnoredRepositories":["node_modules"],
+    "search.useIgnoreFires":true,
+    "files.watcherExclude":{
+        "node_modules":true
+    }
 }

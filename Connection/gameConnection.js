@@ -23,20 +23,20 @@ const connectGlobalMode = ()=>{
     const setPrisonerStorage = ()=>{
         const DATA_SCHEMA = SCHEMA();
         PRISONER_DATA = DATA_SCHEMA.prisonerData();
-        storage.clear();
+        // storage.clear();
         
-        storage.setItem("id",PRISONER_DATA.PRISONER_ID);
+        // storage.setItem("id",PRISONER_DATA.PRISONER_ID);
     
-        storage.setItem("name",PRISONER_DATA.PRISONER_NAME);
+        // storage.setItem("name",PRISONER_DATA.PRISONER_NAME);
     
-        storage.setItem("type",PRISONER_DATA.PRISONER_TYPE);
+        // storage.setItem("type",PRISONER_DATA.PRISONER_TYPE);
         
         POINT_VALIDATOR.forEach((pointId)=>{
-            storage.setItem(pointId,PRISONER_DATA.PRISONER_GAME_ACTIONS[pointId]);    
+            // storage.setItem(pointId,PRISONER_DATA.PRISONER_GAME_ACTIONS[pointId]);    
             
         });
 
-        storage.setItem("status",JSON.stringify(PRISONER_DATA.PRISONER_GAME_STATUS));
+        // storage.setItem("status",JSON.stringify(PRISONER_DATA.PRISONER_GAME_STATUS));
 
     };
     /**
