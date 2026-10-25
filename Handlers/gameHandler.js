@@ -49,6 +49,7 @@ const createGAME = ()=>{
     };
 
     const init = ()=>{
+        console.log("gameHandler init");
 
         // import해둔 모듈들 init()  
         VIEW.init(G_EVENT_TARGETS);
@@ -109,6 +110,10 @@ const createGAME = ()=>{
 
         START_GAME_EVENT_TARGET.addEventListener("initiateGame",(e)=>{
             console.log("gameHandler listens initiateGame Event: ",e.detail);
+            // 게임 페이지로 이동.
+            PAGEROUTER.moveToPage("GAME");
+            //육각형 좌표 설정
+            // VIEW.setHexagonCoords();
         });
 
     };

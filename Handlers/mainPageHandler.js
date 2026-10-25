@@ -32,8 +32,7 @@ const mainPageHandler = ()=>{
         const gameRoomToRender = gameRoomData;
         console.log("game Page initiation!: ", gameRoomToRender);
 
-        PAGEROUTER.moveToPage("GAME");
-
+        
         //스트림은 뚫렸다. gameRoomData로 게임룸을 렌더링하는 걸 진행할 시간. 
 
         // 게임페이지에 렌더링 이벤트로 데이터를 전달한다. - 이벤트를 굳이 쓸 필요가 있나?

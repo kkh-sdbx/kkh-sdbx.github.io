@@ -41,13 +41,11 @@ window.addEventListener("DOMContentLoaded",()=>{
         // ## 로딩 실패 시의 방어 코드가 없다.
         
         MAINPAGE.init(e.detail); 
-        // GAMEPAGE.init(); 
+        GAMEPAGE.init(); 
         // 윗줄 주석 풀면 Uncaught TypeError: Cannot set properties of null (setting 'bot0')
         // 로딩 완료 시에 GAMEPAGE.init()을 진행하려 하는데, GAMEPAGE.init()내의 MODEL.init()에서 storage를 건드리기 때문에(스키마가 바뀜) 오류가 난다.
         //GAMEPAGE.init()내에 START_GAME_EVENT_TARGET이 이벤트를 듣게는 해 놨다.
 
-        // ## entryPoint : gameConnection.js 내에서 storage 건드리는 부분들 주석처리하고 매치메이킹 돌려보기.->이게 맞을까?
-        // 그리고 육각형 모양으로 prisoners 배치하는 걸, div로 할지, canvas로 할지, 고민해야 한다. 
         PAGEROUTER.moveToPage("MAIN");
         
     });

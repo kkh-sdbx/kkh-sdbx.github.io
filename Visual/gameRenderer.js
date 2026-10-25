@@ -2,7 +2,7 @@
 import PAGEROUTER from "../Tools/pageRouter.js";
 /**
  * 
- * 한 슬롯에서 K를 누르는 순간 나머지 4개 슬롯의 T_KBtn을 비활성화
+ * K를 누르는 순간 비활성화
  * (disabled) 처리해서 "이번 라운드엔 더 못 씀"을 시각적으로 알려주는 
  * 게 좋을 것 같아요 -> Claude의 주장. 아주 좋은 포인트라고 본다.
  * 
@@ -62,6 +62,49 @@ const renderGameMode = ()=>{
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;    
 
+    /** G_Container 크기를 기반으로 육각형에서 각 point 좌표를 계산 */
+    const setHexagonCoords = ()=>{
+        const G_container = document.getElementById("G_container");
+        const CONTAINER_HEIGHT = window.getComputedStyle(G_container).height;
+        const CONTAINER_WIDTH = window.getComputedStyle(G_container).width;
+
+        const ROOT_THREE = 1.732;
+        const a = CONTAINER_HEIGHT/4;
+        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
+        // ## 일단은 진행한다.
+        const widthMargin = (CONTAINER_WIDTH-(2*ROOT_THREE*a))/2
+
+        // ## 좌표계 기준이 어떻게 되는지? 일단 화면 최상단이 0,0이었던 것 같다. 그 기준으로 진행함.
+        // ## [0,0] +[containerX, containerY]+[pointX,pointY]라 가정함. 
+        /**
+         * const xx = [1,2];
+         * const yy=[10,11]
+         * console.log(xx+yy) 하면 1,210,11 나온다.(자바스크립트!!) 실제로는 다른 코드 작성 필요.
+         */
+
+        // ## 맨 위 점
+        const point1 = [(ROOT_THREE*a),0];
+
+        // ## 좌상단
+        const point2 = [widthMargin,a];
+
+        // ## 우상단
+        const point3 = [((2*ROOT_THREE*a)-widthMargin),a];
+
+        // ## 좌하단
+        const point4 = [widthMargin,(3*a)];
+
+        // ## 우하단
+        const point5 = [((2*ROOT_THREE*a)-widthMargin),(3*a)];
+
+        // ## 맨 아래 점(플레이어)
+        const point6 = [(ROOT_THREE*a),(4*a)];
+        
+        // ## entryPoint : console.log(point1~6) 해 보기.
+
+    };
+
+    /**G_Coords 변수에 POINTS_TABLE에 저장된 DOM element 좌표를 업데이트  */
     const updateCoords = ()=>{
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
         G_coords.G_point_1.y = POINTS_TABLE.get("G_point_1").getBoundingClientRect().top; 
@@ -400,10 +443,8 @@ const renderGameMode = ()=>{
         gameToMainBtn = document.getElementById('gameToMainBtn');
         G_isDonut = false;
 
-
         SELECTION_EVENT_TARGET = eventTarget.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
-
 
         G_coords = {
             "G_point_1": { "x": POINTS_TABLE.get("G_point_1").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_point_1").getBoundingClientRect().top },
@@ -456,6 +497,8 @@ const renderGameMode = ()=>{
         G_warningBtn.addEventListener("click",()=>{
             G_warningModal.style.display = "none";
         });
+
+        setHexagonCoords();
     }
 
 
@@ -472,7 +515,8 @@ const renderGameMode = ()=>{
         setFixModal,
         disableInteractives,
         setInteractives,
-        showWarning
+        showWarning,
+        setHexagonCoords
     }
 }
 
