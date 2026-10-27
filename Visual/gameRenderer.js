@@ -100,7 +100,11 @@ const renderGameMode = ()=>{
         // ## 맨 아래 점(플레이어)
         const point6 = [(ROOT_THREE*a),(4*a)];
         
-        // ## entryPoint : console.log(point1~6) 해 보기.
+        // ## entryPoint : 노트북에서는 scanning git repo가 1시간째 안 된다. console.log()결과 확인하기
+
+        for(let i=1;i<7;i++){
+            console.log(`point${i}: `,[point1,point2,point3,point4,point5,point6][i-1]);
+        };
 
     };
 
