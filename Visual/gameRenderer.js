@@ -83,33 +83,51 @@ const renderGameMode = ()=>{
          */
 
         // ## 맨 위 점
-        const point1 = [(ROOT_THREE*a),0];
+        const point1 = {"name":"point1", "x":(ROOT_THREE*a),"y":0};
 
         // ## 좌상단
-        const point2 = [widthMargin,a];
+        const point2 = {"name":"point2", "x":widthMargin,"y":a};
 
         // ## 우상단
-        const point3 = [((2*ROOT_THREE*a)-widthMargin),a];
+        const point3 = {"name":"point3", "x":((2*ROOT_THREE*a)-widthMargin),"y":a};
 
         // ## 좌하단
-        const point4 = [widthMargin,(3*a)];
+        const point4 = {"name":"point4", "x":widthMargin,"y":(3*a)};
 
         // ## 우하단
-        const point5 = [((2*ROOT_THREE*a)-widthMargin),(3*a)];
+        const point5 = {"name":"point5", "x":((2*ROOT_THREE*a)-widthMargin),"y":(3*a)};
 
         // ## 맨 아래 점(플레이어)
-        const point6 = [(ROOT_THREE*a),(4*a)];
+        const userPoint = {"name":"point6", "x":(ROOT_THREE*a),"y":(4*a)};
         
-        // ## entryPoint : 노트북에서는 scanning git repo가 1시간째 안 된다. console.log()결과 확인하기
 
-        for(let i=1;i<7;i++){
-            console.log(`point${i}: `,[point1,point2,point3,point4,point5,point6][i-1]);
+        const hexCoords = {
+            "G_point_1":point1,
+            "G_point_2":point2,
+            "G_point_3":point3,
+            "G_point_4":point4,
+            "G_point_5":point5,
+            "G_userPoint":userPoint
         };
 
+
+        return hexCoords
     };
 
-    /**G_Coords 변수에 POINTS_TABLE에 저장된 DOM element 좌표를 업데이트  */
+    /**계산된 육각형 좌표를 POINTS_TABLE에 저장된 DOM element 좌표에 업데이트  */
     const updateCoords = ()=>{
+
+        const hexCoords = setHexagonCoords();
+
+        //POINTS_TABLE 에 hexCoords 추가
+        POINTS_TABLE.forEach((point,name)=>{
+           point.getBoundingClientRect().left += hexCoords[name].x;
+           point.getBoundingClientRect().top += hexCoords[name].y;
+        });
+        
+
+        // ## entryPoint : console.log()결과 확인하기
+        // G_Coords에 수정된 좌표 업데이트
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
         G_coords.G_point_1.y = POINTS_TABLE.get("G_point_1").getBoundingClientRect().top; 
             
