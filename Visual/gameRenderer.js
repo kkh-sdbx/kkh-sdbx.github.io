@@ -64,6 +64,50 @@ const renderGameMode = ()=>{
 
     /** G_Container 크기를 기반으로 육각형에서 각 point 좌표를 계산 */
     const setHexagonCoords = ()=>{
+    /*
+        작성하신 코드 상에서 계산된 x, y 좌표가 로그에 완벽히 대칭(동일)으로 찍히는데도 불구하고, 화면에서 좌측 점들(point2, point4)이 우측 점들(point3, point5)보다 위로 치우쳐 보인다면, 이는 자바스크립트의 좌표 계산식 문제가 아니라 CSS 레이아웃 및 렌더링 영역 설정의 문제일 확률이 매우 높습니다.
+    좌상단/좌하단이 우상단/우하단보다 높게 배치되는 가장 유력한 원인 4가지를 정리해 드립니다.
+
+    1. CONTAINER 요소들의 transform-origin 또는 transform 속성 유무
+
+    각 점을 담고 있는 ${name}_Container 엘리먼트 내부나 공통 클래스에 transform: translate(-50%, -50%) 같은 스타일이 적용되어 있는지 확인해 보세요.
+    • 만약 좌측 점들과 우측 점들의 내부 콘텐츠 크기(텍스트 길이, 이미지 유무 등)가 미세하게 다르다면, 중심점을 맞추기 위한 transform이나 translate 속성이 작동할 때 높이가 다르게 정렬될 수 있습니다.
+
+    2. position: absolute 기준점과 display: inline-block 등의 영향
+
+    점들을 배치할 때 top과 left를 사용하신 것으로 보아 position: absolute;나 fixed를 사용 중이실 겁니다.
+    • 원인: 만약 부모 요소에 position: relative;가 누락되었거나, 점 엘리먼트 자체의 display 속성이 block이나 absolute가 아닌 inline-block 상태에서 미세한 문자열 공백(whitespace)의 영향을 받으면 baseline 기준으로 정렬되면서 수직 위치가 틀어질 수 있습니다.
+    • 해당 요소의 CSS에 아래 속성이 누락되었는지 확인하세요:css
+    /* 점들을 감싸는 개별 컨테이너 스타일 
+    [id$="_Container"] {
+        position: absolute;
+        /* 기준점을 왼쪽 위 꼭짓점으로 통일 (만약 중심점 기준이라면 모두 동일한 width/height 필수) 
+        box-sizing: border-box; 
+    }
+    코드를 사용할 때는 주의가 필요합니다.
+
+    3. 좌/우 컨테이너의 내부 콘텐츠 크기(너비/높이) 차이
+
+    로그의 changedTop 값이 같더라도, 왼쪽 컨테이너와 오른쪽 컨테이너의 실제 height가 다르면 화면에서는 위치가 달라 보입니다.
+    • 예를 들어, "G_point_2_Container" 내부의 글자나 패딩 때문에 높이가 30px이고, "G_point_3_Container"는 40px라면, top 값이 같아도 밑으로 내려오는 범위가 달라 정렬이 깨져 보입니다.
+    • 해당 요소들의 height와 width가 고정값(예: width: 20px; height: 20px;)으로 완전히 동일한지 개발자 도구(F12)로 inspect 해보세요.
+
+    4. widthMargin 계산 시 point1과 userPoint (맨 위/아래 점)의 X 좌표 오류
+
+    작성하신 코드에서 정육각형(또는 대칭 육각형)을 그릴 때 point1과 userPoint의 x 좌표 계산식을 보시면 widthMargin이 반영되어 있지 않습니다.
+    • 현재 코드: "x": (ROOT_THREE * a)
+    • 올바른 대칭 코드: "x": widthMargin + (ROOT_THREE * a)
+    이로 인해 육각형 전체의 중심축이 왼쪽으로 치우치거나 찌그러지면서, 브라우저가 유연한(Flex/Grid) 레이아웃 속에서 주변 요소들을 밀어내어 좌우 높낮이가 뒤틀리는 현상이 연쇄적으로 발생할 수 있습니다.
+
+    💡 추천하는 디버깅 및 해결 단계
+
+    1. 개발자 도구(F12) 확인: 화면에서 위치가 다른 두 점(G_point_2_Container와 G_point_3_Container)을 번갈아 클릭해 보시고, 컴퓨터가 계산한 스타일(Computed) 탭에서 height, padding, margin, border가 완전히 일치하는지 최우선으로 확인하세요.
+    2. 좌표축의 기준점 일치: 각 점 컨테이너의 CSS에 transform: none;을 주고 position: absolute;가 제대로 잡혀있는지 확인하세요.
+    만약 위의 방법으로도 해결되지 않는다면 아래 내용을 공유해 주세요. 문제를 바로 잡아 드릴게요!
+    • 각 점 컨테이너(${name}_Container)에 적용되어 있는 CSS 스타일 코드
+    • 육각형 점 내부에 텍스트나 아이콘 같은 콘텐츠가 들어가는지 여부
+
+    */
         const G_container = document.getElementById("G_container");
         const CONTAINER_HEIGHT = parseInt(window.getComputedStyle(G_container).height.split("px")[0]);
         const CONTAINER_WIDTH = parseInt(window.getComputedStyle(G_container).width.split("px")[0]);
