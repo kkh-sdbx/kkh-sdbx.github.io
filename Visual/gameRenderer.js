@@ -138,13 +138,15 @@ const renderGameMode = ()=>{
         POINTS_TABLE.forEach((point,name)=>{ 
             //getBoundingClientRect().left는 숫자로 나온다.
 
+            const CONTAINER = document.getElementById(`${name}_Container`);
+
             // point의 수정된 좌표 계산
             const changedLeft = hexCoords[name].x;
             const changedTop = hexCoords[name].y;
 
             // point의 stlye 수정해서 육각형 만들기
-            point.style.left = `${changedLeft}px`;
-            point.style.top = `${changedTop}px`;
+            CONTAINER.style.left = `${changedLeft}px`;
+            CONTAINER.style.top = `${changedTop}px`;
             
            console.log(name, "left",changedLeft,"top",changedTop);
             
@@ -252,7 +254,7 @@ const renderGameMode = ()=>{
 
 
                     //G_opntName.textContent = data.name;
-                    G_opntYNKratio.textContent = data.YNKratio;
+                    //G_opntYNKratio.textContent = data.YNKratio;
                     G_tooltip.style.display = 'block';
                     
                     let changingX = G_coords[`${target}`].x;
@@ -500,7 +502,8 @@ const renderGameMode = ()=>{
             "G_point_2": { "x": POINTS_TABLE.get("G_point_2").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_point_2").getBoundingClientRect().top  },
             "G_point_3": { "x": POINTS_TABLE.get("G_point_3").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_point_3").getBoundingClientRect().top  },
             "G_point_4": { "x": POINTS_TABLE.get("G_point_4").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_point_4").getBoundingClientRect().top  },
-            "G_point_5": { "x": POINTS_TABLE.get("G_point_5").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_point_5").getBoundingClientRect().top  }
+            "G_point_5": { "x": POINTS_TABLE.get("G_point_5").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_point_5").getBoundingClientRect().top  },
+            "G_userPoint": { "x": POINTS_TABLE.get("G_userPoint").getBoundingClientRect().left, "y": POINTS_TABLE.get("G_userPoint").getBoundingClientRect().top  }
         };
 
         G_currentPoint = null;

@@ -4,7 +4,6 @@
     flex-direction: column;
     justify-content: center; 
     align-items: center;
-    gap:4em;
     top: 0;
     left: 0;
     right: 0;
@@ -24,9 +23,9 @@
     align-items: center;
 }
 .G_pointContainer{
+    position:relative;
     width: 50%; 
-    display:absolute;
-
+    
 }
 .G_pointContainer.kicked{   
     background-color: rgb(235, 65, 65);
