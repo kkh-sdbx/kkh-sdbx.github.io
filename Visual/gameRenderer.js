@@ -65,14 +65,27 @@ const renderGameMode = ()=>{
     /** G_Container 크기를 기반으로 육각형에서 각 point 좌표를 계산 */
     const setHexagonCoords = ()=>{
         const G_container = document.getElementById("G_container");
-        const CONTAINER_HEIGHT = window.getComputedStyle(G_container).height;
-        const CONTAINER_WIDTH = window.getComputedStyle(G_container).width;
+        const CONTAINER_HEIGHT = parseInt(window.getComputedStyle(G_container).height.split("px")[0]);
+        const CONTAINER_WIDTH = parseInt(window.getComputedStyle(G_container).width.split("px")[0]);
+
+        const CONTAINER_X = G_container.getBoundingClientRect().left;
+        const CONTAINER_Y = G_container.getBoundingClientRect().top;
 
         const ROOT_THREE = 1.732;
         const a = CONTAINER_HEIGHT/4;
         // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
         // ## 일단은 진행한다.
-        const widthMargin = (CONTAINER_WIDTH-(2*ROOT_THREE*a))/2
+        const widthMargin = (CONTAINER_WIDTH-(2*ROOT_THREE*a))/2;
+        console.log(
+            "CONTAINER_HEIGHT: ",CONTAINER_HEIGHT,
+            "CONTAINER_WIDTH: ",CONTAINER_WIDTH,
+            "CONTAINER_X: ",CONTAINER_X,
+            "CONTAINER_Y: ",CONTAINER_Y,
+            "a: ",a,
+            "widthMargin: ",widthMargin
+        );
+
+
 
         // ## 좌표계 기준이 어떻게 되는지? 일단 화면 최상단이 0,0이었던 것 같다. 그 기준으로 진행함.
         // ## [0,0] +[containerX, containerY]+[pointX,pointY]라 가정함. 
@@ -83,22 +96,22 @@ const renderGameMode = ()=>{
          */
 
         // ## 맨 위 점
-        const point1 = {"name":"point1", "x":(ROOT_THREE*a),"y":0};
+        const point1 = {"name":"point1", "x":CONTAINER_X+(ROOT_THREE*a),"y":CONTAINER_Y};
 
         // ## 좌상단
-        const point2 = {"name":"point2", "x":widthMargin,"y":a};
+        const point2 = {"name":"point2", "x":CONTAINER_X+widthMargin,"y":CONTAINER_Y+a};
 
         // ## 우상단
-        const point3 = {"name":"point3", "x":((2*ROOT_THREE*a)-widthMargin),"y":a};
+        const point3 = {"name":"point3", "x":(CONTAINER_X+CONTAINER_WIDTH-widthMargin),"y":CONTAINER_Y+a};
 
         // ## 좌하단
-        const point4 = {"name":"point4", "x":widthMargin,"y":(3*a)};
+        const point4 = {"name":"point4", "x":CONTAINER_X+widthMargin,"y":CONTAINER_Y+(3*a)};
 
         // ## 우하단
-        const point5 = {"name":"point5", "x":((2*ROOT_THREE*a)-widthMargin),"y":(3*a)};
+        const point5 = {"name":"point5", "x":(CONTAINER_X+CONTAINER_WIDTH-widthMargin),"y":CONTAINER_Y+(3*a)};
 
         // ## 맨 아래 점(플레이어)
-        const userPoint = {"name":"point6", "x":(ROOT_THREE*a),"y":(4*a)};
+        const userPoint = {"name":"point6", "x":CONTAINER_X+(ROOT_THREE*a),"y":CONTAINER_Y+(4*a)};
         
 
         const hexCoords = {
@@ -110,7 +123,7 @@ const renderGameMode = ()=>{
             "G_userPoint":userPoint
         };
 
-
+        console.log("hexCoords: ",hexCoords);
         return hexCoords
     };
 
@@ -118,15 +131,29 @@ const renderGameMode = ()=>{
     const updateCoords = ()=>{
 
         const hexCoords = setHexagonCoords();
+        const G_container = document.getElementById("G_container");
+
 
         //POINTS_TABLE 에 hexCoords 추가
-        POINTS_TABLE.forEach((point,name)=>{
-           point.getBoundingClientRect().left += hexCoords[name].x;
-           point.getBoundingClientRect().top += hexCoords[name].y;
+        POINTS_TABLE.forEach((point,name)=>{ 
+            //getBoundingClientRect().left는 숫자로 나온다.
+
+            // point의 수정된 좌표 계산
+            const changedLeft = hexCoords[name].x;
+            const changedTop = hexCoords[name].y;
+
+            // point의 stlye 수정해서 육각형 만들기
+            point.style.left = `${changedLeft}px`;
+            point.style.top = `${changedTop}px`;
+            
+           console.log(name, "left",changedLeft,"top",changedTop);
+            
         });
         
 
-        // ## entryPoint : console.log()결과 확인하기
+        // ## entryPoint : 얼추 육각형은 나오는데, 정육각형은 아니다. widthMargin과 G_Container내에 있지 않은 문제. 
+        // 화면 상 좌표와...계산된 css 스타일의 차이인 것 같다. getBoundingClientRect와 getComputedStyle()의 차이인 듯.
+        // getBoundingClientRect를 모두  getComputedStyle()로 수정해 보고 렌더링하기.
         // G_Coords에 수정된 좌표 업데이트
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
         G_coords.G_point_1.y = POINTS_TABLE.get("G_point_1").getBoundingClientRect().top; 
@@ -224,7 +251,7 @@ const renderGameMode = ()=>{
                     const data = G_pointData[`${target}`];
 
 
-                    G_opntName.textContent = data.name;
+                    //G_opntName.textContent = data.name;
                     G_opntYNKratio.textContent = data.YNKratio;
                     G_tooltip.style.display = 'block';
                     
