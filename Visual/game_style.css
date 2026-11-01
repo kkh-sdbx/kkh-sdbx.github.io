@@ -1,6 +1,6 @@
 #G_container {
 /* 이 컨테이너를 화면 전체에 고정시킵니다 */
-    position: absolute;
+    position: relative;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
@@ -23,8 +23,10 @@
     align-items: center;
 }
 .G_pointContainer{
-    position:relative;
-    width: 50%; 
+    position:absolute;
+    width:auto;
+    top:0;
+    left:0;
     
 }
 .G_pointContainer.kicked{   

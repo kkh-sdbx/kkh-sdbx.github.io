@@ -1,0 +1,93 @@
+
+// ## entryPoint : 정독 후에 gameRendere.js로 복귀하기
+육각형 모양이 잡히기 시작한 것은 다행입니다! 점들이 부모 영역(#G_container) 밖으로 삐져나가는 이유는 현재 브라우저가 위치를 계산하는 기준 축이 엉켰기 때문입니다. 웹 프론트엔드 개발을 할 때 이 개념들을 명확히 정립해 두면 평생의 삽질(?) 시간을 10분의 1로 줄일 수 있습니다.
+지금 겪고 계신 문제를 완벽히 이해하기 위한 핵심 개념들을 가장 직관적으로 설명해 드릴게요.
+
+1. Position (위치 배치 방식)
+
+요소를 화면의 어디에, 무엇을 기준으로 배치할지 결정하는 가장 중요한 속성입니다.
+• static (기본값): 순서대로 쌓이는 일반적인 흐름입니다. top, left 같은 좌표 속성이 완전히 무시됩니다.
+• relative (상대 위치): 원래 자기가 static일 때 있어야 했던 원래 자리를 기준으로 삼습니다.
+• absolute (절대 위치): ⭐️ 지금 꼭 필요한 속성! 일반적인 흐름에서 완전히 벗어나 허공에 둥둥 뜹니다. 기준은 static이 아닌(즉, relative, absolute, fixed 등을 가진) 가장 가까운 조상(부모) 요소입니다.
+• fixed (고정 위치): 부모고 뭐고 다 무시하고, 사용자가 보는 브라우저 화면(Viewport) 전체를 기준으로 고정됩니다. 스크롤을 내려도 끄떡없는 팝업이나 상단 네비게이션 바에 씁니다.
+
+💡 지금 육각형이 옆으로 삐져나간 원인
+
+자바스크립트에서 G_container.getBoundingClientRect().left를 가져와서 계산하셨죠? 이 값은 전체 화면 맨 왼쪽(0,0)에서부터의 절대적인 거리입니다.
+그런데 점 컨테이너(.G_pointContainer)에 position: absolute;를 주면, 이 점들은 #G_container의 왼쪽 위 꼭짓점을 (0, 0)으로 인식하게 됩니다. 부모 안에서의 (0,0) 기준 좌표에다가 화면 전체 기준의 거대한 left 값을 더해버리니, 부모 박스를 뚫고 오른쪽(옆)으로 한참 멀리 배치되는 것입니다.
+
+2. Display (보여주기 방식)
+
+요소가 화면에서 어떤 형태의 공간(Pillar/Block)을 차지할지 결정합니다.
+• block (<div>, <p> 등): 욕심쟁이 속성입니다. 가로 한 줄을 통째로 혼자 다 차지합니다. width와 height를 지정할 수 있습니다.
+• inline (<span>, <a> 등): 딱 자기 글자 크기만큼만 공간을 차지하며, 옆으로 잇달아 배치됩니다. ⚠️ 주의: width, height, top/bottom margin 등이 완전히 무시됩니다.
+• inline-block: 겉보기에는 inline처럼 옆으로 나란히 배치되지만, 내부적으로는 block처럼 width와 height를 가질 수 있습니다.
+• flex (Flexible Box): 현재 #G_container에 적용하신 속성입니다. 내부 자식 요소들을 가로든 세로든 자유자재로 정렬하고 배분할 때 쓰는 현대 CSS의 축복입니다.
+	• 하지만 자식 요소에 position: absolute;를 주면 레이아웃 흐름에서 탈출하므로 flex 정렬의 통제를 받지 않게 됩니다.
+
+3. 크기와 좌표계 속성들
+
+
+속성	의미	특징
+width / height	요소의 가로 / 세로 너비	inline 요소에는 먹히지 않음. 픽셀(px)이나 부모 대비 비율(%)로 지정.
+top / left	CSS 좌표 지정 속성	position이 static이 아닐 때만 작동함. 기준점으로부터의 거리를 뜻함.
+x / y	자바스크립트 객체 데이터	CSS 속성이 아닙니다! 작성하신 코드의 point1.x 등은 자바스크립트 내부에서 연산용으로 임의로 만든 변수(Property)일 뿐입니다.
+
+
+🛠️ 내 코드 바로잡기 (CSS & JS 처방전)
+
+개념을 잡았으니 코드를 수정해 봅시다. 핵심은 "자바스크립트 계산도 부모를 기준으로 하고, CSS도 부모를 기준으로 정렬하는 것"입니다.
+
+1. CSS 수정 (#G_container에 확실한 기준점 주기)
+
+부모인 #G_container가 자식들의 완벽한 (0,0) 기준점이 되도록 만들어 줍니다.
+css
+#G_container {
+    position: relative; /* 자식인 absolute들이 이곳의 좌상단을 (0,0)으로 인식하게 만듭니다. */
+    width: 500px;       /* 500px fixed 크기로 명시하거나 */
+    height: 500px;
+    max-width: 500px;
+    max-height: 500px;
+    margin: auto;       /* 화면 중앙 정렬 */
+}
+
+.G_pointContainer {
+    position: absolute; /* 부모(#G_container)를 기준으로 둥둥 뜨게 만듭니다. */
+    width: 40px;        /* 점(.G_point)의 크기와 맞춰주는 것이 계산하기 편합니다. */
+    height: 40px;
+}
+코드를 사용할 때는 주의가 필요합니다.
+
+2. JavaScript 수정 (화면 절대좌표 getBoundingClientRect 버리기)
+
+현재 부모 창 크기가 500x500으로 고정되어 있다면, 화면 전체 기준의 getBoundingClientRect().left를 가져와서 더할 필요가 전혀 없습니다. 오직 CONTAINER_WIDTH(500)와 CONTAINER_HEIGHT(500) 값만 가지고 내부 정육각형 좌표를 계산하면 됩니다.
+자바스크립트 함수 상단에서 부모의 위치(CONTAINER_X, CONTAINER_Y)를 가져와 억지로 더하던 로직을 지우고, 순수하게 500 안에서만 쪼개지도록 만드세요.
+javascript
+const setHexagonCoords = () => {
+    const G_container = document.getElementById("G_container");
+    // getComputedStyle로 500px을 안전하게 가져옵니다.
+    const CONTAINER_HEIGHT = parseInt(window.getComputedStyle(G_container).height);
+    const CONTAINER_WIDTH = parseInt(window.getComputedStyle(G_container).width);
+
+    // ❌ 화면 전체 기준 좌표인 getBoundingClientRect는 이제 필요 없습니다! 다 지우세요.
+    // const CONTAINER_X = G_container.getBoundingClientRect().left; 
+    
+    const ROOT_THREE = 1.732;
+    const a = CONTAINER_HEIGHT / 4; // 500 / 4 = 125px
+    
+    // 부모 너비(500px) 안에서 육각형이 가운데 정렬되도록 여백 계산
+    const widthMargin = (CONTAINER_WIDTH - (2 * ROOT_THREE * a)) / 2;
+
+    // 💡 정축 대칭을 위해 point1과 userPoint의 x축에도 widthMargin을 더해줍니다.
+    const point1 = { "name": "point1", "x": widthMargin + (ROOT_THREE * a), "y": 0 };
+    const point2 = { "name": "point2", "x": widthMargin, "y": a };
+    const point3 = { "name": "point3", "x": (CONTAINER_WIDTH - widthMargin), "y": a };
+    const point4 = { "name": "point4", "x": widthMargin, "y": (3 * a) };
+    const point5 = { "name": "point5", "x": (CONTAINER_WIDTH - widthMargin), "y": (3 * a) };
+    const userPoint = { "name": "point6", "x": widthMargin + (ROOT_THREE * a), "y": (4 * a) };
+
+    // ... 이후 스타일 부여 로직은 그대로 유지 ...
+};
+코드를 사용할 때는 주의가 필요합니다.
+이렇게 수정하시면 #G_container 박스 영역(500x500)의 정확히 정중앙에 예쁜 대칭 육각형이 쏙 들어가게 됩니다!
+부모 기준 좌표로 수정한 뒤 컨테이너 박스 안에 육각형이 예쁘게 안착했는지 알려주세요. 점들의 중심 정렬(transform: translate(-50%, -50%))이나 내부 텍스트 위치 조절이 필요하다면 이어서 도와드릴게요!
