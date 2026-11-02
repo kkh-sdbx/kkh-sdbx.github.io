@@ -69,9 +69,6 @@ const renderGameMode = ()=>{
         const CONTAINER_HEIGHT = parseInt(window.getComputedStyle(G_container).height.split("px")[0]);
         const CONTAINER_WIDTH = parseInt(window.getComputedStyle(G_container).width.split("px")[0]);
 
-        const CONTAINER_X = G_container.getBoundingClientRect().left;
-        const CONTAINER_Y = G_container.getBoundingClientRect().top;
-
         const ROOT_THREE = 1.732;
         const a = CONTAINER_HEIGHT/4;
         // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
@@ -80,8 +77,6 @@ const renderGameMode = ()=>{
         console.log(
             "CONTAINER_HEIGHT: ",CONTAINER_HEIGHT,
             "CONTAINER_WIDTH: ",CONTAINER_WIDTH,
-            "CONTAINER_X: ",CONTAINER_X,
-            "CONTAINER_Y: ",CONTAINER_Y,
             "a: ",a,
             "widthMargin: ",widthMargin
         );
@@ -130,19 +125,30 @@ const renderGameMode = ()=>{
         POINTS_TABLE.forEach((point,name)=>{ 
             //getBoundingClientRect().left는 숫자로 나온다.
 
+            // ## 이런 렌더링/스타일 상수들은 위로 한 번에 빼 놓을까?
             const CONTAINER = document.getElementById(`${name}_Container`);
-
+            const containerLength = parseInt(window.getComputedStyle(CONTAINER).width.split("px")[0]);
+            const containerHeight = parseInt(window.getComputedStyle(CONTAINER).height.split("px")[0]);
+           
             // point의 수정된 좌표 계산
-            const changedLeft = hexCoords[name].x;
-            const changedTop = hexCoords[name].y;
+            const changedLeft = hexCoords[name].x - (containerLength/2);
+            const changedTop = hexCoords[name].y - (containerHeight/2);
 
             // point의 stlye 수정해서 육각형 만들기
             CONTAINER.style.left = `${changedLeft}px`;
             CONTAINER.style.top = `${changedTop}px`;
             
-           console.log(name, "left",changedLeft,"top",changedTop);
+           console.log(name, "left",(changedLeft),"top",changedTop);
             
         });
+
+        // 이전에 적은 ## entryPoint : 정독 후에 gameRendere.js로 복귀하기 =>이건 해결했고 육각형 나온다.
+        // ## pointContainer 구조 정비, css 스타일 AI 코드 리뷰, 게임로직 작성, 육각형 내부의 매치 패널 작성, 30(15개x양방향)개의 매치 애니메이션 제작, hp와 상단 timeClock 세팅 파트로 넘어간다.
+        // new ## entryPoint : 일단 1시간동안 해서 육각형 작성한 거 lockOn에 업로드
+
+        // ## 아이디어 - 국가별로, 지역별로 MTT 만들기? rumble in the jungle 같은 거-
+        // Zouk in Singapore? => 선물로는 특전 스킨과 서버에 남는 무언가. 그리고 토너먼트 참여하려면 티켓 필요. 1회는 서울 명동 표준시로 00시부터 23시 59분, 2회는 트리니티 칼리지 religion 건물 표준시.
+
         
         
         // 화면 상 좌표와...계산된 css 스타일의 차이인 것 같다. getBoundingClientRect와 getComputedStyle()의 차이인 듯.

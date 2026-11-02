@@ -1,6 +1,6 @@
 #G_container {
 /* 이 컨테이너를 화면 전체에 고정시킵니다 */
-    position: relative;
+    position: absolute;
     flex-direction: column;
     justify-content: center; 
     align-items: center;
