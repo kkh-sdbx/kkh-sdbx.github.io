@@ -169,6 +169,7 @@
     
     <div id = "gameMode" class = "page">
         <div id = "G_screenBlocker"></div>
+
         <button id = "gameToMainBtn" class="pageRouterBtn">gameToMain</button>
   
         <div id = "dummy" display = "flex" >
@@ -191,84 +192,114 @@
         가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
 
         앱인토스: 600x600px 크기의 일반 및 다크모드 앱 로고가 필요함.
-        앱 소개 문구: 어설프게 착하면 살아남지 못한다!  Naive Kindness will not Survive</p>
+        앱 소개 문구: 어설프게 착하면 살아남지 못한다!  Naive Kindness will not Survive
+        </p>
 
 
         
         <div id="G_container">
-
+            
             <div id="G_point_1_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div> 
+
+                <div class = "tingIndicator">
                 
-                <div class = "G_saidNo">N</div>
-                <div id="G_point_1" class="G_point" data-point="G_point_1">
-                    <span class = "G_point-text">1</span>
+                    <div class = "matchIndicator"> 
+
+                        <div id="G_point_1" class="G_point" data-point="G_point_1">
+                            <span class = "G_point-text">1</span>
+                        </div>
+
+                    </div>
+                
                 </div>
-                <div class = "G_saidYes">Y</div>
-                <div class = "G_showDownResult">0</div>
 
             </div>
+
             <div id="G_point_2_Container" class = "G_pointContainer">
-                
-                <div class = "G_saidNo">N</div>
-                <div id="G_point_2" class="G_point" data-point="G_point_2">
-                    <span class = "G_point-text">2</span>
-                </div>
-                <div class = "G_saidYes">Y</div>
                 <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_2" class="G_point" data-point="G_point_2">
+                            <span class = "G_point-text">2</span>
+                        </div>
+
+                    </div>
+                
+                </div>
 
             </div>
+
             <div id="G_point_3_Container" class = "G_pointContainer">
-                
-                <div class = "G_saidNo">N</div>
-                <div id="G_point_3" class="G_point" data-point="G_point_3">
-                    <span class = "G_point-text">3</span>
-                </div>
-                <div class = "G_saidYes">Y</div>
                 <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_3" class="G_point" data-point="G_point_3">
+                            <span class = "G_point-text">3</span>
+                        </div>
+
+                    </div>
+                
+                </div>
 
             </div>
+
             <div id="G_point_4_Container" class = "G_pointContainer">
-                
-                <div class = "G_saidNo">N</div>
-                <div id="G_point_4" class="G_point" data-point="G_point_4">
-                    <span class = "G_point-text">4</span>
-                </div>
-                <div class = "G_saidYes">Y</div>
                 <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_4" class="G_point" data-point="G_point_4">
+                            <span class = "G_point-text">4</span>
+                        </div>
+
+                    </div>
+                
+                </div>
 
             </div>
+
             <div id="G_point_5_Container" class = "G_pointContainer">
-                
-                <div class = "G_saidNo">N</div>
-                <div id="G_point_5" class="G_point" data-point="G_point_5">
-                    <span class = "G_point-text">5</span>
-                </div>
-                <div class = "G_saidYes">Y</div>
                 <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_5" class="G_point" data-point="G_point_5">
+                            <span class = "G_point-text">5</span>
+                        </div>
+
+                    </div>
+                
+                </div>
 
             </div>
 
             <div id="G_userPoint_Container" class = "G_pointContainer">
-                
-                <div class = "G_saidNo">N</div>
-                <div id="G_userPoint" class="G_point" data-point="G_userPoint">
-                    <span class = "G_point-text">player</span>
-                </div>
-                <div class = "G_saidYes">Y</div>
                 <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_userPoint" class="G_point" data-point="G_userPoint">
+                            <span class = "G_point-text">6</span>
+                        </div>
+
+                    </div>
+                
+                </div>
 
             </div>
-
-
-            <div id = "G_testBtns" >
-                <button id = "G_donutSkin">Use Donut</button>
-                <button id = "G_startSeason">startSeason </button>
-                <button id="G_fix">FIX</button>
-                <button id = "G_setDummyActions">setDummyActions </button>
-                <button id = "G_finishRound">finishRound </button>
-                <button id = "G_startMatchMaking">startMatchMaking </button>
-            </div>    
-        
 
             <div class="G_tooltip" id="G_tooltip">
                 <strong id="G_opntName"></strong>
@@ -284,6 +315,16 @@
                     <p class = "G_pastAction">X</p>
                 </div>
             </div>
+            
+
+            <div id = "G_testBtns" >
+                <button id = "G_donutSkin">Use Donut</button>
+                <button id = "G_startSeason">startSeason </button>
+                <button id="G_fix">FIX</button>
+                <button id = "G_setDummyActions">setDummyActions </button>
+                <button id = "G_finishRound">finishRound </button>
+                <button id = "G_startMatchMaking">startMatchMaking </button>
+            </div>    
         
 
             <div class="G_selection" id="G_selectionPanel">
@@ -292,11 +333,11 @@
                 <button id="G_YBtn" data-btn-type = "Y"> Y </button>        
             </div>
 
-            <div id = "G_fixModal" class = "G_modal">
-                <div class = "G_modalBody">
-                    <h2 id="G_fixModalTitle"> Modal Title</h2>
-                    <h4 id="G_fixModalContent"> Modal Content</h4> 
-                    <div class = "G_modalBtnContainer">
+            <div id = "G_fixPanel" class = "G_panel">
+                <div class = "G_panelBody">
+                    <h2 id="G_fixPanelTitle"> Panel Title</h2>
+                    <h4 id="G_fixPanelContent"> Panel Content</h4> 
+                    <div class = "G_panelBtnContainer">
                         <button id = "G_proceedBtn">Proceed</button>
                         <button id = "G_discardBtn">Discard</button>
                     </div>

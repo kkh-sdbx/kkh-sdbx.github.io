@@ -91,8 +91,8 @@
 
 /*activated 시 스타일: 파란색,마름모꼴,*/
 .G_point.activated{ 
-        border-radius: 0%;
-        transform:  rotate(45deg) scale(1.2);
+    border-radius: 0%;
+    transform:  rotate(45deg) scale(1.2);
 }
 
 .G_point.activated .G_point-text{ 
@@ -153,8 +153,8 @@
 
 /* 툴팁 스타일 (동일하게 유지) */
 .G_tooltip {
-    display: none;
-    position: fixed;
+    position: absolute;
+    display:flex;
     background-color: rgb(240, 240, 240);
     padding: 15px;
     border-radius: 8px;
@@ -162,13 +162,11 @@
     z-index: 10;
     width: 250px;
     color: #333; pointer-events: none;
-    top: 0;
-    left: 0;
     transform: translate(15px, -50%);
 
 }
 .G_selection{
-    display:none;
+    display:block;
     position:fixed;
     background-color: rgb(20,20,19);
     z-index: 10;
@@ -207,7 +205,7 @@
 }
 
 
-.G_modal{
+.G_panel{
     position:fixed;
     display:none;
     justify-content: center;
@@ -221,7 +219,7 @@
     background-color: rgba(0,0,0,0.5);
     z-index:11;
 }
-.G_modalBody{
+.G_panelBody{
     position:absolute;
     background-color:rgb(240, 240, 240);
     padding: 20px;
@@ -230,12 +228,12 @@
     width: 50%;
 
 }
-.G_modalBtnContainer{
+.G_panelBtnContainer{
     display:flex;
     flex-direction: row;
 
 }
-.G_modalBtnContainer .button{
+.G_panelBtnContainer .button{
     border-radius: 10%;
 
 

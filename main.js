@@ -41,10 +41,8 @@ window.addEventListener("DOMContentLoaded",()=>{
         // ## 로딩 실패 시의 방어 코드가 없다.
         
         MAINPAGE.init(e.detail); 
-        GAMEPAGE.init(); 
-        // 윗줄 주석 풀면 Uncaught TypeError: Cannot set properties of null (setting 'bot0')
-        // 로딩 완료 시에 GAMEPAGE.init()을 진행하려 하는데, GAMEPAGE.init()내의 MODEL.init()에서 storage를 건드리기 때문에(스키마가 바뀜) 오류가 난다.
-        //GAMEPAGE.init()내에 START_GAME_EVENT_TARGET이 이벤트를 듣게는 해 놨다.
+        GAMEPAGE.init(); // -> 여기서 게임페이지 init()하는 게 맞나? : 일단 이벤트리스너 붙인다. 그런데 
+  
 
         PAGEROUTER.moveToPage("MAIN");
         
