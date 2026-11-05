@@ -65,28 +65,17 @@ const renderGameMode = ()=>{
     /** G_Container 크기를 기반으로 육각형에서 각 point 좌표를 계산 */
     const setHexagonCoords = (containerHeight, containerWidth)=>{
 
+        // ## 세로가 길 경우와 가로가 길 경우가 다르겠지? 가로가 긴 경우 코드 작성해 보기. 
+        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
+        // ## 일단은 진행한다.
+        // ## => viewPort 크기에 맞춰서 레이아웃이 달라지게 하려면 - 가로가 긴 경우 NYK 버튼이 세로로 배치 - 육각형이 중요한 게 아니라, 패널 영역, 육각형 영역, 등등 레이아웃 배치-가 구체적이어야 한다. 아직은 아니다.
+        
         console.log("containerHeight: ",containerHeight,"containerWidth: ",containerWidth);
 
         const ROOT_THREE = 1.732;
         const a = containerHeight/4;
-        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
-        // ## 일단은 진행한다.
+
         const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
-        console.log(
-            "CONTAINER_HEIGHT: ",containerHeight,
-            "CONTAINER_WIDTH: ",containerWidth,
-            "a: ",a,
-            "widthMargin: ",widthMargin
-        );
-
-
-        // ## 좌표계 기준이 어떻게 되는지? 일단 화면 최상단이 0,0이었던 것 같다. 그 기준으로 진행함.
-        // ## [0,0] +[containerX, containerY]+[pointX,pointY]라 가정함. 
-        /**
-         * const xx = [1,2];
-         * const yy=[10,11]
-         * console.log(xx+yy) 하면 1,210,11 나온다.(자바스크립트!!) 실제로는 다른 코드 작성 필요.
-         */
 
         // ## 맨 위 점
         const point1 = {"name":"point1", "x":(ROOT_THREE*a)+widthMargin,"y":0};
@@ -144,7 +133,6 @@ const renderGameMode = ()=>{
         // getBoundingClientRect를 모두  getComputedStyle()로 수정해 보고 렌더링하기.
 
         // 가로로 넓은 스크린의 경우 가로마진, 세로로 넓은 스크린의 경우 ... => 가 아니라! 가장 큰 정사각형을 찾은 다음 그걸 기준으로 육각형 배치하는 형태로 가자.
-        // ## entryPoint : 세로가 길 경우와 가로가 길 경우가 다르겠지? 가로가 긴 경우 코드 작성해 보기. updateCoords()에서 가로세로 크기 받아오면 된다. 받아와서 console.log()까지만.
         return widthMargin
     };
 
