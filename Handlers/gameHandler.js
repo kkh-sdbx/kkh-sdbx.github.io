@@ -112,8 +112,8 @@ const createGAME = ()=>{
             console.log("gameHandler listens initiateGame Event: ",e.detail);
             // 게임 페이지로 이동.
             PAGEROUTER.moveToPage("GAME");
-            //육각형 좌표 설정
-            VIEW.setHexagonCoords();
+            //엘리먼트 좌표 설정
+            VIEW.updateCoords();
         });
 
     };
