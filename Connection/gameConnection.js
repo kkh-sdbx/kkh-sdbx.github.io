@@ -19,6 +19,32 @@ const connectGlobalMode = ()=>{
     let MODAL_EVENT_TARGET = null;
     let MOCK_WEB_EVENT_TARGET = null;
 
+    /**큐 진입 후 initiateGame 시에 클라이언트에 게임 데이터 세팅 */
+    const setGameRoomData = (gameRoomData)=>{
+        console.log(gameRoomData);
+        const clientDB = JSON.parse(storage.getItem("mockPrisonerData"));
+        console.log(clientDB);
+        const myID = clientDB.prisonerID;
+        const myName = clientDB.prisonerName;
+
+        const gameRoomToRender = {
+            "GAME_ROOM_ID":gameRoomData.GAME_ROOM_ID,
+            "currentButton": gameRoomData.currentButton,
+            "currentSubButton":gameRoomData.currentSubButton,
+            "myCurrentMatch": null,
+            "isGameFinished": gameRoomData.isGameFinished,
+            "prisoners": gameRoomData.prisoners,
+            "ranks":gameRoomData.ranks,
+            "turnsTaken":gameRoomData.turnsTaken
+
+        };
+        clientDB["currentGameRoom"] = gameRoomToRender;
+        storage.setItem("mockPrisonerData",JSON.stringify(clientDB));
+
+
+        return {"myID":myID, "myName":myName,"gameRoomData":structuredClone(gameRoomToRender)};
+    };
+
     // 사실 이 정보도 서버에서 받아와야 하는거지? 추후에 수정 필요하다.
     const setPrisonerStorage = ()=>{
         const DATA_SCHEMA = SCHEMA();
@@ -188,6 +214,7 @@ const connectGlobalMode = ()=>{
 
     return{
         init,
+        setGameRoomData,
         handleFix,
         setPrisonerStorage,
         sendUltimatumToServer,

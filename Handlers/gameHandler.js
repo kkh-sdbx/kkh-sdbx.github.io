@@ -110,10 +110,17 @@ const createGAME = ()=>{
 
         START_GAME_EVENT_TARGET.addEventListener("initiateGame",(e)=>{
             console.log("gameHandler listens initiateGame Event: ",e.detail);
-            // 게임 페이지로 이동.
+    
+
+            // ## !! 여기든
+            // 1)게임 페이지로 이동.
             PAGEROUTER.moveToPage("GAME");
-            //엘리먼트 좌표 설정
+            // ## !! 여기든 - pending 상태/로딩 상태를 의미하는 창이 하나 있으면 좋겠네. 일단 그건 나중에.
+            // 2) 엘리먼트 좌표 설정
             VIEW.updateCoords();
+            // 3) 받아온 게임룸 데이터를 로컬에 저장하고 그걸 렌더링
+            VIEW.renderGameRoom(MODEL.setGameRoomData(e.detail));
+            
         });
 
     };

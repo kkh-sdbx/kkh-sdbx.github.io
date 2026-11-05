@@ -121,20 +121,6 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
     });
 
     
-
-    // ## DB에 매치메이킹 결과를 만들어 넣는 데 까지는 mock이 됐다. 큐 잡을 때의 polling 과정 구현 필요. setInterval()이 코드에 들어올 시간임. 
     // 지금 userStatus를 mockWeb이 메모리에 띄워 놓고 있어야 하는데, 그게 없다. cron으로, DB에서 끌어오기 과정을 해 보자. => 1초마다 전체 DB를 훑는다? 그건 말이 안 됨.
 
-        
-
-    // ## 육각형 html div 형태도, 이제 만들어야 함.
-
-    /**
-     * const GAME_ROOM = {
-            "GAME_ROOM_ID":"",
-            "prisoners":[],
-            "turnsTaken":0,
-
-        };
-     */
 });

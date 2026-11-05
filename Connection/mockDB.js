@@ -47,6 +47,7 @@ const MOCK_DB_HANDLER = ()=>{
             "prisoners":[], // hp, 거리, history, isAlive(true/false)가 들어가줘야 한다.
             "turnsTaken":0,
             "currentButton":null,
+            "currentSubButton":null,
             "currentMatch":[],
             "ranks":[],
             "isGameFinished":false

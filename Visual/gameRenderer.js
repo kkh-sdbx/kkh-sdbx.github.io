@@ -203,6 +203,34 @@ const renderGameMode = ()=>{
 
     };
 
+    const renderGameRoom = (gameRoomToRender)=>{
+        console.log("gameRenderer gets gameRoomToRender: ",gameRoomToRender);
+
+        const myID = gameRoomToRender.myID;
+        const myName = gameRoomToRender.myName;
+        const gameRoomData = gameRoomToRender.gameRoomData;
+
+        // 포인트 6에 자기 자신을 넣고 나머지 포인트에는 순서대로 넣기.
+        let opntPointNum = 1;
+        gameRoomData.prisoners.forEach((prisoner)=>{
+            console.log(prisoner.leader);
+            if(prisoner.leader != myID){
+                // ## 적 이름을 렌더링 - 아직 prisonerID와 prisonerName의 구분이 정확하지 않다.
+
+                // ## 포인트의 구조가 바뀌었다. 포인트가 제공하는 정보가 변했지.
+                // ## 레이아웃 생각을 해야 한다. 육각형 내의 대각선/변으로 매치를 표현하려면 육각형 정가운데 사각형이 뜨는 건 굉장히 비-직관적이고 미관을 해쳐.
+                // !! 아이디어 -버튼 매치는 빨간색, 서브버튼 매치는 파란색, 더블매치의 경우 보라색.(뭐 이런식으로!)
+                // ## entryPoint: 하늘색 노트 펴고 UI를 손으로 그려보기. 아니면 정가운데 사각형에 css 효과를 줘서 blur 되게 할까? -> 일단 'z-index로 가리는'방식을 써 보자.
+                POINTS_TABLE.get(`G_point_${opntPointNum}`).innerHTML = prisoner.leader;
+                opntPointNum += 1;
+            }else{
+                // 내 포인트에 렌더링.
+                G_userPoint.innerHTML = myName;
+            };
+
+        });
+    };
+
     const setSelectionInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
             if(!G_currentPoint) {return};
@@ -481,15 +509,16 @@ const renderGameMode = ()=>{
 
     return{
         init,
+        setHexagonCoords,
         updateCoords,
+        renderGameRoom,
         setPointsInteractive,
         updateDecision,
         setModalText,
         setFixPanel,
         disableInteractives,
         setInteractives,
-        showWarning,
-        setHexagonCoords
+        showWarning
     }
 }
 
