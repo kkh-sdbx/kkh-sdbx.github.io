@@ -173,23 +173,6 @@
 .G_showDownResult.tie{
 
 }
-
-/* 툴팁 스타일 (동일하게 유지) */
-.G_tooltip {
-    display: none;
-    position: fixed;
-    background-color: rgb(240, 240, 240);
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    width: 250px;
-    color: #333; pointer-events: none;
-    top: 0;
-    left: 0;
-    transform: translate(15px, -50%);
-
-}
 .G_selection{
     display:none;
     position:fixed;

@@ -158,15 +158,21 @@ const renderGameMode = ()=>{
             "G_TOOLTIP_HEIGHT: ",G_TOOLTIP_HEIGHT
         );
         //## console.log()나오긴 하는데 위 계산이 전혀 적용이 안 된 것 같은데?
-        G_tooltip.style.display = "block";
+        //G_tooltip.style.display = "block";
 
         G_tooltip.style.left = `${hexagonNums.widthMargin+hexagonNums.pointR + (tooltipBaseWidth/4)}px`;
-        G_tooltip.style.top = `${containerWidth/4}px`; // ## 이것도 계산 필요
-        G_tooltip.style.width = G_TOOLTIP_LENGTH;
-        G_tooltip.style.height = G_TOOLTIP_HEIGHT;
+        G_tooltip.style.top = "200px"//`${containerWidth/4}px`; // ## 이것도 계산 필요
+        G_tooltip.style.width = `${G_TOOLTIP_LENGTH}px`;
+        G_tooltip.style.height = `${G_TOOLTIP_HEIGHT}px`;
 
         // ## entryPoint: 좌표평면 위에 widthMargin 포함해서, 정사각형 안에 육각형과 원을 어떻게 배치할건지 그려 보자.
+        console.log(
+            "left:",G_tooltip.style.left,
+            "top:",G_tooltip.style.top,
+            "width:",G_tooltip.style.width,
+            "height:",G_tooltip.style.height
 
+        );
         //G_tooltip.style.left = `${G_TOOLTIP_LENGTH}px`;
         //G_tooltip.style.top = `${G_TOOLTIP_HEIGHT}px`;
             
