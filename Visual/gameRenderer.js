@@ -93,8 +93,9 @@ const renderGameMode = ()=>{
         const point5 = {"name":"point5", "x":(containerWidth-widthMargin),"y":(3*a)};
 
         // ## 맨 아래 점(플레이어)
-        const userPoint = {"name":"point6", "x":(ROOT_THREE*a)+widthMargin,"y":(4*a)};
+        const userPoint = {"name":"userPoint", "x":(ROOT_THREE*a)+widthMargin,"y":(4*a)};
         
+        const result = {"widthMargin": widthMargin, "pointR":0};
 
         const hexCoords = {
             "G_point_1":point1,
@@ -125,27 +126,46 @@ const renderGameMode = ()=>{
             POINT_CONTAINER.style.top = `${changedTop}px`;
             
            console.log(name, "left",(changedLeft),"top",changedTop);
+
+           result.pointR = POINT_CONTAINER_HEIGHT; // ## 불필요한 반복문이고, 또 CONTAINER.style.height가 왜 숫자로 딱 나오지 않는지 아직 이해 못 함.
             
         });
+
 
         
         // 화면 상 좌표와...계산된 css 스타일의 차이인 것 같다. getBoundingClientRect와 getComputedStyle()의 차이인 듯.
         // getBoundingClientRect를 모두  getComputedStyle()로 수정해 보고 렌더링하기.
 
         // 가로로 넓은 스크린의 경우 가로마진, 세로로 넓은 스크린의 경우 ... => 가 아니라! 가장 큰 정사각형을 찾은 다음 그걸 기준으로 육각형 배치하는 형태로 가자.
-        return widthMargin
+        return result // 포인트R을 제대로 넘겨야 한다.
     };
 
     /**컨테이너 높이, 너비, 마진 받아서 툴팁 위치 결정 */    
-    const setTooltip = (containerHeight,containerWidth,containerMargin)=>{
+    const setTooltip = (containerHeight,containerWidth,hexagonNums)=>{
 
-        // ## tooltip이 지금 display = "none"인데, 시스템이 game_skins.css를 읽어오고 있는 듯하다. 문제해결 필요.
-        console.log(G_tooltip);
-        const G_TOOLTIP_LENGTH = parseInt(window.getComputedStyle(G_tooltip).width.split("px")[0]);
-        const G_TOOLTIP_HEIGHT = parseInt(window.getComputedStyle(G_tooltip).height.split("px")[0]);
+        // ## tooltip이 지금 display = "none"인데, 시스템이 game_skins.css를 읽어오고 있는 듯하다. 문제해결 필요. => game_skins를 일단 index.html에서 빼뒀다.
+        console.log(G_tooltip,hexagonNums);
 
-        G_tooltip.style.left = `${G_TOOLTIP_LENGTH/2}px`;
-        G_tooltip.style.top = `${G_TOOLTIP_HEIGHT/2}px`;
+        const tooltipBaseWidth = containerWidth -(2*(hexagonNums.widthMargin + hexagonNums.pointR));
+        const tooltipBaseHeight = tooltipBaseWidth;  // 일단 가로세로 동일하게 놓고 나중에 계산한다.
+        const G_TOOLTIP_LENGTH = tooltipBaseWidth - (2*hexagonNums.pointR);
+        const G_TOOLTIP_HEIGHT = G_TOOLTIP_LENGTH;
+
+        console.log("tooltip setting: ",
+            "tooltipBaseWidth: ",tooltipBaseWidth,
+            "tooltipBaseHeight: ",tooltipBaseHeight,
+            "G_TOOLTIP_LENGTH: ",G_TOOLTIP_LENGTH,
+            "G_TOOLTIP_HEIGHT: ",G_TOOLTIP_HEIGHT
+        );
+        //## console.log()나오긴 하는데 위 계산이 전혀 적용이 안 된 것 같은데?
+        G_tooltip.style.display = "block";
+
+        G_tooltip.style.left = `${hexagonNums.widthMargin+hexagonNums.pointR + (tooltipBaseWidth/4)}px`;
+        G_tooltip.style.top = `${containerWidth/4}px`; // ## 이것도 계산 필요
+        G_tooltip.style.width = G_TOOLTIP_LENGTH;
+        G_tooltip.style.height = G_TOOLTIP_HEIGHT;
+
+        // ## entryPoint: 좌표평면 위에 widthMargin 포함해서, 정사각형 안에 육각형과 원을 어떻게 배치할건지 그려 보자.
 
         //G_tooltip.style.left = `${G_TOOLTIP_LENGTH}px`;
         //G_tooltip.style.top = `${G_TOOLTIP_HEIGHT}px`;
@@ -176,7 +196,7 @@ const renderGameMode = ()=>{
         console.log("G_CONTAINER_HEIGHT: ",G_CONTAINER_HEIGHT,typeof(G_CONTAINER_HEIGHT),"G_CONTAINER_WIDTH: ",G_CONTAINER_WIDTH);
 
         // 우선 육각형 좌표부터 계산
-        const G_CONTAINER_MARGIN = setHexagonCoords(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH);
+        const G_HEXAGON_NUMS = setHexagonCoords(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH);
 
         // G_Coords에 수정된 좌표 업데이트 - 필요한 과정인가? 일단 놔둬보자.
         G_coords.G_point_1.x = POINTS_TABLE.get("G_point_1").getBoundingClientRect().left; 
@@ -198,8 +218,8 @@ const renderGameMode = ()=>{
         G_coords.G_userPoint.y = POINTS_TABLE.get("G_userPoint").getBoundingClientRect().top;
 
         // G_Container계산 기반으로 툴팁과 셀렉션 좌표 설정.
-        setTooltip(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_CONTAINER_MARGIN);
-        setSelection(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_CONTAINER_MARGIN);
+        setTooltip(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
+        setSelection(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
 
     };
 
@@ -220,7 +240,7 @@ const renderGameMode = ()=>{
                 // ## 포인트의 구조가 바뀌었다. 포인트가 제공하는 정보가 변했지.
                 // ## 레이아웃 생각을 해야 한다. 육각형 내의 대각선/변으로 매치를 표현하려면 육각형 정가운데 사각형이 뜨는 건 굉장히 비-직관적이고 미관을 해쳐.
                 // !! 아이디어 -버튼 매치는 빨간색, 서브버튼 매치는 파란색, 더블매치의 경우 보라색.(뭐 이런식으로!)
-                // ## entryPoint: 하늘색 노트 펴고 UI를 손으로 그려보기. 아니면 정가운데 사각형에 css 효과를 줘서 blur 되게 할까? -> 일단 'z-index로 가리는'방식을 써 보자.
+                // ## 아니면 정가운데 사각형에 css 효과를 줘서 blur 되게 할까? -> 일단 'z-index로 가리는'방식을 써 보자.
                 POINTS_TABLE.get(`G_point_${opntPointNum}`).innerHTML = prisoner.leader;
                 opntPointNum += 1;
             }else{

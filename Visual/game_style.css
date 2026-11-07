@@ -160,7 +160,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 10;
-    width: 250px;
     color: #333; pointer-events: none;
     transform: translate(15px, -50%);
 
@@ -238,6 +237,38 @@
 
 
 }
+
+.G_modal{
+    position:absolute;
+    display:none;
+    justify-content: center;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index:10;
+}
+.G_modalBody{
+    position:absolute;
+    background-color:rgb(240, 240, 240);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%;
+
+}
+.G_modalBtnContainer{
+    display:flex;
+    flex-direction: row;
+
+}
+.G_modalBtnContainer .button{
+    border-radius: 10%;
+
+
+}
+
 .G_testBtns{
     background-color: rgb(20, 20, 19); 
     display:flex;
