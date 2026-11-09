@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Points with Tooltip Cursor</title>
+        
+    <style>
+       
+    </style>
+  <script type="module" crossorigin src="/assets/index-D4rINylR.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BPi3AQjr.css">
+</head>
+<body>
+    <div id = "loadingPage"  class = "page">
+        <button id = "loadingToMainBtn" class="pageRouterBtn">loadingToMain</button>
+        <div class="donut" onclick="this.classList.toggle('activated')"></div>
+        <h1 class = "lime">LoadingPage</h1>
+    </div>
+
+    <div id = "mainPage" class = "page">
+        
+        <button id = "mainToTutorialBtn" class="pageRouterBtn">mainToTutorial</button>
+        <button id = "mainToShopBtn" class="pageRouterBtn">SHOP</button>
+        <h1 id = "greetingMessage" class = "cyan">Naive Kindness will not Surevive lol</h1>
+        <h1 class = "lime">MainPage</h1>
+        <div id = "currentSkin"></div>
+        <div id="queueBtnContainer">
+            <button id = "getStarted" class="queueBtn">GET STARTED!</button>
+
+        </div>
+        
+        <div id = "queueModal" class = "G_modal">
+            <div class = "queueModalBody">
+                <h2 id="queueModalTitle"> Modal Title</h2>
+                <h4 id="queueModalContent"> Modal Content</h4> 
+                <div id = "startQueueContainer" class = "queueModalContainer">
+                    <button id = "acceptBtn">Let's Go!!</button>
+                    <button id = "ejectBtn">I'm scared maybe Next Time I'm too afraid bro</button>
+                </div>
+                <div id = "waitingQueueContainer" class = "queueModalContainer">
+                    <div id = "queueSpinner"></div>
+                    <button id = "stopQueueBtn">STOP</button>
+                </div>
+                <div id = "gameEntryQueueContainer" class = "queueModalContainer">
+                    <h1 id = "gameEntryMsg">GAME STARTS!</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <div id = "shopPage"  class = "page">
+        <button id = "shopToMainBtn" class="pageRouterBtn">shopToMain</button>
+        <div class="donut" onclick="this.classList.toggle('activated')"></div>
+        <h1 class = "lime">shopPage</h1>
+    </div>
+
+    <div id = "tutorial" class = "page">
+        <button id = "tutorialToMainBtn" class="pageRouterBtn">tutorialToMain</button>
+        <h1 class = "lime">Tutorial</h1>
+
+               <div class="T_container">
+
+            <div class = "T_pointContainer">
+                <div class = "T_balancer"></div>
+                <div class = "T_saidNo">N</div>
+                <div id="T_point_1" class="G_point" data-point="T_point_1">
+                    <span class = "T_point-text">1</span>
+                </div>
+                <div class = "T_saidYes">Y</div>
+                <div class = "T_showDownResult">0</div>
+
+            </div>
+            <div class = "T_pointContainer">
+                <div class = "T_balancer"></div>
+                <div class = "T_saidNo">N</div>
+                <div id="T_point_2" class="T_point" data-point="T_point_2">
+                    <span class = "T_point-text">2</span>
+                </div>
+                <div class = "T_saidYes">Y</div>
+                <div class = "T_showDownResult">0</div>
+
+            </div>
+            <div class = "T_pointContainer">
+                <div class = "T_balancer"></div>
+                <div class = "T_saidNo">N</div>
+                <div id="T_point_3" class="T_point" data-point="T_point_3">
+                    <span class = "T_point-text">3</span>
+                </div>
+                <div class = "T_saidYes">Y</div>
+                <div class = "T_showDownResult">0</div>
+
+            </div>
+            <div class = "T_pointContainer">
+                <div class = "T_balancer"></div>
+                <div class = "T_saidNo">N</div>
+                <div id="T_point_4" class="T_point" data-point="T_point_4">
+                    <span class = "T_point-text">4</span>
+                </div>
+                <div class = "T_saidYes">Y</div>
+                <div class = "T_showDownResult">0</div>
+
+            </div>
+            <div class = "T_pointContainer">
+                <div class = "T_balancer"></div>
+                <div class = "T_saidNo">N</div>
+                <div id="T_point_5" class="T_point" data-point="T_point_5">
+                    <span class = "T_point-text">5</span>
+                </div>
+                <div class = "T_saidYes">Y</div>
+                <div class = "T_showDownResult">0</div>
+
+            </div>
+
+
+        </div>
+
+        
+        <div id = "T_testBtns" >
+            <button id = "T_donutSkin">Use Donut</button>
+            <button id = "T_startSeason">startSeason </button>
+            <button id="T_fix">FIX</button>
+            <button id = "T_setDummyActions">setDummyActions </button>
+            <button id = "T_finishRound">finishRound </button>
+            <button id = "T_startMatchMaking">startMatchMaking </button>
+
+        </div>
+
+        <!-- 툴팁 요소를 body 바로 아래에 하나만 배치하고 재사용합니다. -->
+        <div class="T_tooltip" id="T_tooltip">
+            <strong id="T_opntName"></strong>
+            <div id="T_opntYNKratio"></div>
+            <strong>30%</strong>
+            <strong>Y 30</strong>
+            <strong>Total 100</strong>
+            <div id = "T_history">
+                <p class = "T_pastAction">X</p>
+                <p class = "T_pastAction">X</p>
+                <p class = "T_pastAction">X</p>
+                <p class = "T_pastAction">X</p>
+                <p class = "T_pastAction">X</p>
+
+            </div>
+        </div>
+
+        <div class="T_selection" id="T_selectionPanel">
+            <button id="T_NBtn" data-btn-type = "N"> N </button>
+            <button id="T_KBtn" data-btn-type = "K"> Kick! </button>
+            <button id="T_YBtn" data-btn-type = "Y"> Y </button>        
+        </div>
+
+        <div id = "T_fixModal" class = "T_modal">
+            <div class = "T_modalBody">
+                <h2> Modal Title</h2>
+                <h4> Modal Content</h4>
+                <div class = "T_modalBtnContainer">
+                    <button id = "T_proceedBtn">Proceed</button>
+                    <button id = "T_discardBtn">Discard</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    
+    <div id = "gameMode" class = "page">
+        <div id = "G_screenBlocker"></div>
+
+        <button id = "gameToMainBtn" class="pageRouterBtn">gameToMain</button>
+  
+        <div id = "dummy" display = "flex" >
+            <h1 class ="green" >Game Mode</h1>
+            <h1 class ="lime" >color test</h1>
+            <h1 class ="purple" >color test</h1>
+            <h1 class ="gray" >color test</h1>
+            <h1 class ="yellow" >color test</h1>
+            <h1 class = "orange">color test</h1>
+            <h1 class = "blue">color test</h1>
+            <h1 class = "cyan">color test</h1>
+            <h1 class = "white">color test</h1>
+            <h1 class = "red">color test</h1>
+            <h1 id = "G_myHp">000</h1>
+        </div>
+        
+        <!-- 각 point에 id 지정하고 V, 하나씩 다룰 수 있도록 함.V 호버 시 툴팁, 클릭 시 툴팁 고정과 마름모꼴 고정 후 Y/N/Kick 버튼 나오도록. !!-->
+
+        <p class = "memoText"> div 를 3x5 형태로 만들어서, 수직으로 점 다섯개 볼 수 있도록 수정,
+        가운데 잡기도 좋고, 점 양쪽에 N/Y 놓기도 좋고, 점 오른쪽 div에는 상대 정보, 왼쪽에는(TBD) 정보 표시.(유저 아이디를 보여줄까?)
+
+        앱인토스: 600x600px 크기의 일반 및 다크모드 앱 로고가 필요함.
+        앱 소개 문구: 어설프게 착하면 살아남지 못한다!  Naive Kindness will not Survive
+        </p>
+        
+        <div id="G_container">
+            
+            <div id="G_point_1_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div> 
+
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator"> 
+
+                        <div id="G_point_1" class="G_point" data-point="G_point_1">
+                            <span class = "G_point-text">1</span>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div id="G_point_2_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_2" class="G_point" data-point="G_point_2">
+                            <span class = "G_point-text">2</span>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div id="G_point_3_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_3" class="G_point" data-point="G_point_3">
+                            <span class = "G_point-text">3</span>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div id="G_point_4_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_4" class="G_point" data-point="G_point_4">
+                            <span class = "G_point-text">4</span>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div id="G_point_5_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_point_5" class="G_point" data-point="G_point_5">
+                            <span class = "G_point-text">5</span>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div id="G_userPoint_Container" class = "G_pointContainer">
+                <div class = "G_showDownResult">0</div>
+                
+                <div class = "tingIndicator">
+                
+                    <div class = "matchIndicator">
+
+                        <div id="G_userPoint" class="G_point" data-point="G_userPoint">
+                            <span class = "G_point-text">6</span>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div class="G_tooltip" id="G_tooltip">
+                <strong id="G_opntName"></strong>
+                <div id="G_opntYNKratio"></div>
+                <strong>30%</strong>
+                <strong>Y 30</strong>
+                <strong>Total 100</strong>
+                <div id = "G_history">
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                    <p class = "G_pastAction">X</p>
+                </div>
+            </div>
+            
+
+            <div id = "G_testBtns" >
+                <button id = "G_donutSkin">Use Donut</button>
+                <button id = "G_startSeason">startSeason </button>
+                <button id="G_fix">FIX</button>
+                <button id = "G_setDummyActions">setDummyActions </button>
+                <button id = "G_finishRound">finishRound </button>
+                <button id = "G_startMatchMaking">startMatchMaking </button>
+            </div>    
+        
+
+            <div class="G_selection" id="G_selectionPanel">
+                <button id="G_NBtn" data-btn-type = "N"> N </button>
+                <button id="G_KBtn" data-btn-type = "K"> Kick! </button>
+                <button id="G_YBtn" data-btn-type = "Y"> Y </button>        
+            </div>
+
+            <div id = "G_fixPanel" class = "G_panel">
+                <div class = "G_panelBody">
+                    <h2 id="G_fixPanelTitle"> Panel Title</h2>
+                    <h4 id="G_fixPanelContent"> Panel Content</h4> 
+                    <div class = "G_panelBtnContainer">
+                        <button id = "G_proceedBtn">Proceed</button>
+                        <button id = "G_discardBtn">Discard</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id = "G_warningModal" class = "G_modal">
+                <div class = "G_modalBody">
+                    <h2 id="G_warningModalTitle"> Modal Title</h2>
+                    <h4 id="G_warningModalContent"> Modal Content</h4> 
+                    <button id = "G_warningBtn">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+</html>
