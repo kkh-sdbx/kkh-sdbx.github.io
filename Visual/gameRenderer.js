@@ -64,13 +64,45 @@ const renderGameMode = ()=>{
 
     /** G_Container 크기를 기반으로 육각형에서 각 point 좌표를 계산 */
     const setHexagonCoords = (containerHeight, containerWidth)=>{
+        /**
+         * { // CONTAINER_HEIGHT === CONTAINER_WIDTH인 정사각형을 가정함.
+            "a":CONTAINER_HEIGHT /4,
+            "pointContainer_R":CONTAINER_HEIGHT /10,
+            "widthMargin": (CONTAINER_WIDTH -(2*ROOT_THREE*a))/2,
+            "point_R":pointContainer_R*0.8,
+            "point_1":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":0},
+            "point_2":{"left":widthMargin-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            "point_3":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            "point_4":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)},
+            "point_5":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(point_R/2)},
+            "point_6_userPoint":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":CONTAINER_HEIGHT-(pointContainer_R/2)},
+            "tooltip":{"left: widthMargin+(1.5*pointContainer_R)","top":2*pointContainer_R,"width":CONTAINER_HEIGHT-(2*widthMargin+3*pointContainer_R),"height":CONTAINER_HEIGHT-(4*pointContainer_R)}
+            }
+         */
 
         console.log("containerHeight: ",containerHeight,"containerWidth: ",containerWidth);
 
+        const pointContainer_R = containerHeight/10;
+        const point_R = pointContainer_R * 0.8;
+
+        // pointContainer && point 너비와 높이 설정
+
+        const pCs = document.querySelectorAll(".G_pointContainer");
+
+        pCs.forEach((pC)=>{
+            pC.style.width = `${pointContainer_R}px`;
+            pC.style.height = `${pointContainer_R}px`;
+        });
+
+        POINTS_TABLE.forEach((point,name)=>{
+            point.style.width = `${point_R}px`;
+            point.style.height = `${point_R}px`;
+        });
+        
         const ROOT_THREE = 1.732;
         const a = containerHeight/4;
-        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
-        // ## 일단은 진행한다.
+        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함. 일단은 진행한다.
+
         const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
         console.log(
             "CONTAINER_HEIGHT: ",containerHeight,
@@ -79,64 +111,29 @@ const renderGameMode = ()=>{
             "widthMargin: ",widthMargin
         );
 
-
-        // ## 좌표계 기준이 어떻게 되는지? 일단 화면 최상단이 0,0이었던 것 같다. 그 기준으로 진행함.
-        // ## [0,0] +[containerX, containerY]+[pointX,pointY]라 가정함. 
-        /**
-         * const xx = [1,2];
-         * const yy=[10,11]
-         * console.log(xx+yy) 하면 1,210,11 나온다.(자바스크립트!!) 실제로는 다른 코드 작성 필요.
-         */
-
         // ## 맨 위 점
-        const point1 = {"name":"point1", "x":(ROOT_THREE*a)+widthMargin,"y":0};
+        const HEX_COORDS = {
+            // 최상단
+            "G_point_1_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":0},
+            // 좌상단
+            "G_point_2_Container":{"left":widthMargin-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            // 우상단
+            "G_point_3_Container":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            // 좌하단
+            "G_point_4_Container":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)},
+            // 우하단
+            "G_point_5_Container": {"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(point_R/2)},
+            // 맨 아래 점(플레이어)
+            "G_userPoint_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":containerHeight-(pointContainer_R/2)}
 
-        // ## 좌상단
-        const point2 = {"name":"point2", "x":widthMargin,"y":a};
+        }; 
 
-        // ## 우상단
-        const point3 = {"name":"point3", "x":(containerWidth-widthMargin),"y":a};
-
-        // ## 좌하단
-        const point4 = {"name":"point4", "x":widthMargin,"y":(3*a)};
-
-        // ## 우하단
-        const point5 = {"name":"point5", "x":(containerWidth-widthMargin),"y":(3*a)};
-
-        // ## 맨 아래 점(플레이어)
-        const userPoint = {"name":"point6", "x":(ROOT_THREE*a)+widthMargin,"y":(4*a)};
+        console.log("HEX_COORDS: ",HEX_COORDS);
         
+        pCs.forEach((pC)=>{
+            pC.style.left = `${HEX_COORDS[pC.id].left}px`;
+            pC.style.top = `${HEX_COORDS[pC.id].top}px`;
 
-        const hexCoords = {
-            "G_point_1":point1,
-            "G_point_2":point2,
-            "G_point_3":point3,
-            "G_point_4":point4,
-            "G_point_5":point5,
-            "G_userPoint":userPoint
-        };
-
-        console.log("hexCoords: ",hexCoords);
-        
-        //POINTS_TABLE 에 hexCoords 추가
-        POINTS_TABLE.forEach((point,name)=>{ 
-            //getBoundingClientRect().left는 숫자로 나온다.
-
-            // ## 이런 렌더링/스타일 상수들은 위로 한 번에 빼 놓을까?
-            const POINT_CONTAINER = document.getElementById(`${name}_Container`);
-            const POINT_CONTAINER_LENGTH = parseInt(window.getComputedStyle(POINT_CONTAINER).width.split("px")[0]);
-            const POINT_CONTAINER_HEIGHT = parseInt(window.getComputedStyle(POINT_CONTAINER).height.split("px")[0]);
-           
-            // point의 수정된 좌표 계산
-            const changedLeft = hexCoords[name].x - (POINT_CONTAINER_LENGTH/2);
-            const changedTop = hexCoords[name].y - (POINT_CONTAINER_HEIGHT/2);
-
-            // point의 stlye 수정해서 육각형 만들기
-            POINT_CONTAINER.style.left = `${changedLeft}px`;
-            POINT_CONTAINER.style.top = `${changedTop}px`;
-            
-           console.log(name, "left",(changedLeft),"top",changedTop);
-            
         });
 
         
