@@ -24,7 +24,10 @@
 }
 .G_pointContainer{
     position:absolute;
-    width:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:0;
     top:0;
     left:0;
     
@@ -58,7 +61,7 @@
 
 /* 원형 점 스타일 */
 .G_point {
-    position:absolute;
+    position:relative;
     width: 40px;
     height: 40px;
     background-color: rgb(80, 200, 255); /* 파란색 rgb(70, 190, 245)또는  rgb(185, 220, 240)도 확인할 것!!*/

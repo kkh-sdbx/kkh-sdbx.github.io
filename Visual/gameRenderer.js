@@ -83,12 +83,19 @@ const renderGameMode = ()=>{
 
         console.log("containerHeight: ",containerHeight,"containerWidth: ",containerWidth);
 
+        const pCs = document.querySelectorAll(".G_pointContainer");
+
         const pointContainer_R = containerHeight/10;
         const point_R = pointContainer_R * 0.8;
 
         // pointContainer && point 너비와 높이 설정
 
-        const pCs = document.querySelectorAll(".G_pointContainer");
+        
+        const ROOT_THREE = 1.732;
+        const heightMargin = pointContainer_R/2;
+        const a = (containerHeight-(2*heightMargin))/4;
+        const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
+        
 
         pCs.forEach((pC)=>{
             pC.style.width = `${pointContainer_R}px`;
@@ -100,32 +107,32 @@ const renderGameMode = ()=>{
             point.style.height = `${point_R}px`;
         });
         
-        const ROOT_THREE = 1.732;
-        const a = containerHeight/4;
+        
         // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함. 일단은 진행한다.
 
-        const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
+        
         console.log(
             "CONTAINER_HEIGHT: ",containerHeight,
             "CONTAINER_WIDTH: ",containerWidth,
             "a: ",a,
-            "widthMargin: ",widthMargin
+            "widthMargin: ",widthMargin,
+            "heightMargin: ",heightMargin
         );
 
         // ## 맨 위 점
         const HEX_COORDS = {
             // 최상단
-            "G_point_1_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":0},
+            "G_point_1_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":-(pointContainer_R/2)+heightMargin},
             // 좌상단
-            "G_point_2_Container":{"left":widthMargin-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            "G_point_2_Container":{"left":widthMargin-(pointContainer_R/2),"top":a-(pointContainer_R/2)+heightMargin},
             // 우상단
-            "G_point_3_Container":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            "G_point_3_Container":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":a-(pointContainer_R/2)+heightMargin},
             // 좌하단
-            "G_point_4_Container":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)},
+            "G_point_4_Container":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)+heightMargin},
             // 우하단
-            "G_point_5_Container": {"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(point_R/2)},
+            "G_point_5_Container": {"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)+heightMargin},
             // 맨 아래 점(플레이어)
-            "G_userPoint_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":containerHeight-(pointContainer_R/2)}
+            "G_userPoint_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":(4*a)-(pointContainer_R/2)+heightMargin}
 
         }; 
 
@@ -134,6 +141,7 @@ const renderGameMode = ()=>{
         pCs.forEach((pC)=>{
             pC.style.left = `${HEX_COORDS[pC.id].left}px`;
             pC.style.top = `${HEX_COORDS[pC.id].top}px`;
+            pC.style.backgroundColor = "red";
 
         });
 
