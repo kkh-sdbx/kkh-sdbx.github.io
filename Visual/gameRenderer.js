@@ -77,7 +77,7 @@ const renderGameMode = ()=>{
             "point_4":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)},
             "point_5":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(point_R/2)},
             "point_6_userPoint":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":CONTAINER_HEIGHT-(pointContainer_R/2)},
-            "tooltip":{"left: widthMargin+(1.5*pointContainer_R)","top":2*pointContainer_R,"width":CONTAINER_HEIGHT-(2*widthMargin+3*pointContainer_R),"height":CONTAINER_HEIGHT-(4*pointContainer_R)}
+            
             }
          */
 
@@ -110,15 +110,6 @@ const renderGameMode = ()=>{
         
         // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함. 일단은 진행한다.
 
-        
-        console.log(
-            "CONTAINER_HEIGHT: ",containerHeight,
-            "CONTAINER_WIDTH: ",containerWidth,
-            "a: ",a,
-            "widthMargin: ",widthMargin,
-            "heightMargin: ",heightMargin
-        );
-
         // ## 맨 위 점
         const HEX_COORDS = {
             // 최상단
@@ -150,8 +141,14 @@ const renderGameMode = ()=>{
         // getBoundingClientRect를 모두  getComputedStyle()로 수정해 보고 렌더링하기.
 
         // 가로로 넓은 스크린의 경우 가로마진, 세로로 넓은 스크린의 경우 ... => 가 아니라! 가장 큰 정사각형을 찾은 다음 그걸 기준으로 육각형 배치하는 형태로 가자.
-        // ## entryPoint : 세로가 길 경우와 가로가 길 경우가 다르겠지? 가로가 긴 경우 코드 작성해 보기. updateCoords()에서 가로세로 크기 받아오면 된다. 받아와서 console.log()까지만.
-        return widthMargin
+        // ## 세로가 길 경우와 가로가 길 경우가 다르겠지? 가로가 긴 경우 코드 작성해 보기.
+        return { "a":a,
+                "widthMargin":widthMargin,
+                "heightMargin":heightMargin,
+                "pointContainer_R":pointContainer_R,
+                "point_R":point_R
+            }   
+           
     };
 
     /**컨테이너 높이, 너비, 마진 받아서 툴팁 위치 결정 */    
@@ -159,27 +156,27 @@ const renderGameMode = ()=>{
 
         // ## tooltip이 지금 display = "none"인데, 시스템이 game_skins.css를 읽어오고 있는 듯하다. 문제해결 필요. => game_skins를 일단 index.html에서 빼뒀다.
         console.log(G_tooltip,hexagonNums);
+        /**"tooltip":{
+         *          "left: widthMargin+(1.5*pointContainer_R)",
+         * 
+         *          "top":2*pointContainer_R,
+         * 
+         *          "width":CONTAINER_HEIGHT-(2*widthMargin+3*pointContainer_R),
+         * 
+         *          "height":CONTAINER_HEIGHT-(4*pointContainer_R)
+         * 
+         * }
+        */
 
-        const tooltipBaseWidth = containerWidth -(2*(hexagonNums.widthMargin + hexagonNums.pointR));
-        const tooltipBaseHeight = tooltipBaseWidth;  // 일단 가로세로 동일하게 놓고 나중에 계산한다.
-        const G_TOOLTIP_LENGTH = tooltipBaseWidth - (2*hexagonNums.pointR);
-        const G_TOOLTIP_HEIGHT = G_TOOLTIP_LENGTH;
-
-        console.log("tooltip setting: ",
-            "tooltipBaseWidth: ",tooltipBaseWidth,
-            "tooltipBaseHeight: ",tooltipBaseHeight,
-            "G_TOOLTIP_LENGTH: ",G_TOOLTIP_LENGTH,
-            "G_TOOLTIP_HEIGHT: ",G_TOOLTIP_HEIGHT
-        );
         //## console.log()나오긴 하는데 위 계산이 전혀 적용이 안 된 것 같은데?
         //G_tooltip.style.display = "block";
 
-        G_tooltip.style.left = `${hexagonNums.widthMargin+hexagonNums.pointR + (tooltipBaseWidth/4)}px`;
-        G_tooltip.style.top = "200px"//`${containerWidth/4}px`; // ## 이것도 계산 필요
-        G_tooltip.style.width = `${G_TOOLTIP_LENGTH}px`;
-        G_tooltip.style.height = `${G_TOOLTIP_HEIGHT}px`;
+        G_tooltip.style.left = `${hexagonNums.widthMargin+(1.5*hexagonNums.pointContainer_R)}px`;
+        G_tooltip.style.top = `${2*hexagonNums.pointContainer_R}px`
+        G_tooltip.style.width = `${containerHeight-(2*hexagonNums.widthMargin+3*hexagonNums.pointContainer_R)}px`;
+        G_tooltip.style.height = `${containerHeight-(4*hexagonNums.pointContainer_R)}px`;
 
-        // ## entryPoint: 좌표평면 위에 widthMargin 포함해서, 정사각형 안에 육각형과 원을 어떻게 배치할건지 그려 보자.
+   
         console.log(
             "left:",G_tooltip.style.left,
             "top:",G_tooltip.style.top,
@@ -187,16 +184,6 @@ const renderGameMode = ()=>{
             "height:",G_tooltip.style.height
 
         );
-        //G_tooltip.style.left = `${G_TOOLTIP_LENGTH}px`;
-        //G_tooltip.style.top = `${G_TOOLTIP_HEIGHT}px`;
-            
-        /**
-         *            // point의 stlye 수정해서 육각형 만들기
-            POINT_CONTAINER.style.left = `${changedLeft}px`;
-            POINT_CONTAINER.style.top = `${changedTop}px`;
-         */
-       // G_tooltip.style.display = "block";
-
 
     };
 
@@ -313,6 +300,8 @@ const renderGameMode = ()=>{
     };            
 
     const setPointsInteractive = ()=>{
+        // ## entryPoint : 구 버전 게임 규칙이다. 일단 클릭 시에 툴팁 내용 바뀌는 것부터 작성해 보자
+
             //마우스 오버 이벤트 핸들러
             G_points.forEach(point => {
                                

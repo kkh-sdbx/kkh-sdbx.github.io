@@ -158,13 +158,12 @@
 .G_tooltip {
     position: absolute;
     display:flex;
-    background-color: rgb(240, 240, 240);
-    padding: 15px;
+    background-color: rgb(146, 10, 173);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 10;
     color: #333; pointer-events: none;
-    transform: translate(15px, -50%);
+    
 
 }
 .G_selection{
