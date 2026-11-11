@@ -62,82 +62,88 @@ const renderGameMode = ()=>{
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;    
 
+
     /** G_Container 크기를 기반으로 육각형에서 각 point 좌표를 계산 */
     const setHexagonCoords = (containerHeight, containerWidth)=>{
+        /**
+         * { // CONTAINER_HEIGHT === CONTAINER_WIDTH인 정사각형을 가정함.
+            "a":CONTAINER_HEIGHT /4,
+            "pointContainer_R":CONTAINER_HEIGHT /10,
+            "widthMargin": (CONTAINER_WIDTH -(2*ROOT_THREE*a))/2,
+            "point_R":pointContainer_R*0.8,
+            "point_1":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":0},
+            "point_2":{"left":widthMargin-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            "point_3":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            "point_4":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)},
+            "point_5":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(point_R/2)},
+            "point_6_userPoint":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":CONTAINER_HEIGHT-(pointContainer_R/2)},
+            "tooltip":{"left: widthMargin+(1.5*pointContainer_R)","top":2*pointContainer_R,"width":CONTAINER_HEIGHT-(2*widthMargin+3*pointContainer_R),"height":CONTAINER_HEIGHT-(4*pointContainer_R)}
+            }
+         */
 
-        // ## 세로가 길 경우와 가로가 길 경우가 다르겠지? 가로가 긴 경우 코드 작성해 보기. 
-        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함.
-        // ## 일단은 진행한다.
-        // ## => viewPort 크기에 맞춰서 레이아웃이 달라지게 하려면 - 가로가 긴 경우 NYK 버튼이 세로로 배치 - 육각형이 중요한 게 아니라, 패널 영역, 육각형 영역, 등등 레이아웃 배치-가 구체적이어야 한다. 아직은 아니다.
-        
         console.log("containerHeight: ",containerHeight,"containerWidth: ",containerWidth);
 
-        const ROOT_THREE = 1.732;
-        const a = containerHeight/4;
+        const pointContainer_R = containerHeight/10;
+        const point_R = pointContainer_R * 0.8;
 
-        const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
+        // pointContainer && point 너비와 높이 설정
 
-        // ## 맨 위 점
-        const point1 = {"name":"point1", "x":(ROOT_THREE*a)+widthMargin,"y":0};
+        const pCs = document.querySelectorAll(".G_pointContainer");
 
-        // ## 좌상단
-        const point2 = {"name":"point2", "x":widthMargin,"y":a};
-
-        // ## 우상단
-        const point3 = {"name":"point3", "x":(containerWidth-widthMargin),"y":a};
-
-        // ## 좌하단
-        const point4 = {"name":"point4", "x":widthMargin,"y":(3*a)};
-
-        // ## 우하단
-        const point5 = {"name":"point5", "x":(containerWidth-widthMargin),"y":(3*a)};
-
-        // ## 맨 아래 점(플레이어)
-        const userPoint = {"name":"userPoint", "x":(ROOT_THREE*a)+widthMargin,"y":(4*a)};
-        
-        const result = {"widthMargin": widthMargin, "pointR":0};
-
-        const hexCoords = {
-            "G_point_1":point1,
-            "G_point_2":point2,
-            "G_point_3":point3,
-            "G_point_4":point4,
-            "G_point_5":point5,
-            "G_userPoint":userPoint
-        };
-
-        console.log("hexCoords: ",hexCoords);
-        
-        //POINTS_TABLE 에 hexCoords 추가
-        POINTS_TABLE.forEach((point,name)=>{ 
-            //getBoundingClientRect().left는 숫자로 나온다.
-
-            // ## 이런 렌더링/스타일 상수들은 위로 한 번에 빼 놓을까?
-            const POINT_CONTAINER = document.getElementById(`${name}_Container`);
-            const POINT_CONTAINER_LENGTH = parseInt(window.getComputedStyle(POINT_CONTAINER).width.split("px")[0]);
-            const POINT_CONTAINER_HEIGHT = parseInt(window.getComputedStyle(POINT_CONTAINER).height.split("px")[0]);
-           
-            // point의 수정된 좌표 계산
-            const changedLeft = hexCoords[name].x - (POINT_CONTAINER_LENGTH/2);
-            const changedTop = hexCoords[name].y - (POINT_CONTAINER_HEIGHT/2);
-
-            // point의 stlye 수정해서 육각형 만들기
-            POINT_CONTAINER.style.left = `${changedLeft}px`;
-            POINT_CONTAINER.style.top = `${changedTop}px`;
-            
-           console.log(name, "left",(changedLeft),"top",changedTop);
-
-           result.pointR = POINT_CONTAINER_HEIGHT; // ## 불필요한 반복문이고, 또 CONTAINER.style.height가 왜 숫자로 딱 나오지 않는지 아직 이해 못 함.
-            
+        pCs.forEach((pC)=>{
+            pC.style.width = `${pointContainer_R}px`;
+            pC.style.height = `${pointContainer_R}px`;
         });
 
+        POINTS_TABLE.forEach((point,name)=>{
+            point.style.width = `${point_R}px`;
+            point.style.height = `${point_R}px`;
+        });
+        
+        const ROOT_THREE = 1.732;
+        const a = containerHeight/4;
+        // ## 모바일이든 어디든...기형적으로 좁거나 넓은 container 형태가 될 수 있다. 그것도 생각해야 함. 일단은 진행한다.
+
+        const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
+        console.log(
+            "CONTAINER_HEIGHT: ",containerHeight,
+            "CONTAINER_WIDTH: ",containerWidth,
+            "a: ",a,
+            "widthMargin: ",widthMargin
+        );
+
+        // ## 맨 위 점
+        const HEX_COORDS = {
+            // 최상단
+            "G_point_1_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":0},
+            // 좌상단
+            "G_point_2_Container":{"left":widthMargin-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            // 우상단
+            "G_point_3_Container":{"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":a-(pointContainer_R/2)},
+            // 좌하단
+            "G_point_4_Container":{"left":widthMargin-(pointContainer_R/2),"top":(3*a)-(pointContainer_R/2)},
+            // 우하단
+            "G_point_5_Container": {"left":widthMargin+(2*ROOT_THREE*a)-(pointContainer_R/2),"top":(3*a)-(point_R/2)},
+            // 맨 아래 점(플레이어)
+            "G_userPoint_Container":{"left":widthMargin+(ROOT_THREE*a)-(pointContainer_R/2),"top":containerHeight-(pointContainer_R/2)}
+
+        }; 
+
+        console.log("HEX_COORDS: ",HEX_COORDS);
+        
+        pCs.forEach((pC)=>{
+            pC.style.left = `${HEX_COORDS[pC.id].left}px`;
+            pC.style.top = `${HEX_COORDS[pC.id].top}px`;
+
+        });
 
         
         // 화면 상 좌표와...계산된 css 스타일의 차이인 것 같다. getBoundingClientRect와 getComputedStyle()의 차이인 듯.
         // getBoundingClientRect를 모두  getComputedStyle()로 수정해 보고 렌더링하기.
 
         // 가로로 넓은 스크린의 경우 가로마진, 세로로 넓은 스크린의 경우 ... => 가 아니라! 가장 큰 정사각형을 찾은 다음 그걸 기준으로 육각형 배치하는 형태로 가자.
-        return result // 포인트R을 제대로 넘겨야 한다.
+        // ## entryPoint : 세로가 길 경우와 가로가 길 경우가 다르겠지? 가로가 긴 경우 코드 작성해 보기. updateCoords()에서 가로세로 크기 받아오면 된다. 받아와서 console.log()까지만.
+        return widthMargin
     };
 
     /**컨테이너 높이, 너비, 마진 받아서 툴팁 위치 결정 */    
