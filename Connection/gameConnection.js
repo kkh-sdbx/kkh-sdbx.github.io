@@ -66,26 +66,33 @@ const connectGlobalMode = ()=>{
 
     };
     /**
-     * point 1개의 decision 을 storage에서 가져와 리턴
-     * @params action이 일어난 point의 number
+     * point에 매치된 상대 데이터를 storage에서 가져와 리턴
+     * @params {string} action이 일어난 pointID
      */
     const getPointData = (pointId)=>{
-
-        let pointData = {"target":null, "action":null};
+        // id,YNKratio, hp, history
+        let pointData = {
+            "target":null, 
+            "targetID":null, 
+            "targetNYKRatio":null,
+            "targetHistory":null
+        };
 
         if(!(POINT_VALIDATOR.includes(pointId))){
             console.log("pointId invalid:", pointId); 
-            // 추가적인 방어 코드가 필요한 부분이다.
-        }
-
-        if(ACTION_VALIDATOR.includes(storage.getItem(pointId))){
-            pointData = { "target":pointId, "action":storage.getItem(pointId)};
+            // ## 추가적인 방어 코드가 필요한 부분이다.
+        };
+        // ## 클라이언트 스토리지에 상대 유저에 대한 정보가 얼마나 들어있는지, 점검할 시간이다.
+        // ## 게임룸 하나의 데이터 스키마를 JSON으로 표현하는 게 핵심인데 지금 그걸 해결해야 함. 
+        // ## entryPoint : live Server 켜서 getPointData 결과 콘솔에 찍히는 것 확인하기.
+        if(storage.getItem(pointId)){
+            console.log("gameConnection getPointData successful: ",storage.getItem(pointId));
+            
         }else{
-            pointData = {"target":pointId, "action":null};
-        }
+            console.log("gameConnection getPointData failed: ",storage.getItem(pointId));
+            
+        };
 
-        // DECISION_DETAIL = {"target":G_currentPoint.id, "action":G_currentPoint.dataset.btnType };
-        // 데이터가 변경되었음을 알림
         return pointData
 
     };    

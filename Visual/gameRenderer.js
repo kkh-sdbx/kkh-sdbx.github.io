@@ -58,7 +58,7 @@ const renderGameMode = ()=>{
     let G_isDonut = null;
   
     let ACTION_FIXED_EVENT = null;
-  
+    let POINTS_EVENT_TARGET = null;
     let SELECTION_EVENT_TARGET = null;
     let MODAL_EVENT_TARGET = null;    
 
@@ -186,6 +186,10 @@ const renderGameMode = ()=>{
         );
 
     };
+    /**point 클릭 시 target 포인트의 아이디 받아서 해당 포인트에 배치된 유저 정보를 툴팁에 업데이트하는 함수 */
+    const updateTooltipContent = (targetPointID)=>{
+        
+    };
 
     /**컨테이너 높이, 너비, 마진 받아서 선택지 위치 결정 */
     const setSelection = (containerHeight,containerWidth,containerMargin)=>{
@@ -300,37 +304,36 @@ const renderGameMode = ()=>{
     };            
 
     const setPointsInteractive = ()=>{
-        // ## entryPoint : 구 버전 게임 규칙이다. 일단 클릭 시에 툴팁 내용 바뀌는 것부터 작성해 보자
-
+        
             //마우스 오버 이벤트 핸들러
             G_points.forEach(point => {
                                
-                point.addEventListener("click",(e)=>{ //# 선택된 포인트 다시 클릭하면 'decided'지우고, 선택한 선택지 제거하기 !! #
+                /** 각 포인트에, 클릭 시 툴팁에 해당 플레이어의 정보 렌더링하는 함수 연결  */
+                // ## >pointContainer 클릭으로 바꿀까?                
+                point.addEventListener("click",(e)=>{ 
+                    // ## 여기서는 툴팁에 표시할 메시지가 중요해진다.
+                    // ##나와 매치가 아닌 플레이어/매치인 플레이억 -> 표시할 내용이 달라.
+                    // ## 내 상태를 표시할 UI도 화면 상단에 갖춰둘 것.
 
-                    const target = point.id;
+                    if( G_currentPoint === point){ // 동일한 포인트 다시 클릭
+                        
+                        POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("pointClicked",{
+                            detail:G_currentPoint.id
+                        }));                         
 
-                    if( G_currentPoint != null) {
-
-                        if( G_currentPoint === point){                             
-                            G_currentPoint = null;
-                            point.classList.remove('activated');
-
-                        }else{ // 이전에 클릭했던 point가 있고, 새 point 클릭 시
-
+                    }else{ // 새 point 클릭 시
+                        if(!G_currentPoint){
                             G_currentPoint.classList.remove('activated');
-                            G_currentPoint = point;
-                            point.classList.add('activated');
-
                         };
-
-                    }else{ // 이전에 클릭했던 point가 없고, 새 point 클릭 시
                         
-                        //point.classList.remove("decided");
-                        point.classList.add('activated');
                         G_currentPoint = point;
+                        G_currentPoint.classList.add('activated');
                         
+                        POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("pointClicked",{
+                            detail:G_currentPoint.id
+                        }));
+
                     };
-                    
                 });
 
             });
@@ -477,6 +480,7 @@ const renderGameMode = ()=>{
         gameToMainBtn = document.getElementById('gameToMainBtn');
         G_isDonut = false;
 
+        POINTS_EVENT_TARGET = eventTargets.pointsEventTarget
         SELECTION_EVENT_TARGET = eventTargets.selectionEventTarget;
         MODAL_EVENT_TARGET = eventTargets.modalEventTarget;
 

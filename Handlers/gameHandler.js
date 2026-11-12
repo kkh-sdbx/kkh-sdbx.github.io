@@ -62,6 +62,12 @@ const createGAME = ()=>{
         };
 
         // eventTarget에 리스너 붙이기
+
+        /**포인트 클릭 시 클라이언트 스토리지에서 매칭된 포인트에 있는 상대 정보 전달.*/ 
+        POINTS_EVENT_TARGET.addEventListener("pointClicked",(e)=>{
+            // VIEW.updateTooltipContent(MODEL.getPointData(e.detail));
+        });
+
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
             // {"target":null, "action":"Y" }를 받아온다.
             
