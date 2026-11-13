@@ -154,6 +154,8 @@ const renderGameMode = ()=>{
     /**컨테이너 높이, 너비, 마진 받아서 툴팁 위치 결정 */    
     const setTooltip = (containerHeight,containerWidth,hexagonNums)=>{
 
+
+        // ## 툴팁-> window resize 시마다 크기 다시 조정해야 한다. 아니면...>
         // ## tooltip이 지금 display = "none"인데, 시스템이 game_skins.css를 읽어오고 있는 듯하다. 문제해결 필요. => game_skins를 일단 index.html에서 빼뒀다.
         console.log(G_tooltip,hexagonNums);
         /**"tooltip":{
@@ -239,27 +241,18 @@ const renderGameMode = ()=>{
 
         const myID = gameRoomToRender.myID;
         const myName = gameRoomToRender.myName;
-        const gameRoomData = gameRoomToRender.gameRoomData;
-
-        // 포인트 6에 자기 자신을 넣고 나머지 포인트에는 순서대로 넣기.
-        let opntPointNum = 1;
-        gameRoomData.prisoners.forEach((prisoner)=>{
-            console.log(prisoner.leader);
-            if(prisoner.leader != myID){
-                // ## 적 이름을 렌더링 - 아직 prisonerID와 prisonerName의 구분이 정확하지 않다.
-
-                // ## 포인트의 구조가 바뀌었다. 포인트가 제공하는 정보가 변했지.
-                // ## 레이아웃 생각을 해야 한다. 육각형 내의 대각선/변으로 매치를 표현하려면 육각형 정가운데 사각형이 뜨는 건 굉장히 비-직관적이고 미관을 해쳐.
-                // !! 아이디어 -버튼 매치는 빨간색, 서브버튼 매치는 파란색, 더블매치의 경우 보라색.(뭐 이런식으로!)
-                // ## 아니면 정가운데 사각형에 css 효과를 줘서 blur 되게 할까? -> 일단 'z-index로 가리는'방식을 써 보자.
-                POINTS_TABLE.get(`G_point_${opntPointNum}`).innerHTML = prisoner.leader;
-                opntPointNum += 1;
+        const pointsRenderData = gameRoomToRender.gameRoomData.pointsAllocated;
+        console.log(pointsRenderData);
+        // 포인트에 배치된 대로 넣기.
+        POINTS_TABLE.forEach((point,id)=>{
+            if(pointsRenderData[id]){
+                point.innerText = pointsRenderData[id];
             }else{
-                // 내 포인트에 렌더링.
-                G_userPoint.innerHTML = myName;
-            };
-
+                console.error("invalid prisoner data at gameRenerer.js-renderGameRoom");
+            }
         });
+
+  
     };
 
     const setSelectionInteractive = (e)=>{
@@ -323,11 +316,12 @@ const renderGameMode = ()=>{
 
                     }else{ // 새 point 클릭 시
                         if(!G_currentPoint){
-                            G_currentPoint.classList.remove('activated');
+                            //G_currentPoint.classList.remove('activated');
                         };
                         
                         G_currentPoint = point;
                         G_currentPoint.classList.add('activated');
+                        // ## entryPoint : 렌더링하고, 콘솔에 클릭한 포인트에 배정된 prisoner 이름까지 나온다. 이제 classList 수정하고, 툴팁 메시지 업데이트하면 된다. 
                         
                         POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("pointClicked",{
                             detail:G_currentPoint.id

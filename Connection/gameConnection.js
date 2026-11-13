@@ -21,7 +21,7 @@ const connectGlobalMode = ()=>{
 
     /**큐 진입 후 initiateGame 시에 클라이언트에 게임 데이터 세팅 */
     const setGameRoomData = (gameRoomData)=>{
-        console.log(gameRoomData);
+        console.log("gameRoomData received: ",gameRoomData);
         const clientDB = JSON.parse(storage.getItem("mockPrisonerData"));
         console.log(clientDB);
         const myID = clientDB.prisonerID;
@@ -35,9 +35,36 @@ const connectGlobalMode = ()=>{
             "isGameFinished": gameRoomData.isGameFinished,
             "prisoners": gameRoomData.prisoners,
             "ranks":gameRoomData.ranks,
-            "turnsTaken":gameRoomData.turnsTaken
+            "turnsTaken":gameRoomData.turnsTaken,
+            "pointsAllocated":{
+                "G_point_1":null,
+                "G_point_2":null,
+                "G_point_3":null,
+                "G_point_4":null,
+                "G_point_5":null,
+                "G_userPoint":null
+            }
 
         };
+
+        let seat = 1; 
+        gameRoomData.prisoners.forEach((prisonerParty)=>{
+            if(seat>=1 && 5>=seat){
+                if(prisonerParty.leader === myID){
+                    gameRoomToRender.pointsAllocated.G_userPoint = myName;
+                }else{
+                    gameRoomToRender.pointsAllocated[`G_point_${seat}`] = prisonerParty.members[0];
+                    seat += 1;
+                };
+            }else{
+                console.error("prisoner number invalid");
+            }
+            
+        });
+
+        console.log("gameRoomToRender: ",gameRoomToRender);
+
+
         clientDB["currentGameRoom"] = gameRoomToRender;
         storage.setItem("mockPrisonerData",JSON.stringify(clientDB));
 
@@ -69,7 +96,7 @@ const connectGlobalMode = ()=>{
      * point에 매치된 상대 데이터를 storage에서 가져와 리턴
      * @params {string} action이 일어난 pointID
      */
-    const getPointData = (pointId)=>{
+    const getPointData = (pointID)=>{
         // id,YNKratio, hp, history
         let pointData = {
             "target":null, 
@@ -78,22 +105,26 @@ const connectGlobalMode = ()=>{
             "targetHistory":null
         };
 
-        if(!(POINT_VALIDATOR.includes(pointId))){
-            console.log("pointId invalid:", pointId); 
+        if(!(POINT_VALIDATOR.includes(pointID))){
+            console.log("pointId invalid:", pointID); 
             // ## 추가적인 방어 코드가 필요한 부분이다.
         };
         // ## 클라이언트 스토리지에 상대 유저에 대한 정보가 얼마나 들어있는지, 점검할 시간이다.
         // ## 게임룸 하나의 데이터 스키마를 JSON으로 표현하는 게 핵심인데 지금 그걸 해결해야 함. 
-        // ## entryPoint : live Server 켜서 getPointData 결과 콘솔에 찍히는 것 확인하기.
-        if(storage.getItem(pointId)){
-            console.log("gameConnection getPointData successful: ",storage.getItem(pointId));
+        // live Server 켜서 getPointData 결과 콘솔에 찍히는 것 확인하기. => 안 찍힌다. 왜? 서버에서 받은 게임룸 정보를 스토리지에 안 넣었으니까.
+
+
+        const renderData = JSON.parse(storage.getItem("mockPrisonerData")).currentGameRoom;
+        console.log(renderData);
+        if(renderData.pointsAllocated){
+            console.log("gameConnection getPointData successful: ",renderData.pointsAllocated[pointID]);
             
         }else{
-            console.log("gameConnection getPointData failed: ",storage.getItem(pointId));
+            console.log("gameConnection getPointData failed: ",pointID);
             
         };
 
-        return pointData
+        return renderData.pointsAllocated //원래는 pointData를 리턴해야 한다.
 
     };    
 
@@ -188,7 +219,8 @@ const connectGlobalMode = ()=>{
         MODAL_EVENT_TARGET = eventTarget.modalEventTarget;
         MOCK_WEB_EVENT_TARGET = eventTarget.mockWebEventTarget;
         ACTION_VALIDATOR = ["Y","N","K"];
-        POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5"];
+        POINT_VALIDATOR = ["G_point_1","G_point_2","G_point_3","G_point_4","G_point_5","G_userPoint"];
+
 
         ultimatum = {
             "userId":storage.getItem("id"),

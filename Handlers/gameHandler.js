@@ -55,16 +55,11 @@ const createGAME = ()=>{
         VIEW.init(G_EVENT_TARGETS);
         MODEL.init(G_EVENT_TARGETS);
 
-        // storage에 있는 GAME 선택지들 업데이트해서보여준다.
-        for(let i=1;i<6;i++){  
-            VIEW.updateDecision(MODEL.getPointData(`G_point_${i}`));
-
-        };
-
         // eventTarget에 리스너 붙이기
 
         /**포인트 클릭 시 클라이언트 스토리지에서 매칭된 포인트에 있는 상대 정보 전달.*/ 
         POINTS_EVENT_TARGET.addEventListener("pointClicked",(e)=>{
+            MODEL.getPointData(e.detail);
             // VIEW.updateTooltipContent(MODEL.getPointData(e.detail));
         });
 
@@ -118,16 +113,21 @@ const createGAME = ()=>{
             console.log("gameHandler listens initiateGame Event: ",e.detail);
     
 
-            // ## !! 여기든
+            // ## !! 
             // 1)게임 페이지로 이동.
             PAGEROUTER.moveToPage("GAME");
-            // ## !! 여기든 - pending 상태/로딩 상태를 의미하는 창이 하나 있으면 좋겠네. 일단 그건 나중에.
+            // ## !!  - pending 상태/로딩 상태를 의미하는 창이 하나 있으면 좋겠네. 일단 그건 나중에.
             // 2) 엘리먼트 좌표 설정
             VIEW.updateCoords();
             // 3) 받아온 게임룸 데이터를 로컬에 저장하고 그걸 렌더링
             VIEW.renderGameRoom(MODEL.setGameRoomData(e.detail));
             
         });
+
+        // 창 크기 바뀔 때마다 resize 이벤트 받아서 크기 조정.
+        window.addEventListener("resize",()=>{
+            VIEW.updateCoords();
+        })
 
     };
     
