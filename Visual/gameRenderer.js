@@ -246,7 +246,7 @@ const renderGameMode = ()=>{
         // 포인트에 배치된 대로 넣기.
         POINTS_TABLE.forEach((point,id)=>{
             if(pointsRenderData[id]){
-                point.innerText = pointsRenderData[id];
+                point.innerText = pointsRenderData[id].targetName;
             }else{
                 console.error("invalid prisoner data at gameRenerer.js-renderGameRoom");
             }

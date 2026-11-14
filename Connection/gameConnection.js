@@ -37,12 +37,12 @@ const connectGlobalMode = ()=>{
             "ranks":gameRoomData.ranks,
             "turnsTaken":gameRoomData.turnsTaken,
             "pointsAllocated":{
-                "G_point_1":null,
-                "G_point_2":null,
-                "G_point_3":null,
-                "G_point_4":null,
-                "G_point_5":null,
-                "G_userPoint":null
+                "G_point_1":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
+                "G_point_2":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
+                "G_point_3":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
+                "G_point_4":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
+                "G_point_5":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
+                "G_userPoint":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null}
             }
 
         };
@@ -100,31 +100,29 @@ const connectGlobalMode = ()=>{
         // id,YNKratio, hp, history
         let pointData = {
             "target":null, 
-            "targetID":null, 
+            "targetName":null, 
             "targetNYKRatio":null,
             "targetHistory":null
         };
 
         if(!(POINT_VALIDATOR.includes(pointID))){
-            console.log("pointId invalid:", pointID); 
+            console.error("pointId invalid:", pointID); 
             // ## 추가적인 방어 코드가 필요한 부분이다.
         };
         // ## 클라이언트 스토리지에 상대 유저에 대한 정보가 얼마나 들어있는지, 점검할 시간이다.
         // ## 게임룸 하나의 데이터 스키마를 JSON으로 표현하는 게 핵심인데 지금 그걸 해결해야 함. 
-        // live Server 켜서 getPointData 결과 콘솔에 찍히는 것 확인하기. => 안 찍힌다. 왜? 서버에서 받은 게임룸 정보를 스토리지에 안 넣었으니까.
 
-
+        // 클라이언트 스토리지에서 게임룸 데이터 가져오기
         const renderData = JSON.parse(storage.getItem("mockPrisonerData")).currentGameRoom;
-        console.log(renderData);
+        
+        // 받은 포인트ID 에 해당하는 게임룸 정보 리턴
         if(renderData.pointsAllocated){
             console.log("gameConnection getPointData successful: ",renderData.pointsAllocated[pointID]);
-            
+            return renderData.pointsAllocated //원래는 pointData를 리턴해야 한다.    
         }else{
-            console.log("gameConnection getPointData failed: ",pointID);
+            console.error("gameConnection getPointData failed: ",pointID);
             
         };
-
-        return renderData.pointsAllocated //원래는 pointData를 리턴해야 한다.
 
     };    
 

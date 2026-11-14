@@ -7,8 +7,6 @@ import OPERATION_EVENT_TARGETS from "../Tools/operationEventTargets.js";
 import GAME_RENDERER from "../Visual/gameRenderer.js";
 import GAME_CONNECTION from "../Connection/gameConnection.js";
 
-
-
 /**
  * // 3. Controller (Controller.js) - 연결 고리
     import { Model } from './Model.js';
@@ -61,10 +59,10 @@ const createGAME = ()=>{
         POINTS_EVENT_TARGET.addEventListener("pointClicked",(e)=>{
             MODEL.getPointData(e.detail);
             // VIEW.updateTooltipContent(MODEL.getPointData(e.detail));
+
         });
 
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
-            // {"target":null, "action":"Y" }를 받아온다.
             
             // MODEL이 storage에 data 저장
             MODEL.setPointDecision(e.detail);
@@ -112,7 +110,6 @@ const createGAME = ()=>{
         START_GAME_EVENT_TARGET.addEventListener("initiateGame",(e)=>{
             console.log("gameHandler listens initiateGame Event: ",e.detail);
     
-
             // ## !! 
             // 1)게임 페이지로 이동.
             PAGEROUTER.moveToPage("GAME");
