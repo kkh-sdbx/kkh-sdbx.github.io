@@ -25,7 +25,7 @@ const renderGameMode = ()=>{
 
     let G_tooltip = null;
     let G_opntName  = null;
-    let G_opntYNKratio = null;
+    let G_opntNYKratio = null;
 
     let G_selection = null;
     let G_YBtn  = null;
@@ -447,7 +447,7 @@ const renderGameMode = ()=>{
 
         G_tooltip = document.getElementById('G_tooltip');
         G_opntName = document.getElementById('G_opntName');
-        G_opntYNKratio = document.getElementById('G_opntYNKratio');
+        G_opntNYKratio = document.getElementById('G_opntNYKratio');
 
         G_selection = document.getElementById('G_selectionPanel');
         G_YBtn = document.getElementById('G_YBtn');
