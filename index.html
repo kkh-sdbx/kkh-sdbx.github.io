@@ -295,9 +295,9 @@
             <div id="G_tooltip" class="G_tooltip" >
  
                     <strong id="G_opntName"></strong>
-                    <div id="G_opntNYKratio"></div> 
+                    <strong id="G_opntNYKratio"></strong> 
                     <strong>HP</strong>
-                    <strong>99</strong>
+                    <strong id="G_opntHP">99</strong>
                     <strong> / 100</strong>
                     <div id = "G_history">
                         <p class = "G_pastAction">X</p>
@@ -306,35 +306,23 @@
                         <p class = "G_pastAction">X</p>
                         <p class = "G_pastAction">X</p>
                     </div>
-                    <button id="G_fix">FIX</button>
+                    <div id = "G_fixBtnContainer">
+                        <button id = "G_proceedBtn">Proceed</button>
+                        <button id = "G_discardBtn">Discard</button>
+                    </div>
+                    
             
             </div>
             
 
             <div id = "G_testBtns" >
                 <button id = "G_donutSkin">Use Donut</button>
-                <button id = "G_startSeason">startSeason </button>
-                <button id = "G_setDummyActions">setDummyActions </button>
-                <button id = "G_finishRound">finishRound </button>
-                <button id = "G_startMatchMaking">startMatchMaking </button>
             </div>    
-        
 
-            <div class="G_selection" id="G_selectionPanel">
+            <div id="G_selectionPanel" class="G_selection">
                 <button id="G_NBtn" data-btn-type = "N"> N </button>
                 <button id="G_KBtn" data-btn-type = "K"> Kick! </button>
                 <button id="G_YBtn" data-btn-type = "Y"> Y </button>        
-            </div>
-
-            <div id = "G_fixPanel" class = "G_panel">
-                <div class = "G_panelBody">
-                    <h2 id="G_fixPanelTitle"> Panel Title</h2>
-                    <h4 id="G_fixPanelContent"> Panel Content</h4> 
-                    <div class = "G_panelBtnContainer">
-                        <button id = "G_proceedBtn">Proceed</button>
-                        <button id = "G_discardBtn">Discard</button>
-                    </div>
-                </div>
             </div>
 
             <div id = "G_warningModal" class = "G_modal">

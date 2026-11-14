@@ -157,7 +157,7 @@
 /* 툴팁 스타일 (동일하게 유지) */
 .G_tooltip {
     position: absolute;
-    display:flex;
+    display:none;
     background-color: rgb(146, 10, 173);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

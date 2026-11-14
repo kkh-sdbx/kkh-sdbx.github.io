@@ -27,6 +27,14 @@ const connectGlobalMode = ()=>{
         const myID = clientDB.prisonerID;
         const myName = clientDB.prisonerName;
 
+        const prisonerGameStatus = { 
+            "targetName":null, 
+            "targetNYKRatio":null,
+            "targetHistory":null,
+            "targetHP":100,
+            "targetPastActions":[] // ## circular queue로 할지, 검토해야 한다.
+        };
+
         const gameRoomToRender = {
             "GAME_ROOM_ID":gameRoomData.GAME_ROOM_ID,
             "currentButton": gameRoomData.currentButton,
@@ -37,12 +45,12 @@ const connectGlobalMode = ()=>{
             "ranks":gameRoomData.ranks,
             "turnsTaken":gameRoomData.turnsTaken,
             "pointsAllocated":{
-                "G_point_1":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
-                "G_point_2":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
-                "G_point_3":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
-                "G_point_4":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
-                "G_point_5":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null},
-                "G_userPoint":{ "targetName":null, "targetNYKRatio":null,"targetHistory":null}
+                "G_point_1":structuredClone(prisonerGameStatus),
+                "G_point_2":structuredClone(prisonerGameStatus),
+                "G_point_3":structuredClone(prisonerGameStatus),
+                "G_point_4":structuredClone(prisonerGameStatus),
+                "G_point_5":structuredClone(prisonerGameStatus),
+                "G_userPoint":structuredClone(prisonerGameStatus)
             }
 
         };
@@ -51,9 +59,9 @@ const connectGlobalMode = ()=>{
         gameRoomData.prisoners.forEach((prisonerParty)=>{
             if(seat>=1 && 5>=seat){
                 if(prisonerParty.leader === myID){
-                    gameRoomToRender.pointsAllocated.G_userPoint = myName;
+                    gameRoomToRender.pointsAllocated.G_userPoint.targetName = myName;
                 }else{
-                    gameRoomToRender.pointsAllocated[`G_point_${seat}`] = prisonerParty.members[0];
+                    gameRoomToRender.pointsAllocated[`G_point_${seat}`].targetName = prisonerParty.members[0];
                     seat += 1;
                 };
             }else{
@@ -107,6 +115,7 @@ const connectGlobalMode = ()=>{
 
         if(!(POINT_VALIDATOR.includes(pointID))){
             console.error("pointId invalid:", pointID); 
+            return null
             // ## 추가적인 방어 코드가 필요한 부분이다.
         };
         // ## 클라이언트 스토리지에 상대 유저에 대한 정보가 얼마나 들어있는지, 점검할 시간이다.
@@ -118,7 +127,7 @@ const connectGlobalMode = ()=>{
         // 받은 포인트ID 에 해당하는 게임룸 정보 리턴
         if(renderData.pointsAllocated){
             console.log("gameConnection getPointData successful: ",renderData.pointsAllocated[pointID]);
-            return renderData.pointsAllocated //원래는 pointData를 리턴해야 한다.    
+            return renderData.pointsAllocated[pointID];     
         }else{
             console.error("gameConnection getPointData failed: ",pointID);
             

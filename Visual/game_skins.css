@@ -174,7 +174,7 @@
 
 }
 .G_selection{
-    display:none;
+    display:flex;
     position:fixed;
     background-color: rgb(20,20,19);
     z-index: 10;

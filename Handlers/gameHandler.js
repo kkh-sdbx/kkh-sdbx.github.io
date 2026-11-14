@@ -57,8 +57,7 @@ const createGAME = ()=>{
 
         /**포인트 클릭 시 클라이언트 스토리지에서 매칭된 포인트에 있는 상대 정보 전달.*/ 
         POINTS_EVENT_TARGET.addEventListener("pointClicked",(e)=>{
-            MODEL.getPointData(e.detail);
-            // VIEW.updateTooltipContent(MODEL.getPointData(e.detail));
+            VIEW.updateTooltipContent(MODEL.getPointData(e.detail.G_currentPoint));
 
         });
 

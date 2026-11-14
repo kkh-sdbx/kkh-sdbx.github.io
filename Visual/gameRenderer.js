@@ -25,6 +25,7 @@ const renderGameMode = ()=>{
 
     let G_tooltip = null;
     let G_opntName  = null;
+    let G_opntHP = null;
     let G_opntNYKratio = null;
 
     let G_selection = null;
@@ -152,7 +153,7 @@ const renderGameMode = ()=>{
     };
 
     /**컨테이너 높이, 너비, 마진 받아서 툴팁 위치 결정 */    
-    const setTooltip = (containerHeight,containerWidth,hexagonNums)=>{
+    const setTooltipPosition = (containerHeight,containerWidth,hexagonNums)=>{
 
 
         // ## 툴팁-> window resize 시마다 크기 다시 조정해야 한다. 아니면...>
@@ -188,12 +189,39 @@ const renderGameMode = ()=>{
         );
 
     };
-    /**point 클릭 시 target 포인트의 아이디 받아서 해당 포인트에 배치된 유저 정보를 툴팁에 업데이트하는 함수 */
-    const updateTooltipContent = (targetPointID)=>{
+    /**point 클릭 시 target 포인트의 아이디 받아서 해당 포인트에 배치된 유저 정보를 툴팁에 업데이트하는 함수 
+     * targetPointData에 falsy한 값 주면 툴팁 diplay none
+     * 
+    */
+    const updateTooltipContent = (targetPointData)=>{
+
+        console.log("targetPointData:",targetPointData);
+
+        if(!targetPointData){ // 
+            G_tooltip.style.display = "none";
+            console.log("defense");
+            
+        }else{
+            G_tooltip.style.display = "flex";
+            G_opntName.innerText = targetPointData.targetName;
+            G_opntHP.innerText = targetPointData. targetHP;
+            const pastActions = G_tooltip.querySelectorAll(".G_pastAction");
+            for(let i=1;i<6;i++){
+                if(targetPointData.targetPastActions[i]){
+                    pastActions[i].innerText = targetPointData.targetPastActions[i];
+                };
+            }
+        };
+
+        // 클릭이 아닌 일반 호출
         
+
     };
 
     /**컨테이너 높이, 너비, 마진 받아서 선택지 위치 결정 */
+    // ## selection 함수 작성. G_container 바깥에 둬야 할 수도 있다. 
+    // ## 손으로 써야 하는 순간이 오는 듯하다. 육각형 그릴 때 그랬듯이 손으로 쓰고 하는 게 생각보다 얼마 안 걸리고 확실하다
+    // ## entryPoint : G_container 하단 중앙. 너비는 point 너비의 6배, 높이는 2배. 세팅하기.
     const setSelection = (containerHeight,containerWidth,containerMargin)=>{
         const G_SELECTION_LENGTH = parseInt(window.getComputedStyle(G_selection).width.split("px")[0]);
         const G_SELECTION_HEIGHT = parseInt(window.getComputedStyle(G_selection).height.split("px")[0]);
@@ -231,7 +259,7 @@ const renderGameMode = ()=>{
         G_coords.G_userPoint.y = POINTS_TABLE.get("G_userPoint").getBoundingClientRect().top;
 
         // G_Container계산 기반으로 툴팁과 셀렉션 좌표 설정.
-        setTooltip(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
+        setTooltipPosition(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
         setSelection(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
 
     };
@@ -299,35 +327,50 @@ const renderGameMode = ()=>{
     const setPointsInteractive = ()=>{
         
             //마우스 오버 이벤트 핸들러
-            G_points.forEach(point => {
+            G_points.forEach((point) => {
                                
                 /** 각 포인트에, 클릭 시 툴팁에 해당 플레이어의 정보 렌더링하는 함수 연결  */
                 // ## >pointContainer 클릭으로 바꿀까?                
                 point.addEventListener("click",(e)=>{ 
                     // ## 여기서는 툴팁에 표시할 메시지가 중요해진다.
-                    // ##나와 매치가 아닌 플레이어/매치인 플레이억 -> 표시할 내용이 달라.
+                    // ## 나와 매치가 아닌 플레이어/매치인 플레이억 -> 표시할 내용이 달라.
                     // ## 내 상태를 표시할 UI도 화면 상단에 갖춰둘 것.
 
-                    if( G_currentPoint === point){ // 동일한 포인트 다시 클릭
-                        
-                        POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("pointClicked",{
-                            detail:G_currentPoint.id
-                        }));                         
+                    let result = {"target":null,"G_currentPoint":null};
 
-                    }else{ // 새 point 클릭 시
-                        if(!G_currentPoint){
-                            //G_currentPoint.classList.remove('activated');
-                        };
-                        G_currentPoint.classList.remove('activated');
+                    //G_currentPoint가 존재하지 않는 경우
+                    if(!G_currentPoint){
+                        // 새 포인트 클릭한 경우
                         G_currentPoint = point;
                         G_currentPoint.classList.add('activated');
-                        // ## entryPoint : 렌더링하고, 콘솔에 클릭한 포인트에 배정된 prisoner 이름까지 나온다. 이제 classList 수정하고, 툴팁 메시지 업데이트하면 된다. 
-                        
-                        POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("pointClicked",{
-                            detail:G_currentPoint.id
-                        }));
+                        console.log("new point clicked: ",G_currentPoint);
+                        result = {"target":e.target,"G_currentPoint":G_currentPoint.id};
+
+                    }else{ // G_currentPoint가 존재하는 경우
+                        if(G_currentPoint != point){
+                            // 새로운 포인트 클릭
+                            G_currentPoint.classList.remove('activated');
+                            const previous = G_currentPoint.id;
+                            G_currentPoint = point;
+                            G_currentPoint.classList.add('activated');
+                            console.log("point selection changed:",previous," to ",G_currentPoint.id);
+                            result = {"target":e.target,"G_currentPoint":G_currentPoint.id};
+                        }else{
+                            // 같은 포인트 다시 클릭
+                            const previous = G_currentPoint.id;
+                            G_currentPoint.classList.remove('activated');
+                            G_currentPoint = null;  
+                            console.log("point selection removed:",previous," to ",G_currentPoint);
+                        };
 
                     };
+                    
+                    
+                    POINTS_EVENT_TARGET.dispatchEvent(new CustomEvent("pointClicked",{
+                        detail:result
+                    }));
+
+  
                 });
 
             });
@@ -382,14 +425,6 @@ const renderGameMode = ()=>{
 
 
     const setFixPanel = ()=>{
-        G_fixBtn.addEventListener("click",()=>{
-
-            MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("checkEmptyPoints"));
-
-            // FIX 버튼을 누른 순간(모달이 뜨는 순간) disableInteractives()를 같이 호출해서 화면 조작을 막아두는 게 맞습니다 => 이것만 할까?
-            //disableInteractives();
-            G_fixPanel.style.display = "flex";
-        });
 
         G_proceedBtn.addEventListener("click",()=>{
             MODAL_EVENT_TARGET.dispatchEvent(new CustomEvent("sendUltimatum"));
@@ -447,6 +482,7 @@ const renderGameMode = ()=>{
 
         G_tooltip = document.getElementById('G_tooltip');
         G_opntName = document.getElementById('G_opntName');
+        G_opntHP = document.getElementById('G_opntHP');
         G_opntNYKratio = document.getElementById('G_opntNYKratio');
 
         G_selection = document.getElementById('G_selectionPanel');
@@ -540,6 +576,7 @@ const renderGameMode = ()=>{
         updateCoords,
         renderGameRoom,
         setPointsInteractive,
+        updateTooltipContent,
         updateDecision,
         setModalText,
         setFixPanel,

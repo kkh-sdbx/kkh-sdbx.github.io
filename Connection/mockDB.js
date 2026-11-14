@@ -94,7 +94,7 @@ const MOCK_DB_HANDLER = ()=>{
             "PRISONER_TYPE":"prisonerType",
             "PRISONER_ID":newPrisonerID,
             "PRISONER_STATUS": null, // ## 이걸, pending/waitingQueue/matched 등등이 아니라 해시테이블 형태로 제작할 수는 없을까.
-            
+            "NYK_RATIO":0,
             "PRISONER_GAME_STATUS":{
                 "GAMEROOM_ID":null,
                 "status":"not yet",

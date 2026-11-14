@@ -100,6 +100,7 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
                 if(ALL_ACTIVE_USERS.get(prisoner)){
                     const prisonerToUpdate = structuredClone(ALL_ACTIVE_USERS.get(prisoner)) 
                     prisonerToUpdate["PRISONER_GAME_STATUS"] = game;
+                    // ## 여기서 targetNYKRatio 같은 상대 정보를 추가해줘야 한다.
                     ALL_ACTIVE_USERS.set(prisoner,prisonerToUpdate);
 
                 };
