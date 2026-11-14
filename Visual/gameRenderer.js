@@ -318,7 +318,7 @@ const renderGameMode = ()=>{
                         if(!G_currentPoint){
                             //G_currentPoint.classList.remove('activated');
                         };
-                        
+                        G_currentPoint.classList.remove('activated');
                         G_currentPoint = point;
                         G_currentPoint.classList.add('activated');
                         // ## entryPoint : 렌더링하고, 콘솔에 클릭한 포인트에 배정된 prisoner 이름까지 나온다. 이제 classList 수정하고, 툴팁 메시지 업데이트하면 된다. 
