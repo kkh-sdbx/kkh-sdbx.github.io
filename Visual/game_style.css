@@ -166,6 +166,13 @@
     
 
 }
+#G_control{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color: rgb(93, 197, 24);
+    ;
+}
 .G_selection{
     display:block;
     position:fixed;

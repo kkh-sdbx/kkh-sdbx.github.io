@@ -28,7 +28,9 @@ const renderGameMode = ()=>{
     let G_opntHP = null;
     let G_opntNYKratio = null;
 
-    let G_selection = null;
+
+    let G_control = null;
+    let G_selectionPanel = null;
     let G_YBtn  = null;
     let G_NBtn = null;
     let G_KBtn = null;
@@ -221,11 +223,28 @@ const renderGameMode = ()=>{
     /**컨테이너 높이, 너비, 마진 받아서 선택지 위치 결정 */
     // ## selection 함수 작성. G_container 바깥에 둬야 할 수도 있다. 
     // ## 손으로 써야 하는 순간이 오는 듯하다. 육각형 그릴 때 그랬듯이 손으로 쓰고 하는 게 생각보다 얼마 안 걸리고 확실하다
-    // ## entryPoint : G_container 하단 중앙. 너비는 point 너비의 6배, 높이는 2배. 세팅하기.
-    const setSelection = (containerHeight,containerWidth,containerMargin)=>{
-        const G_SELECTION_LENGTH = parseInt(window.getComputedStyle(G_selection).width.split("px")[0]);
-        const G_SELECTION_HEIGHT = parseInt(window.getComputedStyle(G_selection).height.split("px")[0]);
-       // G_selection.style.display = "block";
+    // G_container 하단 중앙. 너비는 point 너비의 6배, 높이는 2배. 세팅하기.
+    // ## entryPoint : 세팅했다. 제대로 들어갔는지 live server 켜서 확인하기.
+    const setSelectionPosition = (containerHeight,containerWidth,hexagonNums)=>{
+        /**
+         * { "a":a,
+                "widthMargin":widthMargin,
+                "heightMargin":heightMargin,
+                "pointContainer_R":pointContainer_R,
+                "point_R":point_R
+            }   
+         */
+        const G_SELECTION_WIDTH = (point_R*6);
+        const G_SELECTION_HEIGHT = (point_R*2);
+        const G_SELECTION_LEFT = ((containerWidth-G_SELECTION_WIDTH)/2);
+        const G_SELECTION_TOP = containerHeight + (point_R/2);
+
+        G_selectionPanel.style.width = `${G_SELECTION_WIDTH}px`;
+        G_selectionPanel.style.height = `${G_SELECTION_HEIGHT}px`;
+        G_selectionPanel.style.left = `${G_SELECTION_LEFT}px`;
+        G_selectionPanel.style.top = `${G_SELECTION_TOP}px`;
+
+       G_selectionPanel.style.display = "flex";
 
     };
     const updateCoords = ()=>{
@@ -260,7 +279,7 @@ const renderGameMode = ()=>{
 
         // G_Container계산 기반으로 툴팁과 셀렉션 좌표 설정.
         setTooltipPosition(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
-        setSelection(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
+        setSelectionPosition(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
 
     };
 
@@ -485,7 +504,8 @@ const renderGameMode = ()=>{
         G_opntHP = document.getElementById('G_opntHP');
         G_opntNYKratio = document.getElementById('G_opntNYKratio');
 
-        G_selection = document.getElementById('G_selectionPanel');
+        G_control = document.getElementById('G_control');
+        G_selectionPanel = document.getElementById('G_selectionPanel');
         G_YBtn = document.getElementById('G_YBtn');
         G_NBtn = document.getElementById('G_NBtn');
         G_KBtn = document.getElementById('G_KBtn');   
