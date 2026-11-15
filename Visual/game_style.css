@@ -1,3 +1,22 @@
+#G_field{
+    position: absolute;
+    flex-direction: row;
+    justify-content: center; 
+    align-items: center;
+    background-color: rgb(235, 196, 196);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%; /* 너비와 높이를 100%로 설정 */
+    height: 100%;
+    /* 내부 점들의 배치는 그대로 유지됩니다. */
+    max-width: 800px; /* 점 사이의 최대 거리 제한 (예시 값) */
+    max-height: 800px;
+    margin: auto;
+
+
+}
 #G_container {
 /* 이 컨테이너를 화면 전체에 고정시킵니다 */
     position: absolute;
@@ -8,8 +27,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%; /* 너비와 높이를 100%로 설정 */
-    height: 100%;
+    width: 90%; /* 너비와 높이를 100%로 설정 */
+    height: 90%;
     /* 내부 점들의 배치는 그대로 유지됩니다. */
     max-width: 500px; /* 점 사이의 최대 거리 제한 (예시 값) */
     max-height: 500px;
@@ -167,15 +186,16 @@
 
 }
 #G_control{
+    position: absolute;
     display:flex;
     align-items:center;
     justify-content:center;
     background-color: rgb(93, 197, 24);
     ;
 }
-.G_selection{
-    display:block;
-    position:fixed;
+.G_control{
+    display:flex;
+    position:absolute;
     background-color: rgb(20,20,19);
     z-index: 10;
     top: 0;
@@ -187,18 +207,26 @@
     box-sizing: border-box;
 
 }
+
+#G_selectionPanel{
+    position: absolute;
+    flex-direction: row;
+    justify-content: center; 
+    align-items: center;
+}
+/*
 .G_selection button{
     flex: 1;
     background-color: rgb(240, 240, 230);
     border-radius: 4px;
     border-color: grey;
-    font-size: 12px; /* 글자가 잘리지 않게 크기 조절 */
+    font-size: 12px; /* 글자가 잘리지 않게 크기 조절 
     cursor: pointer;
-    display: flex;   /* 버튼 안의 글자 중앙 정렬 */
+    display: flex;   /* 버튼 안의 글자 중앙 정렬 
     align-items: center;
     justify-content: center;
 }
-
+*/
 #G_screenBlocker{
     position:absolute;
     display:none;

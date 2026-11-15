@@ -34,6 +34,8 @@ const renderGameMode = ()=>{
     let G_YBtn  = null;
     let G_NBtn = null;
     let G_KBtn = null;
+    let G_ting = null;
+    let tingSound = null;
     let G_KChecker = null;
 
     let G_proceedBtn = null;
@@ -224,8 +226,8 @@ const renderGameMode = ()=>{
     // ## selection 함수 작성. G_container 바깥에 둬야 할 수도 있다. 
     // ## 손으로 써야 하는 순간이 오는 듯하다. 육각형 그릴 때 그랬듯이 손으로 쓰고 하는 게 생각보다 얼마 안 걸리고 확실하다
     // G_container 하단 중앙. 너비는 point 너비의 6배, 높이는 2배. 세팅하기.
-    // ## entryPoint : 세팅했다. 제대로 들어갔는지 live server 켜서 확인하기.
-    const setSelectionPosition = (containerHeight,containerWidth,hexagonNums)=>{
+    
+    const setControlPosition = (containerHeight,containerWidth,hexagonNums)=>{
         /**
          * { "a":a,
                 "widthMargin":widthMargin,
@@ -234,17 +236,17 @@ const renderGameMode = ()=>{
                 "point_R":point_R
             }   
          */
-        const G_SELECTION_WIDTH = (point_R*6);
-        const G_SELECTION_HEIGHT = (point_R*2);
-        const G_SELECTION_LEFT = ((containerWidth-G_SELECTION_WIDTH)/2);
-        const G_SELECTION_TOP = containerHeight + (point_R/2);
+        const G_CONTROL_WIDTH = (hexagonNums.pointContainer_R*6);
+        const G_CONTROL_HEIGHT = (hexagonNums.pointContainer_R*2);
+        const G_CONTROL_LEFT = ((containerWidth/2)-(G_CONTROL_WIDTH/2));
+        const G_CONTROL_TOP = containerHeight + (hexagonNums.pointContainer_R/2);
 
-        G_selectionPanel.style.width = `${G_SELECTION_WIDTH}px`;
-        G_selectionPanel.style.height = `${G_SELECTION_HEIGHT}px`;
-        G_selectionPanel.style.left = `${G_SELECTION_LEFT}px`;
-        G_selectionPanel.style.top = `${G_SELECTION_TOP}px`;
+        G_control.style.width = `${G_CONTROL_WIDTH}px`;
+        G_control.style.height = `${G_CONTROL_HEIGHT}px`;
+        G_control.style.left = `${G_CONTROL_LEFT}px`;
+        G_control.style.top = `${G_CONTROL_TOP}px`;
 
-       G_selectionPanel.style.display = "flex";
+       G_control.style.display = "flex";
 
     };
     const updateCoords = ()=>{
@@ -279,7 +281,7 @@ const renderGameMode = ()=>{
 
         // G_Container계산 기반으로 툴팁과 셀렉션 좌표 설정.
         setTooltipPosition(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
-        setSelectionPosition(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
+        setControlPosition(G_CONTAINER_HEIGHT,G_CONTAINER_WIDTH,G_HEXAGON_NUMS);
 
     };
 
@@ -301,8 +303,30 @@ const renderGameMode = ()=>{
 
   
     };
+    
+    const playTing = ()=>{
+        // 일단 플레이어에게 사운드 플레이.
+        const soundClone = tingSound.cloneNode();
+        soundClone.volume = 0.5;
+        soundClone.play();
+        console.log("ting!");
 
-    const setSelectionInteractive = (e)=>{
+            // 이벤트로 핸들러에 전달.
+        SELECTION_EVENT_TARGET.dispatchEvent(new CutstomEvent("ting",{
+            detail:"ting!"
+        }));
+    };
+
+    const setTingInteractive = (e)=>{
+        
+        G_ting.addEventListener("click",playTing);
+    };
+
+    const checkTingSpam = ()=>{
+
+    };
+
+    const setControlInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
             if(!G_currentPoint) {return};
             G_currentPoint.classList.remove("activated");
@@ -340,7 +364,9 @@ const renderGameMode = ()=>{
             G_KChecker = {"target":G_currentPoint.id};
             G_currentPoint = null;
             
-        })
+        });
+
+
     };            
 
     const setPointsInteractive = ()=>{
@@ -476,8 +502,9 @@ const renderGameMode = ()=>{
     const setInteractives = ()=>{
         
         setPointsInteractive();
-        setSelectionInteractive();
+        setControlInteractive();
         setFixPanel();
+        setTingInteractive();
     }
     const disableInteractives = ()=>{
         //그냥 위에 모달같은 창을 하나 덮어서 처리한다.
@@ -508,7 +535,10 @@ const renderGameMode = ()=>{
         G_selectionPanel = document.getElementById('G_selectionPanel');
         G_YBtn = document.getElementById('G_YBtn');
         G_NBtn = document.getElementById('G_NBtn');
-        G_KBtn = document.getElementById('G_KBtn');   
+        G_KBtn = document.getElementById('G_KBtn');
+        G_ting = document.getElementById('G_ting');   
+        tingSound = new Audio("../Tools/ting.wav");
+        
         G_KChecker = undefined;
 
         G_proceedBtn = document.getElementById('G_proceedBtn');
@@ -600,6 +630,8 @@ const renderGameMode = ()=>{
         updateDecision,
         setModalText,
         setFixPanel,
+        setTingInteractive,
+        checkTingSpam,
         disableInteractives,
         setInteractives,
         showWarning

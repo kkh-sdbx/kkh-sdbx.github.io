@@ -61,6 +61,14 @@ const createGAME = ()=>{
 
         });
 
+        SELECTION_EVENT_TARGET.addEventListener("ting",()=>{
+            // MODEL.sendTing(); => 최대 텀은 1초. setTimeout 과 await를 쓸 시간이 왔다.
+            // ## ting부터 해 보자. => 모델은, 가장 최근의 ting으로부터 1초가 지나지 않았다면 서버로 ting을 보내지 않는다. 그리고 ting 요청은 MODEL에 의해서만 보내져야 한다.
+            // ## MODEL.sendTing 내부에서 req,res를 써야 한다.
+            // ## tingChecker를 두고, Promise가 resolve 되지 않았을 때의 요청은 모두 무시한다.
+            // ## entryPoint : gameConnection.js 에서 async function handleTing(){...} 쓰기.
+        });
+
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
             
             // MODEL이 storage에 data 저장
