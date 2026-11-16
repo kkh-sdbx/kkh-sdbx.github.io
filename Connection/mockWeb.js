@@ -15,7 +15,37 @@ const QUEUE_EVNET_TARGET = OPERATION_EVENT_TARGETS.queueEventTarget;
 const MOCKWEB_STANDARD_TIME = new Date();
 console.log("MOCKWEB_STANDARD_TIME:",MOCKWEB_STANDARD_TIME);
 
+MOCK_WEB_EVENT_TARGET.addEventListener("tingSent",(e)=>{
+    // (ting 4) 
+    /**
+     * detail:{
+            "userID":myID,
+            "timeStamp":new Date()
+        }
+     */
+    const userID = e.detail.userID;
+    // ## 해야 할 일 : 
 
+    // 1) userID기반으로 진행중인 게임룸을 찾는다.
+    const currentGameRoom = ALL_ACTIVE_USERS.get(userID).PRISONER_GAME_STATUS;
+    // 2) 진행중인 게임룸에 있는 모든 사용자에게 {"type":"ting","target":userName}을 전달한다.
+    currentGameRoom.prisoners.forEach((prisoner)=>{
+        // ## SSE를 쓸 거라면, 이벤트 타겟이 있어야 하나? => eventSource를 쓴다.
+        // ## const eventSource = new EventSource('/api/events');
+        // ##  eventTarget으로 일단 mock
+        MOCK_WEB_EVENT_TARGET.dispatchEvent(new CustomEvent("someoneTinged",{
+            detail:ALL_ACTIVE_USERS.get(userID).userName
+            // ## 실제로는 사용자 6명 모두에게 보내야 함.
+        }));
+    });
+    // 3) 클라이언트는{"type":"ting","target":userName}에서 type 검증, target(userName)기반으로 몇 번째 포인트에 해당 유저가 있는지 확인
+
+    // 4) 해당 포인트에 ting 이펙트 렌더링, ting 사운드 플레이
+
+    console.log("ting event listened,",ALL_ACTIVE_USERS);
+    
+
+});
 
 
 // 이제 async로 mockServer에 ultimatum을 던지고 그 결과를 받아와야 함.

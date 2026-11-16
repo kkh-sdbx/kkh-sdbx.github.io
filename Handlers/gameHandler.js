@@ -34,7 +34,7 @@ const START_GAME_EVENT_TARGET = OPERATION_EVENT_TARGETS.startGameEventTarget;
 const POINTS_EVENT_TARGET = G_EVENT_TARGETS.pointsEventTarget;
 const SELECTION_EVENT_TARGET = G_EVENT_TARGETS.selectionEventTarget;
 const MODAL_EVENT_TARGET = G_EVENT_TARGETS.modalEventTarget;
-const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
+const MOCK_WEB_EVENT_TARGET = G_EVENT_TARGETS.mockWebEventTarget;
 
 const createGAME = ()=>{
 
@@ -67,6 +67,8 @@ const createGAME = ()=>{
             // ## MODEL.sendTing 내부에서 req,res를 써야 한다.
             // ## tingChecker를 두고, Promise가 resolve 되지 않았을 때의 요청은 모두 무시한다.
             // ## entryPoint : gameConnection.js 에서 async function handleTing(){...} 쓰기.
+            // (ting 3) 이벤트로 서버에 전달.
+            MODEL.sendTing();
         });
 
         SELECTION_EVENT_TARGET.addEventListener("actionDecided",(e)=>{
@@ -101,7 +103,7 @@ const createGAME = ()=>{
 
         });
 
-        MOCK_SERVER_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
+        MOCK_WEB_EVENT_TARGET.addEventListener("sendInfoToServer",(e)=>{
 
             // "Y" filling이 있으니 포인트 렌더링 업데이트
             for(let i=1;i<6;i++){   // ##이것도 Validator 기반으로 조회해야지.
@@ -131,8 +133,15 @@ const createGAME = ()=>{
         // 창 크기 바뀔 때마다 resize 이벤트 받아서 크기 조정.
         window.addEventListener("resize",()=>{
             VIEW.updateCoords();
-        })
+        });
 
+        // 서버가 보낸 ting 들음
+        MOCK_WEB_EVENT_TARGET.addEventListener("someoneTinged",(e)=>{
+            VIEW.renderTing(MODEL.listenTing(e));
+        });
+
+
+ 
     };
     
       

@@ -51,7 +51,7 @@ const connectGlobalMode = ()=>{
                 "G_point_4":structuredClone(prisonerGameStatus),
                 "G_point_5":structuredClone(prisonerGameStatus),
                 "G_userPoint":structuredClone(prisonerGameStatus)
-            }
+            },
 
         };
 
@@ -68,6 +68,13 @@ const connectGlobalMode = ()=>{
                 console.error("prisoner number invalid");
             }
             
+        });
+        
+
+        // userID로 포인트 찾을 수 있는 reverseMap 설정
+        POINT_VALIDATOR.forEach((point)=>{
+            gameRoomToRender.reverseMap = {};
+            gameRoomToRender.reverseMap[`${gameRoomToRender.pointsAllocated[point].targetName}`] = `${point}`;
         });
 
         console.log("gameRoomToRender: ",gameRoomToRender);
@@ -162,6 +169,29 @@ const connectGlobalMode = ()=>{
         }else{
             storage.setItem(fixData.target,fixData.action);
         }
+        
+    };
+    /**서버로 유저가 ting 했음을 전달함  */
+    const sendTing = ()=>{
+        const clientDB = JSON.parse(storage.getItem("mockPrisonerData"));
+        console.log(clientDB);
+        const myID = clientDB.prisonerID;
+        // (ting 3) 이벤트로 서버에 전달.-gameHandler에서 보내는 건 좀 비효율적이어 보여서 여기서 보낸다
+        MOCK_WEB_EVENT_TARGET.dispatchEvent(new CustomEvent("tingSent",{
+            detail:{
+                "userID":myID,
+                "timeStamp":new Date()
+            }
+        }));
+    }; 
+    const listenTing = (e)=>{
+        const tingedUserName = e.detail;
+        // ## eP
+        const clientDB = JSON.parse(storage.getItem("mockPrisonerData"));
+        const tingedPointID = clientDB.currentGameRoom.reverseMap[tingedUserName];
+        
+        //storage.getItem();
+        return
         
     };
 
@@ -263,6 +293,8 @@ const connectGlobalMode = ()=>{
         setGameRoomData,
         handleFix,
         setPrisonerStorage,
+        sendTing,
+        listenTing,
         sendUltimatumToServer,
         getPointData,
         setPointDecision

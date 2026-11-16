@@ -13,6 +13,16 @@ const renderGameMode = ()=>{
     let G_container = null;
     let G_fixBtn = null;
     let G_points = null;
+    let G_pointContainers = null;
+
+    let POINT_CONTAINERS_TABLE = new Map([
+        ["G_point_1_Container",null],
+        ["G_point_2_Container",null],
+        ["G_point_3_Container",null],
+        ["G_point_4_Container",null],
+        ["G_point_5_Container",null],
+        ["G_userPoint_Container",null]
+    ]);
 
     let POINTS_TABLE = new Map([
         ["G_point_1",null],
@@ -35,6 +45,7 @@ const renderGameMode = ()=>{
     let G_NBtn = null;
     let G_KBtn = null;
     let G_ting = null;
+    let G_tingTime = null;
     let tingSound = null;
     let G_KChecker = null;
 
@@ -304,29 +315,56 @@ const renderGameMode = ()=>{
   
     };
     
-    const playTing = ()=>{
-        // 일단 플레이어에게 사운드 플레이.
+    const playTing = (targetPointID)=>{
+        
+        
+        if(!POINTS_TABLE.get(targetPointID)){
+            console.error("ting - wrong pointID");
+            return
+        };
+        const targetPoint = POINTS_TABLE.get(targetPointID);
+        // (ting 1) 일단 플레이어에게 사운드 플레이.
         const soundClone = tingSound.cloneNode();
         soundClone.volume = 0.5;
         soundClone.play();
         console.log("ting!");
 
-            // 이벤트로 핸들러에 전달.
-        SELECTION_EVENT_TARGET.dispatchEvent(new CutstomEvent("ting",{
-            detail:"ting!"
-        }));
+        // (ting 1) tingIndicator 애니메이션.
+        const targetIndicator = POINT_CONTAINERS_TABLE.get(`${targetPointID}_Container`).querySelector(".tingIndicator");
+        console.log(targetIndicator);  
+        // ## entryPoint: 애니메이션을 넣을 때가 됐다. 일단 game_style.css파일로 가서 .targetIndicator{}설정하기. 그 다음 애니메이션 관련 코드를 playTing 내에서 작성하자
+     
+        
     };
 
+    const renderTing = (pointID)=>{
+        console.log(pointID);
+    };
+
+    
     const setTingInteractive = (e)=>{
         
-        G_ting.addEventListener("click",playTing);
-        G_userPoint.addEventListener("dbclick",playTing);
+        function checkUserTingSpam(){
+            const timeClicked = new Date();
+            // 시간 체크
+            if((timeClicked - G_tingTime) < 1500 ){ 
+                return 
+            }else{
+                G_tingTime = timeClicked;
+                playTing("G_userPoint");
+                // (ting 2) 이벤트로 핸들러에 전달.
+                SELECTION_EVENT_TARGET.dispatchEvent(new CustomEvent("ting",{
+                    detail:"ting!"
+                }));
+            };
+
+        };
+
+        G_ting.addEventListener("click",checkUserTingSpam);
+
     };
 
-    const checkTingSpam = ()=>{
-
-    };
-
+    
     const setControlInteractive = (e)=>{
         G_YBtn.addEventListener("click",()=>{
             if(!G_currentPoint) {return};
@@ -518,8 +556,18 @@ const renderGameMode = ()=>{
     const init = (eventTargets)=>{
         G_container = document.getElementById("G_container"); 
         G_fixBtn = document.getElementById("G_fix");
-        G_points = document.querySelectorAll('.G_point');
 
+        // pC는 지우고, 이벤트 버블링으로 가 보자.
+        G_pointContainers = document.querySelectorAll('.G_pointContainer');
+        G_pointContainers.forEach((pointContainer)=>{
+            if(POINT_CONTAINERS_TABLE.has(pointContainer.id)){
+                POINT_CONTAINERS_TABLE.set(pointContainer.id,pointContainer);
+            };
+            
+        });
+        
+
+        G_points = document.querySelectorAll('.G_point');
         G_points.forEach((point)=>{
             if(POINTS_TABLE.has(point.id)){
                 POINTS_TABLE.set(point.id,point);
@@ -538,6 +586,7 @@ const renderGameMode = ()=>{
         G_NBtn = document.getElementById('G_NBtn');
         G_KBtn = document.getElementById('G_KBtn');
         G_ting = document.getElementById('G_ting');   
+        G_tingTime = new Date();
         tingSound = new Audio("../Tools/ting.wav");
         
         G_KChecker = undefined;
@@ -632,7 +681,7 @@ const renderGameMode = ()=>{
         setModalText,
         setFixPanel,
         setTingInteractive,
-        checkTingSpam,
+        renderTing,
         disableInteractives,
         setInteractives,
         showWarning
