@@ -320,6 +320,7 @@ const renderGameMode = ()=>{
     const setTingInteractive = (e)=>{
         
         G_ting.addEventListener("click",playTing);
+        G_userPoint.addEventListener("dbclick",playTing);
     };
 
     const checkTingSpam = ()=>{
