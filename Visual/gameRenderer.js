@@ -344,8 +344,10 @@ const renderGameMode = ()=>{
         targetIndicator.classList.remove('ripple-active');
         });
         // ## 구글 ai모드의 답변을 일단 game_style.css와 위의 clasList 트리거에 넣었다. 
-        // ## entryPoint: live Server로 애니메이션 재생 확인. 
+        // live Server로 애니메이션 재생 확인. 
+        // ## => 했는데, 60px X 60px 했는데 화면에서는 40x60으로 나온다. 왜인지 확인할 것.margin을 없애보기?
         // ## 이후, css 파일 보면서 속성 학습하기.
+        // ##
      
         
     };
