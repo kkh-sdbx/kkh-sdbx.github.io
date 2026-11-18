@@ -332,7 +332,20 @@ const renderGameMode = ()=>{
         // (ting 1) tingIndicator 애니메이션.
         const targetIndicator = POINT_CONTAINERS_TABLE.get(`${targetPointID}_Container`).querySelector(".tingIndicator");
         console.log(targetIndicator);  
-        // ## entryPoint: 애니메이션을 넣을 때가 됐다. 일단 game_style.css파일로 가서 .targetIndicator{}설정하기. 그 다음 애니메이션 관련 코드를 playTing 내에서 작성하자
+
+        // 1. 이미 애니메이션 클래스가 있다면 제거 (연속 알림 대비)
+        targetIndicator.classList.remove("ripple-active");
+        // 2. 브라우저가 클래스 제거를 인지하도록 강제 리플로우(Reflow) 발생
+        void targetIndicator.offsetWidth;
+        // 3. 클래스를 다시 추가하여 애니메이션 시작
+        targetIndicator.classList.add("ripple-active");
+        // 애니메이션(0.8초)이 완전히 끝나면 다음 알림을 위해 클래스를 깔끔하게 제거
+        targetIndicator.addEventListener('animationend', () => {
+        targetIndicator.classList.remove('ripple-active');
+        });
+        // ## 구글 ai모드의 답변을 일단 game_style.css와 위의 clasList 트리거에 넣었다. 
+        // ## entryPoint: live Server로 애니메이션 재생 확인. 
+        // ## 이후, css 파일 보면서 속성 학습하기.
      
         
     };

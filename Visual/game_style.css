@@ -131,6 +131,48 @@
 
  }
 
+.tingIndicator{
+    position: relative; /* 자식(가상 요소)의 위치 기준점 설정 */
+    width: 60px; /* 원의 가로 크기 */
+    height: 60px; /* 원의 세로 크기 */
+    border-radius: 50%; /* 사각형을 완벽한 원형으로 만듦 */
+    background-color: #ff1493; /* 원의 기본 배경색 (딥 핑크) */
+    box-shadow: 0 0 12px #ff1493; /* 원 자체에 은은한 네온 빛 효과 부여 */
+    margin: 50px; /* 물결이 퍼질 여백 확보 */
+}
+
+/* 물결 효과를 담당할 가상 요소 */
+.tingIndicator::after {
+  content: ''; /* 가상 요소를 화면에 렌더링하기 위한 필수 속성 */
+  position: absolute; /* 부모(.circle)를 기준으로 겹치게 배치 */
+  top: 0; /* 부모의 위쪽 끝에 맞춤 */
+  left: 0; /* 부모의 왼쪽 끝에 맞춤 */
+  width: 100%; /* 부모와 동일한 가로 크기 */
+  height: 100%; /* 부모와 동일한 세로 크기 */
+  border-radius: 50%; /* 물결 역시 원형으로 만듦 */
+  border: 2px solid #ff007f; /* 물결의 테두리 두께와 네온 핑크 색상 */
+  box-shadow: 0 0 15px #ff007f, inset 0 0 10px #ff007f; /* 바깥쪽과 안쪽에 네온 발광 효과 추가 */
+  box-sizing: border-box; /* 테두리 두께가 전체 크기를 늘리지 않도록 안쪽으로 포함 */
+  opacity: 0; /* 평소에는 물결이 보이지 않도록 투명하게 처리 */
+  pointer-events: none; /* 투명한 물결이 마우스 클릭을 방해하지 않도록 설정 */
+}
+
+/* JS로 이 클래스가 추가되면 물결 애니메이션 1회 실행 */
+.tingIndicator.ripple-active::after {
+  animation: neon-ripple 0.8s ease-out forwards; /* 애니메이션 이름, 지속시간(0.8초), 감속곡선, 종료상태 유지 */
+}
+
+/* 물결이 퍼지며 사라지는 키프레임 정의 */
+@keyframes neon-ripple {
+  0% {
+    transform: scale(1); /* 시작 시 원래 원 크기와 동일 */
+    opacity: 1; /* 시작 시 선명하게 보임 */
+  }
+  100% {
+    transform: scale(2.2); /* 종료 시 원래 크기의 2.2배까지 확장 */
+    opacity: 0; /* 확장되면서 서서히 투명해짐 */
+  }
+}
 
 
 
