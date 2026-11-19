@@ -14,6 +14,7 @@ const renderGameMode = ()=>{
     let G_fixBtn = null;
     let G_points = null;
     let G_pointContainers = null;
+    let tingIndicators = null;
 
     let POINT_CONTAINERS_TABLE = new Map([
         ["G_point_1_Container",null],
@@ -99,8 +100,6 @@ const renderGameMode = ()=>{
 
         console.log("containerHeight: ",containerHeight,"containerWidth: ",containerWidth);
 
-        const pCs = document.querySelectorAll(".G_pointContainer");
-
         const pointContainer_R = containerHeight/10;
         const point_R = pointContainer_R * 0.8;
 
@@ -113,7 +112,7 @@ const renderGameMode = ()=>{
         const widthMargin = (containerWidth-(2*ROOT_THREE*a))/2;
         
 
-        pCs.forEach((pC)=>{
+        G_pointContainers.forEach((pC)=>{
             pC.style.width = `${pointContainer_R}px`;
             pC.style.height = `${pointContainer_R}px`;
         });
@@ -145,10 +144,17 @@ const renderGameMode = ()=>{
 
         console.log("HEX_COORDS: ",HEX_COORDS);
         
-        pCs.forEach((pC)=>{
+        G_pointContainers.forEach((pC)=>{
             pC.style.left = `${HEX_COORDS[pC.id].left}px`;
             pC.style.top = `${HEX_COORDS[pC.id].top}px`;
             pC.style.backgroundColor = "red";
+
+        });
+
+        tingIndicators.forEach((tI)=>{
+            tI.style.width = `${point_R}px`;
+            tI.style.height= `${point_R}px`;
+            tI.style.backgroundColor = "red";
 
         });
 
@@ -345,9 +351,9 @@ const renderGameMode = ()=>{
         });
         // ## 구글 ai모드의 답변을 일단 game_style.css와 위의 clasList 트리거에 넣었다. 
         // live Server로 애니메이션 재생 확인. 
-        // ## => 했는데, 60px X 60px 했는데 화면에서는 40x60으로 나온다. 왜인지 확인할 것.margin을 없애보기?
+        // ## => 했는데, 60px X 60px 했는데 화면에서는 40x60으로 나온다. 왜인지 확인할 것.
         // ## 이후, css 파일 보면서 속성 학습하기.
-        // ##
+        // ## eP: margin을 없애보기? => 아니면 tingIndicator width/height를
      
         
     };
@@ -580,6 +586,7 @@ const renderGameMode = ()=>{
             };
             
         });
+        tingIndicators = document.querySelectorAll('.tingIndicators');
         
 
         G_points = document.querySelectorAll('.G_point');
