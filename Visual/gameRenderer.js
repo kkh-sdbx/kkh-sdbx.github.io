@@ -323,7 +323,6 @@ const renderGameMode = ()=>{
     
     const playTing = (targetPointID)=>{
         
-        
         if(!POINTS_TABLE.get(targetPointID)){
             console.error("ting - wrong pointID");
             return
@@ -353,15 +352,10 @@ const renderGameMode = ()=>{
         // live Server로 애니메이션 재생 확인. 
         // ## => 했는데, 60px X 60px 했는데 화면에서는 40x60으로 나온다. 왜인지 확인할 것.
         // ## 이후, css 파일 보면서 속성 학습하기.
-        // ## eP: margin을 없애보기? => 아니면 tingIndicator width/height를
+        // ## margin을 없애보기? => tingIndicator width/height를 포인트와 동일하게 조정함.
      
         
     };
-
-    const renderTing = (pointID)=>{
-        console.log(pointID);
-    };
-
     
     const setTingInteractive = (e)=>{
         
@@ -703,7 +697,7 @@ const renderGameMode = ()=>{
         setModalText,
         setFixPanel,
         setTingInteractive,
-        renderTing,
+        playTing,
         disableInteractives,
         setInteractives,
         showWarning

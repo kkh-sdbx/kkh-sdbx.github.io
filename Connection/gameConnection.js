@@ -184,14 +184,17 @@ const connectGlobalMode = ()=>{
             }
         }));
     }; 
-    const listenTing = (e)=>{
-        const tingedUserName = e.detail;
-        // ## eP
+    const listenTing = (userName)=>{
+        
         const clientDB = JSON.parse(storage.getItem("mockPrisonerData"));
         const tingedPointID = clientDB.currentGameRoom.reverseMap[tingedUserName];
+
+        if(tingedPointID === "G_userPoint"){
+            return;
+        }else{    
+            return tingedPointID;
+        };
         
-        //storage.getItem();
-        return
         
     };
 

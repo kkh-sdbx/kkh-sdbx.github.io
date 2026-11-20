@@ -66,7 +66,7 @@ const createGAME = ()=>{
             // ## ting부터 해 보자. => 모델은, 가장 최근의 ting으로부터 1초가 지나지 않았다면 서버로 ting을 보내지 않는다. 그리고 ting 요청은 MODEL에 의해서만 보내져야 한다.
             // ## MODEL.sendTing 내부에서 req,res를 써야 한다.
             // ## tingChecker를 두고, Promise가 resolve 되지 않았을 때의 요청은 모두 무시한다.
-            // ## entryPoint : gameConnection.js 에서 async function handleTing(){...} 쓰기.
+
             // (ting 3) 이벤트로 서버에 전달.
             MODEL.sendTing();
         });
@@ -137,7 +137,13 @@ const createGAME = ()=>{
 
         // 서버가 보낸 ting 들음
         MOCK_WEB_EVENT_TARGET.addEventListener("someoneTinged",(e)=>{
-            VIEW.renderTing(MODEL.listenTing(e));
+            VIEW.playTing(MODEL.listenTing(e.detail));
+            // mockWeb 162번줄에서, queuePollingres 이벤트 보낼 때 ting을 랜덤하게 보내도록 해 뒀다.
+            // ## 방어 코드/state 명세 가 필요하다. 게임페이지가 아닌데 ting이 들어올 수 있으니까.
+            // ## Tools에 stateChecker를 만들까? 아니면 pageRouter에서 state 관리?(1페이지-1state)
+            // ## pageRouter에 오류 있다고 했었는데, 찾아봐야 한다.
+
+            // ## entryPoint : 매치메이킹 돌리고, 다른 bot의 ting이 들리는지 확인해보기.
         });
 
 

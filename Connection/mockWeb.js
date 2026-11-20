@@ -35,7 +35,7 @@ MOCK_WEB_EVENT_TARGET.addEventListener("tingSent",(e)=>{
         // ##  eventTarget으로 일단 mock
         MOCK_WEB_EVENT_TARGET.dispatchEvent(new CustomEvent("someoneTinged",{
             detail:ALL_ACTIVE_USERS.get(userID).userName
-            // ## 실제로는 사용자 6명 모두에게 보내야 함.
+            // ## 실제로는 사용자 6명 모두에게 보내야 함. -> 테스트 코드?
         }));
     });
     // 3) 클라이언트는{"type":"ting","target":userName}에서 type 검증, target(userName)기반으로 몇 번째 포인트에 해당 유저가 있는지 확인
@@ -148,6 +148,22 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
         QUEUE_EVNET_TARGET.dispatchEvent(new CustomEvent("queuePollingRes",{
             "detail":ALL_ACTIVE_USERS.get(e.detail)
         }));
+
+
+        // ting interval로 날려보기(테스트용)
+
+        setInterval(()=>{
+            const allPrisoners = ALL_ACTIVE_USERS.get(e.detail).prisoners;
+            let randomNo = Math.floor(Math.random()*allPrisoners.length);
+            let randomUserName = allPrisoners[randomNo].members[0]; // ## userName이 나와야 함.
+
+            MOCK_WEB_EVENT_TARGET.dispatchEvent(new CustomEvent("someoneTinged",{
+                detail:randomUserName
+                
+            }));
+        },5000);
+                
+
 
     });
 
