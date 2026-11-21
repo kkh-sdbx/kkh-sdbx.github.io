@@ -24,7 +24,6 @@ MOCK_WEB_EVENT_TARGET.addEventListener("tingSent",(e)=>{
         }
      */
     const userID = e.detail.userID;
-    // ## 해야 할 일 : 
 
     // 1) userID기반으로 진행중인 게임룸을 찾는다.
     const currentGameRoom = ALL_ACTIVE_USERS.get(userID).PRISONER_GAME_STATUS;
@@ -35,7 +34,7 @@ MOCK_WEB_EVENT_TARGET.addEventListener("tingSent",(e)=>{
         // ##  eventTarget으로 일단 mock
         MOCK_WEB_EVENT_TARGET.dispatchEvent(new CustomEvent("someoneTinged",{
             detail:ALL_ACTIVE_USERS.get(userID).userName
-            // ## 실제로는 사용자 6명 모두에게 보내야 함. -> 테스트 코드?
+            // ## 실제로는 사용자 6명 모두에게 보내야 함.
         }));
     });
     // 3) 클라이언트는{"type":"ting","target":userName}에서 type 검증, target(userName)기반으로 몇 번째 포인트에 해당 유저가 있는지 확인
@@ -111,6 +110,7 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
     // waitingUsers에 사용자 넣고 매치메이킹 진행.
     const GAMES_TO_RENDER = MATCHMAKING.gatherSix(MATCHMAKING.sortParties(MATCHMAKING.appendPrisoner(e.detail)));
 
+    // GAMES_TO_RENDER는 유저에게 렌더링 정보를 보낼 때만 쓰인다.
     console.log("GAMES_TO_RENDER: ",GAMES_TO_RENDER);
     // ## 길이가 긴 array가 나올 수 있다. lazy loading 같은 게 필요할 수도 있고, 아니면 아예 gameToRender도 Map으로 만들어서, mockWeb에서는 cron으로 N개씩만 뽑아서 매치매이킹 루프를 계속 돌리는 게 답일 수도 있겠네.
 
@@ -150,20 +150,21 @@ QUEUE_EVNET_TARGET.addEventListener("newPlayerEnteredQueue",(e)=>{
         }));
 
 
+        /*
+        
         // ting interval로 날려보기(테스트용)
-
         setInterval(()=>{
-            const allPrisoners = ALL_ACTIVE_USERS.get(e.detail).prisoners;
+            console.log("XXXX",ALL_ACTIVE_USERS.get(e.detail));
+            const allPrisoners = ALL_ACTIVE_USERS.get(e.detail).PRISONER_GAME_STATUS.prisoners;
             let randomNo = Math.floor(Math.random()*allPrisoners.length);
             let randomUserName = allPrisoners[randomNo].members[0]; // ## userName이 나와야 함.
-
             MOCK_WEB_EVENT_TARGET.dispatchEvent(new CustomEvent("someoneTinged",{
                 detail:randomUserName
                 
             }));
         },5000);
                 
-
+        */
 
     });
 

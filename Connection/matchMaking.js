@@ -1,4 +1,5 @@
 import DB_HANDLER from "./mockDB.js";
+import GAME_SERVER_CONNECTION from "./mockGameServer.js";
 
 // 일단 선언.
 // WAITING_PRISONERS에 넣는 것도 큐 요청 시에 진행되어야 함.
@@ -81,11 +82,15 @@ const matchMaking_Method = ()=>{
     };
 
  
-    const startGame = (partyOfSix)=>{ // 길이가 6인 array
+    /**
+     * @param {array} 길이가 6인 파티 array 받아서 gameServer에 ID를 넘겨 connection point 받아온 후 DB에 시작된 게임 기록한다.
+     * */
+    const startGame = (partyOfSix)=>{ 
+
+        // DB에서 게임룸 스키마를 받아와 deep copy
         const GAME_ROOM_SCHEMA = DB_HANDLER.getGameRoomSchema();
-         
         const GAME_ROOM = structuredClone(GAME_ROOM_SCHEMA);
-        
+
         /**
          * {
             "GAME_ROOM_ID":"RandomID",
@@ -93,28 +98,32 @@ const matchMaking_Method = ()=>{
             "turnsTaken":0,
         };
          */
+
+        // 복사본 게임룸 데이터에 prisoner 6명 배치
         GAME_ROOM.prisoners = partyOfSix;
         console.log(GAME_ROOM);
-
         
+        // prisoner 6명을 대기자 큐에서 제거
         partyOfSix.forEach((party)=>{
             
             party.members.forEach((member)=>{
-                // 우선 WAITING_PRISONERS에서 삭제.
+                // WAITING_PRISONERS에서 삭제.
                 const waitingID = `${member}_${party.size}`;
                 WAITING_PRISONERS.delete(waitingID);
 
-            });
+            });  
             
-            
-            // ## 상위 함수인 gatherSix 에서 gamesToRender.push(GAME_STARTED); 했고 mockWeb에서 forEach로 렌더링 정보를 쏠 거다. 
-            // 그리고 이후에 mockWeb에서 console.log로 확인한다.=> 확인 완료
-                        
         });
 
-        return GAME_ROOM;
+        // DB에 시작된 게임 정보 저장
+        DB_HANDLER.setStartedGameOnDB(GAME_ROOM.GAME_ROOM_ID, GAME_ROOM.prisoners);
 
+        // gameServer에 저장된 게임 데이터 넘겨주기
+        const GAMEROOM_CONNECTION_POINT = GAME_SERVER_CONNECTION.setStartedGameOnGameServer(GAME_ROOM.GAME_ROOM_ID);
+
+        GAME_ROOM["connection"] = GAMEROOM_CONNECTION_POINT;
         
+        return GAME_ROOM;
     };
 
     const returnToWaitingQueue = (leftOverPrisoners)=>{ // 길이가 0~5인 array
@@ -133,9 +142,7 @@ const matchMaking_Method = ()=>{
         ]);
         
         // 일단 WAITING_PRISONERS의 파티들을 MATCHMAKING_POOL에 사이즈별로 분류해 집어넣음.
-        //const toMatch = _.cloneDeep(WAITING_PRISONERS);
-        
-        //## Codespace에서는 lodash 설치가 됐었는데, 일단 로컬에서는 structuredClone으로 진행해 본다.
+        // 일단 로컬에서는 structuredClone으로 진행해 본다.
 
         const toMatch = new Map();
         waitingUsersMap.forEach((value,key)=>{
@@ -143,6 +150,7 @@ const matchMaking_Method = ()=>{
             toMatch.set(key,cloned);
 
         });
+
         toMatch.forEach((party, partyID,allParties)=>{
 
             console.log("party: ", party,"partyID: ", partyID);
@@ -151,13 +159,16 @@ const matchMaking_Method = ()=>{
                 console.log(party.size, "something wrong - party larger than 6 or smaller than 1");
             
             }else if(party.size === 6){ // 6인 파티의 경우
-                startGame(party); // ## 이 코드 놔두면 언젠가 버그 터진다. startGame을 호출하는 코드가 이 다음인 gatherSix에도 있어서...
+
+                // 즉시 게임시작
+                // ## 이 코드 놔두면 언젠가 버그 터진다. startGame을 호출하는 코드가 이 다음인 gatherSix에도 있어서...=> ## 진짜 그럴까? 테스트를 해 보면 되지. -> delete(partyID)하니까 괜찮을걸?
+                startGame(party); 
+
                 allParties.delete(partyID);
 
             }else{ // 1~5인 파티의 경우
                 
                 // 사이즈에 맞게 파티 넣기
-
                 MATCHMAKING_POOL.get(party.size).push(party);
 
                  
@@ -173,15 +184,13 @@ const matchMaking_Method = ()=>{
             };
         });
 
-        
-
         return MATCHMAKING_POOL;
     };
 
     const gatherSix = (sortedPool)=>{
 
         const gamesToRender = [];
-                // ## I. 6명 매칭 - 이 알고리즘은 반복문을 줄이는 방식으로 수정/최적화가 될 것 같다. 일단 지금은 이렇게 진행.
+            // ## I. 6명 매칭 - 이 알고리즘은 반복문을 줄이는 방식으로 수정/최적화가 될 것 같다. 일단 지금은 이렇게 진행.
         const matchesMade = [];
         const possibleMatches = Math.floor(sortedPool.get(1).length/6);
         const leftOvers = (sortedPool.get(1).length)%6;

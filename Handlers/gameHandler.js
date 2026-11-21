@@ -143,7 +143,7 @@ const createGAME = ()=>{
             // ## Tools에 stateChecker를 만들까? 아니면 pageRouter에서 state 관리?(1페이지-1state)
             // ## pageRouter에 오류 있다고 했었는데, 찾아봐야 한다.
 
-            // ## entryPoint : 매치메이킹 돌리고, 다른 bot의 ting이 들리는지 확인해보기.
+            // 매치메이킹 돌리고, 다른 bot의 ting이 들리는지 확인해보기. => 확인함. 
         });
 
 

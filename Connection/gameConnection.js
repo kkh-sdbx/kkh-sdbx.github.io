@@ -37,6 +37,7 @@ const connectGlobalMode = ()=>{
 
         const gameRoomToRender = {
             "GAME_ROOM_ID":gameRoomData.GAME_ROOM_ID,
+            "gameServerConnection":gameRoomData.connection,
             "currentButton": gameRoomData.currentButton,
             "currentSubButton":gameRoomData.currentSubButton,
             "myCurrentMatch": null,
@@ -72,8 +73,8 @@ const connectGlobalMode = ()=>{
         
 
         // userID로 포인트 찾을 수 있는 reverseMap 설정
+        gameRoomToRender.reverseMap = {};
         POINT_VALIDATOR.forEach((point)=>{
-            gameRoomToRender.reverseMap = {};
             gameRoomToRender.reverseMap[`${gameRoomToRender.pointsAllocated[point].targetName}`] = `${point}`;
         });
 
@@ -187,9 +188,9 @@ const connectGlobalMode = ()=>{
     const listenTing = (userName)=>{
         
         const clientDB = JSON.parse(storage.getItem("mockPrisonerData"));
-        const tingedPointID = clientDB.currentGameRoom.reverseMap[tingedUserName];
+        const tingedPointID = clientDB.currentGameRoom.reverseMap[userName];
 
-        if(tingedPointID === "G_userPoint"){
+        if(tingedPointID === "G_userPoint" || !POINT_VALIDATOR.includes(tingedPointID)){
             return;
         }else{    
             return tingedPointID;

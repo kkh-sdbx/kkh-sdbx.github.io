@@ -1,5 +1,5 @@
 const storage = window.localStorage;
-const SERVER_DATA = {"gameRoomsIDsMade":{}};
+const SERVER_DATA = {"gameRoomIDsMade":{}};
 
 
 // 일단 기초 mockData  저장. => 이 코드 때문에 새로고침으로 재방문을 mock 하기가 안되네.
@@ -21,7 +21,7 @@ const MOCK_DB_HANDLER = ()=>{
         updated_DB[prisonerID].PRISONER_STATUS = newStatus;
 
         // DB에서 현재 게임룸 정보 가져오기
-        const gameRoomsMade = updated_DB.gameRoomsIDsMade;
+        const gameRoomsMade = updated_DB.gameRoomIDsMade;
         if(newStatus === "enteredGameRoom" && gameRoomsMade[prisonerData]){
             
             updated_DB[prisonerID].PRISONER_GAME_STATUS = gameRoomsMade[prisonerData];
@@ -37,9 +37,11 @@ const MOCK_DB_HANDLER = ()=>{
     };
 
     const getGameRoomSchema = ()=>{
+        // DB 데이터 가져오기
         const updated_DB = JSON.parse(storage.getItem("DB"));
         
-        const gameRoomsMade = updated_DB.gameRoomsIDsMade;
+        // 기존에 만들어져 있던 게임룸 아이디 객체 가져오기
+        const gameRoomsMade = updated_DB.gameRoomIDsMade;
 
         // 서버/DB에서 보내주는 게임룸 데이터의 원형
         const GAME_ROOM = {
@@ -59,9 +61,11 @@ const MOCK_DB_HANDLER = ()=>{
 
         // 새 게임룸에 랜덤 아이디 배정
         while(true){
-            
+            // 기존 게임룸 객체에 동일한 아이디가 존재할 경우 아이디 다시 생성
             if(gameRoomsMade[RandomID]){
                 RandomID = JSON.stringify(Math.random()).slice(2,);
+
+            // 기존 게임룸 객체에 동일한 아이디가 없을 경우 배정.
             }else{
                 const newGameRoom = structuredClone(GAME_ROOM);
                 newGameRoom.GAME_ROOM_ID = RandomID;
@@ -70,13 +74,36 @@ const MOCK_DB_HANDLER = ()=>{
             };
         };
 
+        // DB에 업데이트된 게임룸 내용 저장
+        storage.setItem("DB",JSON.stringify(updated_DB));
+
         return gameRoomsMade[RandomID];
         
     };
 
-    const setStartedGameOnDB = (gameRoomObject)=>{
+    /**
+     * 매치메이킹 완료된 게임룸 참여자 정보를 DB에 저장
+     * @param {gameRoomID} 만들어져 있는 게임룸의 아이디
+     * @param {prisoners} 매치메이킹으로 배치된 prisoner 6명
+     */
+    const setStartedGameOnDB = (gameRoomID, prisoners)=>{
         // ## 방어 코드는 나중에 생각하기.
-        gameRoomsIDsMade[gameRoomObject.GAME_ROOM_ID] = gameRoomObject;
+        const updated_DB = JSON.parse(storage.getItem("DB"));
+        const gameRoomsMade = updated_DB.gameRoomIDsMade;
+
+        if(!gameRoomsMade[gameRoomID]){
+            console.error("wrong gameRoom ID from matchMaking. gameRoom ID: ",gameRoomID);
+            return
+        };
+
+        // 게임룸 참여자 업데이트
+        gameRoomsMade[gameRoomID].prisoners = prisoners;
+
+        // DB에 시작된 게임 정보 업데이트
+        storage.setItem("DB",JSON.stringify(updated_DB));
+
+
+
     };
 
 
@@ -170,11 +197,23 @@ const MOCK_DB_HANDLER = ()=>{
         
     }; 
 
+    const searchGameRoomByID = (gameRoomID)=>{
+        // DB에서 현재 게임룸 정보 가져오기
+        const updated_DB = JSON.parse(storage.getItem("DB"));      
+        const gameRoomsMade = updated_DB.gameRoomIDsMade;
+
+        return structuredClone(updated_DB.gameRoomIDsMade);
+        // 일단 현재 스키마에서 gameRoom json 하나의 용량은 570KB이다.
+        
+    };
+
     return{
         seeDB,
-        searchPrisonerInfoById,
-        getGameRoomSchema,
         writeNewPrisoner,
+        searchPrisonerInfoById,
+        searchGameRoomByID,
+        getGameRoomSchema,
+        setStartedGameOnDB,
         setPrisonerStatus
 
     }

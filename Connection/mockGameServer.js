@@ -1,0 +1,816 @@
+
+import G_EVENT_TARGETS from "../Tools/gameEventTargets.js";
+import DB_HANDLER from "./mockDB.js";
+console.log("mock game server");
+
+const GAMES_TO_RUN = {};
+const PORTS_OCCUPIED = {};
+
+// startSeason을, 버튼 눌렀을 때가 아니라 특정 시간일 때 해야 한다. 
+// ## mockServer에는 라운드 시작 시간 기반 cron으로 진행해야 한다. 여기서 cron을 건드릴 때가 온 듯
+
+
+// === 이 아래로는 신정원 시절 코드 ==== 
+const STANDARD_TIME = new Date();
+
+const ALLUSERS = new Map();
+const startSeason = document.getElementById("startSeason");
+const initialMatchMakiing = document.getElementById("initialMatchMakiing");
+const setDummyActions = document.getElementById("setDummyActions");
+const finishRound = document.getElementById("finishRound");
+const startMatchMaking = document.getElementById("startMatchMaking");
+
+let leftUsers = [];
+
+const MOCK_SERVER_EVENT_TARGET = G_EVENT_TARGETS.mockServerEventTarget;
+
+// Z. 기타 함수들. 및 클래스 선언
+// ## 260912, 데이터 스키마와 게임 룰부터 뜯어고쳐야 한다. 이제 달라졌잖아.
+// ## 아이디어: Persona 를 교체할 수 있게 할까? 새로 만들기 쿠폰은 돈 주고 사야지?
+
+
+class Prisoner{
+    constructor(name,prisonerType){
+        this.name = name;
+        this.type = prisonerType;
+        this.points = new Map([
+            ["G_point_1",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_2",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_3",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_4",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }],
+            ["G_point_5",{
+                "USER_NAME":"matchedOpntName",
+                // 매치 가능 여부는, 30개의 전체 매칭 가능성을 해시테이블에 꽂아 놓고 랜덤픽을 할 거라 상관 없다. Prisoner 데이터에 넣을 정보는 아님.
+                "USER_EMOJI_LIST":[], // emoji 5개쯤으로 자신이 어떤 사람인지 표시할 수 있게 해볼까? 스킨 장사도 되고 좋을듯. 5개까지 선택 가능, 이거 5개가 넘는지 안 넘는지 검증하는 로직도 필요함.
+                "USER_HISTORY":{"N":0,"Y":0,"K":0}, // "이번 게임"에서, "나"에게 행한 선택지만 표시.  
+            }]
+        ]);
+        this.reversePoints = new Map();
+        this.totalY = 0;
+        this.totalN = 0;
+        this.totalK = 0;
+        this.ynkratio = 0; // 지금까지 이 유저가 선택한 Y/(Y+N+K)의 비율.
+        this.history = []; // 매칭 된 상대와의 지난 5번의 행동 기록.
+    }
+    YES(pointNum){
+        this.actions.get(`point_${pointNum}`).type="Y";  
+        // #history에 업데이트하는 로직이 필요. => history 의 길이 체크하고 최근 '내게 했던 행동'을 넣는다.      
+    }
+    NO(pointNum){
+        this.actions.get(`point_${pointNum}`).type="N";
+        // #history에 업데이트하는 로직이 필요. => history 의 길이 체크하고 최근 '내게 했던 행동'을 넣는다.
+    }
+    KICK(pointNum){
+        this.actions.get(`point_${pointNum}`).type="K";
+        // #history에 업데이트하는 로직이 필요. => history 의 길이 체크하고 최근 '내게 했던 행동'을 넣는다. Kick도 필요한가?
+    }
+    setReverseMap(pointsMap){
+        this.reversePoints.clear();
+        pointsMap.forEach((userName, point)=>{ 
+            // Map 내의 키 값은 고유해야 하기 때문에, null이 2개 이상인 Map을 serReverse하면 size가 1인 Map이 나온다.
+            // 그럼... bot을 추가하는 로직을 짜야 하는거네.
+            if(userName){
+                this.reversePoints.set(userName, point);
+            }
+            
+        })
+    }
+    setYNKR(){
+        if((this.totalY+this.totalN+this.totalK) != 0){
+            this.ynkratio = this.totalY/(this.totalY+this.totalN+this.totalK);
+        }else{
+            this.ynkratio = 0;
+        }
+        
+    }
+    clearHistory(){
+        this.history = [];
+    }
+}
+
+class User extends Prisoner {
+    constructor(name,prisonerType){
+        super(name,prisonerType);
+        
+    }
+    setId(userId){
+        this.id = userId; //id가 두 번 들어가지. setId()는 추후 ULID 위한 함수니까 일단 놔두자 
+    }
+
+}
+
+class Bot extends Prisoner{
+    constructor(name,prisonerType, persona){
+        super(name,prisonerType);
+        this.persona = persona; //this.persona = " smiley || angry || loner || smarty"
+
+    }
+    setBotActions(persona){
+        /**
+         * 일단 봇의 종류는 4가지.
+         * smiley : 무조건 Y
+         * angry : 무조건 N
+         * loner : 무조건 K
+         * smarty : tit-for-tat
+         * 
+         * 
+         */
+
+    };
+
+};
+
+// ## 잠깐, 6인 모두의 데이터가 있는 게임룸 마스터 데이터를 만들고(서버 사이드), 각 클라이언트에 뭘 주고 어떻게 렌더링할지를 정하는 게 맞겠다.
+// 기존 데이터를 쓰려니까 머리아픈거야! 새로 쓰는 게 더 빠르다.
+
+function setUpGameDataSchema(gameId, playerNum){ //setUp? 
+    const GAME_DATA = {
+
+    // ## 아이디 만드는 것도 알아야 한다.
+    "GAME_ID":gameId,
+
+    // 1위부터 6위까지 순서대로 push, 또는 꼴찌부터 push. 순위 계산은 핸들러 함수 만들면 된다.   
+    "rank":[], 
+    
+    "currentMatch":undefined,
+    
+    "possibleMatch":{}
+    };
+
+    // ## 이것도 Validator가 붙어야 하나? 
+
+    /**GPT와의 대화=> 
+    1. mockServer.js 리팩토링 방향 요약
+    mockServer.js는 서버 역할만 남기고, 게임 규칙/데이터 모델/매칭 로직을 분리.
+    Prisoner → Player 모델로 전환. point_1~5 같은 고정 연결 구조 제거, players[] 기반.
+    GAME_DATA_6P → GameState 객체로 전환.
+    players[]
+    turn
+    rank
+    possibleMatch
+    currentMatch
+    history
+    NYK_showDown() → GameEngine 순수 함수로 이동.
+    입력: 현재 상태 + 두 플레이어 action
+    출력: 변경된 상태/결과
+    localStorage, EventTarget, DOM 접근 제거.
+    possibleMatch는 서버 내부 매칭용 데이터 유지.
+    서버가 random matching → currentMatch 생성
+    클라이언트는 currentMatch를 받아 렌더링만 수행.
+    최종 구조:
+    mockServer
+    ├ GameState
+    ├ MatchMaker
+    ├ GameEngine
+    └ Player
+    정도로 축소. */
+
+    for(let i=0;i<playerNum;i++){
+         // ## reversePoints는 의미가 있을 수 있으니 놔두자. => 빈 객체 대신 new Prisoner(name, type)으로 넣는 코드 작성.
+        GAME_DATA[`PRISONER_${i}`] = {}; 
+
+        // PrisonerID를 넣자.
+        GAME_DATA.rank.push(GAME_DATA[`PRISONER_${i}`]); 
+
+                
+        // ## 데이터셋 틀만 잡으면 구현과 렌더링은 쉽다. 천천히 하나씩.possibleMatch를 starting Player별로 나누자. player0:[0_1,0_2,...이런 식으로, 아니면{"key":"0_2","isPossible":true}같은 식으로?]
+        // ## 셋업게임 함수는 작성 중이다. Prisoner 객체의 구조가 변경돼야 하지...일단 Prisoner class 에서 "isVisited"관련 내용 삭제하기. reversePoints는 의미가 있을 수 있으니 놔두자.
+        // ## 생각해 보니, 게임데이터 셋업 시에, 플레이어 숫자가 아니라,  array를 받아와야 하는 거 아니냐? 봇을 넣을지 안 넣을지도 신경써야 하잖아. "Queue"를 받아와야 하는거지...
+        // ## TypeScript 도입을 할 시기가 됐나? 모든 함수 시작 시마다 Validator 코드를 짜기보다는 타입스크립트 도입이 빠른 거 아니야?
+        // ## TS 도입보다는 Validator를 활용하자.
+
+        for(let j=0;j<playerNum;j++){
+            if(i!=j){
+                GAME_DATA["possibleMatch"][`${i}_${j}`] = true;    
+            };
+        };
+        
+    };
+    return GAME_DATA;
+};
+
+// 매칭 로직, 더미 유저 넣는 로직, 쇼다운 로직이 한 파일에 섞여 있다. 이거 페이즈별로 분리해두면 굳이 페이즈 메타데이터가 없어도 되지 않을까?
+function pushDummyUsers(dummies){
+    for(let i=1;i<dummies+1;i++){
+        let dummy = new User(i, "dummy"); // 1,3,5,7,9...가 되는데 왜지?
+        let dummyId = `dummy${i}`;
+        dummy.setId(dummyId);
+        ALLUSERS.set(`dummy${i}`, dummy);   
+
+    };
+};
+
+function setRandomActions(dummyUser){
+    // User.YES NO KICK 3개의 메소드가 있다.
+    const actionPool = ["YES","NO","KICK"];
+    let todo = actionPool[Math.floor(Math.random()*3)];
+    for(let i=1; i<6; i++){
+        dummyUser[todo](i);
+        todo = actionPool[Math.floor(Math.random()*3)];
+    };    
+
+};
+
+/**
+ * @params userPool
+ */
+function NYK_showDown(userPool){
+    // 친구 pair간의 N,Y,K 를 비교해서, 점수를 정산하는 로직.
+console.log("=== NYK_showDown 정산 시작 ===");
+    
+    const resultTable = {
+        "YY": {"breakUp":false, "score":[4, 4]},   
+        "YN": {"breakUp":false, "score":[-8, 8]},  
+        "YK": {"breakUp":true, "score":[2, 0]},
+        "NY": {"breakUp":false, "score":[8, -8]},  
+        "NN": {"breakUp":false, "score":[-6, -6]}, 
+        "NK": {"breakUp":true, "score":[-2, 0]},
+        "KY": {"breakUp":true, "score":[0, 2]},   
+        "KN": {"breakUp":true, "score":[0, -2]},   
+        "KK": {"breakUp":false, "score":[-12, -12]}
+    };
+
+/**먼저 해야 하는 건:
+
+GameEngine 분리
+↓
+1000판 simulation
+↓
+승률 확인
+↓
+보상 조정
+
+이다.
+
+특히 이 게임은 사람보다 Bot simulation에서 먼저 밸런스가 드러날 가능성이 높다.
+
+예를 들어:
+
+항상 Y Bot
+항상 N Bot
+K 보수 Bot
+랜덤 Bot
+Tit-for-Tat Bot
+
+5~6개만 넣어도 현재 보상표의 방향성이 보일 것이다.
+
+지금 resultTable은 "게임의 철학"은 잡혀 있고, 숫자는 테스트 영역이라고 보는 게 맞다. 
+*/
+
+
+    userPool.forEach((userInfo, userName) => {
+        for (let i = 1; i <= 5; i++) {
+            const pointKey = `point_${i}`;
+            const actionInfo = userInfo.actions.get(pointKey);
+
+            const opponentName = userInfo.points.get(pointKey);
+            const opponentInfo = userPool.get(opponentName);
+
+            if (!opponentInfo) {
+                console.warn(`${userName}의 ${pointKey} 상대가 없습니다.`);
+                continue;
+            }
+
+            // 상대방의 입장에서 나(userName)를 찾음 (reversePoints 활용)
+            const opponentPointKey = opponentInfo.reversePoints.get(userName);
+            const opponentActionInfo = opponentInfo.actions.get(opponentPointKey);
+
+            // 두 유저의 액션 조합
+            const myAction = actionInfo.type;
+            const opponentAction = opponentActionInfo.type;
+            const actionPair = myAction + opponentAction; // "KK"
+
+            //Kick 계산.
+            if(resultTable[actionPair].breakUp){
+                 // # 점수계산 및 ynkration Update,여기는 둘이 헤어지는 경우. 매칭을 해제하는 로직 작성 + history 초기화
+            }else{
+                //# 점수계산 및 ynkration Update,여기는 둘이 붙어있는 경우.
+            }
+
+            // 점수 계산
+            const [myGain, opponentGain] = resultTable[actionPair];
+            userInfo.score += myGain;
+            opponentInfo.score += opponentGain;
+
+              console.log(`[매치] ${userName}(${myAction}) vs ${opponentName}(${opponentAction}) => 점수: ${myGain}:${opponentGain}`);
+        };
+    });
+
+    console.log("=== 정산 완료 결과 ===");
+    userPool.forEach(u => console.log(`${u.name}: ${u.score}점`));
+
+
+
+};
+
+function matchMaking(userPool){ 
+    
+    const matchMakingPool = [];
+    leftUsers = [];
+
+    // 1. playerId - emptySlots 형태의 object 구조로 array 배열.
+
+    for(const userInfo of userPool){
+
+        // userInfo === ["dummy1", User]
+        let result = {"name":userInfo[0],"emptySlots":[], "ref":userInfo[1].points}; 
+
+        let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
+
+        for(const point of currentPointStatus){
+
+            if (point[1]){ // != null인 경우에는 빈칸이 아닌 것으로 인식하고 넘어감.
+                continue
+
+            }else{ // falsy한 경우는 null 밖에 없으니 사실상 ===null 인  case.
+                result.emptySlots.push(point[0]); // "point3"을 push.
+            }
+
+        }
+        matchMakingPool.push(result);
+
+    }
+    console.log(" starts - matchMaking started, Pool is:  ", userPool);
+
+    //2. random array Shuffle.
+ 
+    let currentIndex = matchMakingPool.length -1;
+    let randomIndex;
+    for( let i= currentIndex; i>0; i--){
+        randomIndex = Math.floor(Math.random()*(i+1));
+        //console.log(`i:${i}, randomIndex:${randomIndex}`);
+        [ matchMakingPool[i], matchMakingPool[randomIndex] ] = [ matchMakingPool[randomIndex], matchMakingPool[i] ];
+    }
+    console.log("Phase 2 completed - matchMakingPool : ", matchMakingPool);
+    
+
+    // matchMaking Pool에는 빈칸들만 들고 오기 때문에, 유효한 접근이라 판단함.
+    // {15} 16 17 18 19 20 length ===20, index = m = 14  length-m = 6.
+    
+    for (let m = 0; m < matchMakingPool.length; m++){
+
+        let start = matchMakingPool[m]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
+        const matchingTimes = start.emptySlots.length;
+
+        if(start.emptySlots.length < (matchMakingPool.length - m - 1)){  // 비둘기집 원리. 
+
+            // 3-1. 빈 칸 수만큼 뒷 유저들 끌어옴.
+            for(let n=1; n <matchingTimes+1 ; n++){
+                start = matchMakingPool[m]
+                let end = matchMakingPool[m+n]; // {name: 'dummy20', emptySlots: ['point_1', 'point_2', 'point_3', 'point_4', 'point_5']}
+
+                //start 의 가장 작은 포인트와 end의 가장 큰 포인트를 연결. 랜덤성 요소 부여.
+                let startPoint = start.emptySlots[0]; //"point_1"
+                let endPoint = end.emptySlots[end.emptySlots.length-1]; //"point_5"
+
+                // ALLUSERS start point 수정 => end.name
+                start.ref.set(startPoint, end.name);
+
+                // ALLUSERS end point 수정 => start.name
+                end.ref.set(endPoint, start.name);
+
+                start.emptySlots.shift();
+                end.emptySlots.pop()
+
+            }
+
+
+        }else{ // 중단조건, startUser의 빈칸 개수보다 남은 user 수가 같거나 적으면
+            console.log(`not enough slots! m:${m} `);
+
+            // 매치메이킹 알고리즘 완료. 마지막 ALLUSERS.size - m 개의 빈칸은 매칭이 불가한 부분 확인함.
+            leftUsers.push(matchMakingPool[m]);
+        }
+
+    }
+    console.log("matchmaking finished: ",matchMakingPool);
+    console.log("retrun leftUsers for fillLeftOvers(): ",leftUsers);
+    // Q. leftUsers의 빈칸을 메울 수 있는,  Bot의 개수 구하기?
+    // A1. 일단 => 채울 수 있는 칸은 전부 채운다.
+    // A 2-1. 남은 플레이어 수 만큼 봇을 만들면 가능은 하다. => 그런데, 봇을 꾸준히 만들어낼 예정인가?
+    // > 무한히 봇을 만들 수는 없어(왜?) =>
+    // !!!! 연결이 안 된 포인트가 있을 수도 있잖아. !!!!
+
+    // ### 클래식 모드는 봇을 만들어 준다. ###
+    // ### 친구들끼리 하는 소셜 모드나 싱글플레이는, '빈 칸'이 생긴다. ###> 킥의 리스크가 커질 수 있다.
+
+
+    // ## fillLeftOvers, addBots는 matchMaking 함수 바깥으로 빼야 한다.
+    return leftUsers
+
+
+
+}
+
+function fillLeftOvers(leftOver){ //leftOver === array of Map
+    // console.log(leftOver, typeof(leftOver));
+    const fillUp = leftOver;
+    console.log("fillLeftOver function starts, leftOver pool is: ", leftOver);
+
+    for(let i=0;i<fillUp.length-1;i++){
+
+    // console.log(leftOver[i]);
+
+        for(let j=1;j<fillUp.length-i;j++){
+            // console.log(i+j);
+
+            let nextLastPoint = fillUp[i+j].emptySlots[fillUp[i+j].emptySlots.length-1]; //"point5";
+
+            if(nextLastPoint){
+                fillUp[i].ref.set(fillUp[i].emptySlots[0], fillUp[i+j].name);
+                fillUp[i+j].ref.set(nextLastPoint, fillUp[i].name);
+                console.log(fillUp[i].emptySlots[0], fillUp[i+j].name, nextLastPoint, fillUp[i].name)
+                fillUp[i].emptySlots.shift();
+                fillUp[i+j].emptySlots.pop();
+            }
+
+        }
+
+    }
+    console.log("leftOver function finished, return fillUp for addBots:",fillUp);
+    return fillUp
+}
+    
+function addBots(userPool, leftOver){ //leftOver === array of Map
+    console.log("addBots started, bots are matched to : ", leftOver);
+    let botsAdded = [];
+
+    let botNumber = 1;
+    leftOver.forEach((friendless) =>{
+        //console.log(friendless);
+        
+        friendless.emptySlots.forEach((point)=>{
+            let newBot = new Bot(botNumber);
+            
+            //# 여기서부터는 유저와 봇의 빈 칸을 서로 채워주는 로직.
+            friendless.ref.set(point, newBot.name);
+            newBot.points.set("point_1",friendless.name);
+
+            // Bot을 userPool (== ALLUSERS)에 세팅
+            userPool.set(newBot.name, newBot);
+            botNumber += 1;
+
+            // botsAdded에 봇을 넣어서, 봇끼리 매치메이킹을 한 번 더 해야 함.
+            // 나중에 매치메이킹을 할 수 있게 레퍼런스 타입으로 push해서 return
+            botsAdded.push(userPool.get(newBot.name));
+        });
+
+    });
+
+    return botsAdded
+
+}
+
+function matchBots(listOfBots){
+    console.log(listOfBots);
+    leftBots = [];
+
+    for(const botInfo of listOfBots){
+
+        // userInfo === ["dummy1", User]
+        let result = {"name":botInfo.name,"emptySlots":[], "ref":botInfo.points}; 
+
+        let currentPointStatus = result.ref; //Map 형태로 저장된 point_1 ~ point_5
+
+        for(const point of currentPointStatus){
+
+            if (point[1]){ // != null인 경우에는 빈칸이 아닌 것으로 인식하고 넘어감.
+                continue
+
+            }else{ // falsy한 경우는 null 밖에 없으니 사실상 ===null 인  case.
+                result.emptySlots.push(point[0]); // "point3"을 push.
+            }
+
+        }
+        leftBots.push(result);
+
+    }
+    console.log(" starts leftBot matchMaking, Pool is:  ", leftBots);
+
+    for(let i=0;i<leftBots.length-1;i++){
+
+    // console.log(leftOver[i]);
+    // ## 여기서부터 작성하면 된다. fillLeftOvers를 그대로 따왔으니 위의 console.log보고 변수명만 확인하면 됨.
+    // ## Bot 클래스에 '빈 칸이 있어도 됨' 속성을 추가하기보다는 그냥 매칭을 안 하는 정도로 구현함. -> Gemini 코드 리뷰 필요
+        for(let j=1;j<leftBots.length-i;j++){
+            // console.log(i+j);
+            if(leftBots[i].emptySlots.length ===0){
+                break;
+            }
+
+            if(leftBots[i+j].emptySlots.length ===0){
+                continue;
+            }
+            let nextLastPoint = null;
+            leftBots.length>=i+j ? nextLastPoint = leftBots[i+j].emptySlots[leftBots[i+j].emptySlots.length-1]:nextLastPoint = null; //"point5";
+            
+            if(nextLastPoint){
+                leftBots[i].ref.set(leftBots[i].emptySlots[0], leftBots[i+j].name);
+                leftBots[i+j].ref.set(nextLastPoint, leftBots[i].name);
+                console.log(leftBots[i].emptySlots[0], leftBots[i+j].name, nextLastPoint, leftBots[i].name)
+                leftBots[i].emptySlots.shift();
+                leftBots[i+j].emptySlots.pop();
+            }
+
+        }
+
+    }
+    console.log("leftOver function finished, return leftBots for addBots:",leftBots);
+    return leftBots
+}
+
+function seasonStarts(){ 
+    // ## 큐가 10초를 넘었을 때, 
+    // 사용자 및 봇 6명을 모아 매치메이킹이 한 번 일어난다.
+
+    console.log(" functions seasonStarts called");
+
+    // 1. 유저의 행동을 input으로 받아서 storage에 저장. 
+
+    // 이제 서버는 6인 게임룸 1개를 데이터로 갖고 있어야 한다.
+    // ## 서버를 건드릴 게 아니라, 유저의 UI와 선택지를 먼저 건드려야 하네.
+    const userStorage = window.localStorage;
+    const activePoints = 5;
+    let newbie = new User(userStorage.id, "player");
+    newbie.setId(userStorage.id);
+
+    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
+        newbie.YES(i);
+        userStorage.setItem(`point_${i}`,"Y");
+    }
+
+    ALLUSERS.set(userStorage.id, newbie);
+    document.dispatchEvent(updateActionsFromStorage);
+
+    console.log("seasonStarts 1 - userAction set all Y: ", userStorage);
+
+    // > 스토리지에도 저장하고, 이벤트를 하나 뿌려주지 뭐. 일단 mock이니까.
+
+    //2. 더미유저 21개를 넣고 행동을 모두 Y로 고정
+    console.log(" Season starts phase 2 - 21 Dummy Users pushed");
+    pushDummyUsers(21);
+    ALLUSERS.forEach(( userInfo, userName )=>{
+        if(userInfo.userType === "dummy"){
+            for(let i=1;i<6;i++){
+                userInfo.YES(i);
+            }
+
+        }
+
+    });
+
+    let initial = matchMaking(ALLUSERS); // 
+    console.log("season Starts and initial matchMaking result is: ", initial); // 여기에 fillLeftOvers, addBots 추가해야 함.
+    return initial
+
+}
+
+
+
+/*
+#0# '일반 모드'의 흐름
+A. 모든 유저의 행동의 Y인 상태로 일단 다 매칭.
+B. Client Side에서 행동 정하고 Fix + Dummy들 setRandomActions 
+C. 
+*/ 
+
+// I. 시즌 시작을 mock.
+
+MOCK_SERVER_EVENT_TARGET.addEventListener("ultimatumSent",(e)=>{
+    console.log("mockServer got Ultimatum: ",e.detail);
+    console.log(ALLUSERS);
+
+    const initial = seasonStarts();
+    const initialLeftOvers = fillLeftOvers(initial);
+    const initialBotsAdded = addBots(ALLUSERS, initialLeftOvers);
+    const initialBotMatch = matchBots(initialBotsAdded);
+    ALLUSERS.forEach((userInfo,userName)=>{
+        userInfo.setReverseMap(userInfo.points)
+    });
+
+});
+
+// II. fix 버튼을 누르면 플레이어 정보 업데이트.
+
+document.addEventListener("actionFixed",(e)=>{
+
+    const userStorage = window.localStorage;
+    const activePoints = 5;
+
+    let clientPlayer = ALLUSERS.get(e.detail.id);
+    const actionList = {"Y":"YES","N":"NO","K":"KICK"};
+
+    for(let i=1; i<activePoints+1 ;i++){ // point가 5개가 아닐 수도 있다.
+        clientPlayer[actionList[e.detail[`point_${i}`]]](i);
+    }
+
+    ALLUSERS.set(userStorage.id, clientPlayer);
+    console.log("player actions updated: ", clientPlayer);
+
+});
+
+/*
+// III. 모든 유저들이 한 '세션' 동안 액션을 선택했다고 가정한다.
+
+setDummyActions.addEventListener("click",()=>{
+    ALLUSERS.forEach(( userInfo, userName )=>{
+        if(userInfo.userType === "dummy"){
+            setRandomActions(userInfo);
+
+        }
+
+    });
+    console.log("actions Set:", ALLUSERS);
+    // dummy user만 세팅하는 버튼이라서, 이 버튼을 눌러두고 fix해야 한다. 일단 지금은 이렇게 가.
+    // Kick의 갯수가 정해져 있다면서? 그건 어떻게 체크할거임? 클라이언트 변조 가능성이 있잖아.
+});
+
+
+// IV. 플레이어와 Dummy 들의 action이 모두 설정된 상황, showDown() 진행
+finishRound.addEventListener("click",()=>{
+    console.log("currnet round finished - showDown starts!");
+    const userStorage = window.localStorage;
+    NYK_showDown(ALLUSERS);
+    for (let i=1;i<6;i++){
+        userStorage.removeItem(`point_${i}`);
+
+    } 
+    userStorage.setItem("status","not yet");
+    document.dispatchEvent(updateActionsFromStorage);
+
+});
+
+
+// V. 한 세션이 끝나고, 다시 한 번 매치메이킹.
+
+startMatchMaking.addEventListener("click",()=>{
+    console.log("new round starts - matchMaking starts again!");
+
+    // 1. 일단은, 모두 Y인 곳에서
+    const MM_Result = matchMaking(ALLUSERS);
+
+    // 2. 빈 칸 채우기
+    const botsNeeded = fillLeftOvers(MM_Result);
+
+    // 3. Bot 추가 
+    addBots(ALLUSERS, botsNeeded); // userPool에 봇을 추가해야 되니까 userPool도 받는다.
+
+    ALLUSERS.forEach((userInfo, userName)=>{
+        const friendList= userInfo.points;
+
+        userInfo.setReverseMap(friendList); //# 친구가 없는 빈 칸(null)일 경우에 제대로 작동하지 않는다.
+    })
+    // 
+
+});
+
+
+*/
+
+// 예시와 같은 경우에, null칸이 2개씩 있는 dummy User가 4명이 남는다. 
+// 최소한의 봇만 생각해도 8명임.
+
+//'깍두기' 라는 이름으로 머릿수 채우기용 봇이 필요하다.
+
+//봇은 이길 수 있겠지? 라는, 그런 동기부여를 심어줘야 함.
+
+/**
+ * 추가 최적화 고려 사항 (선택 사항)
+현재 로직은 충분히 빠르지만, 만약 병렬 처리나 데이터베이스 부하가 우려된다면 다음을 고려할 수 있습니다.
+데이터베이스 쓰기 최적화 (가장 중요):
+매칭이 완료된 후 start.ref.set(...)을 통해 데이터를 수정할 때, DB에 빈번한 쓰기 요청이 발생합니다.
+개선: 매칭 결과를 메모리(배열/객체)에 저장해 둔 다음, 모든 매칭이 끝난 후 **한 번의 배치 업데이트(Batch Update)**로 데이터베이스에 기록하면 DB 부하와 네트워크 비용을 크게 줄일 수 있습니다.
+leftUsers 처리:
+else 조건문에 의해 매칭이 안 된 leftUsers가 발생합니다. 이들은 후속 fillLeftOvers(leftUsers) 함수에서 봇으로 채워지게 될 것입니다. 이 로직은 현재 알고리즘이 남기는 잔여물을 처리하는 방식이며, 성능에는 큰 영향이 없습니다.
+ * 
+ */
+
+
+
+
+
+
+
+
+
+
+
+/**
+ *     console.log("NYK_showDown userPool : ", userPool);
+    const resultTable = {
+        "YY":[4,4],
+        "YN":[8,-4],
+        "YK":[0,0],
+        "NY":[-4,8],
+        "NN":[-6,-6],
+        "NK":[0,0],
+        "KY":[0,0],
+        "KN":[0,0],
+        "KK":[-8,-8]
+    }
+    userPool.forEach((userInfo, userName)=>{
+        console.log("userName: ",userName,"userInfo: ",userInfo);
+        for(let i=1; i<6;i++){
+            let currentFriend = userInfo.points.get(`point_${i}`);
+            let currentAction = userInfo.actions.get(`point_${i}`).type;
+            
+            //'현재 유저'의 이름이 짝지어진 '친구 유저'의 points중 어디에 있는지 찾아야 하는데...
+            // reverse Map을 만들어 찾아야 한단다. 일단 정지. => 만들었다!
+            let friendsPoint = userPool.get(currentFriend).reversePoints.get(userName); // "point_4"
+            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction,"friendsPoint: ",friendsPoint);
+            let friendsAction = userPool.get(currentFriend).actions.get(friendsPoint).type; // "Y"
+
+
+            let actionCombined = currentAction + friendsAction;
+
+            console.log("currentFriend: ",currentFriend,"currentAction: ",currentAction,"friendsPoint: ",friendsPoint,"friendsAction: ",friendsAction,"actionCombined: ",actionCombined);
+            // 
+        
+        }
+
+
+    });
+ */
+
+
+
+// # Proceed, Discard 시의 행동과
+// ## 
+// ### 
+// #### 
+// ##### Modal 텍스트 등 레이아웃 => 이건 나중에!
+// 
+
+
+
+
+
+
+
+
+
+// === 이 위로는 신정원 시절 코드 ==== 
+
+class handleGameRoomStatus{
+    constructor(){
+        console.log("gameServerHandler initiated!");
+
+    };
+    /**
+     * @param {string} 매치메이킹 완료된 게임룸 아이디
+     * 게임룸 아이디를 받아서 DB에서 해당 게임룸정보를 게임서버의 해시맵에 저장하고 게임서버 IP를 리턴한다. 
+     * */
+    setStartedGameOnGameServer(gameRoomID){
+        console.log("run!");
+
+        // 기존에 존재하는 게임룸일 경우 에러, 없을 경우 GAMES_TO_RUN에 저장.
+        GAMES_TO_RUN[gameRoomID] ? console.error("existing gameRoom set at gameServer: ",gameRoomID): GAMES_TO_RUN[gameRoomID] = DB_HANDLER.searchGameRoomByID(gameRoomID);
+
+        // gameServer IP를 리턴, 클라이언트에 보내주면 된다.
+        let randomPort = Math.floor(Math.random()*10000);
+        while(true){
+            if(PORTS_OCCUPIED[randomPort]){
+                randomPort = Math.floor(Math.random()*10000);
+            }else{
+                break;
+            };
+             
+        };
+        
+        const GAME_SERVER_IP_AND_PORT = `111.1.1.1:${randomPort}`;
+
+        // ## entryPoint : GAMES_TO_RUN 내부 객체에도 각 게임룸이 어떤 포트에 할당되었는지 저장할 필요가 있다. GAMES_TO_RUN[gameRoomID]에 포트 할당하기. GAMES_TO_RUN[gameRoomID].port = GAME_SERVER_IP_AND_PORT
+        return GAME_SERVER_IP_AND_PORT
+
+    };
+};
+
+const GAME_SERVER_CONNECTION = new handleGameRoomStatus();
+
+export default GAME_SERVER_CONNECTION
+
+
+
+
+
+

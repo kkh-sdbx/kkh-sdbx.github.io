@@ -147,14 +147,16 @@ const renderGameMode = ()=>{
         G_pointContainers.forEach((pC)=>{
             pC.style.left = `${HEX_COORDS[pC.id].left}px`;
             pC.style.top = `${HEX_COORDS[pC.id].top}px`;
-            pC.style.backgroundColor = "red";
+            pC.style.backgroundColor = "#0f2b69";
 
         });
 
+        console.log("tingIndicators: ",tingIndicators);
         tingIndicators.forEach((tI)=>{
             tI.style.width = `${point_R}px`;
             tI.style.height= `${point_R}px`;
-            tI.style.backgroundColor = "red";
+            console.log("point_R",point_R);
+            tI.style.backgroundColor = "#008000";
 
         });
 
@@ -324,7 +326,7 @@ const renderGameMode = ()=>{
     const playTing = (targetPointID)=>{
         
         if(!POINTS_TABLE.get(targetPointID)){
-            console.error("ting - wrong pointID");
+            console.error("ting - wrong pointID", targetPointID);
             return
         };
         const targetPoint = POINTS_TABLE.get(targetPointID);
@@ -332,7 +334,7 @@ const renderGameMode = ()=>{
         const soundClone = tingSound.cloneNode();
         soundClone.volume = 0.5;
         soundClone.play();
-        console.log("ting!");
+        console.log("ting!",targetPointID);
 
         // (ting 1) tingIndicator 애니메이션.
         const targetIndicator = POINT_CONTAINERS_TABLE.get(`${targetPointID}_Container`).querySelector(".tingIndicator");
@@ -580,7 +582,7 @@ const renderGameMode = ()=>{
             };
             
         });
-        tingIndicators = document.querySelectorAll('.tingIndicators');
+        tingIndicators = document.querySelectorAll('.tingIndicator');
         
 
         G_points = document.querySelectorAll('.G_point');

@@ -132,13 +132,13 @@
  }
 
 .tingIndicator{
-    position: relative; /* 자식(가상 요소)의 위치 기준점 설정 */
+    position: relative; /* 자식(가상 요소)의 위치 기준점 설정 === relative. */
     width: 60px; /* 원의 가로 크기 */
     height: 60px; /* 원의 세로 크기 */
     border-radius: 50%; /* 사각형을 완벽한 원형으로 만듦 */
     background-color: #ff1493; /* 원의 기본 배경색 (딥 핑크) */
     box-shadow: 0 0 12px #ff1493; /* 원 자체에 은은한 네온 빛 효과 부여 */
-    margin: 50px; /* 물결이 퍼질 여백 확보 */
+    /*margin: 50px;  물결이 퍼질 여백 확보 */
 }
 
 /* 물결 효과를 담당할 가상 요소 */
